@@ -1,4 +1,4 @@
 # Steeltoe InitializrDotNetNew
 
-Steeltoe InitializrDotNetNew is project template to be used when creating projects using .NET Core's `dotnet new`
+Steeltoe InitializrDotNetNew is a project template to be used when creating projects using .NET Core's `dotnet new`
 command.
