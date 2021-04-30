@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-labels: type/bug
+labels: bug
 ---
 
 Please be sure to check the existing issues (both open and closed!).
