@@ -1,0 +1,40 @@
+trigger:
+  - main
+
+variables:
+  - name: major
+    value: 0
+  - name: minor
+    value: 0
+  - name: patch
+    value: 1
+  - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
+    value: true
+  - name: DOTNET_CLI_TELEMETRY_OPTOUT
+    value: 1
+
+name: $(major).$(minor).$(patch)-$(Rev:r)
+
+stages:
+  - stage: assemble
+    displayName: Assemble
+    jobs:
+      - job: build
+        displayName: Build
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: DotNetCoreCLI@2
+            displayName: dotnet restore
+            inputs:
+              command: restore
+          - task: DotNetCoreCLI@2
+            displayName: dotnet build
+            inputs:
+              command: build
+              arguments: --no-restore /p:TreatWarningsAsErrors=True
+          - task: DotNetCoreCLI@2
+            displayName: dotnet test
+            inputs:
+              command: test
+              arguments: --no-build
