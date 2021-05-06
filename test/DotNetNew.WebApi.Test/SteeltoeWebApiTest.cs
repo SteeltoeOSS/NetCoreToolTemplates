@@ -12,5 +12,10 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             Logger = logger;
             new SteeltoeWebApiTemplateInstaller(Logger).Install();
         }
+
+        protected Sandbox Sandbox()
+        {
+            return new(Logger);
+        }
     }
 }

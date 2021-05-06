@@ -1,8 +1,7 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using FluentAssertions;
+using System.Xml.Linq;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.Test.Utilities
@@ -10,6 +9,7 @@ namespace Steeltoe.DotNetNew.Test.Utilities
     public class Sandbox : TempDirectory
     {
         private readonly ITestOutputHelper _logger;
+        public string CommandOutput { get; private set; }
 
         public string Name
         {
@@ -22,25 +22,33 @@ namespace Steeltoe.DotNetNew.Test.Utilities
             _logger.WriteLine($"sandbox: {Name}");
         }
 
-        public async Task<Process> ExecuteCommandAsync(string command)
+        public async Task ExecuteCommandAsync(string command)
         {
             _logger.WriteLine($"executing: {command}");
-            return await new Command().ExecuteAsync(command, Path);
+            var p = await new Command().ExecuteAsync(command, Path);
+            CommandOutput = p.StandardOutput.ReadToEnd();
         }
 
-        public string Join(string path)
+        public bool FileExists(string path)
+        {
+            return File.Exists(Join(path));
+        }
+
+        public async Task<string> GetFileTextAsync(string path)
+        {
+            return await File.ReadAllTextAsync(Join(path));
+        }
+
+        public async Task<XDocument> GetXmlDocument(string path)
+        {
+            var fileText = await GetFileTextAsync(path);
+            using var sin = new StringReader(fileText);
+            return XDocument.Load(sin);
+        }
+
+        private string Join(string path)
         {
             return System.IO.Path.Join(Path, path);
-        }
-
-        public void FileShouldExist(string path)
-        {
-            File.Exists(Join(path)).Should().BeTrue();
-        }
-
-        public void FileShouldContainSnippet(string path, string snippet)
-        {
-            File.ReadAllText(Join(path)).Should().ContainSnippet(snippet);
         }
     }
 }
