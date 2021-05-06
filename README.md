@@ -1,23 +1,43 @@
 # Steeltoe InitializrDotNetNew
 
-Steeltoe InitializrDotNetNew is a project template to be used when creating projects using .NET Core's `dotnet new`
+Steeltoe InitializrDotNetNew are project templates to be used for creating projects using .NET Core's `dotnet new`
 command.
 
-## Build
-
-```
-$ dotnet build
-```
+Project templates:
+<dl>
+  <dt>stwebapi</dt>
+  <dd>Creates a Steeltoe-influenced .NET Web API project</dd>
+</dl>
 
 ## Install
 
+### From Source
+
 ```
+$ dotnet build
 $ dotnet new --install src/DotNetNew.WebApi
 ```
 
-## Uninstall
+### Uninstall
 
 ```
 $ dotnet new --uninstall
 # follow instructions to uninstall "Steeltoe WebApi (stwebapi) C#' template
 ```
+
+
+## `stwebapi`
+
+### About
+
+Creates a Steeltoe-influenced .NET Web API project.
+
+### Options
+
+```
+  -s|--steeltoe  Steeltoe version
+                 string - Optional
+                 Default: 3.0.2
+```
+
+

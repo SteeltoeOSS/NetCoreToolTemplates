@@ -1,4 +1,4 @@
-using System.Linq;
+using System.Text.RegularExpressions;
 using FluentAssertions;
 using FluentAssertions.Primitives;
 
@@ -8,18 +8,13 @@ namespace Steeltoe.DotNetNew.Test.Utilities
     {
         public static AndConstraint<StringAssertions> ContainSnippet(this StringAssertions assertion, string snippet)
         {
-            var regex = RemoveWhitespace(snippet)
+            var regex = Regex.Replace(snippet, @"\s+", @"\s+")
                 .Replace("(", @"\(")
-                .Replace(")", @"\)");
-            var source = RemoveWhitespace(assertion.Subject);
-            source.Should().MatchRegex(regex);
+                .Replace(")", @"\)")
+                .Replace("|", @"\|")
+                .Replace(".", @"\s*\.\s*");
+            assertion.Subject.Should().MatchRegex(regex);
             return new AndConstraint<StringAssertions>(assertion);
-        }
-
-        private static string RemoveWhitespace(string s)
-        {
-            // return s.Replace(" ", "").
-            return new(s.Where(c => !char.IsWhiteSpace(c)).ToArray());
         }
     }
 }

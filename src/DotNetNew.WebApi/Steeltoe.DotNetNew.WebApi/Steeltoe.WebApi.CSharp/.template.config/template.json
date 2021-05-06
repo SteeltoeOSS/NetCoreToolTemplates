@@ -1,17 +1,26 @@
 {
-    "$schema": "http://json.schemastore.org/template",
-    "author": "VMware",
-    "classifications": [
-        "Steeltoe",
-        "WebAPI",
-        "C#"
-    ],
-    "identity": "Steeltoe.WebApi.CSharp",
-    "name": "Steeltoe Web API",
-    "shortName": "stwebapi",
-    "tags": {
-        "language": "C#",
-        "type": "project"
-    },
-    "sourceName": "Steeltoe.WebApi.CSharp"
+  "$schema": "http://json.schemastore.org/template",
+  "author": "VMware",
+  "classifications": [
+    "Steeltoe",
+    "WebAPI",
+    "C#"
+  ],
+  "identity": "steeltoe.webapi.csharp",
+  "name": "Steeltoe Web API",
+  "shortName": "stwebapi",
+  "tags": {
+    "type": "project",
+    "language": "C#"
+  },
+  "sourceName": "Steeltoe.WebApi.CSharp",
+  "symbols": {
+    "SteeltoeVersion": {
+      "type": "parameter",
+      "datatype": "string",
+      "defaultValue": "3.0.2",
+      "replaces": "3.0.2",
+      "description": "Steeltoe version"
+    }
+  }
 }
