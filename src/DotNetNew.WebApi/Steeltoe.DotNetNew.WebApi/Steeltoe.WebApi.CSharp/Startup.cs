@@ -29,6 +29,7 @@ namespace Steeltoe.WebApi.CSharp
                 app.UseDeveloperExceptionPage();
             }
 
+            this.Configuration.GetChildren();
             app.UseRouting();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
