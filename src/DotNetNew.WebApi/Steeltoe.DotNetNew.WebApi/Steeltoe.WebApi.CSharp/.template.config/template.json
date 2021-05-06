@@ -7,19 +7,11 @@
         "C#"
     ],
     "identity": "Steeltoe.WebApi.CSharp",
-    "name": "Steeltoe WebApi",
+    "name": "Steeltoe Web API",
     "shortName": "stwebapi",
     "tags": {
         "language": "C#",
         "type": "project"
     },
-    "sourceName": "Steeltoe.WebApi.CSharp",
-    "symbols": {
-        "SteeltoeVersion": {
-            "description": "Steeltoe version",
-            "type": "parameter",
-            "defaultValue": "3.0.2",
-            "replaces": "3.0.2"
-        }
-    }
+    "sourceName": "Steeltoe.WebApi.CSharp"
 }
