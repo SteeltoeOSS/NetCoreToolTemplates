@@ -100,7 +100,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             // Properties/launchSettings.json
             var launchSettings = await sandbox.GetJsonDocumentAsync<LaunchSettings>("Properties/launchSettings.json");
             launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("swagger");
-            launchSettings.Profiles["Sample"].LaunchUrl.Should().Be("swagger");
+            launchSettings.Profiles[sandbox.Name].LaunchUrl.Should().Be("swagger");
         }
 
         [Fact]
@@ -146,7 +146,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             // Properties/launchSettings.json
             var launchSettings = await sandbox.GetJsonDocumentAsync<LaunchSettings>("Properties/launchSettings.json");
             launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("api/values");
-            launchSettings.Profiles["Sample"].LaunchUrl.Should().Be("api/values");
+            launchSettings.Profiles[sandbox.Name].LaunchUrl.Should().Be("api/values");
         }
 
         [Fact]
@@ -209,7 +209,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             // Properties/launchSettings.json
             var launchSettings = await sandbox.GetJsonDocumentAsync<LaunchSettings>("Properties/launchSettings.json");
             launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("api/values");
-            launchSettings.Profiles["Sample"].LaunchUrl.Should().Be("api/values");
+            launchSettings.Profiles[sandbox.Name].LaunchUrl.Should().Be("api/values");
         }
 
         [Fact]

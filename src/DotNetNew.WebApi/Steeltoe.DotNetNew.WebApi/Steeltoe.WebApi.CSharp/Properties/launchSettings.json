@@ -21,7 +21,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Sample": {
+    "Steeltoe.WebApi.CSharp": {
       "commandName": "Project",
       "launchBrowser": true,
       //#if(FrameworkNet50)
