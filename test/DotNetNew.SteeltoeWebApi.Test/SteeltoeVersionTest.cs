@@ -7,9 +7,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.WebApi.Test
 {
-    public class SteeltoeWebApiSteeltoeVersionTest : SteeltoeWebApiTest
+    public class SteeltoeVersionTest : Test
     {
-        public SteeltoeWebApiSteeltoeVersionTest(ITestOutputHelper logger) : base(logger)
+        public SteeltoeVersionTest(ITestOutputHelper logger) : base(logger)
         {
         }
 
@@ -19,7 +19,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             using var sandbox = Sandbox();
             await sandbox.ExecuteCommandAsync("dotnet new stwebapi -h");
             sandbox.CommandOutput.Should().ContainSnippet(@"
--s|--steeltoe  Steeltoe version
+-s|--steeltoe  The Steeltoe version.
                    3.0.2
                    2.5.3
                Default: 3.0.2

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.DotNetNew.WebApi",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E6A8112D-A16A-481D-844B-E941C29A6BC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.DotNetNew.WebApi.Test", "test\DotNetNew.WebApi.Test\Steeltoe.DotNetNew.WebApi.Test.csproj", "{4AC4F8C3-22A0-4ACE-833F-32EEB2D9A697}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.DotNetNew.SteeltoeWebApi.Test", "test\DotNetNew.SteeltoeWebApi.Test\Steeltoe.DotNetNew.SteeltoeWebApi.Test.csproj", "{4AC4F8C3-22A0-4ACE-833F-32EEB2D9A697}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.DotNetNew.Test.Utilities", "test\DotNetNew.Test.Utilities\Steeltoe.DotNetNew.Test.Utilities.csproj", "{3AE7F581-8327-4723-9D82-246AAB87C88D}"
 EndProject

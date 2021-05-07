@@ -5,9 +5,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.WebApi.Test
 {
-    public class SteeltoeWebApiDefaultsTest : SteeltoeWebApiTest
+    public class DefaultsTest : Test
     {
-        public SteeltoeWebApiDefaultsTest(ITestOutputHelper logger) : base(logger)
+        public DefaultsTest(ITestOutputHelper logger) : base(logger)
         {
         }
 

@@ -3,11 +3,11 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.WebApi.Test
 {
-    public abstract class SteeltoeWebApiTest
+    public abstract class Test
     {
         protected readonly ITestOutputHelper Logger;
 
-        public SteeltoeWebApiTest(ITestOutputHelper logger)
+        public Test(ITestOutputHelper logger)
         {
             Logger = logger;
             new SteeltoeWebApiTemplateInstaller(Logger).Install();
