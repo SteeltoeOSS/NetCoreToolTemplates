@@ -1,4 +1,4 @@
-#if FRAMEWORK_NET_CORE_APP_21
+#if FrameworkNetCoreApp21
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 #else
@@ -12,14 +12,14 @@ namespace Steeltoe.WebApi.CSharp
     {
         public static void Main(string[] args)
         {
-#if FRAMEWORK_NET_CORE_APP_21
+#if FrameworkNetCoreApp21
             CreateWebHostBuilder(args).Build().Run();
 #else
             CreateHostBuilder(args).Build().Run();
 #endif
         }
 
-#if FRAMEWORK_NET_CORE_APP_21
+#if FrameworkNetCoreApp21
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             var builder = WebHost.CreateDefaultBuilder(args)

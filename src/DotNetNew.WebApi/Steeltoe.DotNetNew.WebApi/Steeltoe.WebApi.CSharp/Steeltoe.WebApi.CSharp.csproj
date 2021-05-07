@@ -9,8 +9,8 @@
     <SteeltoeVersion>3.0.2</SteeltoeVersion>
   </PropertyGroup>
 
-  <!--#if (FRAMEWORK_NET_CORE_APP_21) -->
-  <ItemGroup Condition="'$(FRAMEWORK_NET_CORE_APP_21)' != ''">
+  <!--#if (FrameworkNetCoreApp21) -->
+  <ItemGroup Condition="'$(FrameworkNetCoreApp21)' != ''">
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.1.*" />

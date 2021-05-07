@@ -11,6 +11,8 @@ namespace Steeltoe.DotNetNew.Test.Utilities
             var regex = Regex.Replace(snippet, @"\s+", @"\s+")
                 .Replace("(", @"\(")
                 .Replace(")", @"\)")
+                .Replace("[", @"\[")
+                .Replace("]", @"\]")
                 .Replace("|", @"\|")
                 .Replace(".", @"\s*\.\s*");
             assertion.Subject.Should().MatchRegex(regex);

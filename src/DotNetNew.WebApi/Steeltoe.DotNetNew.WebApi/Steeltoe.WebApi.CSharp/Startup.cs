@@ -1,4 +1,4 @@
-#if FRAMEWORK_NET_CORE_APP_21
+#if FrameworkNetCoreApp21
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 #endif
 
 namespace Steeltoe.WebApi.CSharp
@@ -26,7 +25,7 @@ namespace Steeltoe.WebApi.CSharp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-#if FRAMEWORK_NET_CORE_APP_21
+#if FrameworkNetCoreApp21
             services.AddMvc();
 #else
             services.AddControllers();
@@ -34,7 +33,7 @@ namespace Steeltoe.WebApi.CSharp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-#if FRAMEWORK_NET_CORE_APP_21
+#if FrameworkNetCoreApp21
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
