@@ -19,17 +19,20 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             using var sandbox = Sandbox();
             await sandbox.ExecuteCommandAsync("dotnet new stwebapi -h");
             sandbox.CommandOutput.Should().ContainSnippet(@"
--s|--steeltoe Steeltoe version
-string - Optional
-Default: 3.0.2");
+-s|--steeltoe  Steeltoe version
+                   3.0.2
+                   2.5.3
+               Default: 3.0.2
+");
         }
 
-        [Fact]
-        public async void TestSteeltoeVersion()
+        [Theory]
+        [InlineData("3.0.2")]
+        [InlineData("2.5.3")]
+        public async void TestSteeltoeVersion(string version)
         {
-            const string expectedVersion = "3.0.9";
             using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe {expectedVersion}");
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe {version}");
             var xDoc = await sandbox.GetXmlDocument($"{sandbox.Name}.csproj");
             var steeltoeVersions =
             (
@@ -37,7 +40,15 @@ Default: 3.0.2");
                 select e
             ).ToArray();
             steeltoeVersions.Length.Should().Be(1);
-            steeltoeVersions[0].Should().HaveValue(expectedVersion);
+            steeltoeVersions[0].Should().HaveValue(version);
+        }
+
+        [Fact]
+        public async void TestUnsupportedSteeltoeVersion()
+        {
+            using var sandbox = Sandbox();
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe 1.2.3");
+            sandbox.CommandError.Should().Contain("'1.2.3' is not a valid value");
         }
     }
 }

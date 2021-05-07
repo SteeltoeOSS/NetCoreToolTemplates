@@ -9,7 +9,10 @@ namespace Steeltoe.DotNetNew.Test.Utilities
     public class Sandbox : TempDirectory
     {
         private readonly ITestOutputHelper _logger;
+
         public string CommandOutput { get; private set; }
+
+        public string CommandError { get; private set; }
 
         public string Name
         {
@@ -27,6 +30,7 @@ namespace Steeltoe.DotNetNew.Test.Utilities
             _logger.WriteLine($"executing: {command}");
             var p = await new Command().ExecuteAsync(command, Path);
             CommandOutput = p.StandardOutput.ReadToEnd();
+            CommandError = p.StandardError.ReadToEnd();
         }
 
         public bool FileExists(string path)

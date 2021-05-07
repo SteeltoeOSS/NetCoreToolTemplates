@@ -45,7 +45,15 @@
     "STEELTOE_VERSION": {
       "description": "Steeltoe version",
       "type": "parameter",
-      "datatype": "string",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "3.0.2"
+        },
+        {
+          "choice": "2.5.3"
+        }
+      ],
       "defaultValue": "3.0.2",
       "replaces": "3.0.2"
     }
