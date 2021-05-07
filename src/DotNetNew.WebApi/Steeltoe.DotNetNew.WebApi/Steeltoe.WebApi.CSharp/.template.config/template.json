@@ -15,12 +15,39 @@
   },
   "sourceName": "Steeltoe.WebApi.CSharp",
   "symbols": {
-    "SteeltoeVersion": {
+    "FRAMEWORK": {
+      "description": "The target framework for the project.",
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "netcoreapp2.1",
+          "description": "Target netcoreapp2.1"
+        },
+        {
+          "choice": "netcoreapp3.1",
+          "description": "Target netcoreapp3.1"
+        }
+      ],
+      "replaces": "netcoreapp3.1",
+      "defaultValue": "netcoreapp3.1"
+    },
+    "FRAMEWORK_NET_CORE_APP_21": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "Framework",
+        "pattern": "^netcoreapp2.1"
+      }
+
+    },
+    "STEELTOE_VERSION": {
+      "description": "Steeltoe version",
       "type": "parameter",
       "datatype": "string",
       "defaultValue": "3.0.2",
-      "replaces": "3.0.2",
-      "description": "Steeltoe version"
+      "replaces": "3.0.2"
     }
   }
 }

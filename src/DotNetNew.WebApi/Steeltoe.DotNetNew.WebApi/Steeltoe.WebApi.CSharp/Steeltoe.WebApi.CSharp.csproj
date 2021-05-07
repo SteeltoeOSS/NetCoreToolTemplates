@@ -2,10 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <PropertyGroup>
     <SteeltoeVersion>3.0.2</SteeltoeVersion>
   </PropertyGroup>
+
+  <!--#if (FRAMEWORK_NET_CORE_APP_21) -->
+  <ItemGroup Condition="'$(FRAMEWORK_NET_CORE_APP_21)' != ''">
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.*" />
+  </ItemGroup>
+  <!--#endif -->
 
 </Project>
