@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Xml.Linq;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities;
 using Xunit;
@@ -22,6 +24,31 @@ namespace Steeltoe.DotNetNew.WebApi.Test
                      netcoreapp2.1
                  Default: netcoreapp3.1
 ");
+        }
+
+        [Theory]
+        [InlineData("netcoreapp3.1")]
+        [InlineData("netcoreapp2.1")]
+        public async void TestFramework(string framework)
+        {
+            using var sandbox = Sandbox();
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {framework}");
+            var xDoc = await sandbox.GetXmlDocument($"{sandbox.Name}.csproj");
+            var steeltoeVersions =
+            (
+                from e in xDoc.Elements().Elements("PropertyGroup").Elements("TargetFramework")
+                select e
+            ).ToArray();
+            steeltoeVersions.Length.Should().Be(1);
+            steeltoeVersions[0].Should().HaveValue(framework);
+        }
+
+        [Fact]
+        public async void TestUnsupportedFramework()
+        {
+            using var sandbox = Sandbox();
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework netcoreapp2.0");
+            sandbox.CommandError.Should().Contain("'netcoreapp2.0' is not a valid value");
         }
     }
 }
