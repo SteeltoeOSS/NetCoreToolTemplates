@@ -35,9 +35,16 @@ Creates a Steeltoe-influenced .NET Web API project.
 ### Options
 
 ```
-  -s|--steeltoe  Steeltoe version
-                 string - Optional
-                 Default: 3.0.2
+  -f|--framework  The target framework for the project.
+                      net5.0
+                      netcoreapp3.1
+                      netcoreapp2.1
+                  Default: net5.0
+
+  -s|--steeltoe   The Steeltoe version.
+                      3.0.2
+                      2.5.3
+                  Default: 3.0.2
 ```
 
 
