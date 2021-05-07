@@ -1,5 +1,5 @@
 using FluentAssertions;
-using Steeltoe.DotNetNew.Test.Utilities;
+using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -24,11 +24,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         {
             using var sandbox = Sandbox();
             await sandbox.ExecuteCommandAsync("dotnet new stwebapi");
-            var fileText = await sandbox.GetFileTextAsync("Program.cs");
-            fileText.Should().ContainSnippet("CreateHostBuilder(args).Build().Run();");
-            fileText.Should()
-                .ContainSnippet(
-                    "Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });");
+            sandbox.FileExists("Program.cs").Should().BeTrue();
         }
 
         [Fact]

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using FluentAssertions;
-using Steeltoe.DotNetNew.Test.Utilities;
+using Steeltoe.DotNetNew.Test.Utilities.Assertions;
+using Steeltoe.DotNetNew.Test.Utilities.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -22,10 +22,85 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             await sandbox.ExecuteCommandAsync("dotnet new stwebapi -h");
             sandbox.CommandOutput.Should().ContainSnippet(@"
  -f|--framework  The target framework for the project.
+                     net5.0
                      netcoreapp3.1
                      netcoreapp2.1
-                 Default: netcoreapp3.1
+                 Default: net5.0
 ");
+        }
+
+        [Fact]
+        public async void TestFrameworkDefault()
+        {
+            using var sandbox = Sandbox();
+            const string framework = "net5.0";
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi");
+            var expectedFrameworks = new List<string> { framework };
+            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
+            var actualFrameworks =
+            (
+                from e in xDoc.Elements().Elements("PropertyGroup").Elements("TargetFramework")
+                select e.Value
+            ).ToList();
+            actualFrameworks.Should().BeEquivalentTo(expectedFrameworks);
+        }
+
+        [Fact]
+        public async void TestFrameworkNet50()
+        {
+            using var sandbox = Sandbox();
+            const string framework = "net5.0";
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {framework}");
+            // <project>.csproj
+            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
+            var expectedFrameworks = new List<string> { framework };
+            var actualFrameworks =
+            (
+                from e in xDoc.Elements().Elements("PropertyGroup").Elements("TargetFramework")
+                select e.Value
+            ).ToList();
+            actualFrameworks.Should().BeEquivalentTo(expectedFrameworks);
+            // Program.cs
+            var programSource = await sandbox.GetFileTextAsync("Program.cs");
+            programSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+            programSource.Should().ContainSnippet("using Microsoft.Extensions.Hosting;");
+            programSource.Should().ContainSnippet("CreateHostBuilder(args).Build().Run();");
+            programSource.Should().ContainSnippet(@"
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+");
+            // Startup.cs
+            var startupSource = await sandbox.GetFileTextAsync("Startup.cs");
+            startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
+            startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+            startupSource.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
+            startupSource.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
+            startupSource.Should().ContainSnippet("using Microsoft.OpenApi.Models;");
+            startupSource.Should().ContainSnippet("services.AddControllers();");
+            startupSource.Should().ContainSnippet(@"
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc(""v1"", new OpenApiInfo { Title = ""@@NAME@@"", Version = ""v1"" });
+        });
+".Replace("@@NAME@@", sandbox.Name));
+            startupSource.Should().ContainSnippet(@"
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint(""/swagger/v1/swagger.json"", ""@@NAME@@ v1""));
+            }
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        }
+".Replace("@@NAME@@", sandbox.Name));
+            // Properties/launchSettings.json
+            var launchSettings = await sandbox.GetJsonDocumentAsync<LaunchSettings>("Properties/launchSettings.json");
+            launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("swagger");
+            launchSettings.Profiles["Sample"].LaunchUrl.Should().Be("swagger");
         }
 
         [Fact]
@@ -34,8 +109,8 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             using var sandbox = Sandbox();
             const string framework = "netcoreapp3.1";
             await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {framework}");
-            var xDoc = await sandbox.GetXmlDocument($"{sandbox.Name}.csproj");
-            // frameworks
+            // <project>.csproj
+            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var expectedFrameworks = new List<string> { framework };
             var actualFrameworks =
             (
@@ -68,6 +143,10 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
 ");
+            // Properties/launchSettings.json
+            var launchSettings = await sandbox.GetJsonDocumentAsync<LaunchSettings>("Properties/launchSettings.json");
+            launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("api/values");
+            launchSettings.Profiles["Sample"].LaunchUrl.Should().Be("api/values");
         }
 
         [Fact]
@@ -76,8 +155,8 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             using var sandbox = Sandbox();
             const string framework = "netcoreapp2.1";
             await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {framework}");
-            var xDoc = await sandbox.GetXmlDocument($"{sandbox.Name}.csproj");
-            // frameworks
+            // <project>.csproj
+            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var expectedFrameworks = new List<string> { framework };
             var actualFrameworks =
             (
@@ -85,7 +164,6 @@ namespace Steeltoe.DotNetNew.WebApi.Test
                 select e.Value
             ).ToArray();
             actualFrameworks.Should().BeEquivalentTo(expectedFrameworks);
-            // package refs
             var expectedPackageRefs = new List<string>
             {
                 "Microsoft.AspNetCore",
@@ -128,6 +206,10 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             app.UseMvc();
         }
 ");
+            // Properties/launchSettings.json
+            var launchSettings = await sandbox.GetJsonDocumentAsync<LaunchSettings>("Properties/launchSettings.json");
+            launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("api/values");
+            launchSettings.Profiles["Sample"].LaunchUrl.Should().Be("api/values");
         }
 
         [Fact]

@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 #endif
+#if FrameworkNet50
+using Microsoft.OpenApi.Models;
+#endif
 
 namespace Steeltoe.WebApi.CSharp
 {
@@ -30,6 +33,12 @@ namespace Steeltoe.WebApi.CSharp
 #else
             services.AddControllers();
 #endif
+#if FrameworkNet50
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Steeltoe.WebApi.CSharp", Version = "v1" });
+            });
+#endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +58,10 @@ namespace Steeltoe.WebApi.CSharp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+#if FrameworkNet50
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Steeltoe.WebApi.CSharp v1"));
+#endif
             }
 
             app.UseHttpsRedirection();

@@ -12,7 +12,11 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      //#if(FrameworkNet50)
+      "launchUrl": "swagger",
+      //#else
       "launchUrl": "api/values",
+      //#endif
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +24,11 @@
     "Sample": {
       "commandName": "Project",
       "launchBrowser": true,
+      //#if(FrameworkNet50)
+      "launchUrl": "swagger",
+      //#else
       "launchUrl": "api/values",
+      //#endif
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

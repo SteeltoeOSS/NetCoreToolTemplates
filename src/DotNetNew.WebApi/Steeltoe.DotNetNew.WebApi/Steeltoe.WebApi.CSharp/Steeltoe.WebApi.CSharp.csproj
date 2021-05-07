@@ -1,15 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <PropertyGroup>
     <SteeltoeVersion>3.0.2</SteeltoeVersion>
   </PropertyGroup>
+  <!--#if (FrameworkNet50) -->
 
+  <ItemGroup Condition="'$(FrameworkNet50)' != ''">
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.*" />
+  </ItemGroup>
+  <!--#endif -->
   <!--#if (FrameworkNetCoreApp21) -->
+
   <ItemGroup Condition="'$(FrameworkNetCoreApp21)' != ''">
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.1.*" />

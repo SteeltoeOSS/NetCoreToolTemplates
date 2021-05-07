@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Steeltoe.DotNetNew.Test.Utilities
+namespace Steeltoe.DotNetNew.Test.Utilities.IO
 {
     public class TempDirectory : IDisposable
     {
