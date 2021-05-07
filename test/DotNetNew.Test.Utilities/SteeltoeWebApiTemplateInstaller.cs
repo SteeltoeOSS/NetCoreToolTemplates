@@ -1,5 +1,6 @@
+using System.Diagnostics;
 using System.IO;
-using FluentAssertions;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.Test.Utilities
@@ -22,13 +23,19 @@ namespace Steeltoe.DotNetNew.Test.Utilities
         {
             static Installer()
             {
-                new Command().ExecuteAsync(
-                        $"dotnet new -i {Directory.GetCurrentDirectory()}/../../../../../src/DotNetNew.WebApi")
-                    .GetAwaiter()
-                    .GetResult();
-                var p = new Command().ExecuteAsync("dotnet new").GetAwaiter().GetResult();
-                var templateListing = p.StandardOutput.ReadToEnd();
-                templateListing.Should().MatchRegex("Steeltoe Web API.*stwebapi.*[C#].*Steeltoe/WebAPI/C#");
+                var p = Process.Start(
+                    new ProcessStartInfo
+                    {
+                        FileName = "dotnet",
+                        Arguments = $"new -i {Directory.GetCurrentDirectory()}/../../../../../src/DotNetNew.WebApi",
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                    }
+                );
+                Assert.NotNull(p);
+                p.WaitForExit();
+                Assert.True(p.ExitCode == 0);
             }
 
             internal static void EnsureInstalled(ITestOutputHelper logger)
