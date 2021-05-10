@@ -22,7 +22,7 @@ $ dotnet new --install src/DotNetNew.WebApi
 
 ```
 $ dotnet new --uninstall
-# follow instructions to uninstall "Steeltoe WebApi (stwebapi) C#' template
+# follow instructions to uninstall "Steeltoe WebApi (stwebapi) C#" template
 ```
 
 
