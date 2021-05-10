@@ -32,6 +32,12 @@ $ dotnet new --uninstall
 
 Creates a Steeltoe-influenced .NET Web API project.
 
+### Usage
+
+```
+$ dotnet new stwebapi [options]
+```
+
 ### Options
 
 ```
