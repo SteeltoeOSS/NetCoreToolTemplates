@@ -1,0 +1,9 @@
+# build output
+bin/
+obj/
+
+# Visual Studio Code
+/.vscode/
+
+# JetBrains Rider
+/.idea/
