@@ -18,7 +18,10 @@
     {
       "modifiers": [
         {
-          "exclude": [ ".vscode/**" ]
+          "exclude": [
+            ".idea/**",
+            ".vscode/**"
+          ]
         }
       ]
     }
