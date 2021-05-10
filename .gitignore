@@ -5,6 +5,9 @@ obj/
 # user settings
 *.DotSettings.User
 
+# Visual Studio
+.vs/
+
 # Visual Studio Code
 .vscode/
 
