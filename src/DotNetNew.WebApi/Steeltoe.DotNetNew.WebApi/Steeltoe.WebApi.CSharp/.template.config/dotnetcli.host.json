@@ -4,6 +4,10 @@
     "Framework": {
       "longName": "framework"
     },
+    "SkipRestore": {
+      "longName": "no-restore",
+      "shortName": ""
+    },
     "SteeltoeVersion": {
       "longName": "steeltoe"
     }

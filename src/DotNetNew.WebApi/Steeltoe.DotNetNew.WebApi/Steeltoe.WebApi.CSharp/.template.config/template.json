@@ -72,6 +72,12 @@
         "pattern": "^netcoreapp2.1$"
       }
     },
+    "SkipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "If specified, skips the automatic restore of the project on create.",
+      "defaultValue": "false"
+    },
     "SteeltoeVersion": {
       "description": "The Steeltoe version.",
       "type": "parameter",
@@ -87,5 +93,23 @@
       "defaultValue": "3.0.2",
       "replaces": "3.0.2"
     }
-  }
+  },
+  "primaryOutputs": [
+    {
+      "path": "Steeltoe.WebApi.CSharp.csproj"
+    }
+  ],
+  "postActions": [
+    {
+      "description": "Restore NuGet packages required by this project.",
+      "condition": "(!SkipRestore)",
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore'"
+        }
+      ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ]
 }
