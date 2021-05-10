@@ -13,7 +13,6 @@ namespace Steeltoe.DotNetNew.Test.Utilities
             var pinfo = new ProcessStartInfo
             {
                 FileName = arguments[0],
-                UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
             };

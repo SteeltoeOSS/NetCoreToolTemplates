@@ -28,9 +28,6 @@ namespace Steeltoe.DotNetNew.Test.Utilities
                     {
                         FileName = "dotnet",
                         Arguments = $"new -i {Directory.GetCurrentDirectory()}/../../../../../src/DotNetNew.WebApi",
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
                     }
                 );
                 Assert.NotNull(p);
