@@ -46,6 +46,14 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             actualFrameworks.Should().BeEquivalentTo(expectedFrameworks);
         }
 
+        [Fact]
+        public async void TestUnsupported()
+        {
+            using var sandbox = Sandbox();
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework unsupported1.0");
+            sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --framework");
+        }
+
         [Theory]
         [InlineData("net5.0")]
         [InlineData("netcoreapp3.1")]
@@ -224,14 +232,6 @@ namespace Steeltoe.DotNetNew.WebApi.Test
                 default:
                     throw new ArgumentOutOfRangeException(nameof(option), option);
             }
-        }
-
-        [Fact]
-        public async void TestUnsupported()
-        {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework unsupported1.0");
-            sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --framework");
         }
     }
 }

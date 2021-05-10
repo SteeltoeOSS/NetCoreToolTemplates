@@ -23,6 +23,14 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 ");
         }
 
+        [Fact]
+        public async void TestDefault()
+        {
+            using var sandbox = Sandbox();
+            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi");
+            sandbox.DirectoryExists("obj").Should().BeTrue();
+        }
+
         [Theory]
         [InlineData("true")]
         [InlineData("false")]
@@ -31,14 +39,6 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             using var sandbox = Sandbox();
             await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --no-restore={option}");
             sandbox.DirectoryExists("obj").Should().Be(option.Equals("false"));
-        }
-
-        [Fact]
-        public async void TestDefault()
-        {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi");
-            sandbox.DirectoryExists("obj").Should().BeTrue();
         }
     }
 }

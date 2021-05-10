@@ -43,6 +43,14 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             actualVersions.Should().BeEquivalentTo(expectedVersions);
         }
 
+        [Fact]
+        public async void TestUnsupported()
+        {
+            using var sandbox = Sandbox();
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe unsupported1.0");
+            sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --steeltoe");
+        }
+
         [Theory]
         [InlineData("3.0.2")]
         [InlineData("2.5.3")]
@@ -58,14 +66,6 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             ).ToArray();
             steeltoeVersions.Length.Should().Be(1);
             steeltoeVersions[0].Should().HaveValue(option);
-        }
-
-        [Fact]
-        public async void TestUnsupported()
-        {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe unsupported1.0");
-            sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --steeltoe");
         }
     }
 }
