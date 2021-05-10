@@ -22,11 +22,46 @@
             ".idea/**",
             ".vscode/**"
           ]
+        },
+        {
+          "condition": "(!Docker)",
+          "exclude": [
+            "Dockerfile"
+          ]
         }
       ]
     }
   ],
   "symbols": {
+    "Docker": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add Docker support.",
+      "defaultValue": "false"
+    },
+    "DockerImageTag": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "5.0-alpine",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(Framework == 'net5.0')",
+            "value": "5.0-alpine"
+          },
+          {
+            "condition": "(Framework == 'netcoreapp3.1')",
+            "value": "3.1-alpine"
+          },
+          {
+            "condition": "(Framework == 'netcoreapp2.1')",
+            "value": "2.1-alpine"
+          }
+        ]
+      }
+    },
     "Framework": {
       "description": "The target framework for the project.",
       "type": "parameter",

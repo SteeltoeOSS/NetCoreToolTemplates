@@ -1,6 +1,10 @@
 {
   "$schema": "http://json.schemastore.org/dotnetcli.host",
   "symbolInfo": {
+    "Docker": {
+      "longName": "docker",
+      "shortName": ""
+    },
     "Framework": {
       "longName": "framework"
     },

@@ -35,6 +35,10 @@ Creates a Steeltoe-influenced .NET Web API project.
 ### Options
 
 ```
+  --docker        Add Docker support.
+                  bool - Optional
+                  Default: false
+
   -f|--framework  The target framework for the project.
                       net5.0
                       netcoreapp3.1
