@@ -41,6 +41,10 @@ Creates a Steeltoe-influenced .NET Web API project.
                       netcoreapp2.1
                   Default: net5.0
 
+  --no-restore    If specified, skips the automatic restore of the project on create.
+                  bool - Optional
+                  Default: false
+
   -s|--steeltoe   The Steeltoe version.
                       3.0.2
                       2.5.3
