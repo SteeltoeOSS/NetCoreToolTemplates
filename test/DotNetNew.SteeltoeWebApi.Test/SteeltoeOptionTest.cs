@@ -64,8 +64,8 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         public async void TestUnsupported()
         {
             using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe 1.2.3");
-            sandbox.CommandError.Should().Contain("'1.2.3' is not a valid value");
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe unsupported1.0");
+            sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --steeltoe");
         }
     }
 }

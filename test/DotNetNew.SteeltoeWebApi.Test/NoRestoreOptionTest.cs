@@ -15,11 +15,10 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         public async void TestHelp()
         {
             using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync("dotnet new stwebapi -h");
+            await sandbox.ExecuteCommandExactlyAsync("dotnet new stwebapi -h");
             sandbox.CommandOutput.Should().ContainSnippet(@"
   --no-restore    If specified, skips the automatic restore of the project on create.
                   bool - Optional
-                  Configured Value: True
                   Default: false
 ");
         }

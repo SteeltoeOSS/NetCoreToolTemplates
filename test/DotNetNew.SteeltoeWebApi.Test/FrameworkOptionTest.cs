@@ -50,11 +50,10 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("net5.0")]
         [InlineData("netcoreapp3.1")]
         [InlineData("netcoreapp2.1")]
-        public async void TestOption(string option)
+        public async void TestCsproj(string option)
         {
             using var sandbox = Sandbox();
             await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {option}");
-            // <project>.csproj
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var expectedFrameworks = new List<string> { option };
             var actualFrameworks =
@@ -87,49 +86,71 @@ namespace Steeltoe.DotNetNew.WebApi.Test
                 select e
             ).ToList().Select(attr => attr.Value).ToList();
             actualPackageRefs.Should().BeEquivalentTo(expectedPackageRefs);
-            // Program.cs
+        }
+
+        [Theory]
+        [InlineData("net5.0")]
+        [InlineData("netcoreapp3.1")]
+        [InlineData("netcoreapp2.1")]
+        public async void TestProgramCs(string option)
+        {
+            using var sandbox = Sandbox();
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {option}");
             var programSource = await sandbox.GetFileTextAsync("Program.cs");
-            if (option.Equals("netcoreapp2.1"))
+            switch (option)
             {
-                programSource.Should().ContainSnippet("using Microsoft.AspNetCore;");
-                programSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                programSource.Should().ContainSnippet("CreateWebHostBuilder(args).Build().Run();");
-                programSource.Should().ContainSnippet(@"
+                case "net5.0":
+                case "netcoreapp3.1":
+                    programSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+                    programSource.Should().ContainSnippet("using Microsoft.Extensions.Hosting;");
+                    programSource.Should().ContainSnippet("CreateHostBuilder(args).Build().Run();");
+                    programSource.Should().ContainSnippet(@"
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+");
+                    break;
+                case "netcoreapp2.1":
+                    programSource.Should().ContainSnippet("using Microsoft.AspNetCore;");
+                    programSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+                    programSource.Should().ContainSnippet("CreateWebHostBuilder(args).Build().Run();");
+                    programSource.Should().ContainSnippet(@"
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             var builder = WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
             return builder;
         }
 ");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(option), option);
             }
-            else
-            {
-                programSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                programSource.Should().ContainSnippet("using Microsoft.Extensions.Hosting;");
-                programSource.Should().ContainSnippet("CreateHostBuilder(args).Build().Run();");
-                programSource.Should().ContainSnippet(@"
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
-");
-            }
+        }
 
-            // Startup.cs
+        [Theory]
+        [InlineData("net5.0")]
+        [InlineData("netcoreapp3.1")]
+        [InlineData("netcoreapp2.1")]
+        public async void TestStartupCs(string option)
+        {
+            using var sandbox = Sandbox();
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {option}");
             var startupSource = await sandbox.GetFileTextAsync("Startup.cs");
-            if (option.Equals("net5.0"))
+            switch (option)
             {
-                startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
-                startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                startupSource.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
-                startupSource.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
-                startupSource.Should().ContainSnippet("using Microsoft.OpenApi.Models;");
-                startupSource.Should().ContainSnippet("services.AddControllers();");
-                startupSource.Should().ContainSnippet(@"
+                case "net5.0":
+                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
+                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
+                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
+                    startupSource.Should().ContainSnippet("using Microsoft.OpenApi.Models;");
+                    startupSource.Should().ContainSnippet("services.AddControllers();");
+                    startupSource.Should().ContainSnippet(@"
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc(""v1"", new OpenApiInfo { Title = ""@@NAME@@"", Version = ""v1"" });
         });
 ".Replace("@@NAME@@", sandbox.Name));
-                startupSource.Should().ContainSnippet(@"
+                    startupSource.Should().ContainSnippet(@"
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -143,15 +164,14 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
 ".Replace("@@NAME@@", sandbox.Name));
-            }
-            else if (option.Equals("netcoreapp3.1"))
-            {
-                startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
-                startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                startupSource.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
-                startupSource.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
-                startupSource.Should().ContainSnippet("services.AddControllers();");
-                startupSource.Should().ContainSnippet(@"
+                    break;
+                case "netcoreapp3.1":
+                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
+                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
+                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
+                    startupSource.Should().ContainSnippet("services.AddControllers();");
+                    startupSource.Should().ContainSnippet(@"
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
@@ -160,39 +180,49 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
 ");
-            }
-            else if (option.Equals("netcoreapp2.1"))
-            {
-                startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
-                startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                startupSource.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
-                startupSource.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
-                startupSource.Should().NotContain("using Microsoft.Extensions.Hosting;");
-                startupSource.Should().ContainSnippet("services.AddMvc();");
-                startupSource.Should().ContainSnippet(@"
+                    break;
+                case "netcoreapp2.1":
+                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
+                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
+                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
+                    startupSource.Should().NotContain("using Microsoft.Extensions.Hosting;");
+                    startupSource.Should().ContainSnippet("services.AddMvc();");
+                    startupSource.Should().ContainSnippet(@"
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
             app.UseMvc();
         }
 ");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(option), option);
             }
-            else
-            {
-                throw new ArgumentOutOfRangeException(nameof(option), option);
-            }
+        }
 
-            // Properties/launchSettings.json
+        [Theory]
+        [InlineData("net5.0")]
+        [InlineData("netcoreapp3.1")]
+        [InlineData("netcoreapp2.1")]
+        public async void TestLaunchSettingsJson(string option)
+        {
+            using var sandbox = Sandbox();
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {option}");
             var launchSettings = await sandbox.GetJsonDocumentAsync<LaunchSettings>("Properties/launchSettings.json");
-            if (option.Equals("net5.0"))
+            switch (option)
             {
-                launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("swagger");
-                launchSettings.Profiles[sandbox.Name].LaunchUrl.Should().Be("swagger");
-            }
-            else
-            {
-                launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("api/values");
-                launchSettings.Profiles[sandbox.Name].LaunchUrl.Should().Be("api/values");
+                case "net5.0":
+                    launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("swagger");
+                    launchSettings.Profiles[sandbox.Name].LaunchUrl.Should().Be("swagger");
+                    break;
+                case "netcoreapp3.1":
+                case "netcoreapp2.1":
+                    launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("api/values");
+                    launchSettings.Profiles[sandbox.Name].LaunchUrl.Should().Be("api/values");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(option), option);
             }
         }
 
@@ -200,8 +230,8 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         public async void TestUnsupported()
         {
             using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework netcoreapp2.0");
-            sandbox.CommandError.Should().Contain("'netcoreapp2.0' is not a valid value");
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework unsupported1.0");
+            sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --framework");
         }
     }
 }
