@@ -35,10 +35,20 @@ namespace Steeltoe.DotNetNew.Test.Utilities
 
         public async Task ExecuteCommandAsync(string command)
         {
+            await ExecuteCommandExactlyAsync(command.Replace("stwebapi", "stwebapi --no-restore"));
+        }
+
+        public async Task ExecuteCommandExactlyAsync(string command)
+        {
             _logger.WriteLine($"executing: {command}");
             var p = await new Command().ExecuteAsync(command, Path);
             CommandOutput = p.StandardOutput.ReadToEnd();
             CommandError = p.StandardError.ReadToEnd();
+        }
+
+        public bool DirectoryExists(string path)
+        {
+            return Directory.Exists(Join(path));
         }
 
         public bool FileExists(string path)

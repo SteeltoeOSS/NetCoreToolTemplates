@@ -8,9 +8,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.WebApi.Test
 {
-    public class SteeltoeVersionTest : Test
+    public class SteeltoeOptionTest : Test
     {
-        public SteeltoeVersionTest(ITestOutputHelper logger) : base(logger)
+        public SteeltoeOptionTest(ITestOutputHelper logger) : base(logger)
         {
         }
 
@@ -20,15 +20,15 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             using var sandbox = Sandbox();
             await sandbox.ExecuteCommandAsync("dotnet new stwebapi -h");
             sandbox.CommandOutput.Should().ContainSnippet(@"
--s|--steeltoe  The Steeltoe version.
-                   3.0.2
-                   2.5.3
-               Default: 3.0.2
+  -s|--steeltoe  The Steeltoe version.
+                     3.0.2
+                     2.5.3
+                 Default: 3.0.2
 ");
         }
 
         [Fact]
-        public async void TestSteeltoeVersionDefault()
+        public async void TestDefault()
         {
             using var sandbox = Sandbox();
             const string version = "3.0.2";
@@ -46,10 +46,10 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Theory]
         [InlineData("3.0.2")]
         [InlineData("2.5.3")]
-        public async void TestSteeltoeVersion(string version)
+        public async void TestOption(string option)
         {
             using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe {version}");
+            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe {option}");
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var steeltoeVersions =
             (
@@ -57,11 +57,11 @@ namespace Steeltoe.DotNetNew.WebApi.Test
                 select e
             ).ToArray();
             steeltoeVersions.Length.Should().Be(1);
-            steeltoeVersions[0].Should().HaveValue(version);
+            steeltoeVersions[0].Should().HaveValue(option);
         }
 
         [Fact]
-        public async void TestUnsupportedSteeltoeVersion()
+        public async void TestUnsupported()
         {
             using var sandbox = Sandbox();
             await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe 1.2.3");
