@@ -3,10 +3,10 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 #else
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 #endif
+using Microsoft.Extensions.Hosting;
 
-namespace Steeltoe.WebApi.CSharp
+namespace Company.WebApplication1
 {
     public class Program
     {

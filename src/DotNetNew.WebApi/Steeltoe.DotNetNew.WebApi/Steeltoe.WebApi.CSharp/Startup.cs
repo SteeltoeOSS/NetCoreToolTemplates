@@ -14,7 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 #endif
 
-namespace Steeltoe.WebApi.CSharp
+namespace Company.WebApplication1
 {
     public class Startup
     {
@@ -36,7 +36,7 @@ namespace Steeltoe.WebApi.CSharp
 #if FrameworkNet50
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Steeltoe.WebApi.CSharp", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Company.WebApplication1", Version = "v1" });
             });
 #endif
         }
@@ -60,7 +60,7 @@ namespace Steeltoe.WebApi.CSharp
                 app.UseDeveloperExceptionPage();
 #if FrameworkNet50
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Steeltoe.WebApi.CSharp v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.WebApplication1 v1"));
 #endif
             }
 

@@ -13,7 +13,7 @@
     "type": "project",
     "language": "C#"
   },
-  "sourceName": "Steeltoe.WebApi.CSharp",
+  "sourceName": "Company.WebApplication1",
   "sources": [
     {
       "modifiers": [
@@ -96,7 +96,7 @@
   },
   "primaryOutputs": [
     {
-      "path": "Steeltoe.WebApi.CSharp.csproj"
+      "path": "Company.WebApplication1.csproj"
     }
   ],
   "postActions": [

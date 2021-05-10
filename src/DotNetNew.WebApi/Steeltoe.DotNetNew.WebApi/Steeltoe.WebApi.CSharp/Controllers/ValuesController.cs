@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Steeltoe.WebApi.CSharp.Controllers
+namespace Company.WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
