@@ -1,5 +1,12 @@
+# build output
 bin/
 obj/
-.idea/
-.vscode/
+
+# user settings
 *.DotSettings.User
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
