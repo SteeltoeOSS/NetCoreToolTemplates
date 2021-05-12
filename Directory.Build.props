@@ -1,5 +1,7 @@
 <Project>
- <PropertyGroup>
-   <RandomValue>false</RandomValue>
- </PropertyGroup>
+  <PropertyGroup>
+    <FrameworkNet50>true</FrameworkNet50>
+    <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
+    <RandomValue>false</RandomValue>
+  </PropertyGroup>
 </Project>

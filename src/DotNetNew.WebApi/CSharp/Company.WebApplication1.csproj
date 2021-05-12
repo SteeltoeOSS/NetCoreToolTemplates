@@ -7,22 +7,24 @@
 
   <PropertyGroup>
     <SteeltoeVersion>3.0.2</SteeltoeVersion>
+    <NetCoreApp21Version Condition="'$(FrameworkNetCoreApp21)'">2.1.*</NetCoreApp21Version>
   </PropertyGroup>
   <!--#if (FrameworkNet50) -->
 
-  <ItemGroup Condition="'$(FrameworkNet50)' != ''">
+
+  <ItemGroup Condition="'$(FrameworkNet50)'">
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.*" />
   </ItemGroup>
   <!--#endif -->
   <!--#if (FrameworkNetCoreApp21) -->
 
-  <ItemGroup Condition="'$(FrameworkNetCoreApp21)' != ''">
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.*" />
-    <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.1.*" />
-    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.1.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.1.*" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.*" />
+  <ItemGroup Condition="'$(FrameworkNetCoreApp21)'">
+    <PackageReference Include="Microsoft.AspNetCore" Version="$(NetCoreApp21Version)" />
+    <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="$(NetCoreApp21Version)" />
+    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="$(NetCoreApp21Version)" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="$(NetCoreApp21Version)" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="$(NetCoreApp21Version)" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
 
