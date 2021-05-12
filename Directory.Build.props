@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
+    <AzureSpringCloud>false</AzureSpringCloud>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
     <PlaceholderConfiguration>false</PlaceholderConfiguration>
