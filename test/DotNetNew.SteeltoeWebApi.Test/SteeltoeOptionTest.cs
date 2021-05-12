@@ -17,8 +17,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestHelp()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync("dotnet new stwebapi -h");
+            using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
   -s|--steeltoe  The Steeltoe version.
                      3.0.2
@@ -30,9 +29,8 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestDefault()
         {
-            using var sandbox = Sandbox();
             const string version = "3.0.2";
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi");
+            using var sandbox = await TemplateSandbox();
             var expectedVersions = new List<string> { version };
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var actualVersions =
@@ -46,18 +44,16 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestUnsupported()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe unsupported1.0");
+            using var sandbox = await TemplateSandbox("--steeltoe unsupported1.0");
             sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --steeltoe");
         }
 
         [Theory]
         [InlineData("3.0.2")]
         [InlineData("2.5.3")]
-        public async void TestCsproj(string option)
+        public async void TestCsproj(string steeltoe)
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe {option}");
+            using var sandbox = await TemplateSandbox($"--steeltoe {steeltoe}");
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var steeltoeVersions =
             (
@@ -65,7 +61,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
                 select e
             ).ToArray();
             steeltoeVersions.Length.Should().Be(1);
-            steeltoeVersions[0].Should().HaveValue(option);
+            steeltoeVersions[0].Should().HaveValue(steeltoe);
         }
     }
 }

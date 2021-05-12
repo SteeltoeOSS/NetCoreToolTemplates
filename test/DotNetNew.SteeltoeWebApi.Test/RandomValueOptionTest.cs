@@ -16,8 +16,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestHelp()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync("dotnet new stwebapi -h");
+            using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
   --random-value  Add a random value configuration source.
                   bool - Optional
@@ -28,8 +27,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestDefault()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi");
+            using var sandbox = await TemplateSandbox();
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var packageRefs =
             (
@@ -43,8 +41,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestCsproj()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --random-value");
+            using var sandbox = await TemplateSandbox("--random-value");
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var packageRefs =
             (
@@ -58,8 +55,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestValuesController()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --random-value");
+            using var sandbox = await TemplateSandbox("--random-value");
             var valuesController = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
             valuesController.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
             valuesController.Should().ContainSnippet("private readonly IConfiguration _configuration;");

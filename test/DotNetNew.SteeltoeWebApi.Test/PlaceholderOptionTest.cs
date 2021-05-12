@@ -17,8 +17,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestHelp()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync("dotnet new stwebapi -h");
+            using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
   --placeholder   Add a placeholder configuration source.
                   bool - Optional
@@ -29,8 +28,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestDefault()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi");
+            using var sandbox = await TemplateSandbox();
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var packageRefs =
             (
@@ -44,8 +42,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestCsproj()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --placeholder");
+            using var sandbox = await TemplateSandbox("--placeholder");
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var packageRefs =
             (
@@ -59,8 +56,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestProgramCs()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --placeholder");
+            using var sandbox = await TemplateSandbox("--placeholder");
             var programSource = await sandbox.GetFileTextAsync("Program.cs");
             programSource.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.Placeholder;");
             programSource.Should().ContainSnippet(".AddPlaceholderResolver()");
@@ -69,8 +65,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestValuesController()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --placeholder");
+            using var sandbox = await TemplateSandbox("--placeholder");
             var valuesController = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
             valuesController.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
             valuesController.Should().ContainSnippet("private readonly IConfiguration _configuration;");
@@ -89,8 +84,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestAppSettingsJson()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --placeholder");
+            using var sandbox = await TemplateSandbox("--placeholder");
             var launchSettings = await sandbox.GetJsonDocumentAsync<AppSettings>("appsettings.json");
             launchSettings.ResolvedPlaceholderFromEnvVariables.Should().Be("${PATH?NotFound}");
             launchSettings.ResolvedPlaceholderFromJson.Should()

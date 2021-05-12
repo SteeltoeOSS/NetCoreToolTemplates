@@ -16,8 +16,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestHelp()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync("dotnet new stwebapi -h");
+            using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
   --azure-spring-cloud  Add Microsoft Azure Spring Cloud support.
                         bool - Optional
@@ -28,8 +27,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestCsproj()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --azure-spring-cloud");
+            using var sandbox = await TemplateSandbox("--azure-spring-cloud");
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var packageRefs =
             (
@@ -43,8 +41,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestProgramCs()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --azure-spring-cloud");
+            using var sandbox = await TemplateSandbox("--azure-spring-cloud");
             var programSource = await sandbox.GetFileTextAsync("Program.cs");
             programSource.Should().ContainSnippet("using Microsoft.Azure.SpringCloud.Client;");
             programSource.Should().ContainSnippet(".UseAzureSpringCloudService()");

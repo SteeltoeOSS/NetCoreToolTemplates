@@ -14,8 +14,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestHelp()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync("dotnet new stwebapi -h");
+            using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
   --no-restore    If specified, skips the automatic restore of the project on create.
                   bool - Optional
@@ -26,17 +25,17 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestDefault()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi");
+            using var sandbox = await TemplateSandbox(exactly: true);
             sandbox.DirectoryExists("obj").Should().BeTrue();
         }
 
-        [Fact]
-        public async void TestObj()
+        [Theory]
+        [InlineData("true")]
+        [InlineData("false")]
+        public async void TestObjDirectory(string trueOrFalse)
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --no-restore");
-            sandbox.DirectoryExists("obj").Should().BeFalse();
+            using var sandbox = await TemplateSandbox($"--no-restore {trueOrFalse}", exactly: true);
+            sandbox.DirectoryExists("obj").Should().Be(trueOrFalse.Equals("false"));
         }
     }
 }

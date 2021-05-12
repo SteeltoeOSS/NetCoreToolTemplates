@@ -19,8 +19,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestHelp()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync("dotnet new stwebapi -h");
+            using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
   -f|--framework  The target framework for the project.
                       net5.0
@@ -33,9 +32,8 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestDefault()
         {
-            using var sandbox = Sandbox();
             const string framework = "net5.0";
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi");
+            using var sandbox = await TemplateSandbox();
             var expectedFrameworks = new List<string> { framework };
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var actualFrameworks =
@@ -49,8 +47,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestUnsupported()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework unsupported1.0");
+            using var sandbox = await TemplateSandbox("--framework unsupported1.0");
             sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --framework");
         }
 
@@ -58,19 +55,18 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("net5.0")]
         [InlineData("netcoreapp3.1")]
         [InlineData("netcoreapp2.1")]
-        public async void TestCsproj(string option)
+        public async void TestCsproj(string framework)
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {option}");
+            using var sandbox = await TemplateSandbox($"--framework {framework}");
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
-            var expectedFrameworks = new List<string> { option };
+            var expectedFrameworks = new List<string> { framework };
             var actualFrameworks =
             (
                 from e in xDoc.Elements().Elements("PropertyGroup").Elements("TargetFramework")
                 select e.Value
             ).ToList();
             actualFrameworks.Should().BeEquivalentTo(expectedFrameworks);
-            var expectedPackageRefs = option switch
+            var expectedPackageRefs = framework switch
             {
                 "net5.0" => new List<string>
                 {
@@ -86,7 +82,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
                     "Microsoft.AspNetCore.Session",
                     "Microsoft.AspNetCore.StaticFiles",
                 },
-                _ => throw new ArgumentOutOfRangeException(nameof(option), option)
+                _ => throw new ArgumentOutOfRangeException(nameof(framework), framework)
             };
             var actualPackageRefs =
             (
@@ -100,12 +96,11 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("net5.0")]
         [InlineData("netcoreapp3.1")]
         [InlineData("netcoreapp2.1")]
-        public async void TestProgramCs(string option)
+        public async void TestProgramCs(string framework)
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {option}");
+            using var sandbox = await TemplateSandbox($"--framework {framework}");
             var programSource = await sandbox.GetFileTextAsync("Program.cs");
-            switch (option)
+            switch (framework)
             {
                 case "net5.0":
                 case "netcoreapp3.1":
@@ -130,7 +125,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 ");
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(option), option);
+                    throw new ArgumentOutOfRangeException(nameof(framework), framework);
             }
         }
 
@@ -138,12 +133,11 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("net5.0")]
         [InlineData("netcoreapp3.1")]
         [InlineData("netcoreapp2.1")]
-        public async void TestStartupCs(string option)
+        public async void TestStartupCs(string framework)
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {option}");
+            using var sandbox = await TemplateSandbox($"--framework {framework}");
             var startupSource = await sandbox.GetFileTextAsync("Startup.cs");
-            switch (option)
+            switch (framework)
             {
                 case "net5.0":
                     startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
@@ -205,7 +199,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 ");
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(option), option);
+                    throw new ArgumentOutOfRangeException(nameof(framework), framework);
             }
         }
 
@@ -213,12 +207,11 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("net5.0")]
         [InlineData("netcoreapp3.1")]
         [InlineData("netcoreapp2.1")]
-        public async void TestLaunchSettingsJson(string option)
+        public async void TestLaunchSettingsJson(string framework)
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --framework {option}");
+            using var sandbox = await TemplateSandbox($"--framework {framework}");
             var launchSettings = await sandbox.GetJsonDocumentAsync<LaunchSettings>("Properties/launchSettings.json");
-            switch (option)
+            switch (framework)
             {
                 case "net5.0":
                     launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("swagger");
@@ -230,7 +223,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
                     launchSettings.Profiles[sandbox.Name].LaunchUrl.Should().Be("api/values");
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(option), option);
+                    throw new ArgumentOutOfRangeException(nameof(framework), framework);
             }
         }
     }

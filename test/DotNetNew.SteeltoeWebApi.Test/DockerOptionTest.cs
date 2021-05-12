@@ -15,8 +15,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestHelp()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync("dotnet new stwebapi -h");
+            using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
   --docker        Add Docker support.
                   bool - Optional
@@ -27,16 +26,14 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestDefault()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi");
+            using var sandbox = await TemplateSandbox();
             sandbox.FileExists("Dockerfile").Should().BeFalse();
         }
 
         [Fact]
         public async void TestDockerfile()
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --docker");
+            using var sandbox = await TemplateSandbox("--docker");
             sandbox.FileExists("Dockerfile").Should().Be(true);
         }
 
@@ -46,8 +43,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("netcoreapp2.1")]
         public async void TestFramework(string framework)
         {
-            using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --docker --framework {framework}");
+            using var sandbox = await TemplateSandbox($"--docker --framework {framework}");
             var dockerfile = await sandbox.GetFileTextAsync("Dockerfile");
             var tag = framework switch
             {
