@@ -33,6 +33,12 @@
     }
   ],
   "symbols": {
+    "AzureSpringCloud": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add Microsoft Azure Spring Cloud support.",
+      "defaultValue": "false"
+    },
     "Docker": {
       "type": "parameter",
       "datatype": "bool",

@@ -27,9 +27,10 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (PlaceholderConfiguration || RandomValueConfiguration) -->
+  <!--#if (AzureSpringCloud || PlaceholderConfiguration || RandomValueConfiguration) -->
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(AzureSpringCloud)'" Version="2.0.0-preview.1"/>
     <PackageReference Include="Steeltoe.Extensions.Configuration.PlaceholderCore" Condition="'$(PlaceholderConfiguration)'" Version="$(SteeltoeVersion)"/>
     <PackageReference Include="Steeltoe.Extensions.Configuration.RandomValueBase" Condition="'$(RandomValueConfiguration)'" Version="$(SteeltoeVersion)"/>
   </ItemGroup>
