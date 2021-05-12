@@ -1,11 +1,11 @@
-#if FrameworkNetCoreApp21
+#if (FrameworkNetCoreApp21)
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 #else
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 #endif
-#if PlaceholderConfiguration
+#if (PlaceholderConfiguration)
 using Steeltoe.Extensions.Configuration.Placeholder;
 #endif
 
@@ -15,14 +15,14 @@ namespace Company.WebApplication1
     {
         public static void Main(string[] args)
         {
-#if FrameworkNetCoreApp21
+#if (FrameworkNetCoreApp21)
             CreateWebHostBuilder(args).Build().Run();
 #else
             CreateHostBuilder(args).Build().Run();
 #endif
         }
 
-#if FrameworkNetCoreApp21
+#if (FrameworkNetCoreApp21)
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             var builder = WebHost.CreateDefaultBuilder(args)
@@ -32,7 +32,7 @@ namespace Company.WebApplication1
 #else
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-#if PlaceholderConfiguration
+#if (PlaceholderConfiguration)
                 .AddPlaceholderResolver()
 #endif
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });

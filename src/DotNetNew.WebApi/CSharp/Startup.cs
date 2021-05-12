@@ -1,4 +1,4 @@
-#if FrameworkNetCoreApp21
+#if (FrameworkNetCoreApp21)
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 #endif
-#if FrameworkNet50
+#if (FrameworkNet50)
 using Microsoft.OpenApi.Models;
 #endif
 
@@ -28,12 +28,12 @@ namespace Company.WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-#if FrameworkNetCoreApp21
+#if (FrameworkNetCoreApp21)
             services.AddMvc();
 #else
             services.AddControllers();
 #endif
-#if FrameworkNet50
+#if (FrameworkNet50)
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Company.WebApplication1", Version = "v1" });
@@ -42,7 +42,7 @@ namespace Company.WebApplication1
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-#if FrameworkNetCoreApp21
+#if (FrameworkNetCoreApp21)
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -58,7 +58,7 @@ namespace Company.WebApplication1
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-#if FrameworkNet50
+#if (FrameworkNet50)
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.WebApplication1 v1"));
 #endif

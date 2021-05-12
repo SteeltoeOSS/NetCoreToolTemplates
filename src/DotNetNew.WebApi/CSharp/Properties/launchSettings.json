@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      //#if(FrameworkNet50)
+      //#if (FrameworkNet50)
       "launchUrl": "swagger",
       //#else
       "launchUrl": "api/values",
@@ -24,7 +24,7 @@
     "Company.WebApplication1": {
       "commandName": "Project",
       "launchBrowser": true,
-      //#if(FrameworkNet50)
+      //#if (FrameworkNet50)
       "launchUrl": "swagger",
       //#else
       "launchUrl": "api/values",

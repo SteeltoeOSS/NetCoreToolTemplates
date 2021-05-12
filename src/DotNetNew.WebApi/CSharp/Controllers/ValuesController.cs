@@ -21,7 +21,7 @@ namespace Company.WebApplication1.Controllers
         }
 
 #endif
-#if PlaceholderConfiguration
+#if (PlaceholderConfiguration)
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
@@ -31,7 +31,7 @@ namespace Company.WebApplication1.Controllers
 
             return new[] { val1, val2, val3 };
         }
-#elif RandomValueConfiguration
+#elif (RandomValueConfiguration)
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
