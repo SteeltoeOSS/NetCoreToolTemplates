@@ -54,7 +54,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Theory]
         [InlineData("3.0.2")]
         [InlineData("2.5.3")]
-        public async void TestOption(string option)
+        public async void TestCsproj(string option)
         {
             using var sandbox = Sandbox();
             await sandbox.ExecuteCommandAsync($"dotnet new stwebapi --steeltoe {option}");
