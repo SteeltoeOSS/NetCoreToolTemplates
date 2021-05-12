@@ -30,21 +30,6 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         }
 
         [Fact]
-        public async void TestDefault()
-        {
-            const string framework = "net5.0";
-            using var sandbox = await TemplateSandbox();
-            var expectedFrameworks = new List<string> { framework };
-            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
-            var actualFrameworks =
-            (
-                from e in xDoc.Elements().Elements("PropertyGroup").Elements("TargetFramework")
-                select e.Value
-            ).ToList();
-            actualFrameworks.Should().BeEquivalentTo(expectedFrameworks);
-        }
-
-        [Fact]
         public async void TestUnsupported()
         {
             using var sandbox = await TemplateSandbox("--framework unsupported1.0");

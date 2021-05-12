@@ -25,20 +25,6 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         }
 
         [Fact]
-        public async void TestDefault()
-        {
-            using var sandbox = await TemplateSandbox();
-            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
-            var packageRefs =
-            (
-                from e in xDoc.Elements().Elements("ItemGroup").Elements("PackageReference").Attributes("Include")
-                where e.Value.Equals("Steeltoe.Extensions.Configuration.RandomValueBase")
-                select e
-            ).ToList();
-            packageRefs.Count.Should().Be(0);
-        }
-
-        [Fact]
         public async void TestCsproj()
         {
             using var sandbox = await TemplateSandbox("--random-value");

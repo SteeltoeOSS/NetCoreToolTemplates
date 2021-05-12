@@ -22,13 +22,6 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 ");
         }
 
-        [Fact]
-        public async void TestDefault()
-        {
-            using var sandbox = await TemplateSandbox(exactly: true);
-            sandbox.DirectoryExists("obj").Should().BeTrue();
-        }
-
         [Theory]
         [InlineData("true")]
         [InlineData("false")]

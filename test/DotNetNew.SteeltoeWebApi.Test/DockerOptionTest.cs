@@ -23,18 +23,13 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 ");
         }
 
-        [Fact]
-        public async void TestDefault()
+        [Theory]
+        [InlineData("true")]
+        [InlineData("false")]
+        public async void TestDockerfile(string trueOrFalse)
         {
-            using var sandbox = await TemplateSandbox();
-            sandbox.FileExists("Dockerfile").Should().BeFalse();
-        }
-
-        [Fact]
-        public async void TestDockerfile()
-        {
-            using var sandbox = await TemplateSandbox("--docker");
-            sandbox.FileExists("Dockerfile").Should().Be(true);
+            using var sandbox = await TemplateSandbox($"--docker {trueOrFalse}");
+            sandbox.FileExists("Dockerfile").Should().Be(trueOrFalse.Equals("true"));
         }
 
         [Theory]

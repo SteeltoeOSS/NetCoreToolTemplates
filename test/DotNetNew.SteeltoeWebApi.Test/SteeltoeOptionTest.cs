@@ -27,21 +27,6 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         }
 
         [Fact]
-        public async void TestDefault()
-        {
-            const string version = "3.0.2";
-            using var sandbox = await TemplateSandbox();
-            var expectedVersions = new List<string> { version };
-            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
-            var actualVersions =
-            (
-                from e in xDoc.Elements().Elements("PropertyGroup").Elements("SteeltoeVersion")
-                select e.Value
-            ).ToList();
-            actualVersions.Should().BeEquivalentTo(expectedVersions);
-        }
-
-        [Fact]
         public async void TestUnsupported()
         {
             using var sandbox = await TemplateSandbox("--steeltoe unsupported1.0");
