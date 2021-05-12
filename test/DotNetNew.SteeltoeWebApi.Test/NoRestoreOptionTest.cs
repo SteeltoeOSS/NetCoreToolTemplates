@@ -31,14 +31,12 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             sandbox.DirectoryExists("obj").Should().BeTrue();
         }
 
-        [Theory]
-        [InlineData("true")]
-        [InlineData("false")]
-        public async void TestOption(string option)
+        [Fact]
+        public async void TestObj()
         {
             using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --no-restore={option}");
-            sandbox.DirectoryExists("obj").Should().Be(option.Equals("false"));
+            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --no-restore");
+            sandbox.DirectoryExists("obj").Should().BeFalse();
         }
     }
 }
