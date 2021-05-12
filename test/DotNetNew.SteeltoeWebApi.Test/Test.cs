@@ -1,5 +1,7 @@
+using System.Text;
 using System.Threading.Tasks;
 using Steeltoe.DotNetNew.Test.Utilities;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.WebApi.Test
@@ -14,21 +16,22 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             new SteeltoeWebApiTemplateInstaller(Logger).Install();
         }
 
-        protected async Task<Sandbox> TemplateSandbox(string args = "", bool exactly = false)
+        protected async Task<Sandbox> TemplateSandbox(string args = "")
         {
-            var command = $"dotnet new stwebapi";
-            if (!string.IsNullOrEmpty(args))
+            Assert.NotNull(args);
+            var command = new StringBuilder("dotnet new stwebapi");
+            if (!(args.Contains("--help") || args.Contains("--no-restore")))
             {
-                command += $" {args}";
+                command.Append(" --no-restore");
             }
 
-            if (!exactly && !command.Contains("--help"))
+            if (args.Length > 1)
             {
-                command = command.Replace("stwebapi", "stwebapi --no-restore");
+                command.Append(' ').Append(args);
             }
 
             var sandbox = new Sandbox(Logger);
-            await sandbox.ExecuteCommandAsync(command);
+            await sandbox.ExecuteCommandAsync(command.ToString());
             return sandbox;
         }
     }

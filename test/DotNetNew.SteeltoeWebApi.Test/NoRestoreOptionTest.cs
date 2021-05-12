@@ -27,7 +27,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("false")]
         public async void TestObjDirectory(string trueOrFalse)
         {
-            using var sandbox = await TemplateSandbox($"--no-restore {trueOrFalse}", exactly: true);
+            using var sandbox = await TemplateSandbox($"--no-restore {trueOrFalse}");
             sandbox.DirectoryExists("obj").Should().Be(trueOrFalse.Equals("false"));
         }
     }
