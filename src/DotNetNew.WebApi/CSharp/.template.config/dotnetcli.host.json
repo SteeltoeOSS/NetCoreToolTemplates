@@ -8,7 +8,11 @@
     "Framework": {
       "longName": "framework"
     },
-    "RandomValue": {
+    "PlaceholderConfiguration": {
+      "longName": "placeholder",
+      "shortName": ""
+    },
+    "RandomValueConfiguration": {
       "longName": "random-value",
       "shortName": ""
     },

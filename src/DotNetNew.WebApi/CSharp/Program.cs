@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 #endif
+#if PlaceholderConfiguration
+using Steeltoe.Extensions.Configuration.Placeholder;
+#endif
 
 namespace Company.WebApplication1
 {
@@ -29,6 +32,9 @@ namespace Company.WebApplication1
 #else
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+#if PlaceholderConfiguration
+                .AddPlaceholderResolver()
+#endif
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 #endif
     }

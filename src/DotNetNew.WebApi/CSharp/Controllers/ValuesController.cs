@@ -1,8 +1,8 @@
-#if RandomValue
+#if (PlaceholderConfiguration || RandomValueConfiguration)
 using System.Collections.Generic;
 #endif
 using Microsoft.AspNetCore.Mvc;
-#if RandomValue
+#if (PlaceholderConfiguration || RandomValueConfiguration)
 using Microsoft.Extensions.Configuration;
 #endif
 
@@ -12,7 +12,7 @@ namespace Company.WebApplication1.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-#if RandomValue
+#if (PlaceholderConfiguration || RandomValueConfiguration)
         private readonly IConfiguration _configuration;
 
         public ValuesController(IConfiguration configuration)
@@ -21,7 +21,17 @@ namespace Company.WebApplication1.Controllers
         }
 
 #endif
-#if RandomValue
+#if PlaceholderConfiguration
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> Get()
+        {
+            var val1 = _configuration["ResolvedPlaceholderFromEnvVariables"];
+            var val2 = _configuration["UnresolvedPlaceholder"];
+            var val3 = _configuration["ResolvedPlaceholderFromJson"];
+
+            return new[] { val1, val2, val3 };
+        }
+#elif RandomValueConfiguration
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {

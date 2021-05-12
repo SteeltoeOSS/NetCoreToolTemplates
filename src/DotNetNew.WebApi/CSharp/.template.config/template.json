@@ -107,7 +107,13 @@
         "pattern": "^netcoreapp2.1$"
       }
     },
-    "RandomValue": {
+    "PlaceholderConfiguration": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a placeholder configuration source.",
+      "defaultValue": "false"
+    },
+    "RandomValueConfiguration": {
       "type": "parameter",
       "datatype": "bool",
       "description": "Add a random value configuration source.",

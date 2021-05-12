@@ -2,6 +2,7 @@
   <PropertyGroup>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
-    <RandomValue>false</RandomValue>
+    <PlaceholderConfiguration>false</PlaceholderConfiguration>
+    <RandomValueConfiguration>false</RandomValueConfiguration>
   </PropertyGroup>
 </Project>

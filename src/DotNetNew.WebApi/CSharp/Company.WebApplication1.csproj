@@ -27,10 +27,11 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (RandomValue) -->
+  <!--#if (PlaceholderConfiguration || RandomValueConfiguration) -->
 
   <ItemGroup>
-    <PackageReference Include="Steeltoe.Extensions.Configuration.RandomValueBase" Condition="'$(RandomValue)'" Version="$(SteeltoeVersion)"/>
+    <PackageReference Include="Steeltoe.Extensions.Configuration.PlaceholderCore" Condition="'$(PlaceholderConfiguration)'" Version="$(SteeltoeVersion)"/>
+    <PackageReference Include="Steeltoe.Extensions.Configuration.RandomValueBase" Condition="'$(RandomValueConfiguration)'" Version="$(SteeltoeVersion)"/>
   </ItemGroup>
   <!--#endif -->
 
