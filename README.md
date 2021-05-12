@@ -51,6 +51,10 @@ $ dotnet new stwebapi [options]
                       netcoreapp2.1
                   Default: net5.0
 
+  --random-value  Add a random value configuration source.
+                  bool - Optional
+                  Default: false
+
   --no-restore    If specified, skips the automatic restore of the project on create.
                   bool - Optional
                   Default: false
