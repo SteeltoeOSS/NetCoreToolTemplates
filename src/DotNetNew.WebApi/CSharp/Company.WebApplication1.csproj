@@ -26,4 +26,10 @@
   </ItemGroup>
   <!--#endif -->
 
+  <!--#if (RandomValue) -->
+  <ItemGroup>
+    <PackageReference Include="Steeltoe.Extensions.Configuration.RandomValueBase" Condition="'$(RandomValue)'" Version="$(SteeltoeVersion)"/>
+  </ItemGroup>
+  <!--#endif -->
+
 </Project>

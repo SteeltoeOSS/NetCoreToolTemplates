@@ -8,6 +8,10 @@
     "Framework": {
       "longName": "framework"
     },
+    "RandomValue": {
+      "longName": "random-value",
+      "shortName": ""
+    },
     "SkipRestore": {
       "longName": "no-restore",
       "shortName": ""

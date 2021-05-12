@@ -107,6 +107,12 @@
         "pattern": "^netcoreapp2.1$"
       }
     },
+    "RandomValue": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a random value configuration source.",
+      "defaultValue": "false"
+    },
     "SkipRestore": {
       "type": "parameter",
       "datatype": "bool",

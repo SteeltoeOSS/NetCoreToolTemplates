@@ -32,14 +32,12 @@ namespace Steeltoe.DotNetNew.WebApi.Test
             sandbox.FileExists("Dockerfile").Should().BeFalse();
         }
 
-        [Theory]
-        [InlineData("true")]
-        [InlineData("false")]
-        public async void TestOption(string option)
+        [Fact]
+        public async void TestDockerfile()
         {
             using var sandbox = Sandbox();
-            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --docker={option}");
-            sandbox.FileExists("Dockerfile").Should().Be(option.Equals("true"));
+            await sandbox.ExecuteCommandExactlyAsync($"dotnet new stwebapi --docker");
+            sandbox.FileExists("Dockerfile").Should().Be(true);
         }
 
         [Theory]

@@ -1,4 +1,10 @@
+#if RandomValue
+using System.Collections.Generic;
+#endif
 using Microsoft.AspNetCore.Mvc;
+#if RandomValue
+using Microsoft.Extensions.Configuration;
+#endif
 
 namespace Company.WebApplication1.Controllers
 {
@@ -6,11 +12,31 @@ namespace Company.WebApplication1.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+#if RandomValue
+        private readonly IConfiguration _configuration;
+
+        public ValuesController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+#endif
+#if RandomValue
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> Get()
+        {
+            var val1 = _configuration["random:int"];
+            var val2 = _configuration["random:uuid"];
+            var val3 = _configuration["random:string"];
+
+            return new[] { val1, val2, val3 };
+        }
+#else
         [HttpGet]
         public ActionResult<string> Get()
         {
             return "value";
         }
+#endif
 
         // GET api/values/5
         [HttpGet("{id}")]
