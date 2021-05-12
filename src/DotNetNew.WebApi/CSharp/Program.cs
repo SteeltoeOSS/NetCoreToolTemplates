@@ -3,8 +3,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 #else
 using Microsoft.AspNetCore.Hosting;
-#endif
 using Microsoft.Extensions.Hosting;
+#endif
 
 namespace Company.WebApplication1
 {
