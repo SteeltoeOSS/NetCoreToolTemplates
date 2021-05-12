@@ -8,13 +8,23 @@ namespace Steeltoe.DotNetNew.Test.Utilities.Assertions
     {
         public static AndConstraint<StringAssertions> ContainSnippet(this StringAssertions assertion, string snippet)
         {
-            var regex = Regex.Replace(snippet, @"\s+", @"\s+")
+            assertion.Subject.Should().MatchRegex(RegexForSnippet(snippet));
+            return new AndConstraint<StringAssertions>(assertion);
+        }
+
+        public static AndConstraint<StringAssertions> NotContainSnippet(this StringAssertions assertion, string snippet)
+        {
+            assertion.Subject.Should().NotMatchRegex(RegexForSnippet(snippet));
+            return new AndConstraint<StringAssertions>(assertion);
+        }
+
+        private static string RegexForSnippet(string snippet)
+        {
+            return Regex.Replace(snippet, @"\s+", @"\s+")
                 .Replace("(", @"\(").Replace(")", @"\)")
                 .Replace("[", @"\[").Replace("]", @"\]")
                 .Replace("|", @"\|")
                 .Replace(".", @"\s*\.\s*");
-            assertion.Subject.Should().MatchRegex(regex);
-            return new AndConstraint<StringAssertions>(assertion);
         }
     }
 }

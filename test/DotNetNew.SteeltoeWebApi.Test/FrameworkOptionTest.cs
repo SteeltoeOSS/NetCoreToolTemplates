@@ -194,7 +194,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
                     startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
                     startupSource.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
                     startupSource.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
-                    startupSource.Should().NotContain("using Microsoft.Extensions.Hosting;");
+                    startupSource.Should().NotContainSnippet("using Microsoft.Extensions.Hosting;");
                     startupSource.Should().ContainSnippet("services.AddMvc();");
                     startupSource.Should().ContainSnippet(@"
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
