@@ -27,8 +27,8 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-
   <!--#if (RandomValue) -->
+
   <ItemGroup>
     <PackageReference Include="Steeltoe.Extensions.Configuration.RandomValueBase" Condition="'$(RandomValue)'" Version="$(SteeltoeVersion)"/>
   </ItemGroup>
