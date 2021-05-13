@@ -5,8 +5,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 #endif
-#if (AzureSpringCloud)
+#if (AzureSpringCloudHosting)
 using Microsoft.Azure.SpringCloud.Client;
+#endif
+#if (CloudFoundryHosting)
+using Steeltoe.Common.Hosting;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
 #if (PlaceholderConfiguration)
 using Steeltoe.Extensions.Configuration.Placeholder;
@@ -38,8 +42,12 @@ namespace Company.WebApplication1
 #if (PlaceholderConfiguration)
                 .AddPlaceholderResolver()
 #endif
-#if (AzureSpringCloud)
+#if (AzureSpringCloudHosting)
                 .UseAzureSpringCloudService()
+#endif
+#if (CloudFoundryHosting)
+                .UseCloudHosting()
+                .AddCloudFoundryConfiguration()
 #endif
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 #endif

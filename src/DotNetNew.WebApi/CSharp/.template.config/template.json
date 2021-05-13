@@ -34,10 +34,16 @@
     }
   ],
   "symbols": {
-    "AzureSpringCloud": {
+    "AzureSpringCloudHosting": {
       "type": "parameter",
       "datatype": "bool",
       "description": "Add Microsoft Azure Spring Cloud support.",
+      "defaultValue": "false"
+    },
+    "CloudFoundryHosting": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add Cloud Foundry support.",
       "defaultValue": "false"
     },
     "Docker": {

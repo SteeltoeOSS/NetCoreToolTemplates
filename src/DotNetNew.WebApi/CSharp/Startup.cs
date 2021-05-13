@@ -13,6 +13,9 @@ using Microsoft.Extensions.Hosting;
 #if (FrameworkNet50)
 using Microsoft.OpenApi.Models;
 #endif
+#if (CloudFoundryHosting)
+using Steeltoe.Extensions.Configuration.CloudFoundry;
+#endif
 
 namespace Company.WebApplication1
 {
@@ -28,6 +31,9 @@ namespace Company.WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+#if (CloudFoundryHosting)
+            services.ConfigureCloudFoundryOptions(Configuration);
+#endif
 #if (FrameworkNetCoreApp21)
             services.AddMvc();
 #else

@@ -41,28 +41,32 @@ $ dotnet new stwebapi [options]
 ### Options
 
 ```
-  --docker        Add Docker support.
-                  bool - Optional
-                  Default: false
+  --cloud-foundry       Add Cloud Foundry support.
+                        bool - Optional
+                        Default: false
 
-  -f|--framework  The target framework for the project.
-                      net5.0
-                      netcoreapp3.1
-                      netcoreapp2.1
-                  Default: net5.0
+  --docker              Add Docker support.
+                        bool - Optional
+                        Default: false
 
-  --random-value  Add a random value configuration source.
-                  bool - Optional
-                  Default: false
+  -f|--framework        The target framework for the project.
+                            net5.0
+                            netcoreapp3.1
+                            netcoreapp2.1
+                        Default: net5.0
 
-  --no-restore    If specified, skips the automatic restore of the project on create.
-                  bool - Optional
-                  Default: false
+  --random-value        Add a random value configuration source.
+                        bool - Optional
+                        Default: false
 
-  -s|--steeltoe   The Steeltoe version.
-                      3.0.2
-                      2.5.3
-                  Default: 3.0.2
+  --no-restore          If specified, skips the automatic restore of the project on create.
+                        bool - Optional
+                        Default: false
+
+  -s|--steeltoe         The Steeltoe version.
+                            3.0.2
+                            2.5.3
+                        Default: 3.0.2
 ```
 
 

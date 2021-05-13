@@ -1,9 +1,13 @@
-#if (PlaceholderConfiguration || RandomValueConfiguration)
+#if (CloudFoundryHosting || PlaceholderConfiguration || RandomValueConfiguration)
 using System.Collections.Generic;
 #endif
 using Microsoft.AspNetCore.Mvc;
 #if (PlaceholderConfiguration || RandomValueConfiguration)
 using Microsoft.Extensions.Configuration;
+#endif
+#if (CloudFoundryHosting)
+using Microsoft.Extensions.Options;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
 
 namespace Company.WebApplication1.Controllers
@@ -12,6 +16,14 @@ namespace Company.WebApplication1.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+#if (CloudFoundryHosting)
+        private readonly CloudFoundryApplicationOptions _appOptions;
+
+        public ValuesController(IOptions<CloudFoundryApplicationOptions> appOptions)
+        {
+            _appOptions = appOptions.Value;
+        }
+#endif
 #if (PlaceholderConfiguration || RandomValueConfiguration)
         private readonly IConfiguration _configuration;
 
@@ -21,7 +33,16 @@ namespace Company.WebApplication1.Controllers
         }
 
 #endif
-#if (PlaceholderConfiguration)
+
+#if (CloudFoundryHosting)
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> Get()
+        {
+            string appName = _appOptions.ApplicationName;
+            string appInstance = _appOptions.ApplicationId;
+            return new[] { appInstance, appName };
+        }
+#elif (PlaceholderConfiguration)
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
