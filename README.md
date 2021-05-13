@@ -59,6 +59,10 @@ $ dotnet new stwebapi [options]
                             netcoreapp2.1
                         Default: net5.0
 
+  --placeholder         Add a placeholder configuration source.
+                        bool - Optional
+                        Default: false
+
   --random-value        Add a random value configuration source.
                         bool - Optional
                         Default: false
