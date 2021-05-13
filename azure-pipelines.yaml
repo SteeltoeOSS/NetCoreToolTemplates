@@ -42,4 +42,4 @@ stages:
             displayName: dotnet test
             inputs:
               command: test
-              arguments: --no-build
+              arguments: --no-build --filter Category=Smoke

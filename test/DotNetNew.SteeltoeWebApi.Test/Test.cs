@@ -6,6 +6,7 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.WebApi.Test
 {
+    [Trait("Category", "Unit")]
     public abstract class Test
     {
         private readonly string _option;
@@ -14,6 +15,13 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 
         public Test(ITestOutputHelper logger) : this(null, logger)
         {
+        }
+
+        [Fact]
+        [Trait("Category", "Smoke")]
+        public async void TestTemplate()
+        {
+            (await TemplateSandbox()).Dispose();
         }
 
         public Test(string option, ITestOutputHelper logger)
