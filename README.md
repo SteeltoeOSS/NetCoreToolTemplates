@@ -41,6 +41,10 @@ $ dotnet new stwebapi [options]
 ### Options
 
 ```
+  --azure-spring-cloud  Add Microsoft Azure Spring Cloud support.
+                        bool - Optional
+                        Default: false
+
   --cloud-foundry       Add Cloud Foundry support.
                         bool - Optional
                         Default: false
