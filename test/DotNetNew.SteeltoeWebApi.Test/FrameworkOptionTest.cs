@@ -17,7 +17,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         }
 
         [Fact]
-        public async void TestHelp()
+        public override async void TestHelp()
         {
             using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"

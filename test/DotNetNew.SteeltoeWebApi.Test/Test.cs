@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Threading.Tasks;
 using Steeltoe.DotNetNew.Test.Utilities;
@@ -15,6 +16,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 
         public Test(ITestOutputHelper logger) : this(null, logger)
         {
+        }
+
+        [Fact]
+        public virtual void TestHelp()
+        {
+            throw new NotImplementedException($"TestHelp not implemented for option: {_option}");
         }
 
         [Fact]
