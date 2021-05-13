@@ -19,6 +19,7 @@
       "modifiers": [
         {
           "exclude": [
+            "Directory.Build.props",
             ".idea/**",
             ".vscode/**"
           ]

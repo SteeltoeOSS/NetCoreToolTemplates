@@ -1,1 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">  <PropertyGroup>    <TargetFramework>net5.0</TargetFramework>    <IsPackable>false</IsPackable>    <EnableDynamicLoading>true</EnableDynamicLoading>    <IsTestProject>true</IsTestProject>    <RootNamespace>Steeltoe.DotNetNew.WebApi.Test</RootNamespace>  </PropertyGroup>  <ItemGroup>  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" /></ItemGroup>  <ItemGroup>    <ProjectReference Include="..\DotNetNew.Test.Utilities\Steeltoe.DotNetNew.Test.Utilities.csproj" />  </ItemGroup></Project>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetNew.Test.Utilities\Steeltoe.DotNetNew.Test.Utilities.csproj"/>
+  </ItemGroup>
+
+</Project>

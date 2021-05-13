@@ -1,4 +1,5 @@
 <Project>
+
   <PropertyGroup>
     <AzureSpringCloud>false</AzureSpringCloud>
     <FrameworkNet50>true</FrameworkNet50>
@@ -6,4 +7,5 @@
     <PlaceholderConfiguration>false</PlaceholderConfiguration>
     <RandomValueConfiguration>false</RandomValueConfiguration>
   </PropertyGroup>
+
 </Project>
