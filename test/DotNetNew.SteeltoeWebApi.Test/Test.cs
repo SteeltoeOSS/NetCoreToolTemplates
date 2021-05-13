@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    [Trait("Category", "Unit")]
+    [Trait("Category", "All")]
     public abstract class Test
     {
         private readonly string _option;
