@@ -10,7 +10,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 {
     public class PlaceholderOptionTest : Test
     {
-        public PlaceholderOptionTest(ITestOutputHelper logger) : base(logger)
+        public PlaceholderOptionTest(ITestOutputHelper logger) : base("placeholder", logger)
         {
         }
 
@@ -28,7 +28,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestCsproj()
         {
-            using var sandbox = await TemplateSandbox("--placeholder");
+            using var sandbox = await TemplateSandbox();
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var packageRefs =
             (
@@ -42,7 +42,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestProgramCs()
         {
-            using var sandbox = await TemplateSandbox("--placeholder");
+            using var sandbox = await TemplateSandbox();
             var programSource = await sandbox.GetFileTextAsync("Program.cs");
             programSource.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.Placeholder;");
             programSource.Should().ContainSnippet(".AddPlaceholderResolver()");
@@ -51,7 +51,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestValuesController()
         {
-            using var sandbox = await TemplateSandbox("--placeholder");
+            using var sandbox = await TemplateSandbox();
             var valuesController = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
             valuesController.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
             valuesController.Should().ContainSnippet("private readonly IConfiguration _configuration;");
@@ -70,7 +70,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestAppSettingsJson()
         {
-            using var sandbox = await TemplateSandbox("--placeholder");
+            using var sandbox = await TemplateSandbox();
             var launchSettings = await sandbox.GetJsonDocumentAsync<AppSettings>("appsettings.json");
             launchSettings.ResolvedPlaceholderFromEnvVariables.Should().Be("${PATH?NotFound}");
             launchSettings.ResolvedPlaceholderFromJson.Should()

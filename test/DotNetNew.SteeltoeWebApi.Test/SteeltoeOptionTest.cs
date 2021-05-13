@@ -9,7 +9,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 {
     public class SteeltoeOptionTest : Test
     {
-        public SteeltoeOptionTest(ITestOutputHelper logger) : base(logger)
+        public SteeltoeOptionTest(ITestOutputHelper logger) : base("steeltoe", logger)
         {
         }
 
@@ -28,7 +28,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestUnsupported()
         {
-            using var sandbox = await TemplateSandbox("--steeltoe unsupported1.0");
+            using var sandbox = await TemplateSandbox("unsupported1.0");
             sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --steeltoe");
         }
 
@@ -37,7 +37,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("2.5.3")]
         public async void TestCsproj(string steeltoe)
         {
-            using var sandbox = await TemplateSandbox($"--steeltoe {steeltoe}");
+            using var sandbox = await TemplateSandbox(steeltoe);
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var steeltoeVersions =
             (

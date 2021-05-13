@@ -9,7 +9,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 {
     public class RandomValueOptionTest : Test
     {
-        public RandomValueOptionTest(ITestOutputHelper logger) : base(logger)
+        public RandomValueOptionTest(ITestOutputHelper logger) : base("random-value", logger)
         {
         }
 
@@ -27,7 +27,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestCsproj()
         {
-            using var sandbox = await TemplateSandbox("--random-value");
+            using var sandbox = await TemplateSandbox();
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var packageRefs =
             (
@@ -41,7 +41,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestValuesController()
         {
-            using var sandbox = await TemplateSandbox("--random-value");
+            using var sandbox = await TemplateSandbox();
             var valuesController = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
             valuesController.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
             valuesController.Should().ContainSnippet("private readonly IConfiguration _configuration;");

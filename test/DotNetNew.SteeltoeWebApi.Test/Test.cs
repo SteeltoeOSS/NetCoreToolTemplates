@@ -8,21 +8,39 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 {
     public abstract class Test
     {
-        protected readonly ITestOutputHelper Logger;
+        private readonly string _option;
 
-        public Test(ITestOutputHelper logger)
+        private readonly ITestOutputHelper _logger;
+
+        public Test(ITestOutputHelper logger) : this(null, logger)
         {
-            Logger = logger;
-            new SteeltoeWebApiTemplateInstaller(Logger).Install();
+        }
+
+        public Test(string option, ITestOutputHelper logger)
+        {
+            _option = option;
+            _logger = logger;
+            new SteeltoeWebApiTemplateInstaller(_logger).Install();
         }
 
         protected async Task<Sandbox> TemplateSandbox(string args = "")
         {
             Assert.NotNull(args);
             var command = new StringBuilder("dotnet new stwebapi");
-            if (!(args.Contains("--help") || args.Contains("--no-restore")))
+            if (args.Contains("--help"))
             {
-                command.Append(" --no-restore");
+            }
+            else
+            {
+                if (!args.Contains("--no-restore"))
+                {
+                    command.Append(" --no-restore");
+                }
+
+                if (_option is not null)
+                {
+                    command.Append(" --").Append(_option);
+                }
             }
 
             if (args.Length > 1)
@@ -30,7 +48,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
                 command.Append(' ').Append(args);
             }
 
-            var sandbox = new Sandbox(Logger);
+            var sandbox = new Sandbox(_logger);
             await sandbox.ExecuteCommandAsync(command.ToString());
             return sandbox;
         }

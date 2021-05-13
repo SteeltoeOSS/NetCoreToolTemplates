@@ -7,7 +7,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 {
     public class NoRestoreOptionTest : Test
     {
-        public NoRestoreOptionTest(ITestOutputHelper logger) : base(logger)
+        public NoRestoreOptionTest(ITestOutputHelper logger) : base("no-restore", logger)
         {
         }
 
@@ -27,7 +27,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("false")]
         public async void TestObjDirectory(string trueOrFalse)
         {
-            using var sandbox = await TemplateSandbox($"--no-restore {trueOrFalse}");
+            using var sandbox = await TemplateSandbox(trueOrFalse);
             sandbox.DirectoryExists("obj").Should().Be(trueOrFalse.Equals("false"));
         }
     }

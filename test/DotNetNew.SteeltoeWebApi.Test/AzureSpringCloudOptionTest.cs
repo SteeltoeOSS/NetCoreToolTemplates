@@ -9,7 +9,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 {
     public class AzureSpringCloudOptionTest : Test
     {
-        public AzureSpringCloudOptionTest(ITestOutputHelper logger) : base(logger)
+        public AzureSpringCloudOptionTest(ITestOutputHelper logger) : base("azure-spring-cloud", logger)
         {
         }
 
@@ -27,7 +27,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestCsproj()
         {
-            using var sandbox = await TemplateSandbox("--azure-spring-cloud");
+            using var sandbox = await TemplateSandbox();
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var packageRefs =
             (
@@ -41,7 +41,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestProgramCs()
         {
-            using var sandbox = await TemplateSandbox("--azure-spring-cloud");
+            using var sandbox = await TemplateSandbox();
             var programSource = await sandbox.GetFileTextAsync("Program.cs");
             programSource.Should().ContainSnippet("using Microsoft.Azure.SpringCloud.Client;");
             programSource.Should().ContainSnippet(".UseAzureSpringCloudService()");

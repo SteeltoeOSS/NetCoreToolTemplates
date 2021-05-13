@@ -8,7 +8,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 {
     public class DockerOptionTest : Test
     {
-        public DockerOptionTest(ITestOutputHelper logger) : base(logger)
+        public DockerOptionTest(ITestOutputHelper logger) : base("docker", logger)
         {
         }
 
@@ -28,7 +28,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("false")]
         public async void TestDockerfile(string trueOrFalse)
         {
-            using var sandbox = await TemplateSandbox($"--docker {trueOrFalse}");
+            using var sandbox = await TemplateSandbox(trueOrFalse);
             sandbox.FileExists("Dockerfile").Should().Be(trueOrFalse.Equals("true"));
         }
 
@@ -38,7 +38,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("netcoreapp2.1")]
         public async void TestFramework(string framework)
         {
-            using var sandbox = await TemplateSandbox($"--docker --framework {framework}");
+            using var sandbox = await TemplateSandbox($"--framework {framework}");
             var dockerfile = await sandbox.GetFileTextAsync("Dockerfile");
             var tag = framework switch
             {

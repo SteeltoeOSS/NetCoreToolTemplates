@@ -12,7 +12,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
 {
     public class FrameworkOptionTest : Test
     {
-        public FrameworkOptionTest(ITestOutputHelper logger) : base(logger)
+        public FrameworkOptionTest(ITestOutputHelper logger) : base("framework", logger)
         {
         }
 
@@ -32,7 +32,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [Fact]
         public async void TestUnsupported()
         {
-            using var sandbox = await TemplateSandbox("--framework unsupported1.0");
+            using var sandbox = await TemplateSandbox("unsupported1.0");
             sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --framework");
         }
 
@@ -42,7 +42,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("netcoreapp2.1")]
         public async void TestCsproj(string framework)
         {
-            using var sandbox = await TemplateSandbox($"--framework {framework}");
+            using var sandbox = await TemplateSandbox(framework);
             var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var expectedFrameworks = new List<string> { framework };
             var actualFrameworks =
@@ -83,7 +83,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("netcoreapp2.1")]
         public async void TestProgramCs(string framework)
         {
-            using var sandbox = await TemplateSandbox($"--framework {framework}");
+            using var sandbox = await TemplateSandbox(framework);
             var programSource = await sandbox.GetFileTextAsync("Program.cs");
             switch (framework)
             {
@@ -120,7 +120,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("netcoreapp2.1")]
         public async void TestStartupCs(string framework)
         {
-            using var sandbox = await TemplateSandbox($"--framework {framework}");
+            using var sandbox = await TemplateSandbox(framework);
             var startupSource = await sandbox.GetFileTextAsync("Startup.cs");
             switch (framework)
             {
@@ -194,7 +194,7 @@ namespace Steeltoe.DotNetNew.WebApi.Test
         [InlineData("netcoreapp2.1")]
         public async void TestLaunchSettingsJson(string framework)
         {
-            using var sandbox = await TemplateSandbox($"--framework {framework}");
+            using var sandbox = await TemplateSandbox(framework);
             var launchSettings = await sandbox.GetJsonDocumentAsync<LaunchSettings>("Properties/launchSettings.json");
             switch (framework)
             {
