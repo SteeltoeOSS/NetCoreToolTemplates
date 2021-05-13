@@ -8,7 +8,7 @@ using Steeltoe.DotNetNew.Test.Utilities.Models;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.WebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class FrameworkOptionTest : Test
     {

@@ -4,7 +4,7 @@ using Steeltoe.DotNetNew.Test.Utilities;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.WebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     [Trait("Category", "Unit")]
     public abstract class Test

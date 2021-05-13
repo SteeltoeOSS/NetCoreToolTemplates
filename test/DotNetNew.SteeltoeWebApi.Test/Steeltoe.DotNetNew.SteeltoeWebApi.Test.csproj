@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DotNetNew.Test.Utilities\Steeltoe.DotNetNew.Test.Utilities.csproj"/>
+    <ProjectReference Include="..\DotNetNew.Test.Utilities\Steeltoe.DotNetNew.Test.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

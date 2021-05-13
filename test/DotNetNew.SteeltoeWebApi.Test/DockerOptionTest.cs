@@ -4,7 +4,7 @@ using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.WebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class DockerOptionTest : Test
     {
