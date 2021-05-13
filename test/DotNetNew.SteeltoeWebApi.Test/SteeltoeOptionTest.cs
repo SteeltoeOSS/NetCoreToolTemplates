@@ -18,10 +18,10 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
-  -s|--steeltoe  The Steeltoe version.
-                     3.0.2
-                     2.5.3
-                 Default: 3.0.2
+-s|--steeltoe  The Steeltoe version.
+                 3.0.2
+                 2.5.3
+               Default: 3.0.2
 ");
         }
 

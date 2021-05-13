@@ -16,9 +16,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
-  --no-restore    If specified, skips the automatic restore of the project on create.
-                  bool - Optional
-                  Default: false
+--no-restore  If specified, skips the automatic restore of the project on create.
+              bool - Optional
+              Default: false
 ");
         }
 

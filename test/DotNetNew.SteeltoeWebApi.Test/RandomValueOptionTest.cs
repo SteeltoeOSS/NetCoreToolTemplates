@@ -18,9 +18,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
-  --random-value  Add a random value configuration source.
-                  bool - Optional
-                  Default: false
+--random-value  Add a random value configuration source.
+                bool - Optional
+                Default: false
 ");
         }
 

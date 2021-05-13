@@ -21,11 +21,11 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
-  -f|--framework  The target framework for the project.
-                      net5.0
-                      netcoreapp3.1
-                      netcoreapp2.1
-                  Default: net5.0
+-f|--framework  The target framework for the project.
+                  net5.0
+                  netcoreapp3.1
+                  netcoreapp2.1
+                Default: net5.0
 ");
         }
 

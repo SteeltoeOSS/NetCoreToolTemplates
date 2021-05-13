@@ -17,9 +17,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
-  --docker        Add Docker support.
-                  bool - Optional
-                  Default: false
+--docker  Add Docker support.
+          bool - Optional
+          Default: false
 ");
         }
 
