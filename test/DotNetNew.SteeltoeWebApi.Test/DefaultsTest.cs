@@ -12,6 +12,16 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         }
 
         [Fact]
+        public override async void TestHelp()
+        {
+            using var sandbox = await TemplateSandbox("--help");
+            sandbox.CommandOutput.Should().ContainSnippet(@"
+Steeltoe Web API (C#)
+Author: VMware
+");
+        }
+
+        [Fact]
         public async void TestProject()
         {
             using var sandbox = await TemplateSandbox();
