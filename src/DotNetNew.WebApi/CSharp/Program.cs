@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 #endif
-#if (AzureSpringCloudHosting)
+#if (AzureSpringCloudHosting && !FrameworkNetCoreApp21)
 using Microsoft.Azure.SpringCloud.Client;
 #endif
 #if (CloudFoundryHosting)

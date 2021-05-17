@@ -120,6 +120,25 @@
         "pattern": "^netcoreapp2.1$"
       }
     },
+    "MicrosoftAzureSpringCloudClientVersion": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "$(MicrosoftAzureSpringCloudClientVersion)",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(SteeltoeVersion == '3.0.2')",
+            "value": "2.0.0-preview.1"
+          },
+          {
+            "condition": "(SteeltoeVersion == '2.5.3')",
+            "value": "1.0.0-preview.1"
+          }
+        ]
+      }
+    },
     "PlaceholderConfiguration": {
       "type": "parameter",
       "datatype": "bool",
