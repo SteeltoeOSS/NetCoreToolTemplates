@@ -46,5 +46,13 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             programSource.Should().ContainSnippet("using Microsoft.Azure.SpringCloud.Client;");
             programSource.Should().ContainSnippet(".UseAzureSpringCloudService()");
         }
+
+        [Fact]
+        public async void TestProgramCsNetCoreApp21()
+        {
+            using var sandbox = await TemplateSandbox("--framework netcoreapp2.1");
+            var programSource = await sandbox.GetFileTextAsync("Program.cs");
+            programSource.Should().NotContainSnippet("using Microsoft.Azure.SpringCloud.Client;");
+        }
     }
 }
