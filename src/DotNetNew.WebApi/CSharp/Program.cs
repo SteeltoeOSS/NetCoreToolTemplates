@@ -33,6 +33,10 @@ namespace Company.WebApplication1
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             var builder = WebHost.CreateDefaultBuilder(args)
+#if (CloudFoundryHosting)
+                .UseCloudHosting()
+                .AddCloudFoundryConfiguration()
+#endif
                 .UseStartup<Startup>();
             return builder;
         }
