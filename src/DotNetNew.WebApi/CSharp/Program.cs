@@ -13,7 +13,11 @@ using Steeltoe.Common.Hosting;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
 #if (PlaceholderConfiguration)
+#if (Steeltoe2)
+using Steeltoe.Extensions.Configuration.PlaceholderCore;
+#else
 using Steeltoe.Extensions.Configuration.Placeholder;
+#endif
 #endif
 
 namespace Company.WebApplication1
@@ -33,6 +37,9 @@ namespace Company.WebApplication1
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             var builder = WebHost.CreateDefaultBuilder(args)
+#if (PlaceholderConfiguration)
+                .AddPlaceholderResolver()
+#endif
 #if (CloudFoundryHosting)
                 .UseCloudHosting()
                 .AddCloudFoundryConfiguration()

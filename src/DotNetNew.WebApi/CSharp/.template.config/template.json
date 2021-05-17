@@ -171,6 +171,15 @@
       ],
       "defaultValue": "3.0.2",
       "replaces": "3.0.2"
+    },
+    "Steeltoe2": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "SteeltoeVersion",
+        "pattern": "^2.*"
+      }
     }
   },
   "primaryOutputs": [

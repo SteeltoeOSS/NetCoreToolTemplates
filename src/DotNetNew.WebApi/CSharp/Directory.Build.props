@@ -8,6 +8,7 @@
     <MicrosoftAzureSpringCloudClientVersion>2.0.0-preview.1</MicrosoftAzureSpringCloudClientVersion>
     <PlaceholderConfiguration>false</PlaceholderConfiguration>
     <RandomValueConfiguration>false</RandomValueConfiguration>
+    <Steeltoe2>false</Steeltoe2>
   </PropertyGroup>
 
 </Project>
