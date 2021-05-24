@@ -87,6 +87,12 @@
         ]
       }
     },
+    "EurekaClient": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add client support for Eureka, a REST-based service for locating services.",
+      "defaultValue": "false"
+    },
     "Framework": {
       "description": "The target framework for the project.",
       "type": "parameter",

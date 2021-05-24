@@ -21,6 +21,10 @@
       "longName": "dynamic-logger",
       "shortName": ""
     },
+    "EurekaClient": {
+      "longName": "eureka-client",
+      "shortName": ""
+    },
     "Framework": {
       "longName": "framework"
     },

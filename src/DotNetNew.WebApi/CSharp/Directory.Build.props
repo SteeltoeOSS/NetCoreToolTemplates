@@ -5,6 +5,7 @@
     <CloudConfigClient>false</CloudConfigClient>
     <CloudFoundryHosting>false</CloudFoundryHosting>
     <DynamicLogger>false</DynamicLogger>
+    <EurekaClient>false</EurekaClient>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
     <ManagementEndpoints>false</ManagementEndpoints>

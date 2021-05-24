@@ -27,10 +27,11 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (CloudConfigClient || CloudFoundryHosting || DynamicLogger || ManagementEndpoints || PlaceholderConfiguration || RandomValueConfiguration) -->
+  <!--#if (CloudConfigClient || CloudFoundryHosting || DynamicLogger || EurekaClient || ManagementEndpoints || PlaceholderConfiguration || RandomValueConfiguration) -->
 
   <ItemGroup>
     <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(CloudFoundryHosting)'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Discovery.ClientCore" Condition="'$(EurekaClient)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Condition="'$(CloudFoundryHosting)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServerCore" Condition="'$(CloudConfigClient)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.PlaceholderCore" Condition="'$(PlaceholderConfiguration)' == 'True'" Version="$(SteeltoeVersion)" />

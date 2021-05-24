@@ -13,6 +13,9 @@ using Microsoft.Extensions.Hosting;
 #if (FrameworkNet50)
 using Microsoft.OpenApi.Models;
 #endif
+#if (EurekaClient)
+using Steeltoe.Discovery.Client;
+#endif
 #if (CloudFoundryHosting)
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
@@ -40,6 +43,9 @@ namespace Company.WebApplication1
         {
 #if (CloudFoundryHosting)
             services.ConfigureCloudFoundryOptions(Configuration);
+#endif
+#if (EurekaClient)
+            services.AddDiscoveryClient(Configuration);
 #endif
 #if (ManagementEndpoints)
 #if (Steeltoe2)
@@ -70,6 +76,9 @@ namespace Company.WebApplication1
                 app.UseDeveloperExceptionPage();
             }
 
+#if (EurekaClient)
+            app.UseDiscoveryClient();
+#endif
 #if (ManagementEndpoints)
             app.UseCloudFoundryActuators();
 #endif
@@ -87,11 +96,14 @@ namespace Company.WebApplication1
 #endif
             }
 
-            app.UseHttpsRedirection();
-            app.UseRouting();
+#if (EurekaClient)
+            app.UseDiscoveryClient();
+#endif
 #if (ManagementEndpoints && Steeltoe2)
             app.UseCloudFoundryActuators();
 #endif
+            app.UseHttpsRedirection();
+            app.UseRouting();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
 #endif
