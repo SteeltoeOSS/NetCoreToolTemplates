@@ -27,7 +27,7 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (CloudConfigClient || CloudFoundryHosting || DynamicLogger || PlaceholderConfiguration || RandomValueConfiguration) -->
+  <!--#if (CloudConfigClient || CloudFoundryHosting || DynamicLogger || ManagementEndpoints || PlaceholderConfiguration || RandomValueConfiguration) -->
 
   <ItemGroup>
     <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(CloudFoundryHosting)'" Version="$(SteeltoeVersion)" />
@@ -36,6 +36,8 @@
     <PackageReference Include="Steeltoe.Extensions.Configuration.PlaceholderCore" Condition="'$(PlaceholderConfiguration)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.RandomValueBase" Condition="'$(RandomValueConfiguration)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Condition="'$(CloudFoundryHosting)' == 'True' OR '$(DynamicLogger)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(ManagementEndpoints)' == 'True' AND '$(Steeltoe2)' != 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Condition="'$(ManagementEndpoints)' == 'True' AND '$(Steeltoe2)' == 'True'" Version="$(SteeltoeVersion)" />
   </ItemGroup>
   <!--#endif -->
   <!--#if (AzureSpringCloudHosting && !FrameworkNetCoreApp21) -->

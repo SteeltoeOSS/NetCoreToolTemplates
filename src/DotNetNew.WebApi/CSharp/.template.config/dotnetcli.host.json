@@ -24,6 +24,10 @@
     "Framework": {
       "longName": "framework"
     },
+    "ManagementEndpoints": {
+      "longName": "actuator",
+      "shortName": ""
+    },
     "PlaceholderConfiguration": {
       "longName": "placeholder",
       "shortName": ""

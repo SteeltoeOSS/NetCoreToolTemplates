@@ -7,6 +7,7 @@
     <DynamicLogger>false</DynamicLogger>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
+    <ManagementEndpoints>false</ManagementEndpoints>
     <MicrosoftAzureSpringCloudClientVersion>2.0.0-preview.1</MicrosoftAzureSpringCloudClientVersion>
     <PlaceholderConfiguration>false</PlaceholderConfiguration>
     <RandomValueConfiguration>false</RandomValueConfiguration>

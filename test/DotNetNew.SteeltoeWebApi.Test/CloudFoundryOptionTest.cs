@@ -61,7 +61,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             using var sandbox = await TemplateSandbox();
             var programSource = await sandbox.GetFileTextAsync("Startup.cs");
             programSource.Should().ContainSnippet("Steeltoe.Extensions.Configuration.CloudFoundry;");
-            programSource.Should().ContainSnippet(".ConfigureCloudFoundryOptions(Configuration);");
+            programSource.Should().ContainSnippet("services.ConfigureCloudFoundryOptions(Configuration);");
         }
 
         [Fact]

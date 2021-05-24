@@ -16,6 +16,13 @@ using Microsoft.OpenApi.Models;
 #if (CloudFoundryHosting)
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
+#if (ManagementEndpoints)
+#if (Steeltoe2)
+using Steeltoe.Management.CloudFoundry;
+#else
+using Steeltoe.Management.Endpoint;
+#endif
+#endif
 
 namespace Company.WebApplication1
 {
@@ -33,6 +40,13 @@ namespace Company.WebApplication1
         {
 #if (CloudFoundryHosting)
             services.ConfigureCloudFoundryOptions(Configuration);
+#endif
+#if (ManagementEndpoints)
+#if (Steeltoe2)
+            services.AddCloudFoundryActuators(Configuration);
+#else
+            services.AddAllActuators(Configuration);
+#endif
 #endif
 #if (FrameworkNetCoreApp21)
             services.AddMvc();
@@ -56,6 +70,9 @@ namespace Company.WebApplication1
                 app.UseDeveloperExceptionPage();
             }
 
+#if (ManagementEndpoints)
+            app.UseCloudFoundryActuators();
+#endif
             app.UseMvc();
         }
 #else
@@ -72,6 +89,9 @@ namespace Company.WebApplication1
 
             app.UseHttpsRedirection();
             app.UseRouting();
+#if (ManagementEndpoints && Steeltoe2)
+            app.UseCloudFoundryActuators();
+#endif
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
 #endif
