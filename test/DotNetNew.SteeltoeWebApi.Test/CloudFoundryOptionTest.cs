@@ -20,7 +20,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
---cloud-foundry  Add Cloud Foundry support.
+--cloud-foundry  Add hosting support for Cloud Foundry.
                  bool - Optional
                  Default: false
 ");

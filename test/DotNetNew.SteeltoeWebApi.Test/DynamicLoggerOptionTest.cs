@@ -19,7 +19,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
---dynamic-logger  Use dynamic logger.
+--dynamic-logger  Use a dynamic logger.
                   bool - Optional
                   Default: false
 ");

@@ -18,7 +18,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
---azure-spring-cloud  Add Microsoft Azure Spring Cloud support.
+--azure-spring-cloud  Add hosting support for Microsoft Azure Spring Cloud.
                       bool - Optional
                       Default: false
 ");

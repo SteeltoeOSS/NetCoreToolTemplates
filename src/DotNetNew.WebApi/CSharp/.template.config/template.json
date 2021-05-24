@@ -37,31 +37,31 @@
     "AzureSpringCloudHosting": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add Microsoft Azure Spring Cloud support.",
+      "description": "Add hosting support for Microsoft Azure Spring Cloud.",
       "defaultValue": "false"
     },
     "CloudConfigClient": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add Spring Cloud Config Client support.",
+      "description": "Add client support for Spring Cloud Config.",
       "defaultValue": "false"
     },
     "CloudFoundryHosting": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add Cloud Foundry support.",
+      "description": "Add hosting support for Cloud Foundry.",
       "defaultValue": "false"
     },
     "Docker": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add Docker support.",
+      "description": "Add support for Docker.",
       "defaultValue": "false"
     },
     "DynamicLogger": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Use dynamic logger.",
+      "description": "Use a dynamic logger.",
       "defaultValue": "false"
     },
     "DockerImageTag": {
@@ -182,7 +182,7 @@
       "defaultValue": "false"
     },
     "SteeltoeVersion": {
-      "description": "The Steeltoe version.",
+      "description": "The Steeltoe version for the project.",
       "type": "parameter",
       "datatype": "choice",
       "choices": [

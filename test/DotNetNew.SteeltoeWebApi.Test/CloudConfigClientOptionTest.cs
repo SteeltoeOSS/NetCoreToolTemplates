@@ -19,7 +19,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             using var sandbox = await TemplateSandbox("--help");
             sandbox.CommandOutput.Should().ContainSnippet(@"
---cloud-config-client  Add Spring Cloud Config Client support.
+--cloud-config-client  Add client support for Spring Cloud Config.
                       bool - Optional
                       Default: false
 ");
