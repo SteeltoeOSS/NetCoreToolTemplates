@@ -8,6 +8,9 @@ using Microsoft.Extensions.Hosting;
 #if (AzureSpringCloudHosting && !FrameworkNetCoreApp21)
 using Microsoft.Azure.SpringCloud.Client;
 #endif
+#if (DynamicLogger && FrameworkNetCoreApp21)
+using Microsoft.Extensions.Logging;
+#endif
 #if (CloudFoundryHosting)
 using Steeltoe.Common.Hosting;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
@@ -21,6 +24,9 @@ using Steeltoe.Extensions.Configuration.PlaceholderCore;
 #else
 using Steeltoe.Extensions.Configuration.Placeholder;
 #endif
+#endif
+#if (DynamicLogger)
+using Steeltoe.Extensions.Logging;
 #endif
 
 namespace Company.WebApplication1
@@ -50,6 +56,13 @@ namespace Company.WebApplication1
                 .UseCloudHosting()
                 .AddCloudFoundryConfiguration()
 #endif
+#if (DynamicLogger)
+                .ConfigureLogging((hostingContext, loggingBuilder) =>
+                {
+                    loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    loggingBuilder.AddDynamicConsole();
+                })
+#endif
                 .UseStartup<Startup>();
             return builder;
         }
@@ -68,6 +81,9 @@ namespace Company.WebApplication1
 #endif
 #if (CloudConfigClient)
                 .AddConfigServer()
+#endif
+#if (DynamicLogger)
+                .ConfigureLogging((context, builder) => builder.AddDynamicConsole())
 #endif
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 #endif

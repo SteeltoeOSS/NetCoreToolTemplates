@@ -17,6 +17,10 @@
       "longName": "docker",
       "shortName": ""
     },
+    "DynamicLogger": {
+      "longName": "dynamic-logger",
+      "shortName": ""
+    },
     "Framework": {
       "longName": "framework"
     },

@@ -4,6 +4,7 @@
     <AzureSpringCloudHosting>false</AzureSpringCloudHosting>
     <CloudConfigClient>false</CloudConfigClient>
     <CloudFoundryHosting>false</CloudFoundryHosting>
+    <DynamicLogger>false</DynamicLogger>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
     <MicrosoftAzureSpringCloudClientVersion>2.0.0-preview.1</MicrosoftAzureSpringCloudClientVersion>

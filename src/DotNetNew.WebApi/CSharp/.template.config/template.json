@@ -58,6 +58,12 @@
       "description": "Add Docker support.",
       "defaultValue": "false"
     },
+    "DynamicLogger": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Use dynamic logger.",
+      "defaultValue": "false"
+    },
     "DockerImageTag": {
       "type": "generated",
       "generator": "switch",
