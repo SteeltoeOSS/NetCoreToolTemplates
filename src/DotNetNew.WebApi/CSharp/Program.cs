@@ -12,6 +12,9 @@ using Microsoft.Azure.SpringCloud.Client;
 using Steeltoe.Common.Hosting;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
+#if (CloudConfigClient)
+using Steeltoe.Extensions.Configuration.ConfigServer;
+#endif
 #if (PlaceholderConfiguration)
 #if (Steeltoe2)
 using Steeltoe.Extensions.Configuration.PlaceholderCore;
@@ -37,6 +40,9 @@ namespace Company.WebApplication1
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             var builder = WebHost.CreateDefaultBuilder(args)
+#if (CloudConfigClient)
+                .AddConfigServer()
+#endif
 #if (PlaceholderConfiguration)
                 .AddPlaceholderResolver()
 #endif
@@ -59,6 +65,9 @@ namespace Company.WebApplication1
 #if (CloudFoundryHosting)
                 .UseCloudHosting()
                 .AddCloudFoundryConfiguration()
+#endif
+#if (CloudConfigClient)
+                .AddConfigServer()
 #endif
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 #endif

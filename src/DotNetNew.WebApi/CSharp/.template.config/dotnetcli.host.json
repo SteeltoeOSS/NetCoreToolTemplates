@@ -5,6 +5,10 @@
       "longName": "azure-spring-cloud",
       "shortName": ""
     },
+    "CloudConfigClient": {
+      "longName": "cloud-config-client",
+      "shortName": ""
+    },
     "CloudFoundryHosting": {
       "longName": "cloud-foundry",
       "shortName": ""

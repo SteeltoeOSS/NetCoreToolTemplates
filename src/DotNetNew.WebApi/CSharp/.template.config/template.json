@@ -40,6 +40,12 @@
       "description": "Add Microsoft Azure Spring Cloud support.",
       "defaultValue": "false"
     },
+    "CloudConfigClient": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add Spring Cloud Config Client support.",
+      "defaultValue": "false"
+    },
     "CloudFoundryHosting": {
       "type": "parameter",
       "datatype": "bool",

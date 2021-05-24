@@ -1,8 +1,8 @@
-#if (CloudFoundryHosting || PlaceholderConfiguration || RandomValueConfiguration)
+#if (CloudConfigClient || CloudFoundryHosting || PlaceholderConfiguration || RandomValueConfiguration)
 using System.Collections.Generic;
 #endif
 using Microsoft.AspNetCore.Mvc;
-#if (PlaceholderConfiguration || RandomValueConfiguration)
+#if (CloudConfigClient || PlaceholderConfiguration || RandomValueConfiguration)
 using Microsoft.Extensions.Configuration;
 #endif
 #if (CloudFoundryHosting)
@@ -24,7 +24,7 @@ namespace Company.WebApplication1.Controllers
             _appOptions = appOptions.Value;
         }
 #endif
-#if (PlaceholderConfiguration || RandomValueConfiguration)
+#if (CloudConfigClient || PlaceholderConfiguration || RandomValueConfiguration)
         private readonly IConfiguration _configuration;
 
         public ValuesController(IConfiguration configuration)
@@ -34,7 +34,16 @@ namespace Company.WebApplication1.Controllers
 
 #endif
 
-#if (CloudFoundryHosting)
+#if (CloudConfigClient)
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> Get()
+        {
+            var val1 = _configuration["Value1"];
+            var val2 = _configuration["Value2"];
+
+            return new[] { val1, val2 };
+        }
+#elif (CloudFoundryHosting)
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {

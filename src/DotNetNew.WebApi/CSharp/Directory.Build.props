@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <AzureSpringCloudHosting>false</AzureSpringCloudHosting>
+    <CloudConfigClient>false</CloudConfigClient>
     <CloudFoundryHosting>false</CloudFoundryHosting>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
