@@ -49,6 +49,7 @@ namespace Company.WebApplication1.Controllers
         {
             string appName = _appOptions.ApplicationName;
             string appInstance = _appOptions.ApplicationId;
+
             return new[] { appInstance, appName };
         }
 #elif (PlaceholderConfiguration)
