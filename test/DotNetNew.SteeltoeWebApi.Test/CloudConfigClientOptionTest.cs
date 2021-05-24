@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit;
@@ -20,6 +23,23 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
                       bool - Optional
                       Default: false
 ");
+        }
+
+        [Fact]
+        public async void TestCsproj()
+        {
+            using var sandbox = await TemplateSandbox();
+            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
+            var expectedPackageRefs = new List<string>
+            {
+                "Steeltoe.Extensions.Configuration.ConfigServerCore",
+            };
+            var actualPackageRefs =
+            (
+                from e in xDoc.Elements().Elements("ItemGroup").Elements("PackageReference").Attributes("Include")
+                select e.Value
+            ).ToList();
+            actualPackageRefs.Should().Contain(expectedPackageRefs);
         }
 
         [Fact]
