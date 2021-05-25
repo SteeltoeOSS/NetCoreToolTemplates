@@ -43,11 +43,11 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         public async void TestCsproj(string framework)
         {
             using var sandbox = await TemplateSandbox(framework);
-            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
+            var project = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var expectedFrameworks = new List<string> { framework };
             var actualFrameworks =
             (
-                from e in xDoc.Elements().Elements("PropertyGroup").Elements("TargetFramework")
+                from e in project.Elements().Elements("PropertyGroup").Elements("TargetFramework")
                 select e.Value
             ).ToList();
             actualFrameworks.Should().BeEquivalentTo(expectedFrameworks);
@@ -71,7 +71,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             };
             var actualPackageRefs =
             (
-                from e in xDoc.Elements().Elements("ItemGroup").Elements("PackageReference").Attributes("Include")
+                from e in project.Elements().Elements("ItemGroup").Elements("PackageReference").Attributes("Include")
                 select e
             ).ToList().Select(attr => attr.Value).ToList();
             actualPackageRefs.Should().BeEquivalentTo(expectedPackageRefs);
@@ -84,24 +84,24 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         public async void TestProgramCs(string framework)
         {
             using var sandbox = await TemplateSandbox(framework);
-            var programSource = await sandbox.GetFileTextAsync("Program.cs");
+            var source = await sandbox.GetFileTextAsync("Program.cs");
             switch (framework)
             {
                 case "net5.0":
                 case "netcoreapp3.1":
-                    programSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                    programSource.Should().ContainSnippet("using Microsoft.Extensions.Hosting;");
-                    programSource.Should().ContainSnippet("CreateHostBuilder(args).Build().Run();");
-                    programSource.Should().ContainSnippet(@"
+                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+                    source.Should().ContainSnippet("using Microsoft.Extensions.Hosting;");
+                    source.Should().ContainSnippet("CreateHostBuilder(args).Build().Run();");
+                    source.Should().ContainSnippet(@"
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 ");
                     break;
                 case "netcoreapp2.1":
-                    programSource.Should().ContainSnippet("using Microsoft.AspNetCore;");
-                    programSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                    programSource.Should().ContainSnippet("CreateWebHostBuilder(args).Build().Run();");
-                    programSource.Should().ContainSnippet(@"
+                    source.Should().ContainSnippet("using Microsoft.AspNetCore;");
+                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+                    source.Should().ContainSnippet("CreateWebHostBuilder(args).Build().Run();");
+                    source.Should().ContainSnippet(@"
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             var builder = WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
@@ -121,23 +121,23 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         public async void TestStartupCs(string framework)
         {
             using var sandbox = await TemplateSandbox(framework);
-            var startupSource = await sandbox.GetFileTextAsync("Startup.cs");
+            var source = await sandbox.GetFileTextAsync("Startup.cs");
             switch (framework)
             {
                 case "net5.0":
-                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
-                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
-                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
-                    startupSource.Should().ContainSnippet("using Microsoft.OpenApi.Models;");
-                    startupSource.Should().ContainSnippet("services.AddControllers();");
-                    startupSource.Should().ContainSnippet(@"
+                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
+                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+                    source.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
+                    source.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
+                    source.Should().ContainSnippet("using Microsoft.OpenApi.Models;");
+                    source.Should().ContainSnippet("services.AddControllers();");
+                    source.Should().ContainSnippet(@"
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc(""v1"", new OpenApiInfo { Title = ""@@NAME@@"", Version = ""v1"" });
         });
 ".Replace("@@NAME@@", sandbox.Name));
-                    startupSource.Should().ContainSnippet(@"
+                    source.Should().ContainSnippet(@"
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -153,12 +153,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 ".Replace("@@NAME@@", sandbox.Name));
                     break;
                 case "netcoreapp3.1":
-                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
-                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
-                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
-                    startupSource.Should().ContainSnippet("services.AddControllers();");
-                    startupSource.Should().ContainSnippet(@"
+                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
+                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+                    source.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
+                    source.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
+                    source.Should().ContainSnippet("services.AddControllers();");
+                    source.Should().ContainSnippet(@"
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
@@ -169,13 +169,13 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 ");
                     break;
                 case "netcoreapp2.1":
-                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
-                    startupSource.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
-                    startupSource.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
-                    startupSource.Should().NotContainSnippet("using Microsoft.Extensions.Hosting;");
-                    startupSource.Should().ContainSnippet("services.AddMvc();");
-                    startupSource.Should().ContainSnippet(@"
+                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
+                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
+                    source.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
+                    source.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
+                    source.Should().NotContainSnippet("using Microsoft.Extensions.Hosting;");
+                    source.Should().ContainSnippet("services.AddMvc();");
+                    source.Should().ContainSnippet(@"
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
@@ -195,17 +195,17 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         public async void TestLaunchSettingsJson(string framework)
         {
             using var sandbox = await TemplateSandbox(framework);
-            var launchSettings = await sandbox.GetJsonDocumentAsync<LaunchSettings>("Properties/launchSettings.json");
+            var settings = await sandbox.GetJsonDocumentAsync<LaunchSettings>("Properties/launchSettings.json");
             switch (framework)
             {
                 case "net5.0":
-                    launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("swagger");
-                    launchSettings.Profiles[sandbox.Name].LaunchUrl.Should().Be("swagger");
+                    settings.Profiles["IIS Express"].LaunchUrl.Should().Be("swagger");
+                    settings.Profiles[sandbox.Name].LaunchUrl.Should().Be("swagger");
                     break;
                 case "netcoreapp3.1":
                 case "netcoreapp2.1":
-                    launchSettings.Profiles["IIS Express"].LaunchUrl.Should().Be("api/values");
-                    launchSettings.Profiles[sandbox.Name].LaunchUrl.Should().Be("api/values");
+                    settings.Profiles["IIS Express"].LaunchUrl.Should().Be("api/values");
+                    settings.Profiles[sandbox.Name].LaunchUrl.Should().Be("api/values");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(framework), framework);

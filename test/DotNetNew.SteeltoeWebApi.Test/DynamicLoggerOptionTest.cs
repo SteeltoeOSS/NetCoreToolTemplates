@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit;
@@ -26,29 +23,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         }
 
         [Fact]
-        public async void TestCsproj()
-        {
-            using var sandbox = await TemplateSandbox();
-            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
-            var expectedPackageRefs = new List<string>
-            {
-                "Steeltoe.Extensions.Logging.DynamicLogger",
-            };
-            var actualPackageRefs =
-            (
-                from e in xDoc.Elements().Elements("ItemGroup").Elements("PackageReference").Attributes("Include")
-                select e.Value
-            ).ToList();
-            actualPackageRefs.Should().Contain(expectedPackageRefs);
-        }
-
-        [Fact]
         public async void TestProgramCs()
         {
             using var sandbox = await TemplateSandbox();
-            var programSource = await sandbox.GetFileTextAsync("Program.cs");
-            programSource.Should().ContainSnippet("using Steeltoe.Extensions.Logging;");
-            programSource.Should()
+            var source = await sandbox.GetFileTextAsync("Program.cs");
+            source.Should().ContainSnippet("using Steeltoe.Extensions.Logging;");
+            source.Should()
                 .ContainSnippet(".ConfigureLogging((context, builder) => builder.AddDynamicConsole())");
         }
 
@@ -56,12 +36,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         public async void TestProgramCsNetCoreApp21()
         {
             using var sandbox = await TemplateSandbox("--framework netcoreapp2.1");
-            var programSource = await sandbox.GetFileTextAsync("Program.cs");
-            programSource.Should().ContainSnippet("using Steeltoe.Extensions.Logging;");
-            programSource.Should()
+            var source = await sandbox.GetFileTextAsync("Program.cs");
+            source.Should().ContainSnippet("using Steeltoe.Extensions.Logging;");
+            source.Should()
                 .ContainSnippet(
                     "loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection(\"Logging\"));");
-            programSource.Should().ContainSnippet(@"
+            source.Should().ContainSnippet(@"
 .ConfigureLogging((hostingContext, loggingBuilder) =>
 {
     loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection(""Logging""));

@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Xml.Linq;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit;
@@ -25,27 +23,13 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         }
 
         [Fact]
-        public async void TestCsproj()
-        {
-            using var sandbox = await TemplateSandbox();
-            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
-            var packageRefs =
-            (
-                from e in xDoc.Elements().Elements("ItemGroup").Elements("PackageReference").Attributes("Include")
-                where e.Value.Equals("Steeltoe.Extensions.Configuration.RandomValueBase")
-                select e
-            ).ToList();
-            packageRefs.Count.Should().Be(1);
-        }
-
-        [Fact]
         public async void TestValuesController()
         {
             using var sandbox = await TemplateSandbox();
-            var valuesController = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
-            valuesController.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
-            valuesController.Should().ContainSnippet("private readonly IConfiguration _configuration;");
-            valuesController.Should().ContainSnippet(@"
+            var source = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
+            source.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
+            source.Should().ContainSnippet("private readonly IConfiguration _configuration;");
+            source.Should().ContainSnippet(@"
             [HttpGet]
             public ActionResult<IEnumerable<string>> Get()
             {

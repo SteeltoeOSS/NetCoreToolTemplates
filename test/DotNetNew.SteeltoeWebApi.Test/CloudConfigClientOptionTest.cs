@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit;
@@ -26,45 +23,28 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         }
 
         [Fact]
-        public async void TestCsproj()
-        {
-            using var sandbox = await TemplateSandbox();
-            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
-            var expectedPackageRefs = new List<string>
-            {
-                "Steeltoe.Extensions.Configuration.ConfigServerCore",
-            };
-            var actualPackageRefs =
-            (
-                from e in xDoc.Elements().Elements("ItemGroup").Elements("PackageReference").Attributes("Include")
-                select e.Value
-            ).ToList();
-            actualPackageRefs.Should().Contain(expectedPackageRefs);
-        }
-
-        [Fact]
         public async void TestProgramCs()
         {
             using var sandbox = await TemplateSandbox();
-            var programSource = await sandbox.GetFileTextAsync("Program.cs");
-            programSource.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.ConfigServer;");
-            programSource.Should().ContainSnippet(".AddConfigServer()");
+            var source = await sandbox.GetFileTextAsync("Program.cs");
+            source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.ConfigServer;");
+            source.Should().ContainSnippet(".AddConfigServer()");
         }
 
         [Fact]
         public async void TestProgramCsNetCoreApp21()
         {
             using var sandbox = await TemplateSandbox("--framework netcoreapp2.1");
-            var programSource = await sandbox.GetFileTextAsync("Program.cs");
-            programSource.Should().ContainSnippet(".AddConfigServer()");
+            var source = await sandbox.GetFileTextAsync("Program.cs");
+            source.Should().ContainSnippet(".AddConfigServer()");
         }
 
         [Fact]
         public async void TestValuesController()
         {
             using var sandbox = await TemplateSandbox();
-            var valuesController = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
-            valuesController.Should().ContainSnippet(@"
+            var source = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
+            source.Should().ContainSnippet(@"
             [HttpGet]
             public ActionResult<IEnumerable<string>> Get()
             {

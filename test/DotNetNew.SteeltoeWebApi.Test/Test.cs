@@ -42,10 +42,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             Assert.NotNull(args);
             var command = new StringBuilder("dotnet new stwebapi");
-            if (args.Contains("--help"))
-            {
-            }
-            else
+            if (!args.Contains("--help"))
             {
                 if (!args.Contains("--no-restore"))
                 {

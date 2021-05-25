@@ -22,43 +22,42 @@ Author: VMware
         }
 
         [Fact]
-        public async void TestProject()
+        public async void TestCsproj()
         {
             using var sandbox = await TemplateSandbox();
             sandbox.FileExists($"{sandbox.Name}.csproj").Should().BeTrue();
         }
 
         [Fact]
-        public async void TestProgram()
+        public async void TestProgramCs()
         {
             using var sandbox = await TemplateSandbox();
             sandbox.FileExists("Program.cs").Should().BeTrue();
         }
 
         [Fact]
-        public async void TestStartup()
+        public async void TestStartupCs()
         {
             using var sandbox = await TemplateSandbox();
             sandbox.FileExists("Startup.cs").Should().BeTrue();
         }
 
         [Fact]
-        public async void TestControllers()
+        public async void TestControllerCs()
         {
             using var sandbox = await TemplateSandbox();
-            var fileText = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
-            fileText.Should().ContainSnippet("public ActionResult<string> Get(int id) { return \"value\"; }");
+            sandbox.FileExists("Controllers/ValuesController.cs").Should().BeTrue();
         }
 
         [Fact]
-        public async void TestProperties()
+        public async void TestLaunchSettingsJson()
         {
             using var sandbox = await TemplateSandbox();
             sandbox.FileExists("Properties/launchSettings.json").Should().BeTrue();
         }
 
         [Fact]
-        public async void TestSettings()
+        public async void TestSettingsJson()
         {
             using var sandbox = await TemplateSandbox();
             sandbox.FileExists("appsettings.json").Should().BeTrue();
@@ -66,7 +65,7 @@ Author: VMware
         }
 
         [Fact]
-        public async void TestConfig()
+        public async void TestAppConfig()
         {
             using var sandbox = await TemplateSandbox();
             sandbox.FileExists("app.config").Should().BeTrue();

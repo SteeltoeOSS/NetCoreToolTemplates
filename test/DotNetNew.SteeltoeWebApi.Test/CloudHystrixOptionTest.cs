@@ -26,35 +26,35 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         public async void TestStartupCs()
         {
             using var sandbox = await TemplateSandbox();
-            var programSource = await sandbox.GetFileTextAsync("Startup.cs");
-            programSource.Should()
+            var source = await sandbox.GetFileTextAsync("Startup.cs");
+            source.Should()
                 .ContainSnippet(
                     "services.AddHystrixCommand<HelloHystrixCommand>(\"MyCircuitBreakers\", Configuration);");
-            programSource.Should().ContainSnippet("services.AddHystrixMetricsStream(Configuration);");
-            programSource.Should().ContainSnippet("app.UseHystrixRequestContext();");
-            programSource.Should().ContainSnippet("app.UseHystrixMetricsStream();");
+            source.Should().ContainSnippet("services.AddHystrixMetricsStream(Configuration);");
+            source.Should().ContainSnippet("app.UseHystrixRequestContext();");
+            source.Should().ContainSnippet("app.UseHystrixMetricsStream();");
         }
 
         [Fact]
         public async void TestStartupCsNetCoreapp21()
         {
             using var sandbox = await TemplateSandbox("--framework netcoreapp2.1");
-            var programSource = await sandbox.GetFileTextAsync("Startup.cs");
-            programSource.Should()
+            var source = await sandbox.GetFileTextAsync("Startup.cs");
+            source.Should()
                 .ContainSnippet(
                     "services.AddHystrixCommand<HelloHystrixCommand>(\"MyCircuitBreakers\", Configuration);");
-            programSource.Should().ContainSnippet("services.AddHystrixMetricsStream(Configuration);");
-            programSource.Should().ContainSnippet("app.UseHystrixRequestContext();");
-            programSource.Should().ContainSnippet("app.UseHystrixMetricsStream();");
+            source.Should().ContainSnippet("services.AddHystrixMetricsStream(Configuration);");
+            source.Should().ContainSnippet("app.UseHystrixRequestContext();");
+            source.Should().ContainSnippet("app.UseHystrixMetricsStream();");
         }
 
         [Fact]
         public async void TestHelloHystrixCommandCs()
         {
             using var sandbox = await TemplateSandbox();
-            var programSource = await sandbox.GetFileTextAsync("HelloHystrixCommand.cs");
-            programSource.Should().ContainSnippet("public sealed class HelloHystrixCommand : HystrixCommand<string>");
-            programSource.Should()
+            var source = await sandbox.GetFileTextAsync("HelloHystrixCommand.cs");
+            source.Should().ContainSnippet("public sealed class HelloHystrixCommand : HystrixCommand<string>");
+            source.Should()
                 .ContainSnippet(
                     "public HelloHystrixCommand(string name) : base(HystrixCommandGroupKeyDefault.AsKey(\"MyCircuitBreakers\"))");
         }

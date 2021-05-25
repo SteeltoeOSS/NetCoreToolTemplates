@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit;
@@ -27,49 +24,30 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         }
 
         [Fact]
-        public async void TestCsproj()
-        {
-            using var sandbox = await TemplateSandbox();
-            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
-            var expectedPackageRefs = new List<string>
-            {
-                "Steeltoe.Common.Hosting",
-                "Steeltoe.Extensions.Configuration.CloudFoundryCore",
-                "Steeltoe.Extensions.Logging.DynamicLogger",
-            };
-            var actualPackageRefs =
-            (
-                from e in xDoc.Elements().Elements("ItemGroup").Elements("PackageReference").Attributes("Include")
-                select e.Value
-            ).ToList();
-            actualPackageRefs.Should().Contain(expectedPackageRefs);
-        }
-
-        [Fact]
         public async void TestProgramCs()
         {
             using var sandbox = await TemplateSandbox();
-            var programSource = await sandbox.GetFileTextAsync("Program.cs");
-            programSource.Should().ContainSnippet("using Steeltoe.Common.Hosting;");
-            programSource.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.CloudFoundry;");
-            programSource.Should().ContainSnippet(".UseCloudHosting().AddCloudFoundryConfiguration()");
+            var source = await sandbox.GetFileTextAsync("Program.cs");
+            source.Should().ContainSnippet("using Steeltoe.Common.Hosting;");
+            source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.CloudFoundry;");
+            source.Should().ContainSnippet(".UseCloudHosting().AddCloudFoundryConfiguration()");
         }
 
         [Fact]
         public async void TestStartupCs()
         {
             using var sandbox = await TemplateSandbox();
-            var programSource = await sandbox.GetFileTextAsync("Startup.cs");
-            programSource.Should().ContainSnippet("Steeltoe.Extensions.Configuration.CloudFoundry;");
-            programSource.Should().ContainSnippet("services.ConfigureCloudFoundryOptions(Configuration);");
+            var source = await sandbox.GetFileTextAsync("Startup.cs");
+            source.Should().ContainSnippet("Steeltoe.Extensions.Configuration.CloudFoundry;");
+            source.Should().ContainSnippet("services.ConfigureCloudFoundryOptions(Configuration);");
         }
 
         [Fact]
         public async void TestValuesController()
         {
             using var sandbox = await TemplateSandbox();
-            var valuesController = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
-            valuesController.Should().ContainSnippet(@"
+            var source = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
+            source.Should().ContainSnippet(@"
             [HttpGet]
             public ActionResult<IEnumerable<string>> Get()
             {

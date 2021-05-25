@@ -38,10 +38,10 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         public async void TestCsproj(string steeltoe)
         {
             using var sandbox = await TemplateSandbox(steeltoe);
-            var xDoc = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
+            var project = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
             var steeltoeVersions =
             (
-                from e in xDoc.Elements().Elements("PropertyGroup").Elements("SteeltoeVersion")
+                from e in project.Elements().Elements("PropertyGroup").Elements("SteeltoeVersion")
                 select e
             ).ToArray();
             steeltoeVersions.Length.Should().Be(1);
