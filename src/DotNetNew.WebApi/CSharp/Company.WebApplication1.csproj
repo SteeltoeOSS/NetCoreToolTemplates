@@ -11,7 +11,6 @@
   </PropertyGroup>
   <!--#if (FrameworkNet50) -->
 
-
   <ItemGroup Condition="'$(FrameworkNet50)'">
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.*" />
   </ItemGroup>
@@ -27,9 +26,10 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (CloudConfigClient || CloudFoundryHosting || DynamicLogger || EurekaClient || ManagementEndpoints || PlaceholderConfiguration || RandomValueConfiguration) -->
+  <!--#if (CloudConfigClient || CloudFoundryHosting || CloudHystrix || DynamicLogger || EurekaClient || ManagementEndpoints || PlaceholderConfiguration || RandomValueConfiguration) -->
 
   <ItemGroup>
+    <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(CloudHystrix)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(CloudFoundryHosting)'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Discovery.ClientCore" Condition="'$(EurekaClient)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Condition="'$(CloudFoundryHosting)' == 'True'" Version="$(SteeltoeVersion)" />
@@ -39,6 +39,18 @@
     <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Condition="'$(CloudFoundryHosting)' == 'True' OR '$(DynamicLogger)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(ManagementEndpoints)' == 'True' AND '$(Steeltoe2)' != 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Condition="'$(ManagementEndpoints)' == 'True' AND '$(Steeltoe2)' == 'True'" Version="$(SteeltoeVersion)" />
+  </ItemGroup>
+  <!--#endif -->
+  <!--#if (CloudHystrix) -->
+
+  <ItemGroup Condition="'$(BUILD)' == ''">
+    <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="RabbitMQ.Client" Version="$(RabbitMqVersion)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(BUILD)' == 'LOCAL'">
+    <PackageReference Include="Steeltoe.CircuitBreaker.CircuitBreaker.MetricsEventsCore" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="System.Threading.ThreadPool" Version="4.3.*" />
   </ItemGroup>
   <!--#endif -->
   <!--#if (AzureSpringCloudHosting && !FrameworkNetCoreApp21) -->

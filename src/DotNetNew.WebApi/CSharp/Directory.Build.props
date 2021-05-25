@@ -4,6 +4,7 @@
     <AzureSpringCloudHosting>false</AzureSpringCloudHosting>
     <CloudConfigClient>false</CloudConfigClient>
     <CloudFoundryHosting>false</CloudFoundryHosting>
+    <CloudHystrix>false</CloudHystrix>
     <DynamicLogger>false</DynamicLogger>
     <EurekaClient>false</EurekaClient>
     <FrameworkNet50>true</FrameworkNet50>
@@ -12,6 +13,7 @@
     <MicrosoftAzureSpringCloudClientVersion>2.0.0-preview.1</MicrosoftAzureSpringCloudClientVersion>
     <PlaceholderConfiguration>false</PlaceholderConfiguration>
     <RandomValueConfiguration>false</RandomValueConfiguration>
+    <RabbitMqVersion>5.1.*</RabbitMqVersion>
     <Steeltoe2>false</Steeltoe2>
   </PropertyGroup>
 

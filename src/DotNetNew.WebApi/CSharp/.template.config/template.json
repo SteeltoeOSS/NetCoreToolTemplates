@@ -25,6 +25,12 @@
           ]
         },
         {
+          "condition": "(!CloudHystrix)",
+          "exclude": [
+            "HelloHystrixCommand.cs"
+          ]
+        },
+        {
           "condition": "(!Docker)",
           "exclude": [
             "Dockerfile"
@@ -50,6 +56,12 @@
       "type": "parameter",
       "datatype": "bool",
       "description": "Add hosting support for Cloud Foundry.",
+      "defaultValue": "false"
+    },
+    "CloudHystrix": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add support for circuit breakers using Spring Cloud Netflix Hystrix.",
       "defaultValue": "false"
     },
     "Docker": {
@@ -195,6 +207,14 @@
       ],
       "defaultValue": "3.0.2",
       "replaces": "3.0.2"
+    },
+    "RabbitMqVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "5.1.*"
+      },
+      "replaces": "$(RabbitMqVersion)"
     },
     "Steeltoe2": {
       "type": "generated",

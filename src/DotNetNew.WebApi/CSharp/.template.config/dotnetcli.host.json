@@ -13,6 +13,10 @@
       "longName": "cloud-foundry",
       "shortName": ""
     },
+    "CloudHystrix": {
+      "longName": "cloud-hystrix",
+      "shortName": ""
+    },
     "Docker": {
       "longName": "docker",
       "shortName": ""

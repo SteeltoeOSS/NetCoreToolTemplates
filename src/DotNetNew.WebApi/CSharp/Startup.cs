@@ -13,6 +13,9 @@ using Microsoft.Extensions.Hosting;
 #if (FrameworkNet50)
 using Microsoft.OpenApi.Models;
 #endif
+#if (CloudHystrix)
+using Steeltoe.CircuitBreaker.Hystrix;
+#endif
 #if (EurekaClient)
 using Steeltoe.Discovery.Client;
 #endif
@@ -47,6 +50,10 @@ namespace Company.WebApplication1
 #if (EurekaClient)
             services.AddDiscoveryClient(Configuration);
 #endif
+#if (CloudHystrix)
+            services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);
+            services.AddHystrixMetricsStream(Configuration);
+#endif
 #if (ManagementEndpoints)
 #if (Steeltoe2)
             services.AddCloudFoundryActuators(Configuration);
@@ -79,6 +86,10 @@ namespace Company.WebApplication1
 #if (EurekaClient)
             app.UseDiscoveryClient();
 #endif
+#if (CloudHystrix)
+            app.UseHystrixRequestContext();
+            app.UseHystrixMetricsStream();
+#endif
 #if (ManagementEndpoints)
             app.UseCloudFoundryActuators();
 #endif
@@ -98,6 +109,10 @@ namespace Company.WebApplication1
 
 #if (EurekaClient)
             app.UseDiscoveryClient();
+#endif
+#if (CloudHystrix)
+            app.UseHystrixRequestContext();
+            app.UseHystrixMetricsStream();
 #endif
 #if (ManagementEndpoints && Steeltoe2)
             app.UseCloudFoundryActuators();
