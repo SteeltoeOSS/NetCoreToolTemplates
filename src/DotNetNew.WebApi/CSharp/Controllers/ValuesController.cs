@@ -1,6 +1,3 @@
-#if (CloudConfigClient || CloudFoundryHosting || PlaceholderConfiguration || RandomValueConfiguration)
-using System.Collections.Generic;
-#endif
 using Microsoft.AspNetCore.Mvc;
 #if (CloudConfigClient || PlaceholderConfiguration || RandomValueConfiguration)
 using Microsoft.Extensions.Configuration;
@@ -9,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
+using System.Collections.Generic;
 
 namespace Company.WebApplication1.Controllers
 {
@@ -33,52 +31,35 @@ namespace Company.WebApplication1.Controllers
         }
 
 #endif
-
-#if (CloudConfigClient)
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+#if (CloudConfigClient)
             var val1 = _configuration["Value1"];
             var val2 = _configuration["Value2"];
 
             return new[] { val1, val2 };
-        }
 #elif (CloudFoundryHosting)
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
             string appName = _appOptions.ApplicationName;
             string appInstance = _appOptions.ApplicationId;
 
             return new[] { appInstance, appName };
-        }
 #elif (PlaceholderConfiguration)
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
             var val1 = _configuration["ResolvedPlaceholderFromEnvVariables"];
             var val2 = _configuration["UnresolvedPlaceholder"];
             var val3 = _configuration["ResolvedPlaceholderFromJson"];
 
             return new[] { val1, val2, val3 };
-        }
 #elif (RandomValueConfiguration)
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
             var val1 = _configuration["random:int"];
             var val2 = _configuration["random:uuid"];
             var val3 = _configuration["random:string"];
 
             return new[] { val1, val2, val3 };
-        }
 #else
-        [HttpGet]
-        public ActionResult<string> Get()
-        {
-            return "value";
-        }
+            return new[] { "value" };
 #endif
+        }
 
         // GET api/values/5
         [HttpGet("{id}")]
