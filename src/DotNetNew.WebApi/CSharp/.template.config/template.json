@@ -257,7 +257,7 @@
     },
     "SteeltoeConnector": {
       "type": "computed",
-      "value": "(RedisConnector || RabbitMqConnector)"
+      "value": "RedisConnector || RabbitMqConnector"
     },
     "SteeltoeVersion": {
       "description": "The Steeltoe version for the project.",
@@ -283,7 +283,7 @@
   "postActions": [
     {
       "description": "Restore NuGet packages required by this project.",
-      "condition": "(!SkipRestore)",
+      "condition": "!SkipRestore",
       "manualInstructions": [
         {
           "text": "Run 'dotnet restore'"
