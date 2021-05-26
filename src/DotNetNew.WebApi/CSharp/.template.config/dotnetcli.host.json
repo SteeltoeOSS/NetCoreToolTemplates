@@ -5,8 +5,8 @@
       "longName": "azure-spring-cloud",
       "shortName": ""
     },
-    "CloudConfigClient": {
-      "longName": "cloud-config-client",
+    "CloudConfig": {
+      "longName": "cloud-config",
       "shortName": ""
     },
     "CloudFoundryHosting": {
@@ -25,8 +25,8 @@
       "longName": "dynamic-logger",
       "shortName": ""
     },
-    "EurekaClient": {
-      "longName": "eureka-client",
+    "Eureka": {
+      "longName": "eureka",
       "shortName": ""
     },
     "Framework": {
@@ -46,6 +46,10 @@
     },
     "RandomValueConfiguration": {
       "longName": "random-value",
+      "shortName": ""
+    },
+    "RedisConnector": {
+      "longName": "redis",
       "shortName": ""
     },
     "SkipRestore": {

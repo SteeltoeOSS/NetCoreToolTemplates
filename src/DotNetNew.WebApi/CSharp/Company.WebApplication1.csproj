@@ -26,18 +26,19 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (CloudConfigClient || CloudFoundryHosting || CloudHystrix || DynamicLogger || EurekaClient || ManagementEndpoints || PlaceholderConfiguration || RabbitMqConnector || RandomValueConfiguration) -->
+  <!--#if (CloudConfig || CloudFoundryHosting || CloudHystrix || DynamicLogger || Eureka || ManagementEndpoints || PlaceholderConfiguration || RabbitMqConnector || RandomValueConfiguration || RedisConnector) -->
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(RedisConnector)'" Version="$(RedisVersion)" />
     <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqConnector)' == 'True' OR '$(CloudHystrix)' == 'True'"  Version="$(RabbitMqVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(CloudHystrix)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(CloudHystrix)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Condition="'$(RabbitMqConnector)' == 'True' AND '$(Steeltoe2)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Condition="('$(RabbitMqConnector)' == 'True' OR '$(RedisConnector)' == 'True') AND '$(Steeltoe2)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(CloudFoundryHosting)'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Connector.ConnectorCore" Condition="'$(RabbitMqConnector)' == 'True' AND '$(Steeltoe2)' != 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Discovery.ClientCore" Condition="'$(EurekaClient)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.ConnectorCore" Condition="('$(RabbitMqConnector)' == 'True' OR '$(RedisConnector)' == 'True') AND '$(Steeltoe2)' != 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Discovery.ClientCore" Condition="'$(Eureka)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Condition="'$(CloudFoundryHosting)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServerCore" Condition="'$(CloudConfigClient)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServerCore" Condition="'$(CloudConfig)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.PlaceholderCore" Condition="'$(PlaceholderConfiguration)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.RandomValueBase" Condition="'$(RandomValueConfiguration)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Condition="'$(DynamicLogger)' == 'True'" Version="$(SteeltoeVersion)" />

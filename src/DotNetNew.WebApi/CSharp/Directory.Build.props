@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <AzureSpringCloudHosting>false</AzureSpringCloudHosting>
-    <CloudConfigClient>false</CloudConfigClient>
+    <CloudConfig>false</CloudConfig>
     <CloudFoundryHosting>false</CloudFoundryHosting>
     <CloudHystrix>false</CloudHystrix>
     <DynamicLogger>false</DynamicLogger>
-    <EurekaClient>false</EurekaClient>
+    <Eureka>false</Eureka>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
     <ManagementEndpoints>false</ManagementEndpoints>
@@ -15,6 +15,8 @@
     <RandomValueConfiguration>false</RandomValueConfiguration>
     <RabbitMqConnector>false</RabbitMqConnector>
     <RabbitMqVersion>5.1.*</RabbitMqVersion>
+    <RedisConnector>false</RedisConnector>
+    <RedisVersion>3.1.*</RedisVersion>
     <Steeltoe2>false</Steeltoe2>
   </PropertyGroup>
 

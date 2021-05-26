@@ -5,9 +5,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class CloudConfigClientOptionTest : OptionTest
+    public class CloudConfigOptionTest : OptionTest
     {
-        public CloudConfigClientOptionTest(ITestOutputHelper logger) : base("cloud-config-client", logger)
+        public CloudConfigOptionTest(ITestOutputHelper logger) : base("cloud-config", logger)
         {
         }
 
@@ -15,9 +15,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             base.AssertHelp(help);
             help.Should().ContainSnippet(@"
---cloud-config-client  Add client support for Spring Cloud Config.
-                      bool - Optional
-                      Default: false
+--cloud-config  Add client support for Spring Cloud Config.
+               bool - Optional
+               Default: false
 ");
         }
 

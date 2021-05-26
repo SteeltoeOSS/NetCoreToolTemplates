@@ -5,9 +5,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class EurekaClientOptionTest : OptionTest
+    public class EurekaOptionTest : OptionTest
     {
-        public EurekaClientOptionTest(ITestOutputHelper logger) : base("eureka-client", logger)
+        public EurekaOptionTest(ITestOutputHelper logger) : base("eureka", logger)
         {
         }
 
@@ -15,9 +15,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             base.AssertHelp(help);
             help.Should().ContainSnippet(@"
---eureka-client  Add client support for Eureka, a REST-based service for locating services.
-                 bool - Optional
-                 Default: false
+--eureka  Add client support for Eureka, a REST-based service for locating services.
+          bool - Optional
+          Default: false
 ");
         }
 

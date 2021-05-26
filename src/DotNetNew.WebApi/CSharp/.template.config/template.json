@@ -46,7 +46,7 @@
       "description": "Add hosting support for Microsoft Azure Spring Cloud.",
       "defaultValue": "false"
     },
-    "CloudConfigClient": {
+    "CloudConfig": {
       "type": "parameter",
       "datatype": "bool",
       "description": "Add client support for Spring Cloud Config.",
@@ -99,7 +99,7 @@
         ]
       }
     },
-    "EurekaClient": {
+    "Eureka": {
       "type": "parameter",
       "datatype": "bool",
       "description": "Add client support for Eureka, a REST-based service for locating services.",
@@ -200,6 +200,20 @@
       "datatype": "bool",
       "description": "Add a random value configuration source.",
       "defaultValue": "false"
+    },
+    "RedisConnector": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add client support for Redis store.",
+      "defaultValue": "false"
+    },
+    "RedisVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "3.1.*"
+      },
+      "replaces": "$(RedisVersion)"
     },
     "SkipRestore": {
       "type": "parameter",

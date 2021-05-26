@@ -1,10 +1,17 @@
+#if (!RabbitMqConnector)
+using System.Collections.Generic;
+#endif
 #if (RabbitMqConnector)
 using System.Text;
 using System.Threading;
-#else
-using System.Collections.Generic;
+#endif
+#if (RedisConnector)
+using System.Threading.Tasks;
 #endif
 using Microsoft.AspNetCore.Mvc;
+#if (RedisConnector)
+using Microsoft.Extensions.Caching.Distributed;
+#endif
 #if (CloudConfigClient || PlaceholderConfiguration || RandomValueConfiguration)
 using Microsoft.Extensions.Configuration;
 #endif
@@ -56,6 +63,14 @@ namespace Company.WebApplication1.Controllers
             _factory = factory;
         }
 #endif
+#if (RedisConnector)
+        private readonly IDistributedCache _cache;
+
+        public ValuesController(IDistributedCache cache)
+        {
+            _cache = cache;
+        }
+#endif
 
         [HttpGet]
 #if (RabbitMqConnector)
@@ -95,6 +110,15 @@ namespace Company.WebApplication1.Controllers
             }
 
             return "Wrote 5 message to the info log. Have a look!";
+#elif (RedisConnector)
+        public async Task<IEnumerable<string>> Get()
+        {
+            await _cache.SetStringAsync("MyValue1", "123");
+            await _cache.SetStringAsync("MyValue2", "456");
+            string myval1 = await _cache.GetStringAsync("MyValue1");
+            string myval2 = await _cache.GetStringAsync("MyValue2");
+
+            return new[] { myval1, myval2};
 #else
         public ActionResult<IEnumerable<string>> Get()
         {

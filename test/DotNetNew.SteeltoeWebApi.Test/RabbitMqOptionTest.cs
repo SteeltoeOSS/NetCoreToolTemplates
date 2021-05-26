@@ -60,6 +60,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
         {
             base.AssertValuesControllerCs(steeltoe, framework, source);
+            source.Should().ContainSnippet("using RabbitMQ.Client;");
+            source.Should().ContainSnippet("using RabbitMQ.Client.Events;");
             source.Should().ContainSnippet(@"
 public ValuesController(ILogger<ValuesController> logger, [FromServices] ConnectionFactory factory)
 {

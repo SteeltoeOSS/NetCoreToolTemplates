@@ -23,6 +23,13 @@ using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 using Steeltoe.Connector.RabbitMQ;
 #endif
 #endif
+#if RedisConnector
+#if (Steeltoe2)
+using Steeltoe.CloudFoundry.Connector.Redis;
+#else
+using Steeltoe.Connector.Redis;
+#endif
+#endif
 #if (EurekaClient)
 using Steeltoe.Discovery.Client;
 #endif
@@ -59,6 +66,9 @@ namespace Company.WebApplication1
 #endif
 #if (RabbitMqConnector)
             services.AddRabbitMQConnection(Configuration);
+#endif
+#if (RedisConnector)
+            services.AddDistributedRedisCache(Configuration);
 #endif
 #if (CloudHystrix)
             services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);
