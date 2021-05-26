@@ -40,6 +40,10 @@
       "longName": "placeholder",
       "shortName": ""
     },
+    "RabbitMqConnector": {
+      "longName": "rabbitmq",
+      "shortName": ""
+    },
     "RandomValueConfiguration": {
       "longName": "random-value",
       "shortName": ""

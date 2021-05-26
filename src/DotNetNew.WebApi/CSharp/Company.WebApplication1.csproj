@@ -26,11 +26,14 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (CloudConfigClient || CloudFoundryHosting || CloudHystrix || DynamicLogger || EurekaClient || ManagementEndpoints || PlaceholderConfiguration || RandomValueConfiguration) -->
+  <!--#if (CloudConfigClient || CloudFoundryHosting || CloudHystrix || DynamicLogger || EurekaClient || ManagementEndpoints || PlaceholderConfiguration || RabbitMqConnector || RandomValueConfiguration) -->
 
   <ItemGroup>
+    <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqConnector)' == 'True'"  Version="$(RabbitMqVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(CloudHystrix)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Condition="'$(RabbitMqConnector)' == 'True' AND '$(Steeltoe2)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(CloudFoundryHosting)'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.ConnectorCore" Condition="'$(RabbitMqConnector)' == 'True' AND '$(Steeltoe2)' != 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Discovery.ClientCore" Condition="'$(EurekaClient)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Condition="'$(CloudFoundryHosting)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServerCore" Condition="'$(CloudConfigClient)' == 'True'" Version="$(SteeltoeVersion)" />

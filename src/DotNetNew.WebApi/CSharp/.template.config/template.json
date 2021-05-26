@@ -181,6 +181,20 @@
       "description": "Add a placeholder configuration source.",
       "defaultValue": "false"
     },
+    "RabbitMqConnector": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add support for RabbitMQ over AMQP.",
+      "defaultValue": "false"
+    },
+    "RabbitMqVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "5.1.*"
+      },
+      "replaces": "$(RabbitMqVersion)"
+    },
     "RandomValueConfiguration": {
       "type": "parameter",
       "datatype": "bool",
@@ -207,14 +221,6 @@
       ],
       "defaultValue": "3.0.2",
       "replaces": "3.0.2"
-    },
-    "RabbitMqVersion": {
-      "type": "generated",
-      "generator": "constant",
-      "parameters": {
-        "value": "5.1.*"
-      },
-      "replaces": "$(RabbitMqVersion)"
     },
     "Steeltoe2": {
       "type": "generated",

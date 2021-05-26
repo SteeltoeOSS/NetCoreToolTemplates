@@ -20,11 +20,14 @@ namespace Steeltoe.DotNetNew.Test.Utilities.Assertions
 
         private static string RegexForSnippet(string snippet)
         {
-            return Regex.Replace(snippet, @"\s+", @"\s+")
+            var regex = snippet
                 .Replace("(", @"\(").Replace(")", @"\)")
                 .Replace("[", @"\[").Replace("]", @"\]")
                 .Replace("|", @"\|")
+                .Replace("+", @"\+")
+                .Replace("$", @"\$")
                 .Replace(".", @"\s*\.\s*");
+            return Regex.Replace(regex, @"\s+", @"\s+");
         }
     }
 }

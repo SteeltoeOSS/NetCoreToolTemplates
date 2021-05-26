@@ -1,12 +1,26 @@
+#if (RabbitMqConnector)
+using System.Text;
+using System.Threading;
+#else
+using System.Collections.Generic;
+#endif
 using Microsoft.AspNetCore.Mvc;
 #if (CloudConfigClient || PlaceholderConfiguration || RandomValueConfiguration)
 using Microsoft.Extensions.Configuration;
 #endif
+#if (RabbitMqConnector)
+using Microsoft.Extensions.Logging;
+#endif
 #if (CloudFoundryHosting)
 using Microsoft.Extensions.Options;
+#endif
+#if (RabbitMqConnector)
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+#endif
+#if (CloudFoundryHosting)
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
-using System.Collections.Generic;
 
 namespace Company.WebApplication1.Controllers
 {
@@ -31,7 +45,57 @@ namespace Company.WebApplication1.Controllers
         }
 
 #endif
+#if (RabbitMqConnector)
+        private readonly ILogger _logger;
+        private readonly ConnectionFactory _factory;
+        private const string QueueName = "my-queue";
+
+        public ValuesController(ILogger<ValuesController> logger, [FromServices] ConnectionFactory factory)
+        {
+            _logger = logger;
+            _factory = factory;
+        }
+#endif
+
         [HttpGet]
+#if (RabbitMqConnector)
+        public ActionResult<string> Get()
+        {
+            using var connection = _factory.CreateConnection();
+            using var channel = connection.CreateModel();
+            // the queue
+            channel.QueueDeclare(
+                queue: QueueName,
+                durable: false,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+            // consumer
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (model, ea) =>
+            {
+                string msg = Encoding.UTF8.GetString(ea.Body);
+                _logger.LogInformation("Received message: {Message}", msg);
+            };
+            channel.BasicConsume(
+                queue: QueueName,
+                autoAck: true,
+                consumer: consumer);
+            // publisher
+            int i = 0;
+            while (i < 5) // write a message every second, for 5 seconds
+            {
+                var body = Encoding.UTF8.GetBytes($"Message {++i}");
+                channel.BasicPublish(
+                    exchange: "",
+                    routingKey: QueueName,
+                    basicProperties: null,
+                    body: body);
+                Thread.Sleep(1000);
+            }
+
+            return "Wrote 5 message to the info log. Have a look!";
+#else
         public ActionResult<IEnumerable<string>> Get()
         {
 #if (CloudConfigClient)
@@ -58,6 +122,7 @@ namespace Company.WebApplication1.Controllers
             return new[] { val1, val2, val3 };
 #else
             return new[] { "value" };
+#endif
 #endif
         }
 

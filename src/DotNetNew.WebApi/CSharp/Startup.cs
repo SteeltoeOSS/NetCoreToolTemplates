@@ -16,6 +16,13 @@ using Microsoft.OpenApi.Models;
 #if (CloudHystrix)
 using Steeltoe.CircuitBreaker.Hystrix;
 #endif
+#if (RabbitMqConnector)
+#if (Steeltoe2)
+using Steeltoe.CloudFoundry.Connector.RabbitMQ;
+#else
+using Steeltoe.Connector.RabbitMQ;
+#endif
+#endif
 #if (EurekaClient)
 using Steeltoe.Discovery.Client;
 #endif
@@ -49,6 +56,9 @@ namespace Company.WebApplication1
 #endif
 #if (EurekaClient)
             services.AddDiscoveryClient(Configuration);
+#endif
+#if (RabbitMqConnector)
+            services.AddRabbitMQConnection(Configuration);
 #endif
 #if (CloudHystrix)
             services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);
