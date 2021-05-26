@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
@@ -26,18 +25,19 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             Dictionary<string, string> properties, string[] packageRefs)
         {
             base.AssertCsproj(steeltoe, framework, properties, packageRefs);
-            var expectedPackageRefs = steeltoe switch
+            var expectedPackageRefs = new List<string>
             {
-                Steeltoe.Steeltoe3 => new List<string>
-                {
-                    "Steeltoe.Connector.ConnectorCore",
-                },
-                Steeltoe.Steeltoe2 => new List<string>
-                {
-                    "Steeltoe.CloudFoundry.ConnectorCore",
-                },
-                _ => throw new ArgumentOutOfRangeException(nameof(steeltoe), steeltoe.ToString())
+                "RabbitMQ.Client",
             };
+            switch (steeltoe)
+            {
+                case Steeltoe.Steeltoe3:
+                    expectedPackageRefs.Add("Steeltoe.Connector.ConnectorCore");
+                    break;
+                default:
+                    expectedPackageRefs.Add("Steeltoe.CloudFoundry.ConnectorCore");
+                    break;
+            }
             packageRefs.Should().Contain(expectedPackageRefs);
         }
 

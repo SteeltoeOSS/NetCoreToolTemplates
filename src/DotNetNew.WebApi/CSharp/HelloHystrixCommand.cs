@@ -1,3 +1,4 @@
+#if (CloudHystrix)
 using System.Threading.Tasks;
 using Steeltoe.CircuitBreaker.Hystrix;
 
@@ -24,3 +25,4 @@ namespace Company.WebApplication1
         }
     }
 }
+#endif

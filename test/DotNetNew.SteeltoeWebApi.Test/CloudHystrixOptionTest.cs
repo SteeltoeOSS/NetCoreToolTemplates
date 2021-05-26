@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
@@ -19,6 +20,14 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
                  bool - Optional
                  Default: false
 ");
+        }
+
+        protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
+            Dictionary<string, string> properties, string[] packageRefs)
+        {
+            base.AssertCsproj(steeltoe, framework, properties, packageRefs);
+            packageRefs.Should().Contain("Steeltoe.CircuitBreaker.HystrixCore");
+            packageRefs.Should().Contain("Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore");
         }
 
         protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)

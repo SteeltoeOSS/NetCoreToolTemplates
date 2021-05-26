@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit.Abstractions;
@@ -20,10 +21,16 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 ");
         }
 
+        protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
+            Dictionary<string, string> properties, string[] packageRefs)
+        {
+            base.AssertCsproj(steeltoe, framework, properties, packageRefs);
+            packageRefs.Should().Contain("Steeltoe.Extensions.Configuration.ConfigServerCore");
+        }
+
         protected override void AssertProgramCs(Steeltoe steeltoe, Framework framework, string source)
         {
             base.AssertProgramCs(steeltoe, framework, source);
-            source.Should().ContainSnippet(".AddConfigServer()");
             source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.ConfigServer;");
             source.Should().ContainSnippet(".AddConfigServer()");
         }

@@ -29,8 +29,9 @@
   <!--#if (CloudConfigClient || CloudFoundryHosting || CloudHystrix || DynamicLogger || EurekaClient || ManagementEndpoints || PlaceholderConfiguration || RabbitMqConnector || RandomValueConfiguration) -->
 
   <ItemGroup>
-    <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqConnector)' == 'True'"  Version="$(RabbitMqVersion)" />
+    <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqConnector)' == 'True' OR '$(CloudHystrix)' == 'True'"  Version="$(RabbitMqVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(CloudHystrix)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(CloudHystrix)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Condition="'$(RabbitMqConnector)' == 'True' AND '$(Steeltoe2)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(CloudFoundryHosting)'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Connector.ConnectorCore" Condition="'$(RabbitMqConnector)' == 'True' AND '$(Steeltoe2)' != 'True'" Version="$(SteeltoeVersion)" />
@@ -39,21 +40,9 @@
     <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServerCore" Condition="'$(CloudConfigClient)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.PlaceholderCore" Condition="'$(PlaceholderConfiguration)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.RandomValueBase" Condition="'$(RandomValueConfiguration)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Condition="'$(CloudFoundryHosting)' == 'True' OR '$(DynamicLogger)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Condition="'$(DynamicLogger)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(ManagementEndpoints)' == 'True' AND '$(Steeltoe2)' != 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Condition="'$(ManagementEndpoints)' == 'True' AND '$(Steeltoe2)' == 'True'" Version="$(SteeltoeVersion)" />
-  </ItemGroup>
-  <!--#endif -->
-  <!--#if (CloudHystrix) -->
-
-  <ItemGroup Condition="'$(BUILD)' == ''">
-    <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="RabbitMQ.Client" Version="$(RabbitMqVersion)" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(BUILD)' == 'LOCAL'">
-    <PackageReference Include="Steeltoe.CircuitBreaker.CircuitBreaker.MetricsEventsCore" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="System.Threading.ThreadPool" Version="4.3.*" />
   </ItemGroup>
   <!--#endif -->
   <!--#if (AzureSpringCloudHosting && !FrameworkNetCoreApp21) -->
