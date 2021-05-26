@@ -16,19 +16,17 @@ using Microsoft.OpenApi.Models;
 #if (CloudHystrix)
 using Steeltoe.CircuitBreaker.Hystrix;
 #endif
-#if (RabbitMqConnector)
-#if (Steeltoe2)
+#if (RabbitMqConnector && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
-#else
+#endif
+#if (RabbitMqConnector && !Steeltoe2)
 using Steeltoe.Connector.RabbitMQ;
 #endif
-#endif
-#if RedisConnector
-#if (Steeltoe2)
+#if (RedisConnector && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.Redis;
-#else
-using Steeltoe.Connector.Redis;
 #endif
+#if (RedisConnector && !Steeltoe2)
+using Steeltoe.Connector.Redis;
 #endif
 #if (EurekaClient)
 using Steeltoe.Discovery.Client;
@@ -36,12 +34,11 @@ using Steeltoe.Discovery.Client;
 #if (CloudFoundryHosting)
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
-#if (ManagementEndpoints)
-#if (Steeltoe2)
+#if (Steeltoe2ManagementEndpoints)
 using Steeltoe.Management.CloudFoundry;
-#else
-using Steeltoe.Management.Endpoint;
 #endif
+#if (Steeltoe3ManagementEndpoints)
+using Steeltoe.Management.Endpoint;
 #endif
 
 namespace Company.WebApplication1
@@ -74,12 +71,11 @@ namespace Company.WebApplication1
             services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);
             services.AddHystrixMetricsStream(Configuration);
 #endif
-#if (ManagementEndpoints)
-#if (Steeltoe2)
+#if (Steeltoe2ManagementEndpoints)
             services.AddCloudFoundryActuators(Configuration);
-#else
-            services.AddAllActuators(Configuration);
 #endif
+#if (Steeltoe3ManagementEndpoints)
+            services.AddAllActuators(Configuration);
 #endif
 #if (FrameworkNetCoreApp21)
             services.AddMvc();
@@ -134,7 +130,7 @@ namespace Company.WebApplication1
             app.UseHystrixRequestContext();
             app.UseHystrixMetricsStream();
 #endif
-#if (ManagementEndpoints && Steeltoe2)
+#if (Steeltoe2ManagementEndpoints)
             app.UseCloudFoundryActuators();
 #endif
             app.UseHttpsRedirection();

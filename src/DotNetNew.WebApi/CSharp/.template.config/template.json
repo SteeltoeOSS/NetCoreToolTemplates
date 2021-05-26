@@ -221,6 +221,44 @@
       "description": "If specified, skips the automatic restore of the project on create.",
       "defaultValue": "false"
     },
+    "Steeltoe2": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "SteeltoeVersion",
+        "pattern": "^2.*"
+      }
+    },
+    "Steeltoe2Connector": {
+      "type": "computed",
+      "value": "Steeltoe2 && SteeltoeConnector"
+    },
+    "Steeltoe2ManagementEndpoints": {
+      "type": "computed",
+      "value": "Steeltoe2 && ManagementEndpoints"
+    },
+    "Steeltoe3": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "SteeltoeVersion",
+        "pattern": "^3.*"
+      }
+    },
+    "Steeltoe3Connector": {
+      "type": "computed",
+      "value": "Steeltoe3 && SteeltoeConnector"
+    },
+    "Steeltoe3ManagementEndpoints": {
+      "type": "computed",
+      "value": "Steeltoe3 && ManagementEndpoints"
+    },
+    "SteeltoeConnector": {
+      "type": "computed",
+      "value": "(RedisConnector || RabbitMqConnector)"
+    },
     "SteeltoeVersion": {
       "description": "The Steeltoe version for the project.",
       "type": "parameter",
@@ -235,15 +273,6 @@
       ],
       "defaultValue": "3.0.2",
       "replaces": "3.0.2"
-    },
-    "Steeltoe2": {
-      "type": "generated",
-      "generator": "regexMatch",
-      "datatype": "bool",
-      "parameters": {
-        "source": "SteeltoeVersion",
-        "pattern": "^2.*"
-      }
     }
   },
   "primaryOutputs": [
