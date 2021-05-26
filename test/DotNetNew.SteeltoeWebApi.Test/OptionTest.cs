@@ -19,10 +19,6 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 
         protected Sandbox Sandbox;
 
-        protected OptionTest(ITestOutputHelper logger) : this(null, logger)
-        {
-        }
-
         protected OptionTest(string option, ITestOutputHelper logger)
         {
             _option = option;
