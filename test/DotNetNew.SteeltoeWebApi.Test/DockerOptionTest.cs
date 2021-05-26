@@ -1,51 +1,38 @@
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
-using Xunit;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class DockerOptionTest : Test
+    public class DockerOptionTest : OptionTest
     {
         public DockerOptionTest(ITestOutputHelper logger) : base("docker", logger)
         {
         }
 
-        [Fact]
-        public override async void TestHelp()
+        protected override void AssertHelp(string help)
         {
-            using var sandbox = await TemplateSandbox("--help");
-            sandbox.CommandOutput.Should().ContainSnippet(@"
+            base.AssertHelp(help);
+            help.Should().ContainSnippet(@"
 --docker  Add support for Docker.
           bool - Optional
           Default: false
 ");
         }
 
-        [Theory]
-        [InlineData("true")]
-        [InlineData("false")]
-        public async void TestDockerfile(string trueOrFalse)
+        protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)
         {
-            using var sandbox = await TemplateSandbox(trueOrFalse);
-            sandbox.FileExists("Dockerfile").Should().Be(trueOrFalse.Equals("true"));
-        }
-
-        [Theory]
-        [InlineData("net5.0")]
-        [InlineData("netcoreapp3.1")]
-        [InlineData("netcoreapp2.1")]
-        public async void TestFramework(string framework)
-        {
-            using var sandbox = await TemplateSandbox($"--framework {framework}");
-            var dockerfile = await sandbox.GetFileTextAsync("Dockerfile");
+            await base.AssertProject(steeltoe, framework);
+            Logger.WriteLine("asserting Dockerfile");
+            var dockerfile = await Sandbox.GetFileTextAsync("Dockerfile");
             var tag = framework switch
             {
-                "net5.0" => "5.0-alpine",
-                "netcoreapp3.1" => "3.1-alpine",
-                "netcoreapp2.1" => "2.1-alpine",
-                _ => throw new ArgumentOutOfRangeException(nameof(framework), framework)
+                Framework.Net50 => "5.0-alpine",
+                Framework.NetCoreApp31 => "3.1-alpine",
+                Framework.NetCoreApp21 => "2.1-alpine",
+                _ => throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString())
             };
             dockerfile.Should().ContainSnippet($"FROM mcr.microsoft.com/dotnet/aspnet:{tag} AS base");
             dockerfile.Should().ContainSnippet($"FROM mcr.microsoft.com/dotnet/sdk:{tag} AS build");

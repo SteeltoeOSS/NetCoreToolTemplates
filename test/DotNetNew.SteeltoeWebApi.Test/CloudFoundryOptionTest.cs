@@ -1,60 +1,52 @@
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
-using Xunit;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class CloudFoundryOptionTest : Test
+    public class CloudFoundryOptionTest : OptionTest
 
     {
         public CloudFoundryOptionTest(ITestOutputHelper logger) : base("cloud-foundry", logger)
         {
         }
 
-        [Fact]
-        public override async void TestHelp()
+        protected override void AssertHelp(string help)
         {
-            using var sandbox = await TemplateSandbox("--help");
-            sandbox.CommandOutput.Should().ContainSnippet(@"
+            base.AssertHelp(help);
+            help.Should().ContainSnippet(@"
 --cloud-foundry  Add hosting support for Cloud Foundry.
                  bool - Optional
                  Default: false
 ");
         }
 
-        [Fact]
-        public async void TestProgramCs()
+        protected override void AssertProgramCs(Steeltoe steeltoe, Framework framework, string source)
         {
-            using var sandbox = await TemplateSandbox();
-            var source = await sandbox.GetFileTextAsync("Program.cs");
+            base.AssertProgramCs(steeltoe, framework, source);
             source.Should().ContainSnippet("using Steeltoe.Common.Hosting;");
             source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.CloudFoundry;");
             source.Should().ContainSnippet(".UseCloudHosting().AddCloudFoundryConfiguration()");
         }
 
-        [Fact]
-        public async void TestStartupCs()
+        protected override void AssertStartupCs(Steeltoe steeltoe, Framework framework, string source)
         {
-            using var sandbox = await TemplateSandbox();
-            var source = await sandbox.GetFileTextAsync("Startup.cs");
+            base.AssertStartupCs(steeltoe, framework, source);
             source.Should().ContainSnippet("Steeltoe.Extensions.Configuration.CloudFoundry;");
             source.Should().ContainSnippet("services.ConfigureCloudFoundryOptions(Configuration);");
         }
 
-        [Fact]
-        public async void TestValuesController()
+        protected override void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
         {
-            using var sandbox = await TemplateSandbox();
-            var source = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
+            base.AssertValuesControllerCs(steeltoe, framework, source);
             source.Should().ContainSnippet(@"
-            [HttpGet]
-            public ActionResult<IEnumerable<string>> Get()
-            {
-                string appName = _appOptions.ApplicationName;
-                string appInstance = _appOptions.ApplicationId;
-                return new[] { appInstance, appName };
-            }
+[HttpGet]
+public ActionResult<IEnumerable<string>> Get()
+{
+    string appName = _appOptions.ApplicationName;
+    string appInstance = _appOptions.ApplicationId;
+    return new[] { appInstance, appName };
+}
 ");
         }
     }

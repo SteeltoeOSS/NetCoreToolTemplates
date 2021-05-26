@@ -1,61 +1,62 @@
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Steeltoe.DotNetNew.Test.Utilities.Models;
-using Xunit;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class PlaceholderOptionTest : Test
+    public class PlaceholderOptionTest : OptionTest
     {
         public PlaceholderOptionTest(ITestOutputHelper logger) : base("placeholder", logger)
         {
         }
 
-        [Fact]
-        public override async void TestHelp()
+        protected override void AssertHelp(string help)
         {
-            using var sandbox = await TemplateSandbox("--help");
-            sandbox.CommandOutput.Should().ContainSnippet(@"
+            base.AssertHelp(help);
+            help.Should().ContainSnippet(@"
 --placeholder  Add a placeholder configuration source.
                bool - Optional
                Default: false
 ");
         }
 
-        [Fact]
-        public async void TestProgramCs()
+        protected override void AssertProgramCs(Steeltoe steeltoe, Framework framework, string source)
         {
-            using var sandbox = await TemplateSandbox();
-            var source = await sandbox.GetFileTextAsync("Program.cs");
-            source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.Placeholder;");
+            base.AssertProgramCs(steeltoe, framework, source);
+            switch (steeltoe)
+            {
+                case Steeltoe.Steeltoe2:
+                    source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.PlaceholderCore;");
+                    break;
+                default:
+                    source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.Placeholder;");
+                    break;
+            }
+
             source.Should().ContainSnippet(".AddPlaceholderResolver()");
         }
 
-        [Fact]
-        public async void TestValuesController()
+        protected override void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
         {
-            using var sandbox = await TemplateSandbox();
-            var source = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
+            base.AssertValuesControllerCs(steeltoe, framework, source);
             source.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
             source.Should().ContainSnippet("private readonly IConfiguration _configuration;");
             source.Should().ContainSnippet(@"
-            [HttpGet]
-            public ActionResult<IEnumerable<string>> Get()
-            {
-                var val1 = _configuration[""ResolvedPlaceholderFromEnvVariables""];
-                var val2 = _configuration[""UnresolvedPlaceholder""];
-                var val3 = _configuration[""ResolvedPlaceholderFromJson""];
-                return new[] { val1, val2, val3 };
-            }
+[HttpGet]
+public ActionResult<IEnumerable<string>> Get()
+{
+    var val1 = _configuration[""ResolvedPlaceholderFromEnvVariables""];
+    var val2 = _configuration[""UnresolvedPlaceholder""];
+    var val3 = _configuration[""ResolvedPlaceholderFromJson""];
+    return new[] { val1, val2, val3 };
+}
 ");
         }
 
-        [Fact]
-        public async void TestAppSettingsJson()
+        protected override void AssertAppSettingsJson(Steeltoe steeltoe, Framework framework, AppSettings settings)
         {
-            using var sandbox = await TemplateSandbox();
-            var settings = await sandbox.GetJsonDocumentAsync<AppSettings>("appsettings.json");
+            base.AssertAppSettingsJson(steeltoe, framework, settings);
             settings.ResolvedPlaceholderFromEnvVariables.Should().Be("${PATH?NotFound}");
             settings.ResolvedPlaceholderFromJson.Should()
                 .Be("${Logging:LogLevel:System?${Logging:LogLevel:Default}}");

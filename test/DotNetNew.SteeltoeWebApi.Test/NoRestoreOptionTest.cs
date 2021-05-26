@@ -5,17 +5,15 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class NoRestoreOptionTest : Test
+    public class NoRestoreOptionTest : OptionTest
     {
         public NoRestoreOptionTest(ITestOutputHelper logger) : base("no-restore", logger)
         {
         }
 
-        [Fact]
-        public override async void TestHelp()
+        protected override void AssertHelp(string help)
         {
-            using var sandbox = await TemplateSandbox("--help");
-            sandbox.CommandOutput.Should().ContainSnippet(@"
+            help.Should().ContainSnippet(@"
 --no-restore  If specified, skips the automatic restore of the project on create.
               bool - Optional
               Default: false
@@ -23,6 +21,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         }
 
         [Theory]
+        [Trait("Category", "Functional")]
         [InlineData("true")]
         [InlineData("false")]
         public async void TestObjDirectory(string trueOrFalse)

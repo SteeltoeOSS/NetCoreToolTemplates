@@ -1,82 +1,65 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
-using Xunit;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class RabbitMqOptionTest : Test
+    public class RabbitMqOptionTest : OptionTest
     {
         public RabbitMqOptionTest(ITestOutputHelper logger) : base("rabbitmq", logger)
         {
         }
 
-        [Fact]
-        public override async void TestHelp()
+        protected override void AssertHelp(string help)
         {
-            using var sandbox = await TemplateSandbox("--help");
-            sandbox.CommandOutput.Should().ContainSnippet(@"
+            base.AssertHelp(help);
+            help.Should().ContainSnippet(@"
 --rabbitmq  Add support for RabbitMQ over AMQP.
             bool - Optional
             Default: false
 ");
         }
 
-        [Theory]
-        [InlineData("3.0.2")]
-        [InlineData("2.5.3")]
-        public async void TestCsproj(string steeltoe)
+        protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
+            Dictionary<string, string> properties, string[] packageRefs)
         {
-            using var sandbox = await TemplateSandbox($"--steeltoe {steeltoe}");
-            var project = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
+            base.AssertCsproj(steeltoe, framework, properties, packageRefs);
             var expectedPackageRefs = steeltoe switch
             {
-                "3.0.2" => new List<string>
+                Steeltoe.Steeltoe3 => new List<string>
                 {
                     "Steeltoe.Connector.ConnectorCore",
                 },
-                "2.5.3" => new List<string>
+                Steeltoe.Steeltoe2 => new List<string>
                 {
                     "Steeltoe.CloudFoundry.ConnectorCore",
                 },
-                _ => throw new ArgumentOutOfRangeException(nameof(steeltoe), steeltoe)
+                _ => throw new ArgumentOutOfRangeException(nameof(steeltoe), steeltoe.ToString())
             };
-            var actualPackageRefs =
-            (
-                from e in project.Elements().Elements("ItemGroup").Elements("PackageReference").Attributes("Include")
-                select e
-            ).ToList().Select(attr => attr.Value).ToList();
-            actualPackageRefs.Should().Contain(expectedPackageRefs);
+            packageRefs.Should().Contain(expectedPackageRefs);
         }
 
-        [Theory]
-        [InlineData("3.0.2")]
-        [InlineData("2.5.3")]
-        public async void TestStartupCs(string steeltoe)
+        protected override void AssertStartupCs(Steeltoe steeltoe, Framework framework, string source)
         {
-            using var sandbox = await TemplateSandbox($"--steeltoe {steeltoe}");
-            var source = await sandbox.GetFileTextAsync("Startup.cs");
-            if (steeltoe.StartsWith("2.5."))
+            base.AssertStartupCs(steeltoe, framework, source);
+            switch (steeltoe)
             {
-                source.Should().ContainSnippet("using Steeltoe.CloudFoundry.Connector.RabbitMQ;");
-            }
-            else
-            {
-                source.Should().ContainSnippet("using Steeltoe.Connector.RabbitMQ;");
+                case Steeltoe.Steeltoe2:
+                    source.Should().ContainSnippet("using Steeltoe.CloudFoundry.Connector.RabbitMQ;");
+                    break;
+                default:
+                    source.Should().ContainSnippet("using Steeltoe.Connector.RabbitMQ;");
+                    break;
             }
 
             source.Should().ContainSnippet("services.AddRabbitMQConnection(Configuration);");
         }
 
-        [Fact]
-        public async void TestValuesController()
+        protected override void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
         {
-            using var sandbox = await TemplateSandbox();
-            var source = await sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
+            base.AssertValuesControllerCs(steeltoe, framework, source);
             source.Should().ContainSnippet(@"
 public ValuesController(ILogger<ValuesController> logger, [FromServices] ConnectionFactory factory)
 {
