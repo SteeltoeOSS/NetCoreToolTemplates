@@ -14,11 +14,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
---azure-spring-cloud  Add hosting support for Microsoft Azure Spring Cloud.
-                      bool - Optional
-                      Default: false
-");
+            help.Should().ContainSnippet("--azure-spring-cloud  Add hosting support for Microsoft Azure Spring Cloud");
         }
 
         protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,

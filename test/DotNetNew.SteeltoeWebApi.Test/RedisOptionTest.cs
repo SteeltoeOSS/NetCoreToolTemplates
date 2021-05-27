@@ -14,11 +14,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
---redis  Add access to Redis, an in-memory data structure store.
-         bool - Optional
-         Default: false
-");
+            help.Should().ContainSnippet("--redis  Add access to Redis, an in-memory data structure store.");
         }
 
         protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,

@@ -15,11 +15,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
---cloud-foundry  Add hosting support for Cloud Foundry.
-                 bool - Optional
-                 Default: false
-");
+            help.Should().ContainSnippet("--cloud-foundry  Add hosting support for Cloud Foundry");
         }
 
         protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,

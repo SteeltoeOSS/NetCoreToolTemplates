@@ -14,11 +14,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
---rabbitmq  Add access to RabbitMQ, an open source message broker.
-            bool - Optional
-            Default: false
-");
+            help.Should().ContainSnippet("--rabbitmq  Add access to RabbitMQ, an open source message broker.");
         }
 
         protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,

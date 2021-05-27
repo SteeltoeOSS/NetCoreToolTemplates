@@ -15,11 +15,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
---placeholder  Add a placeholder configuration source.
-               bool - Optional
-               Default: false
-");
+            help.Should().ContainSnippet("--placeholder  Add a placeholder configuration source.");
         }
 
         protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,

@@ -14,11 +14,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 
         protected override void AssertHelp(string help)
         {
-            help.Should().ContainSnippet(@"
---no-restore  Skip the automatic restore of the project on create.
-              bool - Optional
-              Default: false
-");
+            help.Should().ContainSnippet("--no-restore  Skip the automatic restore of the project on create.");
         }
 
         [Theory]

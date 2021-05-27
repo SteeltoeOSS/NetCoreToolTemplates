@@ -14,11 +14,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
---dynamic-logger  Add a dynamic logger.
-                  bool - Optional
-                  Default: false
-");
+            help.Should().ContainSnippet("--dynamic-logger  Add a dynamic logger.");
         }
 
         protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,

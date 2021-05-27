@@ -17,10 +17,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
-Steeltoe Web API (C#)
-Author: VMware
-");
+            help.Should().ContainSnippet("Steeltoe Web API (C#) Author: VMware");
         }
 
         protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)

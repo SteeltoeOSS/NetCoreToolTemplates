@@ -15,11 +15,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
---hystrix  Add support for Netflix Hystrix, a latency and fault tolerance library.
-           bool - Optional
-           Default: false
-");
+            help.Should()
+                .ContainSnippet("--hystrix  Add support for Netflix Hystrix, a latency and fault tolerance library.");
         }
 
         protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,

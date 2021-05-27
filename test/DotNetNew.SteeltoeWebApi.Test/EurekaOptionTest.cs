@@ -14,11 +14,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
---eureka  Add access to Eureka, a REST-based service for locating services.
-          bool - Optional
-          Default: false
-");
+            help.Should()
+                .ContainSnippet("--eureka  Add access to Eureka, a REST-based service for locating services.");
         }
 
         protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,

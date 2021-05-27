@@ -15,11 +15,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
---docker  Add support for Docker.
-          bool - Optional
-          Default: false
-");
+            help.Should().ContainSnippet("--docker  Add support for Docker.");
         }
 
         protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)

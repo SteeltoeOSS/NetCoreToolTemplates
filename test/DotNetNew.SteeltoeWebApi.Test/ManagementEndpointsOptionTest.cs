@@ -14,11 +14,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
---management-endpoints  Add application management endpoints, such as health and metrics.
-                        bool - Optional
-                        Default: false
-");
+            help.Should()
+                .ContainSnippet("--management-endpoints  Add application management endpoints, such as health and metrics.");
         }
 
         protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,

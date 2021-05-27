@@ -14,11 +14,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected override void AssertHelp(string help)
         {
             base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
---cloud-config  Add client support for Spring Cloud Config.
-               bool - Optional
-               Default: false
-");
+            help.Should().ContainSnippet("--cloud-config  Add client support for Spring Cloud Config");
         }
 
         protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
