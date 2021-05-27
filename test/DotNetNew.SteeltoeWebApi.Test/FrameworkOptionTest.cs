@@ -28,7 +28,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         [Trait("Category", "Functional")]
         public async void TestUnsupportedFramework()
         {
-            using var sandbox = await TemplateSandbox("--framework unsupported1.0");
+            using var sandbox = await TemplateSandbox("unsupported1.0");
             sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --framework");
         }
     }
