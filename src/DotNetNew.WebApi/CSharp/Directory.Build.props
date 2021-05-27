@@ -11,6 +11,8 @@
     <Hystrix>false</Hystrix>
     <ManagementEndpoints>false</ManagementEndpoints>
     <MicrosoftAzureSpringCloudClientVersion>2.0.0-preview.1</MicrosoftAzureSpringCloudClientVersion>
+    <MySqlConnector>false</MySqlConnector>
+    <MySqlVersion>8.0.*</MySqlVersion>
     <PlaceholderConfiguration>false</PlaceholderConfiguration>
     <RandomValueConfiguration>false</RandomValueConfiguration>
     <RabbitMqConnector>false</RabbitMqConnector>

@@ -1,6 +1,9 @@
 #if (!RabbitMqConnector)
 using System.Collections.Generic;
 #endif
+#if (MySqlConnector)
+using System.Data;
+#endif
 #if (SqlServerConnector)
 using System.Data;
 using System.Data.SqlClient;
@@ -24,6 +27,9 @@ using Microsoft.Extensions.Logging;
 #endif
 #if (CloudFoundryHosting)
 using Microsoft.Extensions.Options;
+#endif
+#if (MySqlConnector)
+using MySql.Data.MySqlClient;
 #endif
 #if (RabbitMqConnector)
 using RabbitMQ.Client;
@@ -79,6 +85,14 @@ namespace Company.WebApplication1.Controllers
         private readonly SqlConnection _dbConnection;
 
         public ValuesController([FromServices] SqlConnection dbConnection)
+        {
+            _dbConnection = dbConnection;
+        }
+#endif
+#if (MySqlConnector)
+        private readonly MySqlConnection _dbConnection;
+
+        public ValuesController([FromServices] MySqlConnection dbConnection)
         {
             _dbConnection = dbConnection;
         }
@@ -144,6 +158,18 @@ namespace Company.WebApplication1.Controllers
             string appInstance = _appOptions.ApplicationId;
 
             return new[] { appInstance, appName };
+#elif (MySqlConnector || SqlServerConnector)
+            List<string> tables = new List<string>();
+            _dbConnection.Open();
+            DataTable dt = _dbConnection.GetSchema("Tables");
+            _dbConnection.Close();
+            foreach (DataRow row in dt.Rows)
+            {
+                string tablename = (string)row[2];
+                tables.Add(tablename);
+            }
+
+            return tables;
 #elif (PlaceholderConfiguration)
             var val1 = _configuration["ResolvedPlaceholderFromEnvVariables"];
             var val2 = _configuration["UnresolvedPlaceholder"];
@@ -156,18 +182,6 @@ namespace Company.WebApplication1.Controllers
             var val3 = _configuration["random:string"];
 
             return new[] { val1, val2, val3 };
-#elif (SqlServerConnector)
-            List<string> tables = new List<string>();
-            _dbConnection.Open();
-            DataTable dt = _dbConnection.GetSchema("Tables");
-            _dbConnection.Close();
-            foreach (DataRow row in dt.Rows)
-            {
-                string tablename = (string)row[2];
-                tables.Add(tablename);
-            }
-
-            return tables;
 #else
             return new[] { "value" };
 #endif

@@ -175,6 +175,20 @@
         ]
       }
     },
+    "MySqlConnector": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add access to MySQL database.",
+      "defaultValue": "false"
+    },
+    "MySqlVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "8.0.*"
+      },
+      "replaces": "$(MySqlVersion)"
+    },
     "PlaceholderConfiguration": {
       "type": "parameter",
       "datatype": "bool",
@@ -263,7 +277,7 @@
     },
     "SteeltoeConnector": {
       "type": "computed",
-      "value": "RedisConnector || RabbitMqConnector || SqlServerConnector"
+      "value": "MySqlConnector || RedisConnector || RabbitMqConnector || SqlServerConnector"
     },
     "SteeltoeVersion": {
       "description": "Set the Steeltoe version for the project.",

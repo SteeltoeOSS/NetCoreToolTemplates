@@ -26,10 +26,11 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (CloudConfig || CloudFoundryHosting || DynamicLogger || Eureka || Hystrix || ManagementEndpoints || PlaceholderConfiguration || RabbitMqConnector || RandomValueConfiguration || RedisConnector || SqlServerConnector) -->
+  <!--#if (CloudConfig || CloudFoundryHosting || DynamicLogger || Eureka || Hystrix || ManagementEndpoints || MySqlConnector || PlaceholderConfiguration || RabbitMqConnector || RandomValueConfiguration || RedisConnector || SqlServerConnector) -->
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(RedisConnector)' == 'True'" Version="$(RedisVersion)" />
+    <PackageReference Include="MySql.Data" Condition="'$(MySqlConnector)' == 'True'" Version="$(MySqlVersion)" />
     <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqConnector)' == 'True' OR '$(Hystrix)' == 'True'"  Version="$(RabbitMqVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(Hystrix)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(Hystrix)' == 'True'" Version="$(SteeltoeVersion)" />

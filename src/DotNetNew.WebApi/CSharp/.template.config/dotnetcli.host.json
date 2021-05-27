@@ -36,6 +36,10 @@
       "longName": "management-endpoints",
       "shortName": ""
     },
+    "MySqlConnector": {
+      "longName": "mysql",
+      "shortName": ""
+    },
     "PlaceholderConfiguration": {
       "longName": "placeholder",
       "shortName": ""

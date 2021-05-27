@@ -16,6 +16,12 @@ using Microsoft.OpenApi.Models;
 #if (Hystrix)
 using Steeltoe.CircuitBreaker.Hystrix;
 #endif
+#if (MySqlConnector && Steeltoe2)
+using Steeltoe.CloudFoundry.Connector.MySql;
+#endif
+#if (MySqlConnector && !Steeltoe2)
+using Steeltoe.Connector.MySql;
+#endif
 #if (RabbitMqConnector && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 #endif
@@ -66,6 +72,9 @@ namespace Company.WebApplication1
 #endif
 #if (Eureka)
             services.AddDiscoveryClient(Configuration);
+#endif
+#if (MySqlConnector)
+            services.AddMySqlConnection(Configuration);
 #endif
 #if (RabbitMqConnector)
             services.AddRabbitMQConnection(Configuration);
