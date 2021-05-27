@@ -10,6 +10,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         public SteeltoeOptionTest(ITestOutputHelper logger) : base("steeltoe", logger)
         {
             SkipProjectGeneration = true;
+            SmokeTestOption = "3.0.2";
         }
 
         protected override void AssertHelp(string help)

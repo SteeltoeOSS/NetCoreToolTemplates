@@ -21,6 +21,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 
         protected bool SkipProjectGeneration { get; set; } = false;
 
+        protected string SmokeTestOption { get; set; } = string.Empty;
+
         protected OptionTest(string option, ITestOutputHelper logger)
         {
             _option = option;
@@ -34,9 +36,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 
         [Fact]
         [Trait("Category", "Smoke")]
-        public async void TestTemplate()
+        public async void SmokeTest()
         {
-            (await TemplateSandbox()).Dispose();
+            (await TemplateSandbox(SmokeTestOption)).Dispose();
         }
 
         [Fact]
