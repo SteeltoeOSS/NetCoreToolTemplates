@@ -27,11 +27,11 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             };
             switch (steeltoe)
             {
-                case Steeltoe.Steeltoe3:
-                    expectedPackageRefs.Add("Steeltoe.Connector.ConnectorCore");
+                case Steeltoe.Steeltoe2:
+                    expectedPackageRefs.Add("Steeltoe.CloudFoundry.ConnectorCore");
                     break;
                 default:
-                    expectedPackageRefs.Add("Steeltoe.CloudFoundry.ConnectorCore");
+                    expectedPackageRefs.Add("Steeltoe.Connector.ConnectorCore");
                     break;
             }
             packageRefs.Should().Contain(expectedPackageRefs);
