@@ -17,6 +17,7 @@
     <RabbitMqVersion>5.1.*</RabbitMqVersion>
     <RedisConnector>false</RedisConnector>
     <RedisVersion>3.1.*</RedisVersion>
+    <SqlServerConnector>false</SqlServerConnector>
     <Steeltoe2>false</Steeltoe2>
   </PropertyGroup>
 

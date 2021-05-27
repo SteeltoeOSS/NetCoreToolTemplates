@@ -26,7 +26,7 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (CloudConfig || CloudFoundryHosting || DynamicLogger || Eureka || Hystrix || ManagementEndpoints || PlaceholderConfiguration || RabbitMqConnector || RandomValueConfiguration || RedisConnector) -->
+  <!--#if (CloudConfig || CloudFoundryHosting || DynamicLogger || Eureka || Hystrix || ManagementEndpoints || PlaceholderConfiguration || RabbitMqConnector || RandomValueConfiguration || RedisConnector || SqlServerConnector) -->
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(RedisConnector)' == 'True'" Version="$(RedisVersion)" />
@@ -44,6 +44,7 @@
     <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Condition="'$(DynamicLogger)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Condition="'$(Steeltoe2ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(Steeltoe3ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="System.Data.SqlClient" Condition="'$(SqlServerConnector)' == 'True'" Version="4.8.*" />
   </ItemGroup>
   <!--#endif -->
   <!--#if (AzureSpringCloudHosting && !FrameworkNetCoreApp21) -->

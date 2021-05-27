@@ -1,6 +1,10 @@
 #if (!RabbitMqConnector)
 using System.Collections.Generic;
 #endif
+#if (SqlServerConnector)
+using System.Data;
+using System.Data.SqlClient;
+#endif
 #if (RabbitMqConnector)
 using System.Text;
 using System.Threading;
@@ -69,6 +73,14 @@ namespace Company.WebApplication1.Controllers
         public ValuesController(IDistributedCache cache)
         {
             _cache = cache;
+        }
+#endif
+#if (SqlServerConnector)
+        private readonly SqlConnection _dbConnection;
+
+        public ValuesController([FromServices] SqlConnection dbConnection)
+        {
+            _dbConnection = dbConnection;
         }
 #endif
 
@@ -144,6 +156,18 @@ namespace Company.WebApplication1.Controllers
             var val3 = _configuration["random:string"];
 
             return new[] { val1, val2, val3 };
+#elif (SqlServerConnector)
+            List<string> tables = new List<string>();
+            _dbConnection.Open();
+            DataTable dt = _dbConnection.GetSchema("Tables");
+            _dbConnection.Close();
+            foreach (DataRow row in dt.Rows)
+            {
+                string tablename = (string)row[2];
+                tables.Add(tablename);
+            }
+
+            return tables;
 #else
             return new[] { "value" };
 #endif

@@ -28,6 +28,12 @@ using Steeltoe.CloudFoundry.Connector.Redis;
 #if (RedisConnector && !Steeltoe2)
 using Steeltoe.Connector.Redis;
 #endif
+#if (SqlServerConnector && Steeltoe2)
+using Steeltoe.CloudFoundry.Connector.SqlServer;
+#endif
+#if (SqlServerConnector && !Steeltoe2)
+using Steeltoe.Connector.SqlServer;
+#endif
 #if (Eureka)
 using Steeltoe.Discovery.Client;
 #endif
@@ -66,6 +72,9 @@ namespace Company.WebApplication1
 #endif
 #if (RedisConnector)
             services.AddDistributedRedisCache(Configuration);
+#endif
+#if (SqlServerConnector)
+            services.AddSqlServerConnection(Configuration);
 #endif
 #if (Hystrix)
             services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);

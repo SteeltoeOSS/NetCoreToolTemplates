@@ -56,6 +56,10 @@
       "longName": "no-restore",
       "shortName": ""
     },
+    "SqlServerConnector": {
+      "longName": "sqlserver",
+      "shortName": ""
+    },
     "SteeltoeVersion": {
       "longName": "steeltoe"
     }
