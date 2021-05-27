@@ -40,6 +40,22 @@
     }
   ],
   "symbols": {
+    "AnyCloudManagement": {
+      "type": "computed",
+      "value": "AzureSpringCloudHosting || CloudFoundryHosting || DynamicLogger || Eureka || Hystrix || ManagementEndpoints"
+    },
+    "AnyConfigurator": {
+      "type": "computed",
+      "value": "CloudConfig || PlaceholderConfiguration || RandomValueConfiguration"
+    },
+    "AnyConnector": {
+      "type": "computed",
+      "value": "MySqlConnector || RedisConnector || RabbitMqConnector || SqlServerConnector"
+    },
+    "AnySteeltoeLibrary": {
+      "type": "computed",
+      "value": "AnyCloudManagement || AnyConfigurator || AnyConnector"
+    },
     "AzureSpringCloudHosting": {
       "type": "parameter",
       "datatype": "bool",
@@ -252,7 +268,7 @@
     },
     "Steeltoe2Connector": {
       "type": "computed",
-      "value": "Steeltoe2 && SteeltoeConnector"
+      "value": "Steeltoe2 && AnyConnector"
     },
     "Steeltoe2ManagementEndpoints": {
       "type": "computed",
@@ -269,15 +285,11 @@
     },
     "Steeltoe3Connector": {
       "type": "computed",
-      "value": "Steeltoe3 && SteeltoeConnector"
+      "value": "Steeltoe3 && AnyConnector"
     },
     "Steeltoe3ManagementEndpoints": {
       "type": "computed",
       "value": "Steeltoe3 && ManagementEndpoints"
-    },
-    "SteeltoeConnector": {
-      "type": "computed",
-      "value": "MySqlConnector || RedisConnector || RabbitMqConnector || SqlServerConnector"
     },
     "SteeltoeVersion": {
       "description": "Set the Steeltoe version for the project.",

@@ -26,9 +26,10 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (CloudConfig || CloudFoundryHosting || DynamicLogger || Eureka || Hystrix || ManagementEndpoints || MySqlConnector || PlaceholderConfiguration || RabbitMqConnector || RandomValueConfiguration || RedisConnector || SqlServerConnector) -->
+  <!--#if (AnySteeltoeLibrary) -->
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(AzureSpringCloudHosting)' == 'True' AND '$(FrameworkNetCoreApp21)' != 'True'" Version="$(MicrosoftAzureSpringCloudClientVersion)" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(RedisConnector)' == 'True'" Version="$(RedisVersion)" />
     <PackageReference Include="MySql.Data" Condition="'$(MySqlConnector)' == 'True'" Version="$(MySqlVersion)" />
     <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqConnector)' == 'True' OR '$(Hystrix)' == 'True'"  Version="$(RabbitMqVersion)" />
@@ -46,12 +47,6 @@
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Condition="'$(Steeltoe2ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(Steeltoe3ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="System.Data.SqlClient" Condition="'$(SqlServerConnector)' == 'True'" Version="4.8.*" />
-  </ItemGroup>
-  <!--#endif -->
-  <!--#if (AzureSpringCloudHosting && !FrameworkNetCoreApp21) -->
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(AzureSpringCloudHosting)' == 'True'" Version="$(MicrosoftAzureSpringCloudClientVersion)" />
   </ItemGroup>
   <!--#endif -->
 
