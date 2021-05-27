@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -7,14 +6,10 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class NoRestoreOptionTest : OptionTest
     {
-        public NoRestoreOptionTest(ITestOutputHelper logger) : base("no-restore", logger)
+        public NoRestoreOptionTest(ITestOutputHelper logger) : base("no-restore",
+            "Skip the automatic restore of the project on create", logger)
         {
             SkipProjectGeneration = true;
-        }
-
-        protected override void AssertHelp(string help)
-        {
-            help.Should().ContainSnippet("--no-restore  Skip the automatic restore of the project on create.");
         }
 
         [Theory]

@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using FluentAssertions;
-using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
@@ -8,44 +6,35 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
     public class CloudFoundryOptionTest : OptionTest
 
     {
-        public CloudFoundryOptionTest(ITestOutputHelper logger) : base("cloud-foundry", logger)
+        public CloudFoundryOptionTest(ITestOutputHelper logger) : base("cloud-foundry",
+            "Add hosting support for Cloud Foundry", logger)
         {
         }
 
-        protected override void AssertHelp(string help)
+        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
         {
-            base.AssertHelp(help);
-            help.Should().ContainSnippet("--cloud-foundry  Add hosting support for Cloud Foundry");
+            packages.Add("Steeltoe.Common.Hosting");
+            packages.Add("Steeltoe.Extensions.Configuration.CloudFoundryCore");
         }
 
-        protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
-            Dictionary<string, string> properties, string[] packageRefs)
+        protected override void AddProgramCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
-            base.AssertCsproj(steeltoe, framework, properties, packageRefs);
-            packageRefs.Should().Contain("Steeltoe.Common.Hosting");
-            packageRefs.Should().Contain("Steeltoe.Extensions.Configuration.CloudFoundryCore");
+            snippets.Add("using Steeltoe.Common.Hosting;");
+            snippets.Add("using Steeltoe.Extensions.Configuration.CloudFoundry;");
+            snippets.Add(".UseCloudHosting().AddCloudFoundryConfiguration()");
         }
 
-        protected override void AssertProgramCs(Steeltoe steeltoe, Framework framework, string source)
+        protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
-            base.AssertProgramCs(steeltoe, framework, source);
-            source.Should().ContainSnippet("using Steeltoe.Common.Hosting;");
-            source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.CloudFoundry;");
-            source.Should().ContainSnippet(".UseCloudHosting().AddCloudFoundryConfiguration()");
+            snippets.Add("using Steeltoe.Extensions.Configuration.CloudFoundry;");
+            snippets.Add("services.ConfigureCloudFoundryOptions(Configuration);");
         }
 
-        protected override void AssertStartupCs(Steeltoe steeltoe, Framework framework, string source)
+        protected override void AddValuesControllerCsSnippets(Steeltoe steeltoe, Framework framework,
+            List<string> snippets)
         {
-            base.AssertStartupCs(steeltoe, framework, source);
-            source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.CloudFoundry;");
-            source.Should().ContainSnippet("services.ConfigureCloudFoundryOptions(Configuration);");
-        }
-
-        protected override void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
-        {
-            base.AssertValuesControllerCs(steeltoe, framework, source);
-            source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.CloudFoundry;");
-            source.Should().ContainSnippet(@"
+            snippets.Add("using Steeltoe.Extensions.Configuration.CloudFoundry;");
+            snippets.Add(@"
 [HttpGet]
 public ActionResult<IEnumerable<string>> Get()
 {

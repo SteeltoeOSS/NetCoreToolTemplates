@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities;
+using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Steeltoe.DotNetNew.Test.Utilities.Models;
 using Xunit;
 using Xunit.Abstractions;
@@ -15,6 +17,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
     {
         private readonly string _option;
 
+        private readonly string _help;
+
         protected readonly ITestOutputHelper Logger;
 
         protected Sandbox Sandbox;
@@ -23,9 +27,10 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 
         protected string SmokeTestOption { get; set; } = string.Empty;
 
-        protected OptionTest(string option, ITestOutputHelper logger)
+        protected OptionTest(string option, string help, ITestOutputHelper logger)
         {
             _option = option;
+            _help = help;
             Logger = logger;
             new SteeltoeWebApiTemplateInstaller(Logger).Install();
             if (_option is not null)
@@ -45,13 +50,10 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         [Trait("Category", "Functional")]
         public async void TestHelp()
         {
-            using var sandbox = await TemplateSandbox("--help");
-            AssertHelp(sandbox.CommandOutput);
-        }
-
-        protected virtual void AssertHelp(string help)
-        {
             Logger.WriteLine($"testing help");
+            using var sandbox = await TemplateSandbox("--help");
+            var period = _option is null ? "" : ".";
+            sandbox.CommandOutput.Should().ContainSnippet($"{_option} {_help}{period}");
         }
 
         [Theory]
@@ -92,12 +94,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
                 from e in project.Elements().Elements("PropertyGroup").Elements()
                 select e
             ).ToArray().ToDictionary(e => e.Name.ToString(), e => e.Value);
-            var packageRefs =
+            var packages =
             (
                 from e in project.Elements().Elements("ItemGroup").Elements("PackageReference").Attributes("Include")
                 select e.Value
-            ).ToArray();
-            AssertCsproj(steeltoe, framework, properties, packageRefs);
+            ).ToList();
+            AssertCsproj(steeltoe, framework, properties, packages);
             AssertProgramCs(steeltoe, framework, await Sandbox.GetFileTextAsync("Program.cs"));
             AssertStartupCs(steeltoe, framework, await Sandbox.GetFileTextAsync("Startup.cs"));
             AssertValuesControllerCs(steeltoe, framework,
@@ -108,25 +110,106 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
                 await Sandbox.GetJsonDocumentAsync<LaunchSettings>("properties/launchSettings.json"));
         }
 
-        protected virtual void AssertCsproj(Steeltoe steeltoe, Framework framework,
-            Dictionary<string, string> properties, string[] packageRefs)
+        private void AssertCsproj(Steeltoe steeltoe, Framework framework,
+            Dictionary<string, string> properties, List<string> packages)
         {
             Logger.WriteLine("asserting .csproj");
+            var expectedPackages = new List<string>();
+            AddProjectPackages(steeltoe, framework, expectedPackages);
+            if (expectedPackages.Count == 0)
+            {
+                Logger.WriteLine("no packages to assert");
+            }
+            else
+            {
+                Logger.WriteLine("asserting packages");
+                packages.Should().Contain(expectedPackages);
+            }
+
+            var expectedProperties = new Dictionary<string, string>();
+            AddProjectProperties(steeltoe, framework, expectedProperties);
+            if (expectedProperties.Count == 0)
+            {
+                Logger.WriteLine("no properties to assert");
+            }
+            else
+            {
+                Logger.WriteLine("asserting properties");
+                properties.Should().Contain(expectedProperties);
+            }
         }
 
-        protected virtual void AssertProgramCs(Steeltoe steeltoe, Framework framework, string source)
+        protected virtual void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
         {
+        }
+
+        protected virtual void AddProjectProperties(Steeltoe steeltoe, Framework framework,
+            Dictionary<string, string> properties)
+        {
+        }
+
+        private void AssertProgramCs(Steeltoe steeltoe, Framework framework, string source)
+        {
+            var snippets = new List<string>();
+            AddProgramCsSnippets(steeltoe, framework, snippets);
+            if (snippets.Count == 0)
+            {
+                Logger.WriteLine("no Program.cs source snippets to assert");
+                return;
+            }
+
             Logger.WriteLine("asserting Program.cs");
+            foreach (var snippet in snippets)
+            {
+                source.Should().ContainSnippet(snippet);
+            }
         }
 
-        protected virtual void AssertStartupCs(Steeltoe steeltoe, Framework framework, string source)
+        protected virtual void AddProgramCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
+        }
+
+        private void AssertStartupCs(Steeltoe steeltoe, Framework framework, string source)
+        {
+            var snippets = new List<string>();
+            AddStartupCsSnippets(steeltoe, framework, snippets);
+            if (snippets.Count == 0)
+            {
+                Logger.WriteLine("no Startup.cs source snippets to assert");
+                return;
+            }
+
             Logger.WriteLine("asserting Startup.cs");
+            foreach (var snippet in snippets)
+            {
+                source.Should().ContainSnippet(snippet);
+            }
         }
 
-        protected virtual void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
+        protected virtual void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
+        }
+
+        private void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
+        {
+            var snippets = new List<string>();
+            AddValuesControllerCsSnippets(steeltoe, framework, snippets);
+            if (snippets.Count == 0)
+            {
+                Logger.WriteLine("no ValuesController.cs source snippets to assert");
+                return;
+            }
+
             Logger.WriteLine("asserting Controllers/ValuesController.cs");
+            foreach (var snippet in snippets)
+            {
+                source.Should().ContainSnippet(snippet);
+            }
+        }
+
+        protected virtual void AddValuesControllerCsSnippets(Steeltoe steeltoe, Framework framework,
+            List<string> snippets)
+        {
         }
 
         protected virtual void AssertAppSettingsJson(Steeltoe steeltoe, Framework framework, AppSettings settings)

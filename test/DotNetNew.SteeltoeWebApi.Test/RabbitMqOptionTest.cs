@@ -1,71 +1,57 @@
 using System.Collections.Generic;
-using FluentAssertions;
-using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class RabbitMqOptionTest : OptionTest
     {
-        public RabbitMqOptionTest(ITestOutputHelper logger) : base("rabbitmq", logger)
+        public RabbitMqOptionTest(ITestOutputHelper logger) : base("rabbitmq",
+            "Add access to RabbitMQ, an open source message broker", logger)
         {
         }
 
-        protected override void AssertHelp(string help)
+        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
         {
-            base.AssertHelp(help);
-            help.Should().ContainSnippet("--rabbitmq  Add access to RabbitMQ, an open source message broker.");
-        }
-
-        protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
-            Dictionary<string, string> properties, string[] packageRefs)
-        {
-            base.AssertCsproj(steeltoe, framework, properties, packageRefs);
-            var expectedPackageRefs = new List<string>
-            {
-                "RabbitMQ.Client",
-            };
+            packages.Add("RabbitMQ.Client");
             switch (steeltoe)
             {
                 case Steeltoe.Steeltoe2:
-                    expectedPackageRefs.Add("Steeltoe.CloudFoundry.ConnectorCore");
+                    packages.Add("Steeltoe.CloudFoundry.ConnectorCore");
                     break;
                 default:
-                    expectedPackageRefs.Add("Steeltoe.Connector.ConnectorCore");
+                    packages.Add("Steeltoe.Connector.ConnectorCore");
                     break;
             }
-            packageRefs.Should().Contain(expectedPackageRefs);
         }
 
-        protected override void AssertStartupCs(Steeltoe steeltoe, Framework framework, string source)
+        protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
-            base.AssertStartupCs(steeltoe, framework, source);
             switch (steeltoe)
             {
                 case Steeltoe.Steeltoe2:
-                    source.Should().ContainSnippet("using Steeltoe.CloudFoundry.Connector.RabbitMQ;");
+                    snippets.Add("using Steeltoe.CloudFoundry.Connector.RabbitMQ;");
                     break;
                 default:
-                    source.Should().ContainSnippet("using Steeltoe.Connector.RabbitMQ;");
+                    snippets.Add("using Steeltoe.Connector.RabbitMQ;");
                     break;
             }
 
-            source.Should().ContainSnippet("services.AddRabbitMQConnection(Configuration);");
+            snippets.Add("services.AddRabbitMQConnection(Configuration);");
         }
 
-        protected override void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
+        protected override void AddValuesControllerCsSnippets(Steeltoe steeltoe, Framework framework,
+            List<string> snippets)
         {
-            base.AssertValuesControllerCs(steeltoe, framework, source);
-            source.Should().ContainSnippet("using RabbitMQ.Client;");
-            source.Should().ContainSnippet("using RabbitMQ.Client.Events;");
-            source.Should().ContainSnippet(@"
+            snippets.Add("using RabbitMQ.Client;");
+            snippets.Add("using RabbitMQ.Client.Events;");
+            snippets.Add(@"
 public ValuesController(ILogger<ValuesController> logger, [FromServices] ConnectionFactory factory)
 {
     _logger = logger;
     _factory = factory;
 }
 ");
-            source.Should().ContainSnippet(@"
+            snippets.Add(@"
 [HttpGet]
 public ActionResult<string> Get()
 {

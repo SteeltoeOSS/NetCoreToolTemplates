@@ -1,71 +1,57 @@
 using System.Collections.Generic;
-using FluentAssertions;
-using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class RedisOptionTest : OptionTest
     {
-        public RedisOptionTest(ITestOutputHelper logger) : base("redis", logger)
+        public RedisOptionTest(ITestOutputHelper logger) : base("redis",
+            "Add access to Redis, an in-memory data structure store", logger)
         {
         }
 
-        protected override void AssertHelp(string help)
+        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
         {
-            base.AssertHelp(help);
-            help.Should().ContainSnippet("--redis  Add access to Redis, an in-memory data structure store.");
-        }
-
-        protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
-            Dictionary<string, string> properties, string[] packageRefs)
-        {
-            base.AssertCsproj(steeltoe, framework, properties, packageRefs);
-            var expectedPackageRefs = new List<string>
-            {
-                "Microsoft.Extensions.Caching.StackExchangeRedis",
-            };
+            packages.Add("Microsoft.Extensions.Caching.StackExchangeRedis");
             switch (steeltoe)
             {
                 case Steeltoe.Steeltoe2:
-                    expectedPackageRefs.Add("Steeltoe.CloudFoundry.ConnectorCore");
+                    packages.Add("Steeltoe.CloudFoundry.ConnectorCore");
                     break;
                 default:
-                    expectedPackageRefs.Add("Steeltoe.Connector.ConnectorCore");
+                    packages.Add("Steeltoe.Connector.ConnectorCore");
                     break;
             }
-            packageRefs.Should().Contain(expectedPackageRefs);
         }
 
-        protected override void AssertStartupCs(Steeltoe steeltoe, Framework framework, string source)
+        protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
-            base.AssertStartupCs(steeltoe, framework, source);
             switch (steeltoe)
             {
                 case Steeltoe.Steeltoe2:
-                    source.Should().ContainSnippet("using Steeltoe.CloudFoundry.Connector.Redis;");
+                    snippets.Add("using Steeltoe.CloudFoundry.Connector.Redis;");
                     break;
                 default:
-                    source.Should().ContainSnippet("using Steeltoe.Connector.Redis;");
+                    snippets.Add("using Steeltoe.Connector.Redis;");
                     break;
             }
 
-            source.Should().ContainSnippet("services.AddDistributedRedisCache(Configuration)");
+            snippets.Add("services.AddDistributedRedisCache(Configuration)");
         }
 
-        protected override void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
+        protected override void AddValuesControllerCsSnippets(Steeltoe steeltoe, Framework framework,
+            List<string> snippets)
         {
-            base.AssertValuesControllerCs(steeltoe, framework, source);
-            source.Should().ContainSnippet("using Microsoft.Extensions.Caching.Distributed;");
-            source.Should().ContainSnippet("using System.Threading.Tasks;");
-            source.Should().ContainSnippet("using System.Collections.Generic;");
-            source.Should().ContainSnippet(@"
+            snippets.Add("using Microsoft.Extensions.Caching.Distributed;");
+            snippets.Add("using System.Threading.Tasks;");
+            snippets.Add("using System.Collections.Generic;");
+            snippets.Add(@"
 public ValuesController(IDistributedCache cache)
 {
     _cache = cache;
 }
 ");
-            source.Should().ContainSnippet(@"
+            snippets.Add(@"
 [HttpGet]
 public async Task<IEnumerable<string>> Get()
 {

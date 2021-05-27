@@ -8,23 +8,15 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class HystrixOptionTest : OptionTest
     {
-        public HystrixOptionTest(ITestOutputHelper logger) : base("hystrix", logger)
+        public HystrixOptionTest(ITestOutputHelper logger) : base("hystrix",
+            "Add support for Netflix Hystrix, a latency and fault tolerance library", logger)
         {
         }
 
-        protected override void AssertHelp(string help)
+        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
         {
-            base.AssertHelp(help);
-            help.Should()
-                .ContainSnippet("--hystrix  Add support for Netflix Hystrix, a latency and fault tolerance library.");
-        }
-
-        protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
-            Dictionary<string, string> properties, string[] packageRefs)
-        {
-            base.AssertCsproj(steeltoe, framework, properties, packageRefs);
-            packageRefs.Should().Contain("Steeltoe.CircuitBreaker.HystrixCore");
-            packageRefs.Should().Contain("Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore");
+            packages.Add("Steeltoe.CircuitBreaker.HystrixCore");
+            packages.Add("Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore");
         }
 
         protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)
@@ -38,15 +30,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
                     "public HelloHystrixCommand(string name) : base(HystrixCommandGroupKeyDefault.AsKey(\"MyCircuitBreakers\"))");
         }
 
-        protected override void AssertStartupCs(Steeltoe steeltoe, Framework framework, string source)
+        protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
-            base.AssertStartupCs(steeltoe, framework, source);
-            source.Should()
-                .ContainSnippet(
-                    "services.AddHystrixCommand<HelloHystrixCommand>(\"MyCircuitBreakers\", Configuration);");
-            source.Should().ContainSnippet("services.AddHystrixMetricsStream(Configuration);");
-            source.Should().ContainSnippet("app.UseHystrixRequestContext();");
-            source.Should().ContainSnippet("app.UseHystrixMetricsStream();");
+            snippets.Add("services.AddHystrixCommand<HelloHystrixCommand>(\"MyCircuitBreakers\", Configuration);");
+            snippets.Add("services.AddHystrixMetricsStream(Configuration);");
+            snippets.Add("app.UseHystrixRequestContext();");
+            snippets.Add("app.UseHystrixMetricsStream();");
         }
     }
 }

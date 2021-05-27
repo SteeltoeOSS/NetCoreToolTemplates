@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using FluentAssertions;
-using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Steeltoe.DotNetNew.Test.Utilities.Models;
 using Xunit.Abstractions;
 
@@ -8,45 +7,37 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class PlaceholderOptionTest : OptionTest
     {
-        public PlaceholderOptionTest(ITestOutputHelper logger) : base("placeholder", logger)
+        public PlaceholderOptionTest(ITestOutputHelper logger) : base("placeholder",
+            "Add a placeholder configuration source", logger)
         {
         }
 
-        protected override void AssertHelp(string help)
+        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
         {
-            base.AssertHelp(help);
-            help.Should().ContainSnippet("--placeholder  Add a placeholder configuration source.");
+            packages.Add("Steeltoe.Extensions.Configuration.PlaceholderCore");
         }
 
-        protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
-            Dictionary<string, string> properties, string[] packageRefs)
+        protected override void AddProgramCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
-            base.AssertCsproj(steeltoe, framework, properties, packageRefs);
-            packageRefs.Should().Contain("Steeltoe.Extensions.Configuration.PlaceholderCore");
-        }
-
-        protected override void AssertProgramCs(Steeltoe steeltoe, Framework framework, string source)
-        {
-            base.AssertProgramCs(steeltoe, framework, source);
             switch (steeltoe)
             {
                 case Steeltoe.Steeltoe2:
-                    source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.PlaceholderCore;");
+                    snippets.Add("using Steeltoe.Extensions.Configuration.PlaceholderCore;");
                     break;
                 default:
-                    source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.Placeholder;");
+                    snippets.Add("using Steeltoe.Extensions.Configuration.Placeholder;");
                     break;
             }
 
-            source.Should().ContainSnippet(".AddPlaceholderResolver()");
+            snippets.Add(".AddPlaceholderResolver()");
         }
 
-        protected override void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
+        protected override void AddValuesControllerCsSnippets(Steeltoe steeltoe, Framework framework,
+            List<string> snippets)
         {
-            base.AssertValuesControllerCs(steeltoe, framework, source);
-            source.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
-            source.Should().ContainSnippet("private readonly IConfiguration _configuration;");
-            source.Should().ContainSnippet(@"
+            snippets.Add("using Microsoft.Extensions.Configuration;");
+            snippets.Add("private readonly IConfiguration _configuration;");
+            snippets.Add(@"
 [HttpGet]
 public ActionResult<IEnumerable<string>> Get()
 {

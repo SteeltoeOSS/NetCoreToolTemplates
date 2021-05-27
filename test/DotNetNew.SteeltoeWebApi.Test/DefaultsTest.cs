@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Steeltoe.DotNetNew.Test.Utilities.Models;
 using Xunit.Abstractions;
 
@@ -10,14 +9,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class DefaultsTest : OptionTest
     {
-        public DefaultsTest(ITestOutputHelper logger) : base(null, logger)
+        public DefaultsTest(ITestOutputHelper logger) : base(null, "Steeltoe Web API (C#) Author: VMware", logger)
         {
-        }
-
-        protected override void AssertHelp(string help)
-        {
-            base.AssertHelp(help);
-            help.Should().ContainSnippet("Steeltoe Web API (C#) Author: VMware");
         }
 
         protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)
@@ -26,17 +19,38 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             Sandbox.FileExists("app.config").Should().BeTrue();
         }
 
-        protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
-            Dictionary<string, string> properties, string[] packageRefs)
+        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
         {
-            base.AssertCsproj(steeltoe, framework, properties, packageRefs);
+            switch (framework)
+            {
+                case Framework.Net50:
+                    packages.Add("Swashbuckle.AspNetCore");
+                    break;
+                case Framework.NetCoreApp31:
+                    break;
+                case Framework.NetCoreApp21:
+                    packages.Add("Microsoft.AspNetCore");
+                    packages.Add("Microsoft.AspNetCore.CookiePolicy");
+                    packages.Add("Microsoft.AspNetCore.HttpsPolicy");
+                    packages.Add("Microsoft.AspNetCore.Mvc");
+                    packages.Add("Microsoft.AspNetCore.Session");
+                    packages.Add("Microsoft.AspNetCore.StaticFiles");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());
+            }
+        }
+
+        protected override void AddProjectProperties(Steeltoe steeltoe, Framework framework,
+            Dictionary<string, string> properties)
+        {
             switch (steeltoe)
             {
                 case Steeltoe.Steeltoe3:
-                    properties["SteeltoeVersion"].Should().StartWith("3.");
+                    properties["SteeltoeVersion"] = "3.0.2";
                     break;
                 case Steeltoe.Steeltoe2:
-                    properties["SteeltoeVersion"].Should().StartWith("2.");
+                    properties["SteeltoeVersion"] = "2.5.3";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(steeltoe), steeltoe.ToString());
@@ -45,59 +59,38 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             switch (framework)
             {
                 case Framework.Net50:
-                    properties["TargetFramework"].Should().Be("net5.0");
+                    properties["TargetFramework"] = "net5.0";
                     break;
                 case Framework.NetCoreApp31:
-                    properties["TargetFramework"].Should().Be("netcoreapp3.1");
+                    properties["TargetFramework"] = "netcoreapp3.1";
                     break;
                 case Framework.NetCoreApp21:
-                    properties["TargetFramework"].Should().Be("netcoreapp2.1");
+                    properties["TargetFramework"] = "netcoreapp2.1";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());
             }
-
-            var expectedPackageRefs = framework switch
-            {
-                Framework.Net50 => new List<string>
-                {
-                    "Swashbuckle.AspNetCore",
-                },
-                Framework.NetCoreApp31 => new List<string>(),
-                Framework.NetCoreApp21 => new List<string>
-                {
-                    "Microsoft.AspNetCore",
-                    "Microsoft.AspNetCore.CookiePolicy",
-                    "Microsoft.AspNetCore.HttpsPolicy",
-                    "Microsoft.AspNetCore.Mvc",
-                    "Microsoft.AspNetCore.Session",
-                    "Microsoft.AspNetCore.StaticFiles",
-                },
-                _ => throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString())
-            };
-            packageRefs.Should().BeEquivalentTo(expectedPackageRefs);
         }
 
-        protected override void AssertProgramCs(Steeltoe steeltoe, Framework framework, string source)
+        protected override void AddProgramCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
-            base.AssertProgramCs(steeltoe, framework, source);
             switch (framework)
             {
                 case Framework.Net50:
                 case Framework.NetCoreApp31:
-                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                    source.Should().ContainSnippet("using Microsoft.Extensions.Hosting;");
-                    source.Should().ContainSnippet("CreateHostBuilder(args).Build().Run();");
-                    source.Should().ContainSnippet(@"
+                    snippets.Add("using Microsoft.AspNetCore.Hosting;");
+                    snippets.Add("using Microsoft.Extensions.Hosting;");
+                    snippets.Add("CreateHostBuilder(args).Build().Run();");
+                    snippets.Add(@"
 public static IHostBuilder CreateHostBuilder(string[] args) =>
     Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
 ");
                     break;
                 case Framework.NetCoreApp21:
-                    source.Should().ContainSnippet("using Microsoft.AspNetCore;");
-                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                    source.Should().ContainSnippet("CreateWebHostBuilder(args).Build().Run();");
-                    source.Should().ContainSnippet(@"
+                    snippets.Add("using Microsoft.AspNetCore;");
+                    snippets.Add("using Microsoft.AspNetCore.Hosting;");
+                    snippets.Add("CreateWebHostBuilder(args).Build().Run();");
+                    snippets.Add(@"
 public static IWebHostBuilder CreateWebHostBuilder(string[] args)
 {
     var builder = WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
@@ -110,25 +103,24 @@ public static IWebHostBuilder CreateWebHostBuilder(string[] args)
             }
         }
 
-        protected override void AssertStartupCs(Steeltoe steeltoe, Framework framework, string source)
+        protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
-            base.AssertStartupCs(steeltoe, framework, source);
             switch (framework)
             {
                 case Framework.Net50:
-                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
-                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                    source.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
-                    source.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
-                    source.Should().ContainSnippet("using Microsoft.OpenApi.Models;");
-                    source.Should().ContainSnippet("services.AddControllers();");
-                    source.Should().ContainSnippet(@"
+                    snippets.Add("using Microsoft.AspNetCore.Builder;");
+                    snippets.Add("using Microsoft.AspNetCore.Hosting;");
+                    snippets.Add("using Microsoft.Extensions.Configuration;");
+                    snippets.Add("using Microsoft.Extensions.DependencyInjection;");
+                    snippets.Add("using Microsoft.OpenApi.Models;");
+                    snippets.Add("services.AddControllers();");
+                    snippets.Add(@"
 services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc(""v1"", new OpenApiInfo { Title = ""@@NAME@@"", Version = ""v1"" });
 });
 ".Replace("@@NAME@@", Sandbox.Name));
-                    source.Should().ContainSnippet(@"
+                    snippets.Add(@"
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
     if (env.IsDevelopment())
@@ -144,12 +136,12 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 ".Replace("@@NAME@@", Sandbox.Name));
                     break;
                 case Framework.NetCoreApp31:
-                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
-                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                    source.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
-                    source.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
-                    source.Should().ContainSnippet("services.AddControllers();");
-                    source.Should().ContainSnippet(@"
+                    snippets.Add("using Microsoft.AspNetCore.Builder;");
+                    snippets.Add("using Microsoft.AspNetCore.Hosting;");
+                    snippets.Add("using Microsoft.Extensions.Configuration;");
+                    snippets.Add("using Microsoft.Extensions.DependencyInjection;");
+                    snippets.Add("services.AddControllers();");
+                    snippets.Add(@"
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
     if (env.IsDevelopment())
@@ -163,13 +155,12 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 ");
                     break;
                 case Framework.NetCoreApp21:
-                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Builder;");
-                    source.Should().ContainSnippet("using Microsoft.AspNetCore.Hosting;");
-                    source.Should().ContainSnippet("using Microsoft.Extensions.Configuration;");
-                    source.Should().ContainSnippet("using Microsoft.Extensions.DependencyInjection;");
-                    source.Should().NotContainSnippet("using Microsoft.Extensions.Hosting;");
-                    source.Should().ContainSnippet("services.AddMvc();");
-                    source.Should().ContainSnippet(@"
+                    snippets.Add("using Microsoft.AspNetCore.Builder;");
+                    snippets.Add("using Microsoft.AspNetCore.Hosting;");
+                    snippets.Add("using Microsoft.Extensions.Configuration;");
+                    snippets.Add("using Microsoft.Extensions.DependencyInjection;");
+                    snippets.Add("services.AddMvc();");
+                    snippets.Add(@"
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
     if (env.IsDevelopment())

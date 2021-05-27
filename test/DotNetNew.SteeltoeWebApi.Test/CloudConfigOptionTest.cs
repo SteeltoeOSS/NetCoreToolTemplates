@@ -1,40 +1,30 @@
 using System.Collections.Generic;
-using FluentAssertions;
-using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class CloudConfigOptionTest : OptionTest
     {
-        public CloudConfigOptionTest(ITestOutputHelper logger) : base("cloud-config", logger)
+        public CloudConfigOptionTest(ITestOutputHelper logger) : base("cloud-config",
+            "Add client support for Spring Cloud Config", logger)
         {
         }
 
-        protected override void AssertHelp(string help)
+        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
         {
-            base.AssertHelp(help);
-            help.Should().ContainSnippet("--cloud-config  Add client support for Spring Cloud Config");
+            packages.Add("Steeltoe.Extensions.Configuration.ConfigServerCore");
         }
 
-        protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
-            Dictionary<string, string> properties, string[] packageRefs)
+        protected override void AddProgramCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
-            base.AssertCsproj(steeltoe, framework, properties, packageRefs);
-            packageRefs.Should().Contain("Steeltoe.Extensions.Configuration.ConfigServerCore");
+            snippets.Add("using Steeltoe.Extensions.Configuration.ConfigServer;");
+            snippets.Add(".AddConfigServer()");
         }
 
-        protected override void AssertProgramCs(Steeltoe steeltoe, Framework framework, string source)
+        protected override void AddValuesControllerCsSnippets(Steeltoe steeltoe, Framework framework,
+            List<string> snippets)
         {
-            base.AssertProgramCs(steeltoe, framework, source);
-            source.Should().ContainSnippet("using Steeltoe.Extensions.Configuration.ConfigServer;");
-            source.Should().ContainSnippet(".AddConfigServer()");
-        }
-
-        protected override void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
-        {
-            base.AssertValuesControllerCs(steeltoe, framework, source);
-            source.Should().ContainSnippet(@"
+            snippets.Add(@"
 [HttpGet]
 public ActionResult<IEnumerable<string>> Get()
 {

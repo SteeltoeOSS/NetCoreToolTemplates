@@ -8,14 +8,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class DockerOptionTest : OptionTest
     {
-        public DockerOptionTest(ITestOutputHelper logger) : base("docker", logger)
+        public DockerOptionTest(ITestOutputHelper logger) : base("docker", "Add support for Docker", logger)
         {
-        }
-
-        protected override void AssertHelp(string help)
-        {
-            base.AssertHelp(help);
-            help.Should().ContainSnippet("--docker  Add support for Docker.");
         }
 
         protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)

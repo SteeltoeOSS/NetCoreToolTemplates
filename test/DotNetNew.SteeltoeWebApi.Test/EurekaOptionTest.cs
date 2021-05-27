@@ -1,35 +1,24 @@
 using System.Collections.Generic;
-using FluentAssertions;
-using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class EurekaOptionTest : OptionTest
     {
-        public EurekaOptionTest(ITestOutputHelper logger) : base("eureka", logger)
+        public EurekaOptionTest(ITestOutputHelper logger) : base("eureka",
+            "Add access to Eureka, a REST-based service for locating services", logger)
         {
         }
 
-        protected override void AssertHelp(string help)
+        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
         {
-            base.AssertHelp(help);
-            help.Should()
-                .ContainSnippet("--eureka  Add access to Eureka, a REST-based service for locating services.");
+            packages.Add("Steeltoe.Discovery.ClientCore");
         }
 
-        protected override void AssertCsproj(Steeltoe steeltoe, Framework framework,
-            Dictionary<string, string> properties, string[] packageRefs)
+        protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
         {
-            base.AssertCsproj(steeltoe, framework, properties, packageRefs);
-            packageRefs.Should().Contain("Steeltoe.Discovery.ClientCore");
-        }
-
-        protected override void AssertStartupCs(Steeltoe steeltoe, Framework framework, string source)
-        {
-            base.AssertStartupCs(steeltoe, framework, source);
-            source.Should().ContainSnippet("services.AddDiscoveryClient(Configuration);");
-            source.Should().ContainSnippet("app.UseDiscoveryClient();");
+            snippets.Add("services.AddDiscoveryClient(Configuration);");
+            snippets.Add("app.UseDiscoveryClient();");
         }
     }
 }

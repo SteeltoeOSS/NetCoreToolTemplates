@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -7,21 +6,11 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class SteeltoeOptionTest : OptionTest
     {
-        public SteeltoeOptionTest(ITestOutputHelper logger) : base("steeltoe", logger)
+        public SteeltoeOptionTest(ITestOutputHelper logger) : base("steeltoe",
+            "Set the Steeltoe version for the project", logger)
         {
             SkipProjectGeneration = true;
             SmokeTestOption = "3.0.2";
-        }
-
-        protected override void AssertHelp(string help)
-        {
-            base.AssertHelp(help);
-            help.Should().ContainSnippet(@"
--s|--steeltoe  Set the Steeltoe version for the project.
-                 3.0.2
-                 2.5.3
-               Default: 3.0.2
-");
         }
 
         [Fact]
