@@ -6,9 +6,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class CloudHystrixOptionTest : OptionTest
+    public class HystrixOptionTest : OptionTest
     {
-        public CloudHystrixOptionTest(ITestOutputHelper logger) : base("cloud-hystrix", logger)
+        public HystrixOptionTest(ITestOutputHelper logger) : base("hystrix", logger)
         {
         }
 
@@ -16,9 +16,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             base.AssertHelp(help);
             help.Should().ContainSnippet(@"
---cloud-hystrix  Add support for circuit breakers using Spring Cloud Netflix Hystrix.
-                 bool - Optional
-                 Default: false
+--hystrix  Add support for Netflix Hystrix, a latency and fault tolerance library.
+           bool - Optional
+           Default: false
 ");
         }
 

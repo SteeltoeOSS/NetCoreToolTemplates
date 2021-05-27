@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 #if (FrameworkNet50)
 using Microsoft.OpenApi.Models;
 #endif
-#if (CloudHystrix)
+#if (Hystrix)
 using Steeltoe.CircuitBreaker.Hystrix;
 #endif
 #if (RabbitMqConnector && Steeltoe2)
@@ -28,7 +28,7 @@ using Steeltoe.CloudFoundry.Connector.Redis;
 #if (RedisConnector && !Steeltoe2)
 using Steeltoe.Connector.Redis;
 #endif
-#if (EurekaClient)
+#if (Eureka)
 using Steeltoe.Discovery.Client;
 #endif
 #if (CloudFoundryHosting)
@@ -58,7 +58,7 @@ namespace Company.WebApplication1
 #if (CloudFoundryHosting)
             services.ConfigureCloudFoundryOptions(Configuration);
 #endif
-#if (EurekaClient)
+#if (Eureka)
             services.AddDiscoveryClient(Configuration);
 #endif
 #if (RabbitMqConnector)
@@ -67,7 +67,7 @@ namespace Company.WebApplication1
 #if (RedisConnector)
             services.AddDistributedRedisCache(Configuration);
 #endif
-#if (CloudHystrix)
+#if (Hystrix)
             services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);
             services.AddHystrixMetricsStream(Configuration);
 #endif
@@ -99,10 +99,10 @@ namespace Company.WebApplication1
                 app.UseDeveloperExceptionPage();
             }
 
-#if (EurekaClient)
+#if (Eureka)
             app.UseDiscoveryClient();
 #endif
-#if (CloudHystrix)
+#if (Hystrix)
             app.UseHystrixRequestContext();
             app.UseHystrixMetricsStream();
 #endif
@@ -123,10 +123,10 @@ namespace Company.WebApplication1
 #endif
             }
 
-#if (EurekaClient)
+#if (Eureka)
             app.UseDiscoveryClient();
 #endif
-#if (CloudHystrix)
+#if (Hystrix)
             app.UseHystrixRequestContext();
             app.UseHystrixMetricsStream();
 #endif

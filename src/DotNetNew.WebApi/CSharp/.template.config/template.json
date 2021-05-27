@@ -58,12 +58,6 @@
       "description": "Add hosting support for Cloud Foundry.",
       "defaultValue": "false"
     },
-    "CloudHystrix": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add support for circuit breakers using Spring Cloud Netflix Hystrix.",
-      "defaultValue": "false"
-    },
     "Docker": {
       "type": "parameter",
       "datatype": "bool",
@@ -73,7 +67,7 @@
     "DynamicLogger": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Use a dynamic logger.",
+      "description": "Add a dynamic logger.",
       "defaultValue": "false"
     },
     "DockerImageTag": {
@@ -102,11 +96,11 @@
     "Eureka": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add client support for Eureka, a REST-based service for locating services.",
+      "description": "Add access to Eureka, a REST-based service for locating services.",
       "defaultValue": "false"
     },
     "Framework": {
-      "description": "The target framework for the project.",
+      "description": "Set the target framework for the project.",
       "type": "parameter",
       "datatype": "choice",
       "choices": [
@@ -150,10 +144,16 @@
         "pattern": "^netcoreapp2.1$"
       }
     },
+    "Hystrix": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add support for Netflix Hystrix, a latency and fault tolerance library.",
+      "defaultValue": "false"
+    },
     "ManagementEndpoints": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add endpoints to manage your application, such as health, metrics, etc.",
+      "description": "Add application management endpoints, such as health and metrics.",
       "defaultValue": "false"
     },
     "MicrosoftAzureSpringCloudClientVersion": {
@@ -184,7 +184,7 @@
     "RabbitMqConnector": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add support for RabbitMQ over AMQP.",
+      "description": "Add access to RabbitMQ, an open source message broker.",
       "defaultValue": "false"
     },
     "RabbitMqVersion": {
@@ -204,7 +204,7 @@
     "RedisConnector": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add client support for Redis store.",
+      "description": "Add access to Redis, an in-memory data structure store.",
       "defaultValue": "false"
     },
     "RedisVersion": {
@@ -218,7 +218,7 @@
     "SkipRestore": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "If specified, skips the automatic restore of the project on create.",
+      "description": "Skip the automatic restore of the project on create.",
       "defaultValue": "false"
     },
     "Steeltoe2": {
@@ -260,7 +260,7 @@
       "value": "RedisConnector || RabbitMqConnector"
     },
     "SteeltoeVersion": {
-      "description": "The Steeltoe version for the project.",
+      "description": "Set the Steeltoe version for the project.",
       "type": "parameter",
       "datatype": "choice",
       "choices": [

@@ -26,13 +26,13 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (CloudConfig || CloudFoundryHosting || CloudHystrix || DynamicLogger || Eureka || ManagementEndpoints || PlaceholderConfiguration || RabbitMqConnector || RandomValueConfiguration || RedisConnector) -->
+  <!--#if (CloudConfig || CloudFoundryHosting || DynamicLogger || Eureka || Hystrix || ManagementEndpoints || PlaceholderConfiguration || RabbitMqConnector || RandomValueConfiguration || RedisConnector) -->
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(RedisConnector)' == 'True'" Version="$(RedisVersion)" />
-    <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqConnector)' == 'True' OR '$(CloudHystrix)' == 'True'"  Version="$(RabbitMqVersion)" />
-    <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(CloudHystrix)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(CloudHystrix)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqConnector)' == 'True' OR '$(Hystrix)' == 'True'"  Version="$(RabbitMqVersion)" />
+    <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(Hystrix)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(Hystrix)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Condition="'$(Steeltoe2Connector)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(CloudFoundryHosting)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Connector.ConnectorCore" Condition="'$(Steeltoe3Connector)' == 'True'" Version="$(SteeltoeVersion)" />

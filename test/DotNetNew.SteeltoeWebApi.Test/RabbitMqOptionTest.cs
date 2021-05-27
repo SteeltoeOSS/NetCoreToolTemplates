@@ -15,7 +15,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             base.AssertHelp(help);
             help.Should().ContainSnippet(@"
---rabbitmq  Add support for RabbitMQ over AMQP.
+--rabbitmq  Add access to RabbitMQ, an open source message broker.
             bool - Optional
             Default: false
 ");

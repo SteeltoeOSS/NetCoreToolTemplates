@@ -23,13 +23,13 @@ Steeltoe Web API (C#)
 Author: VMware
 ");
             help.Should().ContainSnippet(@"
--s|--steeltoe  The Steeltoe version for the project.
+-s|--steeltoe  Set the Steeltoe version for the project.
                  3.0.2
                  2.5.3
                Default: 3.0.2
 ");
             help.Should().ContainSnippet(@"
--f|--framework  The target framework for the project.
+-f|--framework  Set the target framework for the project.
                   net5.0
                   netcoreapp3.1
                   netcoreapp2.1

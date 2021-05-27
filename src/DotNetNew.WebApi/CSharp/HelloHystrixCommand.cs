@@ -1,4 +1,4 @@
-#if (CloudHystrix)
+#if (Hystrix)
 using System.Threading.Tasks;
 using Steeltoe.CircuitBreaker.Hystrix;
 

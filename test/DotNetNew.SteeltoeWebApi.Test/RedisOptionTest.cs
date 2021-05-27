@@ -15,7 +15,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             base.AssertHelp(help);
             help.Should().ContainSnippet(@"
---redis  Add client support for Redis store.
+--redis  Add access to Redis, an in-memory data structure store.
          bool - Optional
          Default: false
 ");

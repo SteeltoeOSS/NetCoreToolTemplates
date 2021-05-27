@@ -4,11 +4,11 @@
     <AzureSpringCloudHosting>false</AzureSpringCloudHosting>
     <CloudConfig>false</CloudConfig>
     <CloudFoundryHosting>false</CloudFoundryHosting>
-    <CloudHystrix>false</CloudHystrix>
     <DynamicLogger>false</DynamicLogger>
     <Eureka>false</Eureka>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
+    <Hystrix>false</Hystrix>
     <ManagementEndpoints>false</ManagementEndpoints>
     <MicrosoftAzureSpringCloudClientVersion>2.0.0-preview.1</MicrosoftAzureSpringCloudClientVersion>
     <PlaceholderConfiguration>false</PlaceholderConfiguration>

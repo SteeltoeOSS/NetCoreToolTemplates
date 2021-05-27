@@ -15,7 +15,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             base.AssertHelp(help);
             help.Should().ContainSnippet(@"
---eureka  Add client support for Eureka, a REST-based service for locating services.
+--eureka  Add access to Eureka, a REST-based service for locating services.
           bool - Optional
           Default: false
 ");

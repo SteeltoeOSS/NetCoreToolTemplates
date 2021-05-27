@@ -13,10 +13,6 @@
       "longName": "cloud-foundry",
       "shortName": ""
     },
-    "CloudHystrix": {
-      "longName": "cloud-hystrix",
-      "shortName": ""
-    },
     "Docker": {
       "longName": "docker",
       "shortName": ""
@@ -32,8 +28,12 @@
     "Framework": {
       "longName": "framework"
     },
+    "Hystrix": {
+      "longName": "hystrix",
+      "shortName": ""
+    },
     "ManagementEndpoints": {
-      "longName": "actuator",
+      "longName": "management-endpoints",
       "shortName": ""
     },
     "PlaceholderConfiguration": {

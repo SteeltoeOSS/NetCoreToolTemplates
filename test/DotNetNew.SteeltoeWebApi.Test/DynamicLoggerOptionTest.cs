@@ -15,7 +15,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             base.AssertHelp(help);
             help.Should().ContainSnippet(@"
---dynamic-logger  Use a dynamic logger.
+--dynamic-logger  Add a dynamic logger.
                   bool - Optional
                   Default: false
 ");

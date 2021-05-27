@@ -5,9 +5,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class ActuatorOptionTest : OptionTest
+    public class ManagementEndpointsOptionTest : OptionTest
     {
-        public ActuatorOptionTest(ITestOutputHelper logger) : base("actuator", logger)
+        public ManagementEndpointsOptionTest(ITestOutputHelper logger) : base("management-endpoints", logger)
         {
         }
 
@@ -15,9 +15,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
             base.AssertHelp(help);
             help.Should().ContainSnippet(@"
---actuator  Add endpoints to manage your application, such as health, metrics, etc.
-            bool - Optional
-            Default: false
+--management-endpoints  Add application management endpoints, such as health and metrics.
+                        bool - Optional
+                        Default: false
 ");
         }
 
