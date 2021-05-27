@@ -9,6 +9,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
     {
         public NoRestoreOptionTest(ITestOutputHelper logger) : base("no-restore", logger)
         {
+            SkipProjectGeneration = true;
         }
 
         protected override void AssertHelp(string help)

@@ -19,6 +19,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 
         protected Sandbox Sandbox;
 
+        protected bool SkipProjectGeneration { get; set; } = false;
+
         protected OptionTest(string option, ITestOutputHelper logger)
         {
             _option = option;
@@ -59,6 +61,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected virtual async void TestProjectGeneration(string steeltoeOption, string frameworkOption)
         {
             Logger.WriteLine($"steeltoe/framework: {steeltoeOption}/{frameworkOption}");
+            if (SkipProjectGeneration)
+            {
+                Logger.WriteLine("skipping project generation");
+                return;
+            }
+
             var steeltoe = ToSteeltoeEnum(steeltoeOption);
             var framework = ToFrameworkEnum(frameworkOption);
             Sandbox = await TemplateSandbox($"--steeltoe {steeltoeOption} --framework {frameworkOption}");

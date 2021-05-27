@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Steeltoe.DotNetNew.Test.Utilities.Models;
-using Xunit;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
@@ -22,35 +21,6 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 Steeltoe Web API (C#)
 Author: VMware
 ");
-            help.Should().ContainSnippet(@"
--s|--steeltoe  Set the Steeltoe version for the project.
-                 3.0.2
-                 2.5.3
-               Default: 3.0.2
-");
-            help.Should().ContainSnippet(@"
--f|--framework  Set the target framework for the project.
-                  net5.0
-                  netcoreapp3.1
-                  netcoreapp2.1
-                Default: net5.0
-");
-        }
-
-        [Fact]
-        [Trait("Category", "Functional")]
-        public async void TestUnsupportedSteeltoe()
-        {
-            using var sandbox = await TemplateSandbox("--steeltoe unsupported1.0");
-            sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --steeltoe");
-        }
-
-        [Fact]
-        [Trait("Category", "Functional")]
-        public async void TestUnsupportedFramework()
-        {
-            using var sandbox = await TemplateSandbox("--framework unsupported1.0");
-            sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --framework");
         }
 
         protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)
