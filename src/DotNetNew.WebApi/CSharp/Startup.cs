@@ -13,37 +13,37 @@ using Microsoft.Extensions.Hosting;
 #if (FrameworkNet50)
 using Microsoft.OpenApi.Models;
 #endif
-#if (Hystrix)
+#if (HystrixOption)
 using Steeltoe.CircuitBreaker.Hystrix;
 #endif
-#if (MySqlConnector && Steeltoe2)
+#if (MySqlOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.MySql;
 #endif
-#if (MySqlConnector && !Steeltoe2)
+#if (MySqlOption && !Steeltoe2)
 using Steeltoe.Connector.MySql;
 #endif
-#if (RabbitMqConnector && Steeltoe2)
+#if (RabbitMqOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 #endif
-#if (RabbitMqConnector && !Steeltoe2)
+#if (RabbitMqOption && !Steeltoe2)
 using Steeltoe.Connector.RabbitMQ;
 #endif
-#if (RedisConnector && Steeltoe2)
+#if (RedisOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.Redis;
 #endif
-#if (RedisConnector && !Steeltoe2)
+#if (RedisOption && !Steeltoe2)
 using Steeltoe.Connector.Redis;
 #endif
-#if (SqlServerConnector && Steeltoe2)
+#if (SqlServerOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.SqlServer;
 #endif
-#if (SqlServerConnector && !Steeltoe2)
+#if (SqlServerOption && !Steeltoe2)
 using Steeltoe.Connector.SqlServer;
 #endif
-#if (Eureka)
+#if (EurekaOption)
 using Steeltoe.Discovery.Client;
 #endif
-#if (CloudFoundryHosting)
+#if (CloudFoundryHostingOption)
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
 #if (Steeltoe2ManagementEndpoints)
@@ -67,25 +67,25 @@ namespace Company.WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-#if (CloudFoundryHosting)
+#if (CloudFoundryHostingOption)
             services.ConfigureCloudFoundryOptions(Configuration);
 #endif
-#if (Eureka)
+#if (EurekaOption)
             services.AddDiscoveryClient(Configuration);
 #endif
-#if (MySqlConnector)
+#if (MySqlOption)
             services.AddMySqlConnection(Configuration);
 #endif
-#if (RabbitMqConnector)
+#if (RabbitMqOption)
             services.AddRabbitMQConnection(Configuration);
 #endif
-#if (RedisConnector)
+#if (RedisOption)
             services.AddDistributedRedisCache(Configuration);
 #endif
-#if (SqlServerConnector)
+#if (SqlServerOption)
             services.AddSqlServerConnection(Configuration);
 #endif
-#if (Hystrix)
+#if (HystrixOption)
             services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);
             services.AddHystrixMetricsStream(Configuration);
 #endif
@@ -117,14 +117,14 @@ namespace Company.WebApplication1
                 app.UseDeveloperExceptionPage();
             }
 
-#if (Eureka)
+#if (EurekaOption)
             app.UseDiscoveryClient();
 #endif
-#if (Hystrix)
+#if (HystrixOption)
             app.UseHystrixRequestContext();
             app.UseHystrixMetricsStream();
 #endif
-#if (ManagementEndpoints)
+#if (ManagementEndpointsOption)
             app.UseCloudFoundryActuators();
 #endif
             app.UseMvc();
@@ -141,10 +141,10 @@ namespace Company.WebApplication1
 #endif
             }
 
-#if (Eureka)
+#if (EurekaOption)
             app.UseDiscoveryClient();
 #endif
-#if (Hystrix)
+#if (HystrixOption)
             app.UseHystrixRequestContext();
             app.UseHystrixMetricsStream();
 #endif

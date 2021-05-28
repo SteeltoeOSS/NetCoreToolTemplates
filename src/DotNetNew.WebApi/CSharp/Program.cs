@@ -5,27 +5,27 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 #endif
-#if (AzureSpringCloudHosting && !FrameworkNetCoreApp21)
+#if (AzureSpringCloudHostingOption && !FrameworkNetCoreApp21)
 using Microsoft.Azure.SpringCloud.Client;
 #endif
-#if (DynamicLogger && FrameworkNetCoreApp21)
+#if (DynamicLoggerOption && FrameworkNetCoreApp21)
 using Microsoft.Extensions.Logging;
 #endif
-#if (CloudFoundryHosting)
+#if (CloudFoundryHostingOption)
 using Steeltoe.Common.Hosting;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
-#if (CloudConfigClient)
+#if (CloudConfigOption)
 using Steeltoe.Extensions.Configuration.ConfigServer;
 #endif
-#if (PlaceholderConfiguration)
+#if (PlaceholderOption)
 #if (Steeltoe2)
 using Steeltoe.Extensions.Configuration.PlaceholderCore;
 #else
 using Steeltoe.Extensions.Configuration.Placeholder;
 #endif
 #endif
-#if (DynamicLogger)
+#if (DynamicLoggerOption)
 using Steeltoe.Extensions.Logging;
 #endif
 
@@ -46,17 +46,17 @@ namespace Company.WebApplication1
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             var builder = WebHost.CreateDefaultBuilder(args)
-#if (CloudConfigClient)
+#if (CloudConfigOption)
                 .AddConfigServer()
 #endif
-#if (PlaceholderConfiguration)
+#if (PlaceholderOption)
                 .AddPlaceholderResolver()
 #endif
-#if (CloudFoundryHosting)
+#if (CloudFoundryHostingOption)
                 .UseCloudHosting()
                 .AddCloudFoundryConfiguration()
 #endif
-#if (DynamicLogger)
+#if (DynamicLoggerOption)
                 .ConfigureLogging((hostingContext, loggingBuilder) =>
                 {
                     loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
@@ -69,20 +69,20 @@ namespace Company.WebApplication1
 #else
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-#if (PlaceholderConfiguration)
+#if (PlaceholderOption)
                 .AddPlaceholderResolver()
 #endif
-#if (AzureSpringCloudHosting)
+#if (AzureSpringCloudHostingOption)
                 .UseAzureSpringCloudService()
 #endif
-#if (CloudFoundryHosting)
+#if (CloudFoundryHostingOption)
                 .UseCloudHosting()
                 .AddCloudFoundryConfiguration()
 #endif
-#if (CloudConfigClient)
+#if (CloudConfigOption)
                 .AddConfigServer()
 #endif
-#if (DynamicLogger)
+#if (DynamicLoggerOption)
                 .ConfigureLogging((context, builder) => builder.AddDynamicConsole())
 #endif
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });

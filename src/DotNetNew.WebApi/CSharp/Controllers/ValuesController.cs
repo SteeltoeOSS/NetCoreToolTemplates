@@ -1,41 +1,41 @@
-#if (!RabbitMqConnector)
+#if (!RabbitMqOption)
 using System.Collections.Generic;
 #endif
-#if (MySqlConnector)
+#if (MySqlOption)
 using System.Data;
 #endif
-#if (SqlServerConnector)
+#if (SqlServerOption)
 using System.Data;
 using System.Data.SqlClient;
 #endif
-#if (RabbitMqConnector)
+#if (RabbitMqOption)
 using System.Text;
 using System.Threading;
 #endif
-#if (RedisConnector)
+#if (RedisOption)
 using System.Threading.Tasks;
 #endif
 using Microsoft.AspNetCore.Mvc;
-#if (RedisConnector)
+#if (RedisOption)
 using Microsoft.Extensions.Caching.Distributed;
 #endif
-#if (CloudConfigClient || PlaceholderConfiguration || RandomValueConfiguration)
+#if (AnyConfigurator)
 using Microsoft.Extensions.Configuration;
 #endif
-#if (RabbitMqConnector)
+#if (RabbitMqOption)
 using Microsoft.Extensions.Logging;
 #endif
-#if (CloudFoundryHosting)
+#if (CloudFoundryHostingOption)
 using Microsoft.Extensions.Options;
 #endif
-#if (MySqlConnector)
+#if (MySqlOption)
 using MySql.Data.MySqlClient;
 #endif
-#if (RabbitMqConnector)
+#if (RabbitMqOption)
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 #endif
-#if (CloudFoundryHosting)
+#if (CloudFoundryHostingOption)
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
 
@@ -45,7 +45,7 @@ namespace Company.WebApplication1.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-#if (CloudFoundryHosting)
+#if (CloudFoundryHostingOption)
         private readonly CloudFoundryApplicationOptions _appOptions;
 
         public ValuesController(IOptions<CloudFoundryApplicationOptions> appOptions)
@@ -53,7 +53,7 @@ namespace Company.WebApplication1.Controllers
             _appOptions = appOptions.Value;
         }
 #endif
-#if (CloudConfigClient || PlaceholderConfiguration || RandomValueConfiguration)
+#if (AnyConfigurator)
         private readonly IConfiguration _configuration;
 
         public ValuesController(IConfiguration configuration)
@@ -62,7 +62,7 @@ namespace Company.WebApplication1.Controllers
         }
 
 #endif
-#if (RabbitMqConnector)
+#if (RabbitMqOption)
         private readonly ILogger _logger;
         private readonly ConnectionFactory _factory;
         private const string QueueName = "my-queue";
@@ -73,7 +73,7 @@ namespace Company.WebApplication1.Controllers
             _factory = factory;
         }
 #endif
-#if (RedisConnector)
+#if (RedisOption)
         private readonly IDistributedCache _cache;
 
         public ValuesController(IDistributedCache cache)
@@ -81,7 +81,7 @@ namespace Company.WebApplication1.Controllers
             _cache = cache;
         }
 #endif
-#if (SqlServerConnector)
+#if (SqlServerOption)
         private readonly SqlConnection _dbConnection;
 
         public ValuesController([FromServices] SqlConnection dbConnection)
@@ -89,7 +89,7 @@ namespace Company.WebApplication1.Controllers
             _dbConnection = dbConnection;
         }
 #endif
-#if (MySqlConnector)
+#if (MySqlOption)
         private readonly MySqlConnection _dbConnection;
 
         public ValuesController([FromServices] MySqlConnection dbConnection)
@@ -99,7 +99,7 @@ namespace Company.WebApplication1.Controllers
 #endif
 
         [HttpGet]
-#if (RabbitMqConnector)
+#if (RabbitMqOption)
         public ActionResult<string> Get()
         {
             using var connection = _factory.CreateConnection();
@@ -136,7 +136,7 @@ namespace Company.WebApplication1.Controllers
             }
 
             return "Wrote 5 message to the info log. Have a look!";
-#elif (RedisConnector)
+#elif (RedisOption)
         public async Task<IEnumerable<string>> Get()
         {
             await _cache.SetStringAsync("MyValue1", "123");
@@ -148,17 +148,17 @@ namespace Company.WebApplication1.Controllers
 #else
         public ActionResult<IEnumerable<string>> Get()
         {
-#if (CloudConfigClient)
+#if (CloudConfigOption)
             var val1 = _configuration["Value1"];
             var val2 = _configuration["Value2"];
 
             return new[] { val1, val2 };
-#elif (CloudFoundryHosting)
+#elif (CloudFoundryHostingOption)
             string appName = _appOptions.ApplicationName;
             string appInstance = _appOptions.ApplicationId;
 
             return new[] { appInstance, appName };
-#elif (MySqlConnector || SqlServerConnector)
+#elif (MySqlOption || SqlServerOption)
             List<string> tables = new List<string>();
             _dbConnection.Open();
             DataTable dt = _dbConnection.GetSchema("Tables");
@@ -170,13 +170,13 @@ namespace Company.WebApplication1.Controllers
             }
 
             return tables;
-#elif (PlaceholderConfiguration)
+#elif (PlaceholderOption)
             var val1 = _configuration["ResolvedPlaceholderFromEnvVariables"];
             var val2 = _configuration["UnresolvedPlaceholder"];
             var val3 = _configuration["ResolvedPlaceholderFromJson"];
 
             return new[] { val1, val2, val3 };
-#elif (RandomValueConfiguration)
+#elif (RandomValueOption)
             var val1 = _configuration["random:int"];
             var val2 = _configuration["random:uuid"];
             var val3 = _configuration["random:string"];

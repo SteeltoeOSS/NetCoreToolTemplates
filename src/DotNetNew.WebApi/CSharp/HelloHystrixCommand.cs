@@ -1,4 +1,4 @@
-#if (Hystrix)
+#if (HystrixOption)
 using System.Threading.Tasks;
 using Steeltoe.CircuitBreaker.Hystrix;
 

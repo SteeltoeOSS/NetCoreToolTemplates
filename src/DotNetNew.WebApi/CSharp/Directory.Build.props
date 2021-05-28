@@ -1,27 +1,27 @@
 <Project>
 
   <PropertyGroup>
-    <AzureSpringCloudHosting>false</AzureSpringCloudHosting>
-    <CloudConfig>false</CloudConfig>
-    <CloudFoundryHosting>false</CloudFoundryHosting>
-    <DynamicLogger>false</DynamicLogger>
-    <Eureka>false</Eureka>
+    <AzureSpringCloudClientVersion>2.0.0-preview.1</AzureSpringCloudClientVersion>
+    <AzureSpringCloudHostingOption>false</AzureSpringCloudHostingOption>
+    <CloudConfigOption>false</CloudConfigOption>
+    <CloudFoundryHostingOption>false</CloudFoundryHostingOption>
+    <DockerOption>false</DockerOption>
+    <DynamicLoggerOption>false</DynamicLoggerOption>
+    <EurekaOption>false</EurekaOption>
     <FrameworkOption>net5.0</FrameworkOption>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
-    <Hystrix>false</Hystrix>
-    <ManagementEndpoints>false</ManagementEndpoints>
-    <MicrosoftAzureSpringCloudClientVersion>2.0.0-preview.1</MicrosoftAzureSpringCloudClientVersion>
-    <MySqlConnector>false</MySqlConnector>
+    <HystrixOption>false</HystrixOption>
+    <ManagementEndpointsOption>false</ManagementEndpointsOption>
+    <MySqlOption>false</MySqlOption>
     <MySqlVersion>8.0.*</MySqlVersion>
-    <PlaceholderConfiguration>false</PlaceholderConfiguration>
-    <RandomValueConfiguration>false</RandomValueConfiguration>
-    <RabbitMqConnector>false</RabbitMqConnector>
+    <PlaceholderOption>false</PlaceholderOption>
+    <RabbitMqOption>false</RabbitMqOption>
     <RabbitMqVersion>5.1.*</RabbitMqVersion>
-    <RedisConnector>false</RedisConnector>
+    <RandomValueOption>false</RandomValueOption>
+    <RedisOption>false</RedisOption>
     <RedisVersion>3.1.*</RedisVersion>
-    <SqlServerConnector>false</SqlServerConnector>
-    <Steeltoe2>false</Steeltoe2>
+    <SqlServerOption>false</SqlServerOption>
     <SteeltoeVersionOption>3.0.2</SteeltoeVersionOption>
   </PropertyGroup>
 

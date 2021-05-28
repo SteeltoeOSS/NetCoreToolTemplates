@@ -1,70 +1,70 @@
 {
   "$schema": "http://json.schemastore.org/dotnetcli.host",
   "symbolInfo": {
-    "AzureSpringCloudHosting": {
+    "AzureSpringCloudHostingOption": {
       "longName": "azure-spring-cloud",
       "shortName": ""
     },
-    "CloudConfig": {
+    "CloudConfigOption": {
       "longName": "cloud-config",
       "shortName": ""
     },
-    "CloudFoundryHosting": {
+    "CloudFoundryHostingOption": {
       "longName": "cloud-foundry",
       "shortName": ""
     },
-    "Docker": {
+    "DockerOption": {
       "longName": "docker",
       "shortName": ""
     },
-    "DynamicLogger": {
+    "DynamicLoggerOption": {
       "longName": "dynamic-logger",
       "shortName": ""
     },
-    "Eureka": {
+    "EurekaOption": {
       "longName": "eureka",
       "shortName": ""
     },
     "Framework": {
       "longName": "framework"
     },
-    "Hystrix": {
+    "HystrixOption": {
       "longName": "hystrix",
       "shortName": ""
     },
-    "ManagementEndpoints": {
+    "ManagementEndpointsOption": {
       "longName": "management-endpoints",
       "shortName": ""
     },
-    "MySqlConnector": {
+    "MySqlOption": {
       "longName": "mysql",
       "shortName": ""
     },
-    "PlaceholderConfiguration": {
+    "PlaceholderOption": {
       "longName": "placeholder",
       "shortName": ""
     },
-    "RabbitMqConnector": {
+    "RabbitMqOption": {
       "longName": "rabbitmq",
       "shortName": ""
     },
-    "RandomValueConfiguration": {
+    "RandomValueOption": {
       "longName": "random-value",
       "shortName": ""
     },
-    "RedisConnector": {
+    "RedisOption": {
       "longName": "redis",
       "shortName": ""
     },
-    "SkipRestore": {
+    "SkipRestoreOption": {
       "longName": "no-restore",
       "shortName": ""
     },
-    "SqlServerConnector": {
+    "SqlServerOption": {
       "longName": "sqlserver",
       "shortName": ""
     },
-    "SteeltoeVersion": {
+    "SteeltoeVersionOption": {
       "longName": "steeltoe"
     }
   }
