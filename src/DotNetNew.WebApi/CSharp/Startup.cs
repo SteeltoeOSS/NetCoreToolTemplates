@@ -34,6 +34,12 @@ using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
 #if (MySqlEfCoreOption && !Steeltoe2)
 using Steeltoe.Connector.MySql.EFCore;
 #endif
+#if (OAuthOption && Steeltoe2)
+using Steeltoe.CloudFoundry.Connector.OAuth;
+#endif
+#if (OAuthOption && !Steeltoe2)
+using Steeltoe.Connector.OAuth;
+#endif
 #if (PostgreSqlOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.PostgreSql;
 #endif
@@ -94,6 +100,9 @@ namespace Company.WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+#if (OAuthOption)
+            services.AddOAuthServiceOptions(Configuration);
+#endif
 #if (CloudFoundryHostingOption)
             services.ConfigureCloudFoundryOptions(Configuration);
 #endif

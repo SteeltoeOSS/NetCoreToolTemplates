@@ -1,6 +1,7 @@
 <Project>
 
   <PropertyGroup>
+    <AzureOAuthVersion>3.1.*</AzureOAuthVersion>
     <AzureSpringCloudClientVersion>2.0.0-preview.1</AzureSpringCloudClientVersion>
     <AzureSpringCloudHostingOption>false</AzureSpringCloudHostingOption>
     <CloudConfigOption>false</CloudConfigOption>
@@ -20,6 +21,7 @@
     <MySqlEfCoreOption>false</MySqlEfCoreOption>
     <MySqlOption>false</MySqlOption>
     <NpgsqlDriverVersion>4.1.*</NpgsqlDriverVersion>
+    <OAuthOption>false</OAuthOption>
     <PlaceholderOption>false</PlaceholderOption>
     <PostgreSqlEfCoreOption>false</PostgreSqlEfCoreOption>
     <PostgreSqlOption>false</PostgreSqlOption>

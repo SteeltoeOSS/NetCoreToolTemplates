@@ -48,6 +48,10 @@
       "longName": "mysql",
       "shortName": ""
     },
+    "OAuthOption": {
+      "longName": "oauth",
+      "shortName": ""
+    },
     "PlaceholderOption": {
       "longName": "placeholder",
       "shortName": ""

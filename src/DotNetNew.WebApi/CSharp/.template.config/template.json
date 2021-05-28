@@ -57,7 +57,7 @@
     },
     "AnyConnector": {
       "type": "computed",
-      "value": "MongoDbOption || MySqlEfCoreOption || MySqlOption || PostgreSqlEfCoreOption || PostgreSqlOption || RedisOption || RabbitMqOption || SqlServerOption"
+      "value": "MongoDbOption || MySqlEfCoreOption || MySqlOption || OAuthOption || PostgreSqlEfCoreOption || PostgreSqlOption || RedisOption || RabbitMqOption || SqlServerOption"
     },
     "AnyEfCore": {
       "type": "computed",
@@ -70,6 +70,29 @@
     "AnySteeltoeLibrary": {
       "type": "computed",
       "value": "AnyCloudManagement || AnyConfigurator || AnyConnector"
+    },
+    "AzureOAuthVersion": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "$(AzureOAuthVersion)",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(Framework == 'netcoreapp2.1')",
+            "value": "2.1.*"
+          },
+          {
+            "condition": "(Framework == 'netcoreapp3.1')",
+            "value": "3.1.*"
+          },
+          {
+            "condition": "(Framework == 'net5.0')",
+            "value": "3.1.*"
+          }
+        ]
+      }
     },
     "AzureSpringCloudClientVersion": {
       "type": "generated",
@@ -255,6 +278,12 @@
         "value": "4.1.*"
       },
       "replaces": "$(NpgsqlDriverVersion)"
+    },
+    "OAuthOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add access to OAuth security.",
+      "defaultValue": "false"
     },
     "PlaceholderOption": {
       "type": "parameter",
