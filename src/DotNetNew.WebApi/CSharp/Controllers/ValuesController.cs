@@ -27,6 +27,9 @@ using Microsoft.Extensions.Logging;
 #if (CloudFoundryHostingOption)
 using Microsoft.Extensions.Options;
 #endif
+#if (MongoDbOption)
+using MongoDB.Driver;
+#endif
 #if (MySqlOption)
 using MySql.Data.MySqlClient;
 #endif
@@ -61,6 +64,16 @@ namespace Company.WebApplication1.Controllers
         public ValuesController(IConfiguration configuration)
         {
             _configuration = configuration;
+        }
+#endif
+#if (MongoDbOption)
+        private readonly IMongoClient _mongoClient;
+        private readonly MongoUrl _mongoUrl;
+
+        public ValuesController(IMongoClient mongoClient, MongoUrl mongoUrl)
+        {
+            _mongoClient = mongoClient;
+            _mongoUrl = mongoUrl;
         }
 #endif
 #if (RabbitMqOption)
@@ -163,6 +176,10 @@ namespace Company.WebApplication1.Controllers
             string appInstance = _appOptions.ApplicationId;
 
             return new[] { appInstance, appName };
+#elif (MongoDbOption)
+            List<string> listing = _mongoClient.ListDatabaseNames().ToList();
+            listing.Insert(0, _mongoUrl.Url);
+            return listing;
 #elif (AnySqlDatabase)
             List<string> tables = new List<string>();
             _dbConnection.Open();

@@ -57,7 +57,7 @@
     },
     "AnyConnector": {
       "type": "computed",
-      "value": "MySqlEfCoreOption || MySqlOption || PostgreSqlEfCoreOption || PostgreSqlOption || RedisOption || RabbitMqOption || SqlServerOption"
+      "value": "MongoDbOption || MySqlEfCoreOption || MySqlOption || PostgreSqlEfCoreOption || PostgreSqlOption || RedisOption || RabbitMqOption || SqlServerOption"
     },
     "AnyEfCore": {
       "type": "computed",
@@ -212,6 +212,20 @@
       "type": "parameter",
       "datatype": "bool",
       "description": "Add application management endpoints, such as health and metrics.",
+      "defaultValue": "false"
+    },
+    "MongoDbDriverVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "2.8.*"
+      },
+      "replaces": "$(MongoDbDriverVersion)"
+    },
+    "MongoDbOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add access to MongoDB databases.",
       "defaultValue": "false"
     },
     "MySqlDriverVersion": {

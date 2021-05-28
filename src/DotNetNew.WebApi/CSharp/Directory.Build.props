@@ -14,6 +14,8 @@
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
     <HystrixOption>false</HystrixOption>
     <ManagementEndpointsOption>false</ManagementEndpointsOption>
+    <MongoDbDriverVersion>2.8.*</MongoDbDriverVersion>
+    <MongoDbOption>false</MongoDbOption>
     <MySqlDriverVersion>8.0.*</MySqlDriverVersion>
     <MySqlEfCoreOption>false</MySqlEfCoreOption>
     <MySqlOption>false</MySqlOption>

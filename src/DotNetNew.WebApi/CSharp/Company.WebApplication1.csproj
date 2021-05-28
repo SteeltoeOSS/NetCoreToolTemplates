@@ -32,6 +32,7 @@
     <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(AzureSpringCloudHostingOption)' == 'True' AND '$(FrameworkNetCoreApp21)' != 'True'" Version="$(AzureSpringCloudClientVersion)" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Condition="'$(AnyEfCore)' == 'True'" Version="$(EntityFrameworkCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(RedisOption)' == 'True'" Version="$(RedisDriverVersion)" />
+    <PackageReference Include="MongoDB.Driver" Condition="'$(MongoDbOption)' == 'True'" Version="$(MongoDbDriverVersion)" />
     <PackageReference Include="MySql.Data" Condition="'$(MySqlOption)' == 'True'" Version="$(MySqlDriverVersion)" />
     <PackageReference Include="Npgsql" Condition="'$(PostgreSqlOption)' == 'True'" Version="$(NpgsqlDriverVersion)" />
     <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqOption)' == 'True' OR '$(HystrixOption)' == 'True'" Version="$(RabbitMqDriverVersion)" />

@@ -16,6 +16,12 @@ using Microsoft.OpenApi.Models;
 #if (HystrixOption)
 using Steeltoe.CircuitBreaker.Hystrix;
 #endif
+#if (MongoDbOption && Steeltoe2)
+using Steeltoe.CloudFoundry.Connector.MongoDb;
+#endif
+#if (MongoDbOption && !Steeltoe2)
+using Steeltoe.Connector.MongoDb;
+#endif
 #if (MySqlOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.MySql;
 #endif
@@ -93,6 +99,9 @@ namespace Company.WebApplication1
 #endif
 #if (EurekaOption)
             services.AddDiscoveryClient(Configuration);
+#endif
+#if (MongoDbOption)
+            services.AddMongoClient(Configuration);
 #endif
 #if (MySqlOption)
             services.AddMySqlConnection(Configuration);
