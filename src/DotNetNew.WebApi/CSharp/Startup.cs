@@ -34,6 +34,12 @@ using Steeltoe.CloudFoundry.Connector.PostgreSql;
 #if (PostgreSqlOption && !Steeltoe2)
 using Steeltoe.Connector.PostgreSql;
 #endif
+#if (PostgreSqlEfCoreOption && Steeltoe2)
+using Steeltoe.CloudFoundry.Connector.PostgreSql.EFCore;
+#endif
+#if (PostgreSqlEfCoreOption && !Steeltoe2)
+using Steeltoe.Connector.PostgreSql.EFCore;
+#endif
 #if (RabbitMqOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 #endif
@@ -64,7 +70,7 @@ using Steeltoe.Management.CloudFoundry;
 #if (Steeltoe3ManagementEndpoints)
 using Steeltoe.Management.Endpoint;
 #endif
-#if (MySqlEfCoreOption)
+#if (AnyEfCore)
 using Company.WebApplication1.Models;
 #endif
 
@@ -96,6 +102,9 @@ namespace Company.WebApplication1
 #endif
 #if (PostgreSqlOption)
             services.AddPostgresConnection(Configuration);
+#endif
+#if (PostgreSqlEfCoreOption)
+            services.AddDbContext<SampleContext>(options => options.UseNpgsql(Configuration));
 #endif
 #if (RabbitMqOption)
             services.AddRabbitMQConnection(Configuration);

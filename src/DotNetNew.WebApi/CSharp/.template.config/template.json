@@ -37,7 +37,7 @@
           ]
         },
         {
-          "condition": "(!MySqlEfCoreOption)",
+          "condition": "(!AnyEfCore)",
           "exclude": [
             "Models/ErrorViewModel.cs",
             "Models/SampleContext.cs"
@@ -57,7 +57,11 @@
     },
     "AnyConnector": {
       "type": "computed",
-      "value": "MySqlEfCoreOption || MySqlOption || PostgreSqlOption || RedisOption || RabbitMqOption || SqlServerOption"
+      "value": "MySqlEfCoreOption || MySqlOption || PostgreSqlEfCoreOption || PostgreSqlOption || RedisOption || RabbitMqOption || SqlServerOption"
+    },
+    "AnyEfCore": {
+      "type": "computed",
+      "value": "MySqlEfCoreOption || PostgreSqlEfCoreOption"
     },
     "AnySqlDatabase": {
       "type": "computed",
@@ -213,7 +217,7 @@
     "MySqlEfCoreOption": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add access to MySQL database using Entity Framework Core.",
+      "description": "Add access to MySQL databases using Entity Framework Core.",
       "defaultValue": "false"
     },
     "MySqlOption": {
@@ -234,6 +238,12 @@
       "type": "parameter",
       "datatype": "bool",
       "description": "Add a placeholder configuration source.",
+      "defaultValue": "false"
+    },
+    "PostgreSqlEfCoreOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add access to PostgreSQL databases using Entity Framework Core.",
       "defaultValue": "false"
     },
     "PostgreSqlOption": {

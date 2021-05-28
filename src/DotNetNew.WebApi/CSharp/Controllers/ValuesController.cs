@@ -62,7 +62,6 @@ namespace Company.WebApplication1.Controllers
         {
             _configuration = configuration;
         }
-
 #endif
 #if (RabbitMqOption)
         private readonly ILogger _logger;

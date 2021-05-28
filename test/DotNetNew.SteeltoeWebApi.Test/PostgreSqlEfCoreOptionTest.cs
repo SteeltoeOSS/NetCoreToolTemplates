@@ -7,10 +7,10 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class MySqlEfCoreOptionTest : OptionTest
+    public class PostgreSqlEfCoreOptionTest : OptionTest
     {
-        public MySqlEfCoreOptionTest(ITestOutputHelper logger) : base("mysql-efcore",
-            "Add access to MySQL databases using Entity Framework Core", logger)
+        public PostgreSqlEfCoreOptionTest(ITestOutputHelper logger) : base("postgresql-efcore",
+            "Add access to PostgreSQL databases using Entity Framework Core", logger)
         {
         }
 
@@ -51,15 +51,15 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             switch (steeltoe)
             {
                 case Steeltoe.Steeltoe2:
-                    snippets.Add("using Steeltoe.CloudFoundry.Connector.MySql.EFCore;");
+                    snippets.Add("using Steeltoe.CloudFoundry.Connector.PostgreSql.EFCore;");
                     break;
                 default:
-                    snippets.Add("using Steeltoe.Connector.MySql.EFCore;");
+                    snippets.Add("using Steeltoe.Connector.PostgreSql.EFCore;");
                     break;
             }
 
             snippets.Add($"using {Sandbox.Name}.Models;");
-            snippets.Add("services.AddDbContext<SampleContext>(options => options.UseMySql(Configuration));");
+            snippets.Add("services.AddDbContext<SampleContext>(options => options.UseNpgsql(Configuration));");
         }
     }
 }

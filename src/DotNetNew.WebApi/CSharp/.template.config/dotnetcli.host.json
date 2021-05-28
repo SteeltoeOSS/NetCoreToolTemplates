@@ -48,6 +48,10 @@
       "longName": "placeholder",
       "shortName": ""
     },
+    "PostgreSqlEfCoreOption": {
+      "longName": "postgresql-efcore",
+      "shortName": ""
+    },
     "PostgreSqlOption": {
       "longName": "postgresql",
       "shortName": ""
