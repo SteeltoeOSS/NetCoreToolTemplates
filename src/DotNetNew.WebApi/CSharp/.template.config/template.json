@@ -130,7 +130,7 @@
           "choice": "netcoreapp2.1"
         }
       ],
-      "replaces": "net5.0",
+      "replaces": "$(FrameworkOption)",
       "defaultValue": "net5.0"
     },
     "FrameworkNet50": {
@@ -304,7 +304,7 @@
         }
       ],
       "defaultValue": "3.0.2",
-      "replaces": "3.0.2"
+      "replaces": "$(SteeltoeVersionOption)"
     }
   },
   "primaryOutputs": [

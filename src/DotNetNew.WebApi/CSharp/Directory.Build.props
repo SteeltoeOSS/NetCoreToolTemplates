@@ -6,6 +6,7 @@
     <CloudFoundryHosting>false</CloudFoundryHosting>
     <DynamicLogger>false</DynamicLogger>
     <Eureka>false</Eureka>
+    <FrameworkOption>net5.0</FrameworkOption>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
     <Hystrix>false</Hystrix>
@@ -21,6 +22,7 @@
     <RedisVersion>3.1.*</RedisVersion>
     <SqlServerConnector>false</SqlServerConnector>
     <Steeltoe2>false</Steeltoe2>
+    <SteeltoeVersionOption>3.0.2</SteeltoeVersionOption>
   </PropertyGroup>
 
 </Project>

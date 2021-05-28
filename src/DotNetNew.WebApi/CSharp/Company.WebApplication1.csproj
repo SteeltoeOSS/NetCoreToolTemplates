@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>$(FrameworkOption)</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <PropertyGroup>
-    <SteeltoeVersion>3.0.2</SteeltoeVersion>
+    <SteeltoeVersion>$(SteeltoeVersionOption)</SteeltoeVersion>
     <NetCoreApp21Version Condition="'$(FrameworkNetCoreApp21)'">2.1.*</NetCoreApp21Version>
   </PropertyGroup>
   <!--#if (FrameworkNet50) -->
