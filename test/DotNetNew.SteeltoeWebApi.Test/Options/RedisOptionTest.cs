@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
 {
     public class RedisOptionTest : OptionTest
     {
@@ -10,12 +11,13 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
+        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> packages)
         {
             packages.Add("Microsoft.Extensions.Caching.StackExchangeRedis");
-            switch (steeltoe)
+            switch (steeltoeVersion)
             {
-                case Steeltoe.Steeltoe2:
+                case SteeltoeVersion.Steeltoe2:
                     packages.Add("Steeltoe.CloudFoundry.ConnectorCore");
                     break;
                 default:
@@ -24,11 +26,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             }
         }
 
-        protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
+        protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
         {
-            switch (steeltoe)
+            switch (steeltoeVersion)
             {
-                case Steeltoe.Steeltoe2:
+                case SteeltoeVersion.Steeltoe2:
                     snippets.Add("using Steeltoe.CloudFoundry.Connector.Redis;");
                     break;
                 default:
@@ -39,7 +42,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             snippets.Add("services.AddDistributedRedisCache(Configuration)");
         }
 
-        protected override void AddValuesControllerCsSnippets(Steeltoe steeltoe, Framework framework,
+        protected override void AddValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             snippets.Add("using Microsoft.Extensions.Caching.Distributed;");

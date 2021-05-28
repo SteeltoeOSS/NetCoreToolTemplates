@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Steeltoe.DotNetNew.Test.Utilities.Models;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
 {
     public class DefaultsTest : OptionTest
     {
@@ -13,13 +14,14 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)
+        protected override async Task AssertProject(SteeltoeVersion steeltoeVersion, Framework framework)
         {
-            await base.AssertProject(steeltoe, framework);
+            await base.AssertProject(steeltoeVersion, framework);
             Sandbox.FileExists("app.config").Should().BeTrue();
         }
 
-        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
+        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> packages)
         {
             switch (framework)
             {
@@ -41,19 +43,19 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             }
         }
 
-        protected override void AddProjectProperties(Steeltoe steeltoe, Framework framework,
+        protected override void AddProjectProperties(SteeltoeVersion steeltoeVersion, Framework framework,
             Dictionary<string, string> properties)
         {
-            switch (steeltoe)
+            switch (steeltoeVersion)
             {
-                case Steeltoe.Steeltoe3:
+                case SteeltoeVersion.Steeltoe3:
                     properties["SteeltoeVersion"] = "3.0.2";
                     break;
-                case Steeltoe.Steeltoe2:
+                case SteeltoeVersion.Steeltoe2:
                     properties["SteeltoeVersion"] = "2.5.3";
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(steeltoe), steeltoe.ToString());
+                    throw new ArgumentOutOfRangeException(nameof(steeltoeVersion), steeltoeVersion.ToString());
             }
 
             switch (framework)
@@ -72,7 +74,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             }
         }
 
-        protected override void AddProgramCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
+        protected override void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
         {
             switch (framework)
             {
@@ -103,7 +106,8 @@ public static IWebHostBuilder CreateWebHostBuilder(string[] args)
             }
         }
 
-        protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
+        protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
         {
             switch (framework)
             {
@@ -176,12 +180,13 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
             }
         }
 
-        protected override void AddLaunchSettingsAssertions(List<Action<Steeltoe, Framework, LaunchSettings>> assertions)
+        protected override void AddLaunchSettingsAssertions(
+            List<Action<SteeltoeVersion, Framework, LaunchSettings>> assertions)
         {
             assertions.Add(AssertLaunchSettings);
         }
 
-        private void AssertLaunchSettings(Steeltoe steeltoe, Framework framework, LaunchSettings settings)
+        private void AssertLaunchSettings(SteeltoeVersion steeltoeVersion, Framework framework, LaunchSettings settings)
         {
             switch (framework)
             {

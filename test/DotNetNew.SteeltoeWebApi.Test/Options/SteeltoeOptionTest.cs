@@ -2,7 +2,7 @@ using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
 {
     public class SteeltoeOptionTest : OptionTest
     {

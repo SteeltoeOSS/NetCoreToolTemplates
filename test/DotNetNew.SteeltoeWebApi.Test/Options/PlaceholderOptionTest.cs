@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
+using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Steeltoe.DotNetNew.Test.Utilities.Models;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
 {
     public class PlaceholderOptionTest : OptionTest
     {
@@ -13,16 +14,18 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
+        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> packages)
         {
             packages.Add("Steeltoe.Extensions.Configuration.PlaceholderCore");
         }
 
-        protected override void AddProgramCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
+        protected override void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
         {
-            switch (steeltoe)
+            switch (steeltoeVersion)
             {
-                case Steeltoe.Steeltoe2:
+                case SteeltoeVersion.Steeltoe2:
                     snippets.Add("using Steeltoe.Extensions.Configuration.PlaceholderCore;");
                     break;
                 default:
@@ -33,7 +36,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             snippets.Add(".AddPlaceholderResolver()");
         }
 
-        protected override void AddValuesControllerCsSnippets(Steeltoe steeltoe, Framework framework,
+        protected override void AddValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             snippets.Add("using Microsoft.Extensions.Configuration;");
@@ -50,12 +53,14 @@ public ActionResult<IEnumerable<string>> Get()
 ");
         }
 
-        protected override void AddAppSettingsAssertions(List<Action<Steeltoe, Framework, AppSettings>> assertions)
+        protected override void AddAppSettingsAssertions(
+            List<Action<SteeltoeVersion, Framework, AppSettings>> assertions)
         {
             assertions.Add(AssertPlaceholderSettings);
         }
 
-        private void AssertPlaceholderSettings(Steeltoe steeltoe, Framework framework, AppSettings settings)
+        private void AssertPlaceholderSettings(SteeltoeVersion steeltoeVersion, Framework framework,
+            AppSettings settings)
         {
             settings.ResolvedPlaceholderFromEnvVariables.Should().Be("${PATH?NotFound}");
             settings.ResolvedPlaceholderFromJson.Should()

@@ -1,10 +1,11 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
 {
     public class DockerOptionTest : OptionTest
     {
@@ -12,9 +13,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)
+        protected override async Task AssertProject(SteeltoeVersion steeltoeVersion, Framework framework)
         {
-            await base.AssertProject(steeltoe, framework);
+            await base.AssertProject(steeltoeVersion, framework);
             Logger.WriteLine("asserting Dockerfile");
             var dockerfile = await Sandbox.GetFileTextAsync("Dockerfile");
             var tag = framework switch

@@ -1,4 +1,4 @@
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils
 {
     public enum Framework
     {

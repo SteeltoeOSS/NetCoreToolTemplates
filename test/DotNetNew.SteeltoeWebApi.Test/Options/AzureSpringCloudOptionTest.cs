@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
 {
     public class AzureSpringCloudOptionTest : OptionTest
     {
@@ -10,7 +11,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
+        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> packages)
         {
             switch (framework)
             {
@@ -22,7 +24,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             }
         }
 
-        protected override void AddProgramCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
+        protected override void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
         {
             switch (framework)
             {

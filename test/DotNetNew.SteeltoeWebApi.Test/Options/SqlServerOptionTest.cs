@@ -1,21 +1,24 @@
 using System.Collections.Generic;
+using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
 {
     public class SqlServerOptionTest : OptionTest
     {
-        public SqlServerOptionTest(ITestOutputHelper logger) : base("sqlserver", "Add access to Microsoft SQL Server databases",
+        public SqlServerOptionTest(ITestOutputHelper logger) : base("sqlserver",
+            "Add access to Microsoft SQL Server databases",
             logger)
         {
         }
 
-        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
+        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> packages)
         {
             packages.Add("System.Data.SqlClient");
-            switch (steeltoe)
+            switch (steeltoeVersion)
             {
-                case Steeltoe.Steeltoe2:
+                case SteeltoeVersion.Steeltoe2:
                     packages.Add("Steeltoe.CloudFoundry.ConnectorCore");
                     break;
                 default:
@@ -24,11 +27,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             }
         }
 
-        protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
+        protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
         {
-            switch (steeltoe)
+            switch (steeltoeVersion)
             {
-                case Steeltoe.Steeltoe2:
+                case SteeltoeVersion.Steeltoe2:
                     snippets.Add("using Steeltoe.CloudFoundry.Connector.SqlServer;");
                     break;
                 default:
@@ -39,7 +43,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             snippets.Add("services.AddSqlServerConnection(Configuration);");
         }
 
-        protected override void AddValuesControllerCsSnippets(Steeltoe steeltoe, Framework framework,
+        protected override void AddValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             snippets.Add("using System.Data;");

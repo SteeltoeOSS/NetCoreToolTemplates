@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
 {
-    public class PostgreSqlEfCoreOptionTest : OptionTest
+    public class MySqlEfCoreOptionTest : OptionTest
     {
-        public PostgreSqlEfCoreOptionTest(ITestOutputHelper logger) : base("postgresql-efcore",
-            "Add access to PostgreSQL databases using Entity Framework Core", logger)
+        public MySqlEfCoreOptionTest(ITestOutputHelper logger) : base("mysql-efcore",
+            "Add access to MySQL databases using Entity Framework Core", logger)
         {
         }
 
@@ -23,21 +24,22 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             sandbox.FileExists("Models/SampleContext.cs").Should().BeFalse();
         }
 
-        protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)
+        protected override async Task AssertProject(SteeltoeVersion steeltoeVersion, Framework framework)
         {
-            await base.AssertProject(steeltoe, framework);
+            await base.AssertProject(steeltoeVersion, framework);
             Logger.WriteLine("asserting Models/SampleContext.cs");
             var source = await Sandbox.GetFileTextAsync("Models/SampleContext.cs");
             source.Should().ContainSnippet("public class SampleContext : DbContext");
             Sandbox.FileExists("Models/ErrorViewModel.cs").Should().BeTrue();
         }
 
-        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
+        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> packages)
         {
             packages.Add("Microsoft.EntityFrameworkCore");
-            switch (steeltoe)
+            switch (steeltoeVersion)
             {
-                case Steeltoe.Steeltoe2:
+                case SteeltoeVersion.Steeltoe2:
                     packages.Add("Steeltoe.CloudFoundry.Connector.EFCore");
                     break;
                 default:
@@ -46,20 +48,21 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             }
         }
 
-        protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
+        protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
         {
-            switch (steeltoe)
+            switch (steeltoeVersion)
             {
-                case Steeltoe.Steeltoe2:
-                    snippets.Add("using Steeltoe.CloudFoundry.Connector.PostgreSql.EFCore;");
+                case SteeltoeVersion.Steeltoe2:
+                    snippets.Add("using Steeltoe.CloudFoundry.Connector.MySql.EFCore;");
                     break;
                 default:
-                    snippets.Add("using Steeltoe.Connector.PostgreSql.EFCore;");
+                    snippets.Add("using Steeltoe.Connector.MySql.EFCore;");
                     break;
             }
 
             snippets.Add($"using {Sandbox.Name}.Models;");
-            snippets.Add("services.AddDbContext<SampleContext>(options => options.UseNpgsql(Configuration));");
+            snippets.Add("services.AddDbContext<SampleContext>(options => options.UseMySql(Configuration));");
         }
     }
 }

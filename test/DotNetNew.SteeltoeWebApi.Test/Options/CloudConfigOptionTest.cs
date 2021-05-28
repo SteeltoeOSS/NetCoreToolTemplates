@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
 {
     public class CloudConfigOptionTest : OptionTest
     {
@@ -10,18 +11,20 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
+        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> packages)
         {
             packages.Add("Steeltoe.Extensions.Configuration.ConfigServerCore");
         }
 
-        protected override void AddProgramCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
+        protected override void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
         {
             snippets.Add("using Steeltoe.Extensions.Configuration.ConfigServer;");
             snippets.Add(".AddConfigServer()");
         }
 
-        protected override void AddValuesControllerCsSnippets(Steeltoe steeltoe, Framework framework,
+        protected override void AddValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             snippets.Add(@"

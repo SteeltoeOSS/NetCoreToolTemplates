@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
 {
     public class HystrixOptionTest : OptionTest
     {
@@ -22,9 +23,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             sandbox.FileExists("HelloHystrixCommand.cs").Should().BeFalse();
         }
 
-        protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)
+        protected override async Task AssertProject(SteeltoeVersion steeltoeVersion, Framework framework)
         {
-            await base.AssertProject(steeltoe, framework);
+            await base.AssertProject(steeltoeVersion, framework);
             Logger.WriteLine("asserting HelloHystrixCommand.cs");
             var source = await Sandbox.GetFileTextAsync("HelloHystrixCommand.cs");
             source.Should().ContainSnippet("public sealed class HelloHystrixCommand : HystrixCommand<string>");
@@ -33,13 +34,15 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
                     "public HelloHystrixCommand(string name) : base(HystrixCommandGroupKeyDefault.AsKey(\"MyCircuitBreakers\"))");
         }
 
-        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
+        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> packages)
         {
             packages.Add("Steeltoe.CircuitBreaker.HystrixCore");
             packages.Add("Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore");
         }
 
-        protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)
+        protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
         {
             snippets.Add("services.AddHystrixCommand<HelloHystrixCommand>(\"MyCircuitBreakers\", Configuration);");
             snippets.Add("services.AddHystrixMetricsStream(Configuration);");
