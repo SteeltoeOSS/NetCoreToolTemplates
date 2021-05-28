@@ -30,13 +30,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(AzureSpringCloudHostingOption)' == 'True' AND '$(FrameworkNetCoreApp21)' != 'True'" Version="$(AzureSpringCloudClientVersion)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Condition="'$(MySqlEfCoreOption)' == 'True'" Version="$(EntityFrameworkCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(RedisOption)' == 'True'" Version="$(RedisVersion)" />
     <PackageReference Include="MySql.Data" Condition="'$(MySqlOption)' == 'True'" Version="$(MySqlVersion)" />
-    <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqOption)' == 'True' OR '$(HystrixOption)' == 'True'"  Version="$(RabbitMqVersion)" />
+    <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqOption)' == 'True' OR '$(HystrixOption)' == 'True'" Version="$(RabbitMqVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(HystrixOption)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(HystrixOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.CloudFoundry.Connector.EFCore" Condition="'$(Steeltoe2Connector)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Condition="'$(Steeltoe2Connector)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(CloudFoundryHostingOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.EFCore" Condition="'$(Steeltoe3Connector)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Connector.ConnectorCore" Condition="'$(Steeltoe3Connector)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Discovery.ClientCore" Condition="'$(EurekaOption)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Condition="'$(CloudFoundryHostingOption)' == 'True'" Version="$(SteeltoeVersion)" />

@@ -36,6 +36,10 @@
       "longName": "management-endpoints",
       "shortName": ""
     },
+    "MySqlEfCoreOption": {
+      "longName": "mysql-efcore",
+      "shortName": ""
+    },
     "MySqlOption": {
       "longName": "mysql",
       "shortName": ""

@@ -35,6 +35,13 @@
           "exclude": [
             "Dockerfile"
           ]
+        },
+        {
+          "condition": "(!MySqlEfCoreOption)",
+          "exclude": [
+            "Models/ErrorViewModel.cs",
+            "Models/SampleContext.cs"
+          ]
         }
       ]
     }
@@ -50,7 +57,7 @@
     },
     "AnyConnector": {
       "type": "computed",
-      "value": "MySqlOption || RedisOption || RabbitMqOption || SqlServerOption"
+      "value": "MySqlEfCoreOption || MySqlOption || RedisOption || RabbitMqOption || SqlServerOption"
     },
     "AnySteeltoeLibrary": {
       "type": "computed",
@@ -128,6 +135,14 @@
       "description": "Add a dynamic logger.",
       "defaultValue": "false"
     },
+    "EntityFrameworkCoreVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "3.1.*"
+      },
+      "replaces": "$(EntityFrameworkCoreVersion)"
+    },
     "EurekaOption": {
       "type": "parameter",
       "datatype": "bool",
@@ -189,6 +204,12 @@
       "type": "parameter",
       "datatype": "bool",
       "description": "Add application management endpoints, such as health and metrics.",
+      "defaultValue": "false"
+    },
+    "MySqlEfCoreOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add access to MySQL database using Entity Framework Core.",
       "defaultValue": "false"
     },
     "MySqlOption": {

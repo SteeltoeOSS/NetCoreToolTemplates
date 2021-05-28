@@ -7,12 +7,14 @@
     <CloudFoundryHostingOption>false</CloudFoundryHostingOption>
     <DockerOption>false</DockerOption>
     <DynamicLoggerOption>false</DynamicLoggerOption>
+    <EntityFrameworkCoreVersion>3.1.2</EntityFrameworkCoreVersion>
     <EurekaOption>false</EurekaOption>
     <FrameworkOption>net5.0</FrameworkOption>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
     <HystrixOption>false</HystrixOption>
     <ManagementEndpointsOption>false</ManagementEndpointsOption>
+    <MySqlEfCoreOption>false</MySqlEfCoreOption>
     <MySqlOption>false</MySqlOption>
     <MySqlVersion>8.0.*</MySqlVersion>
     <PlaceholderOption>false</PlaceholderOption>

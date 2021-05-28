@@ -22,6 +22,12 @@ using Steeltoe.CloudFoundry.Connector.MySql;
 #if (MySqlOption && !Steeltoe2)
 using Steeltoe.Connector.MySql;
 #endif
+#if (MySqlEfCoreOption && Steeltoe2)
+using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
+#endif
+#if (MySqlEfCoreOption && !Steeltoe2)
+using Steeltoe.Connector.MySql.EFCore;
+#endif
 #if (RabbitMqOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 #endif
@@ -52,6 +58,9 @@ using Steeltoe.Management.CloudFoundry;
 #if (Steeltoe3ManagementEndpoints)
 using Steeltoe.Management.Endpoint;
 #endif
+#if (MySqlEfCoreOption)
+using Company.WebApplication1.Models;
+#endif
 
 namespace Company.WebApplication1
 {
@@ -75,6 +84,9 @@ namespace Company.WebApplication1
 #endif
 #if (MySqlOption)
             services.AddMySqlConnection(Configuration);
+#endif
+#if (MySqlEfCoreOption)
+            services.AddDbContext<SampleContext>(options => options.UseMySql(Configuration));
 #endif
 #if (RabbitMqOption)
             services.AddRabbitMQConnection(Configuration);
