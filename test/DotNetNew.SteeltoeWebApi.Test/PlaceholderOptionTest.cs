@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Models;
@@ -49,9 +50,13 @@ public ActionResult<IEnumerable<string>> Get()
 ");
         }
 
-        protected override void AssertAppSettingsJson(Steeltoe steeltoe, Framework framework, AppSettings settings)
+        protected override void AddAppSettingsAssertions(List<Action<Steeltoe, Framework, AppSettings>> assertions)
         {
-            base.AssertAppSettingsJson(steeltoe, framework, settings);
+            assertions.Add(AssertPlaceholderSettings);
+        }
+
+        private void AssertPlaceholderSettings(Steeltoe steeltoe, Framework framework, AppSettings settings)
+        {
             settings.ResolvedPlaceholderFromEnvVariables.Should().Be("${PATH?NotFound}");
             settings.ResolvedPlaceholderFromJson.Should()
                 .Be("${Logging:LogLevel:System?${Logging:LogLevel:Default}}");

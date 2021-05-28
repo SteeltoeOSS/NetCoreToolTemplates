@@ -62,7 +62,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         [InlineData("3.0.2", "netcoreapp3.1")]
         [InlineData("2.5.3", "netcoreapp3.1")]
         [InlineData("2.5.3", "netcoreapp2.1")]
-        protected virtual async void TestProjectGeneration(string steeltoeOption, string frameworkOption)
+        public async void TestProjectGeneration(string steeltoeOption, string frameworkOption)
         {
             Logger.WriteLine($"steeltoe/framework: {steeltoeOption}/{frameworkOption}");
             if (SkipProjectGeneration)
@@ -88,32 +88,19 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected virtual async Task AssertProject(Steeltoe steeltoe, Framework framework)
         {
             Logger.WriteLine("asserting project");
-            var project = await Sandbox.GetXmlDocumentAsync($"{Sandbox.Name}.csproj");
-            var properties =
-            (
-                from e in project.Elements().Elements("PropertyGroup").Elements()
-                select e
-            ).ToArray().ToDictionary(e => e.Name.ToString(), e => e.Value);
-            var packages =
-            (
-                from e in project.Elements().Elements("ItemGroup").Elements("PackageReference").Attributes("Include")
-                select e.Value
-            ).ToList();
-            AssertCsproj(steeltoe, framework, properties, packages);
-            AssertProgramCs(steeltoe, framework, await Sandbox.GetFileTextAsync("Program.cs"));
-            AssertStartupCs(steeltoe, framework, await Sandbox.GetFileTextAsync("Startup.cs"));
-            AssertValuesControllerCs(steeltoe, framework,
-                await Sandbox.GetFileTextAsync("Controllers/ValuesController.cs"));
-            AssertAppSettingsJson(steeltoe, framework,
-                await Sandbox.GetJsonDocumentAsync<AppSettings>("appsettings.json"));
-            AssertLaunchSettingsJson(steeltoe, framework,
-                await Sandbox.GetJsonDocumentAsync<LaunchSettings>("properties/launchSettings.json"));
+            AssertCsproj(steeltoe, framework);
+            AssertProgramCs(steeltoe, framework);
+            AssertStartupCs(steeltoe, framework);
+            AssertValuesControllerCs(steeltoe, framework);
+            AssertAppSettingsJson(steeltoe, framework);
+            AssertLaunchSettingsJson(steeltoe, framework);
         }
 
-        private void AssertCsproj(Steeltoe steeltoe, Framework framework,
-            Dictionary<string, string> properties, List<string> packages)
+        private async void AssertCsproj(Steeltoe steeltoe, Framework framework)
         {
             Logger.WriteLine("asserting .csproj");
+            var project = await Sandbox.GetXmlDocumentAsync($"{Sandbox.Name}.csproj");
+
             var expectedPackages = new List<string>();
             AddProjectPackages(steeltoe, framework, expectedPackages);
             if (expectedPackages.Count == 0)
@@ -123,6 +110,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             else
             {
                 Logger.WriteLine("asserting packages");
+                var packages =
+                (
+                    from e in project.Elements().Elements("ItemGroup").Elements("PackageReference")
+                        .Attributes("Include")
+                    select e.Value
+                ).ToList();
                 packages.Should().Contain(expectedPackages);
             }
 
@@ -135,6 +128,11 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             else
             {
                 Logger.WriteLine("asserting properties");
+                var properties =
+                (
+                    from e in project.Elements().Elements("PropertyGroup").Elements()
+                    select e
+                ).ToArray().ToDictionary(e => e.Name.ToString(), e => e.Value);
                 properties.Should().Contain(expectedProperties);
             }
         }
@@ -148,7 +146,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        private void AssertProgramCs(Steeltoe steeltoe, Framework framework, string source)
+        private async void AssertProgramCs(Steeltoe steeltoe, Framework framework)
         {
             var snippets = new List<string>();
             AddProgramCsSnippets(steeltoe, framework, snippets);
@@ -159,6 +157,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             }
 
             Logger.WriteLine("asserting Program.cs");
+            var source = await Sandbox.GetFileTextAsync("Program.cs");
             foreach (var snippet in snippets)
             {
                 source.Should().ContainSnippet(snippet);
@@ -169,7 +168,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        private void AssertStartupCs(Steeltoe steeltoe, Framework framework, string source)
+        private async void AssertStartupCs(Steeltoe steeltoe, Framework framework)
         {
             var snippets = new List<string>();
             AddStartupCsSnippets(steeltoe, framework, snippets);
@@ -180,6 +179,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             }
 
             Logger.WriteLine("asserting Startup.cs");
+            var source = await Sandbox.GetFileTextAsync("Startup.cs");
             foreach (var snippet in snippets)
             {
                 source.Should().ContainSnippet(snippet);
@@ -190,7 +190,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        private void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework, string source)
+        private async void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework)
         {
             var snippets = new List<string>();
             AddValuesControllerCsSnippets(steeltoe, framework, snippets);
@@ -201,6 +201,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             }
 
             Logger.WriteLine("asserting Controllers/ValuesController.cs");
+            var source = await Sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
             foreach (var snippet in snippets)
             {
                 source.Should().ContainSnippet(snippet);
@@ -212,14 +213,48 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        protected virtual void AssertAppSettingsJson(Steeltoe steeltoe, Framework framework, AppSettings settings)
+        private async void AssertAppSettingsJson(Steeltoe steeltoe, Framework framework)
         {
+            var assertions = new List<Action<Steeltoe, Framework, AppSettings>>();
+            AddAppSettingsAssertions(assertions);
+            if (assertions.Count == 0)
+            {
+                Logger.WriteLine("no appsettings.json assertions to assert");
+                return;
+            }
+
             Logger.WriteLine("asserting appsettings.json");
+            var settings = await Sandbox.GetJsonDocumentAsync<AppSettings>("appsettings.json");
+            foreach (var assertion in assertions)
+            {
+                assertion(steeltoe, framework, settings);
+            }
         }
 
-        protected virtual void AssertLaunchSettingsJson(Steeltoe steeltoe, Framework framework, LaunchSettings settings)
+        protected virtual void AddAppSettingsAssertions(List<Action<Steeltoe, Framework, AppSettings>> assertions)
         {
+        }
+
+        private async void AssertLaunchSettingsJson(Steeltoe steeltoe, Framework framework)
+        {
+            var assertions = new List<Action<Steeltoe, Framework, LaunchSettings>>();
+            AddLaunchSettingsAssertions(assertions);
+            if (assertions.Count == 0)
+            {
+                Logger.WriteLine("no Properties/launchSettings.json assertions to assert");
+                return;
+            }
+
             Logger.WriteLine("asserting Properties/launchSettings.json");
+            var settings = await Sandbox.GetJsonDocumentAsync<LaunchSettings>("properties/launchSettings.json");
+            foreach (var assertion in assertions)
+            {
+                assertion(steeltoe, framework, settings);
+            }
+        }
+
+        protected virtual void AddLaunchSettingsAssertions(List<Action<Steeltoe, Framework, LaunchSettings>> assertions)
+        {
         }
 
         protected async Task<Sandbox> TemplateSandbox(string args = "")

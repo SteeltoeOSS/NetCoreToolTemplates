@@ -176,10 +176,13 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
             }
         }
 
-        protected override void AssertLaunchSettingsJson(Steeltoe steeltoe, Framework framework,
-            LaunchSettings settings)
+        protected override void AddLaunchSettingsAssertions(List<Action<Steeltoe, Framework, LaunchSettings>> assertions)
         {
-            base.AssertLaunchSettingsJson(steeltoe, framework, settings);
+            assertions.Add(AssertLaunchSettings);
+        }
+
+        private void AssertLaunchSettings(Steeltoe steeltoe, Framework framework, LaunchSettings settings)
+        {
             switch (framework)
             {
                 case Framework.Net50:
