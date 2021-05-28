@@ -14,17 +14,18 @@
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
     <HystrixOption>false</HystrixOption>
     <ManagementEndpointsOption>false</ManagementEndpointsOption>
+    <MySqlDriverVersion>8.0.*</MySqlDriverVersion>
     <MySqlEfCoreOption>false</MySqlEfCoreOption>
     <MySqlOption>false</MySqlOption>
-    <MySqlVersion>8.0.*</MySqlVersion>
+    <NpgsqlDriverVersion>4.1.*</NpgsqlDriverVersion>
     <PlaceholderOption>false</PlaceholderOption>
+    <PostgreSqlEfCoreOption>false</PostgreSqlEfCoreOption>
     <PostgreSqlOption>false</PostgreSqlOption>
-    <PostgreSqlVersion>4.1.*</PostgreSqlVersion>
+    <RabbitMqDriverVersion>5.1.*</RabbitMqDriverVersion>
     <RabbitMqOption>false</RabbitMqOption>
-    <RabbitMqVersion>5.1.*</RabbitMqVersion>
     <RandomValueOption>false</RandomValueOption>
+    <RedisDriverVersion>3.1.*</RedisDriverVersion>
     <RedisOption>false</RedisOption>
-    <RedisVersion>3.1.*</RedisVersion>
     <SqlServerOption>false</SqlServerOption>
     <SteeltoeVersionOption>3.0.2</SteeltoeVersionOption>
   </PropertyGroup>

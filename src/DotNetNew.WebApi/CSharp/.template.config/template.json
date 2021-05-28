@@ -214,6 +214,14 @@
       "description": "Add application management endpoints, such as health and metrics.",
       "defaultValue": "false"
     },
+    "MySqlDriverVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "8.0.*"
+      },
+      "replaces": "$(MySqlDriverVersion)"
+    },
     "MySqlEfCoreOption": {
       "type": "parameter",
       "datatype": "bool",
@@ -226,13 +234,13 @@
       "description": "Add access to MySQL databases.",
       "defaultValue": "false"
     },
-    "MySqlVersion": {
+    "NpgsqlDriverVersion": {
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "8.0.*"
+        "value": "4.1.*"
       },
-      "replaces": "$(MySqlVersion)"
+      "replaces": "$(NpgsqlDriverVersion)"
     },
     "PlaceholderOption": {
       "type": "parameter",
@@ -252,13 +260,13 @@
       "description": "Add access to PostgreSQL databases.",
       "defaultValue": "false"
     },
-    "PostgreSqlVersion": {
+    "RabbitMqDriverVersion": {
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "4.1.*"
+        "value": "5.1.*"
       },
-      "replaces": "$(PostgreSqlVersion)"
+      "replaces": "$(RabbitMqDriverVersion)"
     },
     "RabbitMqOption": {
       "type": "parameter",
@@ -266,33 +274,25 @@
       "description": "Add access to RabbitMQ message brokers.",
       "defaultValue": "false"
     },
-    "RabbitMqVersion": {
-      "type": "generated",
-      "generator": "constant",
-      "parameters": {
-        "value": "5.1.*"
-      },
-      "replaces": "$(RabbitMqVersion)"
-    },
     "RandomValueOption": {
       "type": "parameter",
       "datatype": "bool",
       "description": "Add a random value configuration source.",
       "defaultValue": "false"
     },
-    "RedisOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to Redis data stores.",
-      "defaultValue": "false"
-    },
-    "RedisVersion": {
+    "RedisDriverVersion": {
       "type": "generated",
       "generator": "constant",
       "parameters": {
         "value": "3.1.*"
       },
-      "replaces": "$(RedisVersion)"
+      "replaces": "$(RedisDriverVersion)"
+    },
+    "RedisOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add access to Redis data stores.",
+      "defaultValue": "false"
     },
     "SkipRestoreOption": {
       "type": "parameter",
