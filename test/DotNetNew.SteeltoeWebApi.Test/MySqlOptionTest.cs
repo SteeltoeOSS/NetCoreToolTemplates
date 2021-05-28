@@ -5,7 +5,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
     public class MySqlOptionTest : OptionTest
     {
-        public MySqlOptionTest(ITestOutputHelper logger) : base("mysql", "Add access to MySQL database", logger)
+        public MySqlOptionTest(ITestOutputHelper logger) : base("mysql", "Add access to MySQL databases", logger)
         {
         }
 

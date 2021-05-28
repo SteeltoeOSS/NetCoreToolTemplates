@@ -28,6 +28,12 @@ using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
 #if (MySqlEfCoreOption && !Steeltoe2)
 using Steeltoe.Connector.MySql.EFCore;
 #endif
+#if (PostgreSqlOption && Steeltoe2)
+using Steeltoe.CloudFoundry.Connector.PostgreSql;
+#endif
+#if (PostgreSqlOption && !Steeltoe2)
+using Steeltoe.Connector.PostgreSql;
+#endif
 #if (RabbitMqOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 #endif
@@ -87,6 +93,9 @@ namespace Company.WebApplication1
 #endif
 #if (MySqlEfCoreOption)
             services.AddDbContext<SampleContext>(options => options.UseMySql(Configuration));
+#endif
+#if (PostgreSqlOption)
+            services.AddPostgresConnection(Configuration);
 #endif
 #if (RabbitMqOption)
             services.AddRabbitMQConnection(Configuration);

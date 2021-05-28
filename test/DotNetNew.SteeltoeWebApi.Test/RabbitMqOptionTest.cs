@@ -6,7 +6,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
     public class RabbitMqOptionTest : OptionTest
     {
         public RabbitMqOptionTest(ITestOutputHelper logger) : base("rabbitmq",
-            "Add access to RabbitMQ, an open source message broker", logger)
+            "Add access to RabbitMQ message brokers", logger)
         {
         }
 

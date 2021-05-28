@@ -6,7 +6,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
     public class RedisOptionTest : OptionTest
     {
         public RedisOptionTest(ITestOutputHelper logger) : base("redis",
-            "Add access to Redis, an in-memory data structure store", logger)
+            "Add access to Redis data stores", logger)
         {
         }
 

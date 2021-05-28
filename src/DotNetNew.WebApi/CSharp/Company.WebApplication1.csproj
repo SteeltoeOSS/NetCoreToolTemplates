@@ -33,6 +33,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Condition="'$(MySqlEfCoreOption)' == 'True'" Version="$(EntityFrameworkCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(RedisOption)' == 'True'" Version="$(RedisVersion)" />
     <PackageReference Include="MySql.Data" Condition="'$(MySqlOption)' == 'True'" Version="$(MySqlVersion)" />
+    <PackageReference Include="Npgsql" Condition="'$(PostgreSqlOption)' == 'True'" Version="$(PostgreSqlVersion)" />
     <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqOption)' == 'True' OR '$(HystrixOption)' == 'True'" Version="$(RabbitMqVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(HystrixOption)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(HystrixOption)' == 'True'" Version="$(SteeltoeVersion)" />

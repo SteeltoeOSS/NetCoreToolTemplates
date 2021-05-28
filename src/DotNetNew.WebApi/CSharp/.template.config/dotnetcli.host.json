@@ -48,6 +48,10 @@
       "longName": "placeholder",
       "shortName": ""
     },
+    "PostgreSqlOption": {
+      "longName": "postgresql",
+      "shortName": ""
+    },
     "RabbitMqOption": {
       "longName": "rabbitmq",
       "shortName": ""

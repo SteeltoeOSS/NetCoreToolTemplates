@@ -1,11 +1,10 @@
 #if (!RabbitMqOption)
 using System.Collections.Generic;
 #endif
-#if (MySqlOption)
+#if (AnySqlDatabase)
 using System.Data;
 #endif
 #if (SqlServerOption)
-using System.Data;
 using System.Data.SqlClient;
 #endif
 #if (RabbitMqOption)
@@ -30,6 +29,9 @@ using Microsoft.Extensions.Options;
 #endif
 #if (MySqlOption)
 using MySql.Data.MySqlClient;
+#endif
+#if (PostgreSqlOption)
+using Npgsql;
 #endif
 #if (RabbitMqOption)
 using RabbitMQ.Client;
@@ -81,18 +83,22 @@ namespace Company.WebApplication1.Controllers
             _cache = cache;
         }
 #endif
+#if (AnySqlDatabase)
 #if (SqlServerOption)
         private readonly SqlConnection _dbConnection;
 
         public ValuesController([FromServices] SqlConnection dbConnection)
-        {
-            _dbConnection = dbConnection;
-        }
 #endif
 #if (MySqlOption)
         private readonly MySqlConnection _dbConnection;
 
         public ValuesController([FromServices] MySqlConnection dbConnection)
+#endif
+#if (PostgreSqlOption)
+        private readonly NpgsqlConnection _dbConnection;
+
+        public ValuesController([FromServices] NpgsqlConnection dbConnection)
+#endif
         {
             _dbConnection = dbConnection;
         }
@@ -158,7 +164,7 @@ namespace Company.WebApplication1.Controllers
             string appInstance = _appOptions.ApplicationId;
 
             return new[] { appInstance, appName };
-#elif (MySqlOption || SqlServerOption)
+#elif (AnySqlDatabase)
             List<string> tables = new List<string>();
             _dbConnection.Open();
             DataTable dt = _dbConnection.GetSchema("Tables");

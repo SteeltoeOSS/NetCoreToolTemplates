@@ -18,6 +18,8 @@
     <MySqlOption>false</MySqlOption>
     <MySqlVersion>8.0.*</MySqlVersion>
     <PlaceholderOption>false</PlaceholderOption>
+    <PostgreSqlOption>false</PostgreSqlOption>
+    <PostgreSqlVersion>4.1.*</PostgreSqlVersion>
     <RabbitMqOption>false</RabbitMqOption>
     <RabbitMqVersion>5.1.*</RabbitMqVersion>
     <RandomValueOption>false</RandomValueOption>

@@ -3,16 +3,16 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class SqlServerOptionTest : OptionTest
+    public class PostgreSqlOptionTest : OptionTest
     {
-        public SqlServerOptionTest(ITestOutputHelper logger) : base("sqlserver", "Add access to Microsoft SQL Server databases",
+        public PostgreSqlOptionTest(ITestOutputHelper logger) : base("postgresql", "Add access to PostgreSQL databases",
             logger)
         {
         }
 
         protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
         {
-            packages.Add("System.Data.SqlClient");
+            packages.Add("Npgsql");
             switch (steeltoe)
             {
                 case Steeltoe.Steeltoe2:
@@ -29,25 +29,24 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             switch (steeltoe)
             {
                 case Steeltoe.Steeltoe2:
-                    snippets.Add("using Steeltoe.CloudFoundry.Connector.SqlServer;");
+                    snippets.Add("using Steeltoe.CloudFoundry.Connector.PostgreSql;");
                     break;
                 default:
-                    snippets.Add("using Steeltoe.Connector.SqlServer;");
+                    snippets.Add("using Steeltoe.Connector.PostgreSql;");
                     break;
             }
 
-            snippets.Add("services.AddSqlServerConnection(Configuration);");
+            snippets.Add("services.AddPostgresConnection(Configuration);");
         }
 
         protected override void AddValuesControllerCsSnippets(Steeltoe steeltoe, Framework framework,
             List<string> snippets)
         {
+            snippets.Add("using Npgsql;");
             snippets.Add("using System.Data;");
-            snippets.Add("using System.Data.SqlClient;");
-            snippets.Add("private readonly SqlConnection _dbConnection;");
             snippets.Add(@"
-private readonly SqlConnection _dbConnection;
-public ValuesController([FromServices] SqlConnection dbConnection)
+private readonly NpgsqlConnection _dbConnection;
+public ValuesController([FromServices] NpgsqlConnection dbConnection)
 {
     _dbConnection = dbConnection;
 }
@@ -65,6 +64,7 @@ public ActionResult<IEnumerable<string>> Get()
         string tablename = (string)row[2];
         tables.Add(tablename);
     }
+
     return tables;
 }
 ");

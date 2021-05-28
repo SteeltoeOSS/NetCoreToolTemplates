@@ -88,15 +88,15 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected virtual async Task AssertProject(Steeltoe steeltoe, Framework framework)
         {
             Logger.WriteLine("asserting project");
-            AssertCsproj(steeltoe, framework);
-            AssertProgramCs(steeltoe, framework);
-            AssertStartupCs(steeltoe, framework);
-            AssertValuesControllerCs(steeltoe, framework);
-            AssertAppSettingsJson(steeltoe, framework);
-            AssertLaunchSettingsJson(steeltoe, framework);
+            await AssertCsproj(steeltoe, framework);
+            await AssertProgramCs(steeltoe, framework);
+            await AssertStartupCs(steeltoe, framework);
+            await AssertValuesControllerCs(steeltoe, framework);
+            await AssertAppSettingsJson(steeltoe, framework);
+            await AssertLaunchSettingsJson(steeltoe, framework);
         }
 
-        private async void AssertCsproj(Steeltoe steeltoe, Framework framework)
+        private async Task AssertCsproj(Steeltoe steeltoe, Framework framework)
         {
             Logger.WriteLine("asserting .csproj");
             var project = await Sandbox.GetXmlDocumentAsync($"{Sandbox.Name}.csproj");
@@ -146,7 +146,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        private async void AssertProgramCs(Steeltoe steeltoe, Framework framework)
+        private async Task AssertProgramCs(Steeltoe steeltoe, Framework framework)
         {
             var snippets = new List<string>();
             AddProgramCsSnippets(steeltoe, framework, snippets);
@@ -168,7 +168,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        private async void AssertStartupCs(Steeltoe steeltoe, Framework framework)
+        private async Task AssertStartupCs(Steeltoe steeltoe, Framework framework)
         {
             var snippets = new List<string>();
             AddStartupCsSnippets(steeltoe, framework, snippets);
@@ -190,7 +190,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        private async void AssertValuesControllerCs(Steeltoe steeltoe, Framework framework)
+        private async Task AssertValuesControllerCs(Steeltoe steeltoe, Framework framework)
         {
             var snippets = new List<string>();
             AddValuesControllerCsSnippets(steeltoe, framework, snippets);
@@ -213,7 +213,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        private async void AssertAppSettingsJson(Steeltoe steeltoe, Framework framework)
+        private async Task AssertAppSettingsJson(Steeltoe steeltoe, Framework framework)
         {
             var assertions = new List<Action<Steeltoe, Framework, AppSettings>>();
             AddAppSettingsAssertions(assertions);
@@ -235,7 +235,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        private async void AssertLaunchSettingsJson(Steeltoe steeltoe, Framework framework)
+        private async Task AssertLaunchSettingsJson(Steeltoe steeltoe, Framework framework)
         {
             var assertions = new List<Action<Steeltoe, Framework, LaunchSettings>>();
             AddLaunchSettingsAssertions(assertions);
