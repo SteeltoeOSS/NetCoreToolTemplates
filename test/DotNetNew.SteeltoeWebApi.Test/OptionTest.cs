@@ -260,7 +260,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         protected async Task<Sandbox> TemplateSandbox(string args = "")
         {
             Assert.NotNull(args);
-            var command = new StringBuilder("dotnet new stwebapi");
+            var command = new StringBuilder("dotnet new steeltoe-webapi");
             if (!args.Contains("--help"))
             {
                 if (!args.Contains("--no-restore"))

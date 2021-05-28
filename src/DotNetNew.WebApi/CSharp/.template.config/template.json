@@ -8,7 +8,7 @@
   ],
   "identity": "steeltoe.webapi.csharp",
   "name": "Steeltoe Web API",
-  "shortName": "stwebapi",
+  "shortName": "steeltoe-webapi",
   "tags": {
     "type": "project",
     "language": "C#"
