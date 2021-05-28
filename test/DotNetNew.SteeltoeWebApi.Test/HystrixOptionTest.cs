@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Steeltoe.DotNetNew.Test.Utilities.Assertions;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
@@ -13,10 +14,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         {
         }
 
-        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
+        [Fact]
+        [Trait("Category", "Functional")]
+        public async void TestDefaultNotPolluted()
         {
-            packages.Add("Steeltoe.CircuitBreaker.HystrixCore");
-            packages.Add("Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore");
+            var sandbox = await TemplateSandbox("false");
+            sandbox.FileExists("HelloHystrixCommand.cs").Should().BeFalse();
         }
 
         protected override async Task AssertProject(Steeltoe steeltoe, Framework framework)
@@ -28,6 +31,12 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
             source.Should()
                 .ContainSnippet(
                     "public HelloHystrixCommand(string name) : base(HystrixCommandGroupKeyDefault.AsKey(\"MyCircuitBreakers\"))");
+        }
+
+        protected override void AddProjectPackages(Steeltoe steeltoe, Framework framework, List<string> packages)
+        {
+            packages.Add("Steeltoe.CircuitBreaker.HystrixCore");
+            packages.Add("Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore");
         }
 
         protected override void AddStartupCsSnippets(Steeltoe steeltoe, Framework framework, List<string> snippets)

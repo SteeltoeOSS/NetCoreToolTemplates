@@ -25,7 +25,7 @@
           ]
         },
         {
-          "condition": "(!CloudHystrix)",
+          "condition": "(!HystrixOption)",
           "exclude": [
             "HelloHystrixCommand.cs"
           ]
