@@ -103,11 +103,11 @@
         "datatype": "string",
         "cases": [
           {
-            "condition": "(SteeltoeVersion == '3.0.2')",
+            "condition": "(SteeltoeVersionOption == '3.0.2')",
             "value": "2.0.0-preview.1"
           },
           {
-            "condition": "(SteeltoeVersion == '2.5.3')",
+            "condition": "(SteeltoeVersionOption == '2.5.3')",
             "value": "1.0.0-preview.1"
           }
         ]
