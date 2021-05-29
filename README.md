@@ -128,9 +128,8 @@ $ dotnet new steeltoe-webapi [options]
                           Default: false
 
   -s|--steeltoe           Set the Steeltoe version for the project.
-                              3.0.2
-                              2.5.3
-                          Default: 3.0.2
+                          string - Optional
+                          Default: 3.0.*
 ```
 
 
