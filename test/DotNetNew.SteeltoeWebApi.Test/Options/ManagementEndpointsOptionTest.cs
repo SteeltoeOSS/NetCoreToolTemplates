@@ -12,15 +12,15 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         }
 
         protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> packages)
+            List<(string, string)> packages)
         {
             switch (steeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe2:
-                    packages.Add("Steeltoe.Management.CloudFoundryCore");
+                    packages.Add(("Steeltoe.Management.CloudFoundryCore", "$(SteeltoeVersion)"));
                     break;
                 default:
-                    packages.Add("Steeltoe.Management.EndpointCore");
+                    packages.Add(("Steeltoe.Management.EndpointCore", "$(SteeltoeVersion)"));
                     break;
             }
         }

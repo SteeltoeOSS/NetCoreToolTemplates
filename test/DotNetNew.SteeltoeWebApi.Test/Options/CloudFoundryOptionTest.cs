@@ -13,10 +13,10 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         }
 
         protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> packages)
+            List<(string, string)> packages)
         {
-            packages.Add("Steeltoe.Common.Hosting");
-            packages.Add("Steeltoe.Extensions.Configuration.CloudFoundryCore");
+            packages.Add(("Steeltoe.Common.Hosting", "$(SteeltoeVersion)"));
+            packages.Add(("Steeltoe.Extensions.Configuration.CloudFoundryCore", "$(SteeltoeVersion)"));
         }
 
         protected override void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,

@@ -12,9 +12,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         }
 
         protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> packages)
+            List<(string, string)> packages)
         {
-            packages.Add("Steeltoe.Extensions.Configuration.RandomValueBase");
+            packages.Add(("Steeltoe.Extensions.Configuration.RandomValueBase", "$(SteeltoeVersion)"));
         }
 
         protected override void AddValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,

@@ -35,10 +35,10 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         }
 
         protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> packages)
+            List<(string, string)> packages)
         {
-            packages.Add("Steeltoe.CircuitBreaker.HystrixCore");
-            packages.Add("Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore");
+            packages.Add(("Steeltoe.CircuitBreaker.HystrixCore", "$(SteeltoeVersion)"));
+            packages.Add(("Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore", "$(SteeltoeVersion)"));
         }
 
         protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,

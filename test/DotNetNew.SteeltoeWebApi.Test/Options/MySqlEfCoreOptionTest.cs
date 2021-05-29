@@ -34,16 +34,16 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         }
 
         protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> packages)
+            List<(string, string)> packages)
         {
-            packages.Add("Microsoft.EntityFrameworkCore");
+            packages.Add(("Microsoft.EntityFrameworkCore", "3.1.*"));
             switch (steeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe2:
-                    packages.Add("Steeltoe.CloudFoundry.Connector.EFCore");
+                    packages.Add(("Steeltoe.CloudFoundry.Connector.EFCore", "$(SteeltoeVersion)"));
                     break;
                 default:
-                    packages.Add("Steeltoe.Connector.EFCore");
+                    packages.Add(("Steeltoe.Connector.EFCore", "$(SteeltoeVersion)"));
                     break;
             }
         }

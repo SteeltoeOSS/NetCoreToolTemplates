@@ -11,16 +11,25 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         }
 
         protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> packages)
+            List<(string, string)> packages)
         {
-            packages.Add("Microsoft.AspNetCore.Authentication.AzureAD.UI");
             switch (steeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe2:
-                    packages.Add("Steeltoe.CloudFoundry.ConnectorCore");
+                    packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
                     break;
                 default:
-                    packages.Add("Steeltoe.Connector.ConnectorCore");
+                    packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
+                    break;
+            }
+
+            switch (framework)
+            {
+                case Framework.NetCoreApp21:
+                    packages.Add(("Microsoft.AspNetCore.Authentication.AzureAD.UI", "2.1.*"));
+                    break;
+                default:
+                    packages.Add(("Microsoft.AspNetCore.Authentication.AzureAD.UI", "3.1.*"));
                     break;
             }
         }

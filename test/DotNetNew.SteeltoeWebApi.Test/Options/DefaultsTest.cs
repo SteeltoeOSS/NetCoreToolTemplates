@@ -21,22 +21,22 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         }
 
         protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> packages)
+            List<(string, string)> packages)
         {
             switch (framework)
             {
                 case Framework.Net50:
-                    packages.Add("Swashbuckle.AspNetCore");
+                    packages.Add(("Swashbuckle.AspNetCore", "5.6.*"));
                     break;
                 case Framework.NetCoreApp31:
                     break;
                 case Framework.NetCoreApp21:
-                    packages.Add("Microsoft.AspNetCore");
-                    packages.Add("Microsoft.AspNetCore.CookiePolicy");
-                    packages.Add("Microsoft.AspNetCore.HttpsPolicy");
-                    packages.Add("Microsoft.AspNetCore.Mvc");
-                    packages.Add("Microsoft.AspNetCore.Session");
-                    packages.Add("Microsoft.AspNetCore.StaticFiles");
+                    packages.Add(("Microsoft.AspNetCore", "$(NetCoreApp21Version)"));
+                    packages.Add(("Microsoft.AspNetCore.CookiePolicy", "$(NetCoreApp21Version)"));
+                    packages.Add(("Microsoft.AspNetCore.HttpsPolicy", "$(NetCoreApp21Version)"));
+                    packages.Add(("Microsoft.AspNetCore.Mvc", "$(NetCoreApp21Version)"));
+                    packages.Add(("Microsoft.AspNetCore.Session", "$(NetCoreApp21Version)"));
+                    packages.Add(("Microsoft.AspNetCore.StaticFiles", "$(NetCoreApp21Version)"));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());

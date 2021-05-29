@@ -12,14 +12,20 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         }
 
         protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> packages)
+            List<(string, string)> packages)
         {
-            switch (framework)
+            if (framework == Framework.NetCoreApp21)
             {
-                case Framework.NetCoreApp21:
+                return;
+            }
+
+            switch (steeltoeVersion)
+            {
+                case SteeltoeVersion.Steeltoe2:
+                    packages.Add(("Microsoft.Azure.SpringCloud.Client", "1.0.0-preview.1"));
                     break;
                 default:
-                    packages.Add("Microsoft.Azure.SpringCloud.Client");
+                    packages.Add(("Microsoft.Azure.SpringCloud.Client", "2.0.0-preview.1"));
                     break;
             }
         }

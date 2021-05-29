@@ -12,9 +12,9 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         }
 
         protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> packages)
+            List<(string, string)> packages)
         {
-            packages.Add("Steeltoe.Extensions.Configuration.ConfigServerCore");
+            packages.Add(("Steeltoe.Extensions.Configuration.ConfigServerCore","$(SteeltoeVersion)"));
         }
 
         protected override void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,

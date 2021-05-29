@@ -12,16 +12,16 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         }
 
         protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> packages)
+            List<(string, string)> packages)
         {
-            packages.Add("Npgsql");
+            packages.Add(("Npgsql", "4.1.*"));
             switch (steeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe2:
-                    packages.Add("Steeltoe.CloudFoundry.ConnectorCore");
+                    packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
                     break;
                 default:
-                    packages.Add("Steeltoe.Connector.ConnectorCore");
+                    packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
                     break;
             }
         }

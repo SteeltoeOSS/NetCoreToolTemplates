@@ -96,7 +96,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             Logger.WriteLine("asserting .csproj");
             var project = await Sandbox.GetXmlDocumentAsync($"{Sandbox.Name}.csproj");
 
-            var expectedPackages = new List<string>();
+            var expectedPackages = new List<(string, string)>();
             AddProjectPackages(steeltoeVersion, framework, expectedPackages);
             if (expectedPackages.Count == 0)
             {
@@ -108,8 +108,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
                 var packages =
                 (
                     from e in project.Elements().Elements("ItemGroup").Elements("PackageReference")
-                        .Attributes("Include")
-                    select e.Value
+                    select (e.Attribute("Include")?.Value, e.Attribute("Version")?.Value)
                 ).ToList();
                 packages.Should().Contain(expectedPackages);
             }
@@ -133,7 +132,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         }
 
         protected virtual void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> packages)
+            List<(string, string)> packages)
         {
         }
 
@@ -277,11 +276,6 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             normalizedArgs.Append($" {args}");
 
             return await base.TemplateSandbox(normalizedArgs.ToString().Trim());
-        }
-
-        protected bool IsSteeltoe2(string steeltoe)
-        {
-            return steeltoe.StartsWith("2.");
         }
 
         private static SteeltoeVersion ToSteeltoeEnum(string steeltoe)
