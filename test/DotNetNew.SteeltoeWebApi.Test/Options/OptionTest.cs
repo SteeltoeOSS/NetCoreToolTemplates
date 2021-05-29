@@ -14,31 +14,28 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
 {
-    public abstract class OptionTest
+    public abstract class OptionTest : TemplateTest
     {
-        private readonly string _option;
-
-        private readonly string _help;
-
-        protected readonly ITestOutputHelper Logger;
-
-        protected Sandbox Sandbox;
-
-        protected bool SkipProjectGeneration { get; set; } = false;
-
-        protected string SmokeTestOption { get; set; } = string.Empty;
-
-        protected OptionTest(string option, string help, ITestOutputHelper logger)
+        protected OptionTest(string option, string help, ITestOutputHelper logger) : base(logger)
         {
             _option = option;
             _help = help;
-            Logger = logger;
             new SteeltoeWebApiTemplateInstaller(Logger).Install();
             if (_option is not null)
             {
                 Logger.WriteLine($"option: {_option}");
             }
         }
+
+        private readonly string _option;
+
+        private readonly string _help;
+
+        protected Sandbox Sandbox { get; private set; }
+
+        protected bool SkipProjectGeneration { get; init; } = false;
+
+        protected string SmokeTestOption { get; init; } = string.Empty;
 
         [Fact]
         [Trait("Category", "Smoke")]
@@ -135,7 +132,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected virtual void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework, List<string> packages)
+        protected virtual void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> packages)
         {
         }
 
@@ -162,7 +160,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected virtual void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework, List<string> snippets)
+        protected virtual void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
         {
         }
 
@@ -184,7 +183,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected virtual void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework, List<string> snippets)
+        protected virtual void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
         {
         }
 
@@ -229,7 +229,8 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected virtual void AddAppSettingsAssertions(List<Action<SteeltoeVersion, Framework, AppSettings>> assertions)
+        protected virtual void AddAppSettingsAssertions(
+            List<Action<SteeltoeVersion, Framework, AppSettings>> assertions)
         {
         }
 
@@ -251,35 +252,31 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected virtual void AddLaunchSettingsAssertions(List<Action<SteeltoeVersion, Framework, LaunchSettings>> assertions)
+        protected virtual void AddLaunchSettingsAssertions(
+            List<Action<SteeltoeVersion, Framework, LaunchSettings>> assertions)
         {
         }
 
-        protected async Task<Sandbox> TemplateSandbox(string args = "")
+        protected override async Task<Sandbox> TemplateSandbox(string args = "")
         {
-            Assert.NotNull(args);
-            var command = new StringBuilder("dotnet new steeltoe-webapi");
+            var normalizedArgs = new StringBuilder();
+
             if (!args.Contains("--help"))
             {
                 if (!args.Contains("--no-restore"))
                 {
-                    command.Append(" --no-restore");
+                    normalizedArgs.Append(" --no-restore");
                 }
 
                 if (_option is not null)
                 {
-                    command.Append(" --").Append(_option);
+                    normalizedArgs.Append(" --").Append(_option);
                 }
             }
 
-            if (args.Length > 1)
-            {
-                command.Append(' ').Append(args);
-            }
+            normalizedArgs.Append($" {args}");
 
-            var sandbox = new Sandbox(Logger);
-            await sandbox.ExecuteCommandAsync(command.ToString());
-            return sandbox;
+            return await base.TemplateSandbox(normalizedArgs.ToString().Trim());
         }
 
         protected bool IsSteeltoe2(string steeltoe)
