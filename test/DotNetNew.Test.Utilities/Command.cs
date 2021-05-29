@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -31,8 +32,11 @@ namespace Steeltoe.DotNetNew.Test.Utilities
             await p.WaitForExitAsync();
             if (p.ExitCode != 0)
             {
+                var msg = new StringBuilder();
+                msg.Append(await p.StandardOutput.ReadToEndAsync());
+                msg.Append(await p.StandardError.ReadToEndAsync());
                 throw new Exception(
-                    $"'{p.StartInfo.FileName} {p.StartInfo.Arguments}' exit code {p.ExitCode} != 0\n\n{p.StandardError.ReadToEnd()}");
+                    $"'{p.StartInfo.FileName} {p.StartInfo.Arguments}' exit code {p.ExitCode} != 0\n\n{msg}");
             }
 
             return p;
