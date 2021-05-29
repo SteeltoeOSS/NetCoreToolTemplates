@@ -19,7 +19,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
         [Trait("Category", "Functional")]
         public async void TestDefaultNotPolluted()
         {
-            var sandbox = await TemplateSandbox("false");
+            using var sandbox = await TemplateSandbox("false");
             sandbox.FileExists("HelloHystrixCommand.cs").Should().BeFalse();
         }
 
