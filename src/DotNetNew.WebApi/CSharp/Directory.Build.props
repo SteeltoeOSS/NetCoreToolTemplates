@@ -31,7 +31,7 @@
     <RedisDriverVersion>3.1.*</RedisDriverVersion>
     <RedisOption>false</RedisOption>
     <SqlServerOption>false</SqlServerOption>
-    <SteeltoeVersionOption>3.0.2</SteeltoeVersionOption>
+    <SteeltoeVersionOption>3.0.*</SteeltoeVersionOption>
   </PropertyGroup>
 
 </Project>

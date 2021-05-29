@@ -94,25 +94,6 @@
         ]
       }
     },
-    "AzureSpringCloudClientVersion": {
-      "type": "generated",
-      "generator": "switch",
-      "replaces": "$(AzureSpringCloudClientVersion)",
-      "parameters": {
-        "evaluator": "C++",
-        "datatype": "string",
-        "cases": [
-          {
-            "condition": "(SteeltoeVersionOption == '3.0.2')",
-            "value": "2.0.0-preview.1"
-          },
-          {
-            "condition": "(SteeltoeVersionOption == '2.5.3')",
-            "value": "1.0.0-preview.1"
-          }
-        ]
-      }
-    },
     "AzureSpringCloudHostingOption": {
       "type": "parameter",
       "datatype": "bool",
@@ -386,16 +367,8 @@
     "SteeltoeVersionOption": {
       "description": "Set the Steeltoe version for the project.",
       "type": "parameter",
-      "datatype": "choice",
-      "choices": [
-        {
-          "choice": "3.0.2"
-        },
-        {
-          "choice": "2.5.3"
-        }
-      ],
-      "defaultValue": "3.0.2",
+      "datatype": "string",
+      "defaultValue": "3.0.*",
       "replaces": "$(SteeltoeVersionOption)"
     }
   },

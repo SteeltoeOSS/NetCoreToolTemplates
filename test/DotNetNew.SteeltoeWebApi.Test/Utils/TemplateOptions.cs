@@ -12,10 +12,10 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils
             {
                 return new List<object[]>
                 {
-                    new object[] { "3.0.2", "net5.0", },
-                    new object[] { "3.0.2", "netcoreapp3.1", },
-                    new object[] { "2.5.3", "netcoreapp3.1", },
-                    new object[] { "2.5.3", "netcoreapp2.1", },
+                    new object[] { "3.0.*", "net5.0", },
+                    new object[] { "3.0.*", "netcoreapp3.1", },
+                    new object[] { "2.5.*", "netcoreapp3.1", },
+                    new object[] { "2.5.*", "netcoreapp2.1", },
                 }.GetEnumerator();
             }
 

@@ -49,10 +49,10 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             switch (steeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe3:
-                    properties["SteeltoeVersion"] = "3.0.2";
+                    properties["SteeltoeVersion"] = "3.0.*";
                     break;
                 case SteeltoeVersion.Steeltoe2:
-                    properties["SteeltoeVersion"] = "2.5.3";
+                    properties["SteeltoeVersion"] = "2.5.*";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(steeltoeVersion), steeltoeVersion.ToString());

@@ -10,15 +10,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             "Set the Steeltoe version for the project", logger)
         {
             SkipProjectGeneration = true;
-            SmokeTestOption = "3.0.2";
-        }
-
-        [Fact]
-        [Trait("Category", "Functional")]
-        public async void TestUnsupportedSteeltoeVersion()
-        {
-            using var sandbox = await TemplateSandbox("unsupported1.0");
-            sandbox.CommandError.Should().Contain("'unsupported1.0' is not a valid value for --steeltoe");
+            SmokeTestOption = "3.0.*";
         }
     }
 }
