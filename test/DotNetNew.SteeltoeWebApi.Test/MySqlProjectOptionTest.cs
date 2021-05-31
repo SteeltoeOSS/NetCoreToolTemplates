@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class MySqlOptionTest : OptionTest
+    public class MySqlProjectOptionTest : ProjectOptionTest
     {
-        public MySqlOptionTest(ITestOutputHelper logger) : base("mysql", "Add access to MySQL databases", logger)
+        public MySqlProjectOptionTest(ITestOutputHelper logger) : base("mysql", "Add access to MySQL databases", logger)
         {
         }
 
-        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
             packages.Add(("MySql.Data", "8.0.*"));
@@ -25,7 +25,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             switch (steeltoeVersion)
@@ -41,7 +41,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             snippets.Add("services.AddMySqlConnection(Configuration);");
         }
 
-        protected override void AddValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             snippets.Add("using MySql.Data.MySqlClient;");

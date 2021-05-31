@@ -2,19 +2,20 @@ using System.Collections.Generic;
 using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class PostgreSqlOptionTest : OptionTest
+    public class SqlServerProjectOptionTest : ProjectOptionTest
     {
-        public PostgreSqlOptionTest(ITestOutputHelper logger) : base("postgresql", "Add access to PostgreSQL databases",
+        public SqlServerProjectOptionTest(ITestOutputHelper logger) : base("sqlserver",
+            "Add access to Microsoft SQL Server databases",
             logger)
         {
         }
 
-        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
-            packages.Add(("Npgsql", "4.1.*"));
+            packages.Add(("System.Data.SqlClient", "4.8.*"));
             switch (steeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe2:
@@ -26,30 +27,31 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             switch (steeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe2:
-                    snippets.Add("using Steeltoe.CloudFoundry.Connector.PostgreSql;");
+                    snippets.Add("using Steeltoe.CloudFoundry.Connector.SqlServer;");
                     break;
                 default:
-                    snippets.Add("using Steeltoe.Connector.PostgreSql;");
+                    snippets.Add("using Steeltoe.Connector.SqlServer;");
                     break;
             }
 
-            snippets.Add("services.AddPostgresConnection(Configuration);");
+            snippets.Add("services.AddSqlServerConnection(Configuration);");
         }
 
-        protected override void AddValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
-            snippets.Add("using Npgsql;");
             snippets.Add("using System.Data;");
+            snippets.Add("using System.Data.SqlClient;");
+            snippets.Add("private readonly SqlConnection _dbConnection;");
             snippets.Add(@"
-private readonly NpgsqlConnection _dbConnection;
-public ValuesController([FromServices] NpgsqlConnection dbConnection)
+private readonly SqlConnection _dbConnection;
+public ValuesController([FromServices] SqlConnection dbConnection)
 {
     _dbConnection = dbConnection;
 }
@@ -67,7 +69,6 @@ public ActionResult<IEnumerable<string>> Get()
         string tablename = (string)row[2];
         tables.Add(tablename);
     }
-
     return tables;
 }
 ");

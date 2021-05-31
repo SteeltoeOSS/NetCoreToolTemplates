@@ -2,22 +2,22 @@ using System.Collections.Generic;
 using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class RandomValueOptionTest : OptionTest
+    public class RandomValueProjectOptionTest : ProjectOptionTest
     {
-        public RandomValueOptionTest(ITestOutputHelper logger) : base("random-value",
+        public RandomValueProjectOptionTest(ITestOutputHelper logger) : base("random-value",
             "Add a random value configuration source", logger)
         {
         }
 
-        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
             packages.Add(("Steeltoe.Extensions.Configuration.RandomValueBase", "$(SteeltoeVersion)"));
         }
 
-        protected override void AddValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             snippets.Add("using Microsoft.Extensions.Configuration;");

@@ -6,21 +6,21 @@ using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Steeltoe.DotNetNew.Test.Utilities.Models;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class DefaultsTest : OptionTest
+    public class DefaultsTest : ProjectOptionTest
     {
         public DefaultsTest(ITestOutputHelper logger) : base(null, "Steeltoe Web API (C#) Author: VMware", logger)
         {
         }
 
-        protected override async Task AssertProject(SteeltoeVersion steeltoeVersion, Framework framework)
+        protected override async Task AssertProjectGeneration(SteeltoeVersion steeltoeVersion, Framework framework)
         {
-            await base.AssertProject(steeltoeVersion, framework);
+            await base.AssertProjectGeneration(steeltoeVersion, framework);
             Sandbox.FileExists("app.config").Should().BeTrue();
         }
 
-        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
             switch (framework)
@@ -43,7 +43,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected override void AddProjectProperties(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPropertiesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             Dictionary<string, string> properties)
         {
             switch (steeltoeVersion)
@@ -74,7 +74,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected override void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             switch (framework)
@@ -106,7 +106,7 @@ public static IWebHostBuilder CreateWebHostBuilder(string[] args)
             }
         }
 
-        protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             switch (framework)
@@ -180,7 +180,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
             }
         }
 
-        protected override void AddLaunchSettingsAssertions(
+        protected override void AssertLaunchSettingsHook(
             List<Action<SteeltoeVersion, Framework, LaunchSettings>> assertions)
         {
             assertions.Add(AssertLaunchSettings);

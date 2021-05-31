@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class OAuthOptionTest : OptionTest
+    public class OAuthProjectOptionTest : ProjectOptionTest
     {
-        public OAuthOptionTest(ITestOutputHelper logger) : base("oauth", "Add access to OAuth security", logger)
+        public OAuthProjectOptionTest(ITestOutputHelper logger) : base("oauth", "Add access to OAuth security", logger)
         {
         }
 
-        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
             switch (steeltoeVersion)
@@ -34,7 +34,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             switch (steeltoeVersion)

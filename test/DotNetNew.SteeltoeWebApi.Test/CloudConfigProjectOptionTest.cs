@@ -2,29 +2,29 @@ using System.Collections.Generic;
 using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class CloudConfigOptionTest : OptionTest
+    public class CloudConfigProjectOptionTest : ProjectOptionTest
     {
-        public CloudConfigOptionTest(ITestOutputHelper logger) : base("cloud-config",
+        public CloudConfigProjectOptionTest(ITestOutputHelper logger) : base("cloud-config",
             "Add client support for Spring Cloud Config", logger)
         {
         }
 
-        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
             packages.Add(("Steeltoe.Extensions.Configuration.ConfigServerCore","$(SteeltoeVersion)"));
         }
 
-        protected override void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             snippets.Add("using Steeltoe.Extensions.Configuration.ConfigServer;");
             snippets.Add(".AddConfigServer()");
         }
 
-        protected override void AddValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             snippets.Add(@"

@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class RedisOptionTest : OptionTest
+    public class RedisProjectOptionTest : ProjectOptionTest
     {
-        public RedisOptionTest(ITestOutputHelper logger) : base("redis",
+        public RedisProjectOptionTest(ITestOutputHelper logger) : base("redis",
             "Add access to Redis data stores", logger)
         {
         }
 
-        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
             packages.Add(("Microsoft.Extensions.Caching.StackExchangeRedis", "3.1.*"));
@@ -26,7 +26,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             switch (steeltoeVersion)
@@ -42,7 +42,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             snippets.Add("services.AddDistributedRedisCache(Configuration)");
         }
 
-        protected override void AddValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             snippets.Add("using Microsoft.Extensions.Caching.Distributed;");

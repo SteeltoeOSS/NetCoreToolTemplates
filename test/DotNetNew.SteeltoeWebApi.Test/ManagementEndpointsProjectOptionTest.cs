@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class ManagementEndpointsOptionTest : OptionTest
+    public class ManagementEndpointsProjectOptionTest : ProjectOptionTest
     {
-        public ManagementEndpointsOptionTest(ITestOutputHelper logger) : base("management-endpoints",
+        public ManagementEndpointsProjectOptionTest(ITestOutputHelper logger) : base("management-endpoints",
             "Add application management endpoints, such as health and metrics", logger)
         {
         }
 
-        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
             switch (steeltoeVersion)
@@ -25,7 +25,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected override void AddStartupCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             switch (steeltoeVersion)

@@ -41,7 +41,7 @@ namespace Steeltoe.DotNetNew.Test.Utilities
 
             internal static void EnsureInstalled(ITestOutputHelper logger)
             {
-                logger.WriteLine("template stwebapi installed");
+                logger.WriteLine("template steeltoe-webapi installed");
             }
         }
     }

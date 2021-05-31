@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class AzureSpringCloudOptionTest : OptionTest
+    public class AzureSpringCloudProjectOptionTest : ProjectOptionTest
     {
-        public AzureSpringCloudOptionTest(ITestOutputHelper logger) : base("azure-spring-cloud",
+        public AzureSpringCloudProjectOptionTest(ITestOutputHelper logger) : base("azure-spring-cloud",
             "Add hosting support for Microsoft Azure Spring Cloud", logger)
         {
         }
 
-        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
             if (framework == Framework.NetCoreApp21)
@@ -30,7 +30,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             }
         }
 
-        protected override void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             switch (framework)

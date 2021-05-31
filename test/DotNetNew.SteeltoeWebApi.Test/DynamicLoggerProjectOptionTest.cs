@@ -2,22 +2,22 @@ using System.Collections.Generic;
 using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class DynamicLoggerOptionTest : OptionTest
+    public class DynamicLoggerProjectOptionTest : ProjectOptionTest
     {
-        public DynamicLoggerOptionTest(ITestOutputHelper logger) : base("dynamic-logger", "Add a dynamic logger",
+        public DynamicLoggerProjectOptionTest(ITestOutputHelper logger) : base("dynamic-logger", "Add a dynamic logger",
             logger)
         {
         }
 
-        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
             packages.Add(("Steeltoe.Extensions.Logging.DynamicLogger", "$(SteeltoeVersion)"));
         }
 
-        protected override void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             snippets.Add("using Steeltoe.Extensions.Logging;");

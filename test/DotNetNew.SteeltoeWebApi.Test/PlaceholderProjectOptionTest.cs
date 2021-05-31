@@ -5,22 +5,22 @@ using Steeltoe.DotNetNew.SteeltoeWebApi.Test.Utils;
 using Steeltoe.DotNetNew.Test.Utilities.Models;
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
+namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class PlaceholderOptionTest : OptionTest
+    public class PlaceholderProjectOptionTest : ProjectOptionTest
     {
-        public PlaceholderOptionTest(ITestOutputHelper logger) : base("placeholder",
+        public PlaceholderProjectOptionTest(ITestOutputHelper logger) : base("placeholder",
             "Add a placeholder configuration source", logger)
         {
         }
 
-        protected override void AddProjectPackages(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
             packages.Add(("Steeltoe.Extensions.Configuration.PlaceholderCore", "$(SteeltoeVersion)"));
         }
 
-        protected override void AddProgramCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             switch (steeltoeVersion)
@@ -36,7 +36,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test.Options
             snippets.Add(".AddPlaceholderResolver()");
         }
 
-        protected override void AddValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
             snippets.Add("using Microsoft.Extensions.Configuration;");
@@ -53,7 +53,7 @@ public ActionResult<IEnumerable<string>> Get()
 ");
         }
 
-        protected override void AddAppSettingsAssertions(
+        protected override void AssertAppSettingsJsonHook(
             List<Action<SteeltoeVersion, Framework, AppSettings>> assertions)
         {
             assertions.Add(AssertPlaceholderSettings);
