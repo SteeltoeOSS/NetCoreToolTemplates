@@ -99,8 +99,8 @@ $ git switch hello-world-dev
 `dotnew new` options are defined as symbols in the file `.template.config/template.json`.
 By this project's convention, project option symbol names are defined with the suffix `Option` so the new symbol will be named `HelloWorldOption`.
 
-Add the new symbol to the the `symbols` object to `src/DotNetNew.WebApi/CSharp/.template.config/template.json`:
-```json
+Add the new symbol to the `symbols` object in `src/DotNetNew.WebApi/CSharp/.template.config/template.json`:
+```
   "symbols": {
 ...
     "HelloWorldOption": {
@@ -117,8 +117,8 @@ The symbol will be made available to our template C# code as a preprocessor dire
 Now that symbol has been defined, we need to configure the `dotnew new` command so that the option `--hello-world` maps to the new symbol.
 The option-to-symbol mapping is configured in the file `.template.config/dotnetcli.host.json`.
 
-Add the new option to the the `symbolInfo` object to `src/DotNetNew.WebApi/CSharp/.template.config/dotnetcli.host.json`:
-```json
+Add the new option to the `symbolInfo` object in `src/DotNetNew.WebApi/CSharp/.template.config/dotnetcli.host.json`:
+```
   "symbolInfo": {
 ...
     "HelloWorldOption": {
@@ -166,7 +166,7 @@ The `ProjectOptionTest` defines 3 categories of tests:
 
 We'll use the _Smoke_ test category to test the new project option.
 The _Smoke_ test category includes a single test case that:
-* runs `dotnet new steeltoe-webapi --help` and verifies an option description
+* runs `dotnet new steeltoe-webapi --help` and verifies the option description
 * runs `dotnet new steeltoe-webapi --<option>` and verifies the command return code is 0
 
 The _ProjectGeneration_ and _ProjectBuild_ test categories are covered later in this document.
@@ -196,8 +196,8 @@ $ git switch hello-world-dev
 We'll edit `Startup.cs` so that a hello log message is output when the app starts.
 The message will be logged from the `Configure` method so its signature will need to be changed to inject a logger.
 There's also a corresponding `using` statement for the `ILogger` type.
-However, we only want projects that are generated with the `--hello-world` option to have these changes so we'll use the C# `HelloWorldOption` preprocessor directive around our new code.
-Note there are 2 `Configure` method signatures; one for `netcoreapp2.1` and one for everything else.
+However, we only want projects that are generated with the `hello-world` option to have these changes so we'll use the C# `HelloWorldOption` preprocessor directive around our new code.
+Note there are two `Configure` method signatures; one for `netcoreapp2.1` and one for everything else.
 
 Edit `src/DotNetNew.WebApi/CSharp/Startup.cs`:
 ```C#
@@ -258,11 +258,9 @@ $ git switch hello-world
 
 The `ProjectOptionTest` abstract class provides a _ProjectGeneration_ test category that tests an option with each valid combination of Steeltoe version and .NET framework.
 The tests focus on generated project code, e.g. packages in the `.csproj` file and snippets in `Startup.cs`.
-In all, 4 tests are run for an option:
-* `dotnet new steeltoe-webapi --steeltoe 3.0.x --framework net5.0 --<option> --no-restore`
-* `dotnet new steeltoe-webapi --steeltoe 3.0.x --framework netcoreapp3.1 --<option> --no-restore`
-* `dotnet new steeltoe-webapi --steeltoe 2.5.x --framework netcoreapp3.1 --<option> --no-restore`
-* `dotnet new steeltoe-webapi --steeltoe 2.5.x --framework netcoreapp2.1 --<option> --no-restore`
+
+For each combination, a test ensures the following command return code is 0:
+* `dotnet new steeltoe-webapi --steeltoe <version> --framework <framework> --<option> --no-restore`
 
 Subclasses of `ProjectOptionTest` can override various hooks to control what is validated during the tests.
 The available hooks are:
@@ -336,6 +334,6 @@ Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration:
 The project build tests pass so the implementation of the new project option is complete.
 
 If a project build test should fail:
-* fix the error in the development branch
+* fix the error
 * update the project generation tests if needed
 * rerun the project build tests
