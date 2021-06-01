@@ -154,26 +154,9 @@ namespace Company.WebApplication1
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 #if (FrameworkNetCoreApp21)
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-#if (EurekaOption)
-            app.UseDiscoveryClient();
-#endif
-#if (HystrixOption)
-            app.UseHystrixRequestContext();
-            app.UseHystrixMetricsStream();
-#endif
-#if (ManagementEndpointsOption)
-            app.UseCloudFoundryActuators();
-#endif
-            app.UseMvc();
-        }
 #else
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+#endif
         {
             if (env.IsDevelopment())
             {
@@ -194,10 +177,13 @@ namespace Company.WebApplication1
 #if (Steeltoe2ManagementEndpoints)
             app.UseCloudFoundryActuators();
 #endif
+#if (FrameworkNetCoreApp21)
+            app.UseMvc();
+#else
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-        }
 #endif
+        }
     }
 }
