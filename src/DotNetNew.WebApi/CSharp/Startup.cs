@@ -1,13 +1,8 @@
-#if (FrameworkNetCoreApp21)
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-#else
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+#if (!FrameworkNetCoreApp21)
 using Microsoft.Extensions.Hosting;
 #endif
 #if (FrameworkNet50)
