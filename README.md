@@ -9,6 +9,8 @@ Project templates:
   <dd>Creates a Steeltoe-influenced .NET Web API project</dd>
 </dl>
 
+This document describes template installation and template general usage help.
+For learning how to develop additional options for the templates, see [DEVELOPER.md](DEVELOPER.md).
 ## Install
 
 ### From Source
