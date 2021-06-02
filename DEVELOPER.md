@@ -66,7 +66,7 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class HelloWorldOptionTest : OptionTest
+    public class HelloWorldOptionTest : ProjectOptionTest
     {
         public HelloWorldOptionTest(ITestOutputHelper logger) : base("hello-world", "Say 'Hi' to the world", logger)
         {
