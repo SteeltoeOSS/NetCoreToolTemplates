@@ -60,15 +60,15 @@ The `ProjectOptionTest` constructor takes 3 arguments:
 
 The description is what will be output by the `dotnet new` help engine.
 
-Create the file `test/DotNetNew.SteeltoeWebApi.Test/HelloWorldOptionTest.cs`:
+Create the file `test/DotNetNew.SteeltoeWebApi.Test/HelloWorldProjectOptionTest.cs`:
 ```c#
 using Xunit.Abstractions;
 
 namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 {
-    public class HelloWorldOptionTest : ProjectOptionTest
+    public class HelloWorldProjectOptionTest : ProjectOptionTest
     {
-        public HelloWorldOptionTest(ITestOutputHelper logger) : base("hello-world", "Say 'Hi' to the world", logger)
+        public HelloWorldProjectOptionTest(ITestOutputHelper logger) : base("hello-world", "Say 'Hi' to the world", logger)
         {
         }
     }
@@ -77,7 +77,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 
 Run the new test class, expecting several failures:
 ```
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldOptionTest'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest'
 ...
 Failed!  - Failed:     9, Passed:     0, Skipped:     0, Total:     9, Duration: 5 s ...
 ```
@@ -85,7 +85,7 @@ Failed!  - Failed:     9, Passed:     0, Skipped:     0, Total:     9, Duration:
 We'll implement our project option and fix the broken tests in the `hello-world-dev` temporary branch.
 Before proceeding to those steps, add the new test case to the ultimate branch:
 ```
-$ git add test/DotNetNew.SteeltoeWebApi.Test/HelloWorldOptionTest.cs
+$ git add test/DotNetNew.SteeltoeWebApi.Test/HelloWorldProjectOptionTest.cs
 $ git commit -m'Create hello-world test stub'
 ```
 
@@ -173,7 +173,7 @@ The _ProjectGeneration_ and _ProjectBuild_ test categories are covered later in 
 
 Run the smoke test and see the test fail:
 ```
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldOptionTest&Category=Smoke'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest&Category=Smoke'
 ...
 Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 1 s ...
 ```
@@ -181,7 +181,7 @@ Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration:
 Merge in the temporary branch and see the smoke test pass:
 ```
 $ git merge hello-world-dev
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldOptionTest&Category=Smoke'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest&Category=Smoke'
 Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 4 s ...
 ```
 
@@ -274,7 +274,7 @@ The available hooks are:
 
 The `hello-world` _ProjectGeneration_ tests need to ensure that `Startup.cs` contains our new code when the option is specified.
 
-Add the following override to the `test/DotNetNew.SteeltoeWebApi.Test/HelloWorldOptionTest.cs`:
+Add the following override to the `test/DotNetNew.SteeltoeWebApi.Test/HelloWorldProjectOptionTest.cs`:
 ```C#
         protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework, List<string> snippets)
         {
@@ -297,7 +297,7 @@ The order of the snippets in the list doesn't matter, but adding them in the ord
 
 Run the project generation tests and see the tests fail:
 ```
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldOptionTest&Category=ProjectGeneration'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest&Category=ProjectGeneration'
 ...
 Failed!  - Failed:     4, Passed:     0, Skipped:     0, Total:     4, Duration: 3 s ...
 ```
@@ -305,13 +305,13 @@ Failed!  - Failed:     4, Passed:     0, Skipped:     0, Total:     4, Duration:
 Merge in the temporary branch and see the tests pass:
 ```
 $ git merge hello-world-dev
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldOptionTest&Category=ProjectGeneration'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest&Category=ProjectGeneration'
 Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 3 s ...
 ```
 
 Add the project generation tests to the ultimate branch:
 ```
-$ git add test/DotNetNew.SteeltoeWebApi.Test/HelloWorldOptionTest.cs
+$ git add test/DotNetNew.SteeltoeWebApi.Test/HelloWorldProjectOptionTest.cs
 $ git commit -m'Add hello-world project generation tests'
 ```
 
@@ -326,7 +326,7 @@ For each combination, a test ensures the following command return codes are 0:
 
 Run the project build tests and see if any test fail:
 ```
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldOptionTest&Category=ProjectGeneration'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest&Category=ProjectGeneration'
 ...
 Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 20 s ...
 ```
