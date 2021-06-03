@@ -15,7 +15,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
         public async void TestUnsupportedParameterValue()
         {
             using var sandbox = await TemplateSandbox("UnsupportedValue");
-            sandbox.CommandError.Should().Contain($"'UnsupportedValue' is not a valid value for --{Option}");
+            sandbox.CommandOutput.Should().Contain($"'UnsupportedValue' is not a valid value for --{Option}");
         }
     }
 }

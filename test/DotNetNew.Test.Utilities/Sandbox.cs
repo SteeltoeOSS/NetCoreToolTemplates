@@ -19,8 +19,6 @@ namespace Steeltoe.DotNetNew.Test.Utilities
 
         public string CommandOutput { get; private set; }
 
-        public string CommandError { get; private set; }
-
         public string Name
         {
             get => System.IO.Path.GetFileName(Path);
@@ -36,9 +34,7 @@ namespace Steeltoe.DotNetNew.Test.Utilities
         public async Task ExecuteCommandAsync(string command)
         {
             _logger.WriteLine($"executing: {command}");
-            var p = await new Command().ExecuteAsync(command, Path);
-            CommandOutput = await p.StandardOutput.ReadToEndAsync();
-            CommandError = await p.StandardError.ReadToEndAsync();
+            CommandOutput = await new Command().ExecuteAsync(command, Path);
         }
 
         public bool DirectoryExists(string path)
