@@ -20,6 +20,10 @@ $ nuget pack src/Steeltoe.NetCoreTool.Templates.nuspec -NoDefaultExcludes
 $ dotnet new --install Steeltoe.NetCoreTool.Templates.0.0.1.nupkg
 ```
 
+Note: To see templates in Visual Studio, you may need to enable:
+
+_Tools->Options..._ _Preview Features:_ _Show all .NET Core templates in the NEW project dialog_
+
 ### Uninstall
 
 ```
