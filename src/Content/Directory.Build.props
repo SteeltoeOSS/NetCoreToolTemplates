@@ -1,0 +1,14 @@
+<Project>
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CoverletCollectorVersion>1.3.*</CoverletCollectorVersion>
+    <FluentAssertionsVersion>5.10.*</FluentAssertionsVersion>
+    <MicrosoftNetTestSdkVersion>16.8.*</MicrosoftNetTestSdkVersion>
+    <XunitVersion>2.4.*</XunitVersion>
+  </PropertyGroup>
+
+</Project>

@@ -10,20 +10,20 @@ Project templates:
 
 This document describes template installation and template general usage help.
 For learning how to develop additional options for the templates, see [DEVELOPER.md](DEVELOPER.md).
+
 ## Install
 
 ### From Source
 
 ```
-$ dotnet build
-$ dotnet new --install src/Content
+$ nuget pack src/Steeltoe.NetCoreTool.Templates.nuspec -NoDefaultExcludes
+$ dotnet new --install Steeltoe.NetCoreTool.Templates.0.0.1.nupkg
 ```
 
 ### Uninstall
 
 ```
-$ dotnet new --uninstall
-# follow instructions to uninstall "Steeltoe ..." templates
+$ dotnet new --uninstall Steeltoe.NetCoreTool.Templates
 ```
 
 
