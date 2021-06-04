@@ -1,7 +1,6 @@
-# Steeltoe InitializrDotNetNew
+# Steeltoe NetCoreToolTemplates
 
-Steeltoe InitializrDotNetNew are project templates to be used for creating projects using .NET Core's `dotnet new`
-command.
+Steeltoe NetCoreToolTemplates is a collection of .NET Core Tool templates.
 
 Project templates:
 <dl>
@@ -17,14 +16,14 @@ For learning how to develop additional options for the templates, see [DEVELOPER
 
 ```
 $ dotnet build
-$ dotnet new --install src/DotNetNew.WebApi
+$ dotnet new --install src/Content
 ```
 
 ### Uninstall
 
 ```
 $ dotnet new --uninstall
-# follow instructions to uninstall "Steeltoe WebApi (steeltoe-webapi) C#" template
+# follow instructions to uninstall "Steeltoe ..." templates
 ```
 
 

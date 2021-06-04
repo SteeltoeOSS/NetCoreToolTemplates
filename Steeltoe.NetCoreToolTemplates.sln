@@ -4,7 +4,7 @@ VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7A45E423-F8A2-4421-81B6-24E6A9E9A64D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.WebApplication1", "src\DotNetNew.WebApi\CSharp\Company.WebApplication1.csproj", "{D991A16C-69AD-457F-B9FA-EB0531CF7288}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.WebApplication1", "src\Content\NetCoreTool.Template.WebApi\CSharp\Company.WebApplication1.csproj", "{D991A16C-69AD-457F-B9FA-EB0531CF7288}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E6A8112D-A16A-481D-844B-E941C29A6BC4}"
 EndProject
@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		azure-pipelines.yaml = azure-pipelines.yaml
 		README.md = README.md
-		src\DotNetNew.WebApi\CSharp\Directory.Build.props = src\DotNetNew.WebApi\CSharp\Directory.Build.props
+		src\Content\NetCoreTool.Template.WebApi\CSharp\Directory.Build.props = src\Content\NetCoreTool.Template.WebApi\CSharp\Directory.Build.props
 		test\Directory.Build.props = test\Directory.Build.props
 	EndProjectSection
 EndProject
