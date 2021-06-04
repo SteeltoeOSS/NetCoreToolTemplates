@@ -2,9 +2,9 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "VMware",
   "classifications": [
-    "Steeltoe",
+    "Web",
     "WebAPI",
-    "C#"
+    "Steeltoe"
   ],
   "identity": "steeltoe.webapi.csharp",
   "name": "Steeltoe Web API",
