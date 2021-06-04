@@ -1,11 +1,138 @@
-﻿{
+{
   "$schema": "https://json.schemastore.org/vs-2017.3.host",
-  "icon": "icon.png",
+  "learnMoreLink": "https://start.steeltoe.io/",
+  "icon": "steeltoe-icon.png",
   "symbolInfo": [
+    {
+      "id": "AzureSpringCloudHostingOption",
+      "name": {
+        "text": "Add hosting support for Microsoft Azure Spring Cloud"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "CloudConfigOption",
+      "name": {
+        "text": "Add client support for Spring Cloud Config"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "CloudFoundryOption",
+      "name": {
+        "text": "Add hosting support for Cloud Foundry"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "DockerOption",
+      "name": {
+        "text": "Add support for Docker"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "DynamicLoggerOption",
+      "name": {
+        "text": "Add a dynamic logger"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "EurekaOption",
+      "name": {
+        "text": "Add access to Eureka, a REST-based service for locating services"
+      },
+      "isVisible": "true"
+    },
     {
       "id": "HystrixOption",
       "name": {
-        "text": "Hystrix Option"
+        "text": "Add support for Netflix Hystrix, a latency and fault tolerance library"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "ManagementEndpointsOption",
+      "name": {
+        "text": "Add application management endpoints, such as health and metrics"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "MongoDbOption",
+      "name": {
+        "text": "Add access to MongoDB databases"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "MySqlEfCoreOption",
+      "name": {
+        "text": "Add access to MySQL databases using Entity Framework Core"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "MySqlOption",
+      "name": {
+        "text": "Add access to MySQL databases"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "OAuthOption",
+      "name": {
+        "text": "Add access to OAuth security"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "PlaceholderOption",
+      "name": {
+        "text": "Add a placeholder configuration source"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "PostgreSqlEfCoreOption",
+      "name": {
+        "text": "Add access to PostgreSQL databases using Entity Framework Core"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "PostgreSqlOption",
+      "name": {
+        "text": "Add access to PostgreSQL databases"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "RabbitMqOption",
+      "name": {
+        "text": "Add access to RabbitMQ message brokers"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "RandomValueOption",
+      "name": {
+        "text": "Add a random value configuration source"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "RedisOption",
+      "name": {
+        "text": "Add access to Redis data stores"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "SqlServerOption",
+      "name": {
+        "text": "Add access to Microsoft SQL Server databases"
       },
       "isVisible": "true"
     }
