@@ -65,11 +65,12 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
                 throw new Exception($"'{command}' failed to start: {e.Message}");
             }
 
+            const int timeoutMillis = 10 /* 10s */ * 1000 /* 1000ms/s */;
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
-            var waitForExit = Task.Run(() => process.WaitForExit(-1));
+            var waitForExit = Task.Run(() => process.WaitForExit(timeoutMillis));
             var processTask = Task.WhenAll(waitForExit, outputCloseEvent.Task, errorCloseEvent.Task);
-            if (await Task.WhenAny(Task.Delay(-1), processTask) == processTask && waitForExit.Result)
+            if (await Task.WhenAny(Task.Delay(timeoutMillis), processTask) == processTask && waitForExit.Result)
             {
                 var output = $"{outputBuilder}${errorBuilder}";
                 if (process.ExitCode != 0)
