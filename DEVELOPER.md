@@ -29,8 +29,8 @@ The general flow of the implementation is:
 
 Clone this repository and create 2 branches:
 ```
-$ git clone git@github.com:steeltoeoss-incubator/DotNetNewTemplates.git
-$ cd DotNetNewTemplates
+$ git clone git@github.com:SteeltoeOSS/NetCoreToolTemplates.git
+$ cd NetCoreToolTemplates
 $ git branch hello-world              # ultimate branch for our new option
 $ git branch hello-world-dev          # temporary development branch
 ```
@@ -51,7 +51,7 @@ $ dotnet new steeltoe-webapi --hello-world true    # hello-world is true
 ```
 
 There are several abstract test classes in the project to assist in option development.
-The abstract class [ProjectOptionTest](https://github.com/steeltoeoss-incubator/DotNetNewTemplates/blob/main/test/DotNetNew.SteeltoeWebApi.Test/ProjectOptionTest.cs) should be used for project options such as `hello-world`.
+The abstract class [ProjectOptionTest](https://github.com/SteeltoeOSS/NetCoreToolTemplates/blob/main/test/NetCoreTool.Template.WebApi.Test/ProjectOptionTest.cs) should be used for project options such as `hello-world`.
 
 The `ProjectOptionTest` constructor takes 3 arguments:
 * option name
@@ -60,11 +60,11 @@ The `ProjectOptionTest` constructor takes 3 arguments:
 
 The description is what will be output by the `dotnet new` help engine.
 
-Create the file `test/DotNetNew.SteeltoeWebApi.Test/HelloWorldProjectOptionTest.cs`:
+Create the file `test/NetCoreTool.Template.WebApi.Test/HelloWorldProjectOptionTest.cs`:
 ```c#
 using Xunit.Abstractions;
 
-namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
+namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
     public class HelloWorldProjectOptionTest : ProjectOptionTest
     {
@@ -77,7 +77,7 @@ namespace Steeltoe.DotNetNew.SteeltoeWebApi.Test
 
 Run the new test class, expecting several failures:
 ```
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.NetCoreTool.Template.WebApi.Test.HelloWorldProjectOptionTest'
 ...
 Failed!  - Failed:     9, Passed:     0, Skipped:     0, Total:     9, Duration: 5 s ...
 ```
@@ -85,7 +85,7 @@ Failed!  - Failed:     9, Passed:     0, Skipped:     0, Total:     9, Duration:
 We'll implement our project option and fix the broken tests in the `hello-world-dev` temporary branch.
 Before proceeding to those steps, add the new test case to the ultimate branch:
 ```
-$ git add test/DotNetNew.SteeltoeWebApi.Test/HelloWorldProjectOptionTest.cs
+$ git add test/NetCoreTool.Template.WebApi.Test/HelloWorldProjectOptionTest.cs
 $ git commit -m'Create hello-world test stub'
 ```
 
@@ -99,7 +99,7 @@ $ git switch hello-world-dev
 `dotnew new` options are defined as symbols in the file `.template.config/template.json`.
 By this project's convention, project option symbol names are defined with the suffix `Option` so the new symbol will be named `HelloWorldOption`.
 
-Add the new symbol to the `symbols` object in `src/DotNetNew.WebApi/CSharp/.template.config/template.json`:
+Add the new symbol to the `symbols` object in `src/Content/NetCoreTool.Template.WebApi/CSharp/.template.config/template.json`:
 ```
   "symbols": {
 ...
@@ -117,7 +117,7 @@ The symbol will be made available to our template C# code as a preprocessor dire
 Now that symbol has been defined, we need to configure the `dotnew new` command so that the option `--hello-world` maps to the new symbol.
 The option-to-symbol mapping is configured in the file `.template.config/dotnetcli.host.json`.
 
-Add the new option to the `symbolInfo` object in `src/DotNetNew.WebApi/CSharp/.template.config/dotnetcli.host.json`:
+Add the new option to the `symbolInfo` object in `src/Content/NetCoreTool.Template.WebApi/CSharp/.template.config/dotnetcli.host.json`:
 ```
   "symbolInfo": {
 ...
@@ -130,7 +130,7 @@ Add the new option to the `symbolInfo` object in `src/DotNetNew.WebApi/CSharp/.t
 
 If you haven't already, install the project template so that it can be invoked using `dotnet new`:
 ```
-$ dotnet new --install src/DotNetNew.WebApi
+$ dotnet new --install src/Content
 ```
 
 Run the `steeltoe-webapi` template with the `--help` option to see the newly added option:
@@ -147,8 +147,8 @@ Steeltoe Web API (C#)
 
 Add the changes to the temporary branch:
 ```
-$ git add src/DotNetNew.WebApi/CSharp/.template.config/template.json
-$ git add src/DotNetNew.WebApi/CSharp/.template.config/dotnetcli.host.json
+$ git add src/Content/NetCoreTool.Template.WebApi/CSharp/.template.config/template.json
+$ git add src/Content/NetCoreTool.Template.WebApi/CSharp/.template.config/dotnetcli.host.json
 $ git commit -m'Define the hello-world option'
 ```
 
@@ -173,7 +173,7 @@ The _ProjectGeneration_ and _ProjectBuild_ test categories are covered later in 
 
 Run the smoke test and see the test fail:
 ```
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest&Category=Smoke'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.NetCoreTool.Template.WebApi.Test.HelloWorldProjectOptionTest&Category=Smoke'
 ...
 Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 1 s ...
 ```
@@ -181,7 +181,7 @@ Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration:
 Merge in the temporary branch and see the smoke test pass:
 ```
 $ git merge hello-world-dev
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest&Category=Smoke'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.NetCoreTool.Template.WebApi.Test.HelloWorldProjectOptionTest&Category=Smoke'
 Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 4 s ...
 ```
 
@@ -199,7 +199,7 @@ There's also a corresponding `using` statement for the `ILogger` type.
 However, we only want projects that are generated with the `hello-world` option to have these changes so we'll use the C# `HelloWorldOption` preprocessor directive around our new code.
 Note there are two `Configure` method signatures; one for `netcoreapp2.1` and one for everything else.
 
-Edit `src/DotNetNew.WebApi/CSharp/Startup.cs`:
+Edit `src/Content/NetCoreTool.Template.WebApi/CSharp/Startup.cs`:
 ```C#
 ...
 #if (HelloWorldOption)
@@ -245,7 +245,7 @@ info: MyHelloWorldApp21.Startup[0]
 
 Add the changes to the temporary branch:
 ```
-$ git src/DotNetNew.WebApi/CSharp/Startup.cs
+$ git src/Content/NetCoreTool.Template.WebApi/CSharp/Startup.cs
 $ git commit -m'Implement the hello-world option'
 ```
 
@@ -274,7 +274,7 @@ The available hooks are:
 
 The `hello-world` _ProjectGeneration_ tests need to ensure that `Startup.cs` contains our new code when the option is specified.
 
-Add the following override to the `test/DotNetNew.SteeltoeWebApi.Test/HelloWorldProjectOptionTest.cs`:
+Add the following override to the `test/NetCoreTool.Template.WebApi.Test/HelloWorldProjectOptionTest.cs`:
 ```C#
         protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework, List<string> snippets)
         {
@@ -297,7 +297,7 @@ The order of the snippets in the list doesn't matter, but adding them in the ord
 
 Run the project generation tests and see the tests fail:
 ```
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest&Category=ProjectGeneration'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.NetCoreTool.Template.WebApi.Test.HelloWorldProjectOptionTest&Category=ProjectGeneration'
 ...
 Failed!  - Failed:     4, Passed:     0, Skipped:     0, Total:     4, Duration: 3 s ...
 ```
@@ -305,13 +305,13 @@ Failed!  - Failed:     4, Passed:     0, Skipped:     0, Total:     4, Duration:
 Merge in the temporary branch and see the tests pass:
 ```
 $ git merge hello-world-dev
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest&Category=ProjectGeneration'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.NetCoreTool.Template.WebApi.Test.HelloWorldProjectOptionTest&Category=ProjectGeneration'
 Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 3 s ...
 ```
 
 Add the project generation tests to the ultimate branch:
 ```
-$ git add test/DotNetNew.SteeltoeWebApi.Test/HelloWorldProjectOptionTest.cs
+$ git add test/NetCoreTool.Template.WebApi.Test/HelloWorldProjectOptionTest.cs
 $ git commit -m'Add hello-world project generation tests'
 ```
 
@@ -326,7 +326,7 @@ For each combination, a test ensures the following command return codes are 0:
 
 Run the project build tests and see if any test fail:
 ```
-$ dotnet test --filter 'FullyQualifiedName~Steeltoe.DotNetNew.SteeltoeWebApi.Test.HelloWorldProjectOptionTest&Category=ProjectGeneration'
+$ dotnet test --filter 'FullyQualifiedName~Steeltoe.NetCoreTool.Template.WebApi.Test.HelloWorldProjectOptionTest&Category=ProjectBuild'
 ...
 Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 20 s ...
 ```
