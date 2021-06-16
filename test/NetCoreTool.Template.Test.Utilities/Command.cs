@@ -65,7 +65,7 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
                 throw new Exception($"'{command}' failed to start: {e.Message}");
             }
 
-            const int timeoutMillis = 10 /* 10s */ * 1000 /* 1000ms/s */;
+            const int timeoutMillis = 60 /* 60s */ * 1000 /* 1000ms/s */;
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             var waitForExit = Task.Run(() => process.WaitForExit(timeoutMillis));
