@@ -14,31 +14,29 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    packages.Add(("Steeltoe.Management.CloudFoundryCore", "$(SteeltoeVersion)"));
-                    break;
-                default:
-                    packages.Add(("Steeltoe.Management.EndpointCore", "$(SteeltoeVersion)"));
-                    break;
+                packages.Add(("Steeltoe.Management.CloudFoundryCore", "$(SteeltoeVersion)"));
+            }
+            else
+            {
+                packages.Add(("Steeltoe.Management.EndpointCore", "$(SteeltoeVersion)"));
             }
         }
 
         protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    snippets.Add("using Steeltoe.Management.CloudFoundry;");
-                    snippets.Add("services.AddCloudFoundryActuators(Configuration);");
-                    snippets.Add("app.UseCloudFoundryActuators()");
-                    break;
-                default:
-                    snippets.Add("using Steeltoe.Management.Endpoint;");
-                    snippets.Add("services.AddAllActuators(Configuration);");
-                    break;
+                snippets.Add("using Steeltoe.Management.CloudFoundry;");
+                snippets.Add("services.AddCloudFoundryActuators(Configuration);");
+                snippets.Add("app.UseCloudFoundryActuators()");
+            }
+            else
+            {
+                snippets.Add("using Steeltoe.Management.Endpoint;");
+                snippets.Add("services.AddAllActuators(Configuration);");
             }
         }
     }

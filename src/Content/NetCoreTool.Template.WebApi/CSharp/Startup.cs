@@ -81,10 +81,18 @@ using Steeltoe.Management.Endpoint;
 using Company.WebApplication1.Models;
 #endif
 
+#if (MessagingRabbitMqOption)
+using Company.WebApplication1.Services;
+using Steeltoe.Messaging.RabbitMQ.Config;
+using Steeltoe.Messaging.RabbitMQ.Extensions;
+#endif
+
 namespace Company.WebApplication1
 {
     public class Startup
     {
+#if (MessagingRabbitMqOption)
+#endif
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -131,6 +139,18 @@ namespace Company.WebApplication1
 #if (HystrixOption)
             services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);
             services.AddHystrixMetricsStream(Configuration);
+#endif
+#if (MessagingRabbitMqOption)
+            // Add some queues to the container that the rabbit admin will discover and declare at startup
+            services.AddRabbitQueue(new Queue(Queues.ReceiveAndConvertQueue));
+            services.AddRabbitQueue(new Queue(Queues.InferredMessageQueue));
+            services.AddRabbitQueue(new Queue(Queues.InferredSpecialMessageQueue));
+
+            // Add singleton that will process incoming messages
+            services.AddSingleton<RabbitMessagesListener>();
+
+            // Tell steeltoe about singleton so it can wire up queues with methods to process queues (i.e., RabbitListenerAttribute)
+            services.AddRabbitListeners<RabbitMessagesListener>();
 #endif
 #if (Steeltoe2ManagementEndpoints)
             services.AddCloudFoundryActuators(Configuration);

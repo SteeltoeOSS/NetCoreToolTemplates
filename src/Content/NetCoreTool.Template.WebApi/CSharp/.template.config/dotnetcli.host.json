@@ -36,6 +36,10 @@
       "longName": "management-endpoints",
       "shortName": ""
     },
+    "MessagingRabbitMqOption": {
+      "longName": "messaging-rabbitmq",
+      "shortName": ""
+    },
     "MongoDbOption": {
       "longName": "mongodb",
       "shortName": ""

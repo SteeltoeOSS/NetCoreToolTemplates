@@ -16,34 +16,33 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             List<(string, string)> packages)
         {
             packages.Add(("System.Data.SqlClient", "4.8.*"));
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
-                    break;
-                default:
-                    packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
-                    break;
+                packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
+            }
+            else
+            {
+                packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
             }
         }
 
         protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    snippets.Add("using Steeltoe.CloudFoundry.Connector.SqlServer;");
-                    break;
-                default:
-                    snippets.Add("using Steeltoe.Connector.SqlServer;");
-                    break;
+                snippets.Add("using Steeltoe.CloudFoundry.Connector.SqlServer;");
+            }
+            else
+            {
+                snippets.Add("using Steeltoe.Connector.SqlServer;");
             }
 
             snippets.Add("services.AddSqlServerConnection(Configuration);");
         }
 
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
+            Framework framework,
             List<string> snippets)
         {
             snippets.Add("using System.Data;");

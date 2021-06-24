@@ -12,6 +12,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utils
             {
                 return new List<object[]>
                 {
+                    new object[] { "3.1.0-rc2", "net5.0", },
+                    new object[] { "3.1.0-rc2", "netcoreapp3.1", },
                     new object[] { "3.0.*", "net5.0", },
                     new object[] { "3.0.*", "netcoreapp3.1", },
                     new object[] { "2.5.*", "netcoreapp3.1", },

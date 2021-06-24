@@ -236,14 +236,19 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static SteeltoeVersion ToSteeltoeEnum(string steeltoe)
         {
-            if (steeltoe.StartsWith("3."))
+            if (steeltoe.StartsWith("3.1."))
             {
-                return SteeltoeVersion.Steeltoe3;
+                return SteeltoeVersion.Steeltoe31;
             }
 
-            if (steeltoe.StartsWith("2."))
+            if (steeltoe.StartsWith("3.0."))
             {
-                return SteeltoeVersion.Steeltoe2;
+                return SteeltoeVersion.Steeltoe30;
+            }
+
+            if (steeltoe.StartsWith("2.5."))
+            {
+                return SteeltoeVersion.Steeltoe25;
             }
 
             throw new ArgumentOutOfRangeException(nameof(steeltoe), steeltoe);

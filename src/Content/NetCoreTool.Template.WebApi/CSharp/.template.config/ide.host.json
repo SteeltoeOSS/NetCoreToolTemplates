@@ -60,6 +60,13 @@
       "isVisible": "true"
     },
     {
+      "id": "MessagingRabbitMqOption",
+      "name": {
+        "text": "Add RabbitMQ messaging support and auto-configuration"
+      },
+      "isVisible": "true"
+    },
+    {
       "id": "MongoDbOption",
       "name": {
         "text": "Add access to MongoDB databases"

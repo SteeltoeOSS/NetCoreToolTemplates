@@ -14,34 +14,33 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             List<(string, string)> packages)
         {
             packages.Add(("MySql.Data", "8.0.*"));
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
-                    break;
-                default:
-                    packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
-                    break;
+                packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
+            }
+            else
+            {
+                packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
             }
         }
 
         protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    snippets.Add("using Steeltoe.CloudFoundry.Connector.MySql;");
-                    break;
-                default:
-                    snippets.Add("using Steeltoe.Connector.MySql;");
-                    break;
+                snippets.Add("using Steeltoe.CloudFoundry.Connector.MySql;");
+            }
+            else
+            {
+                snippets.Add("using Steeltoe.Connector.MySql;");
             }
 
             snippets.Add("services.AddMySqlConnection(Configuration);");
         }
 
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
+            Framework framework,
             List<string> snippets)
         {
             snippets.Add("using MySql.Data.MySqlClient;");

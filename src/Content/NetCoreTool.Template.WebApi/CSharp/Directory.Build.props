@@ -17,6 +17,7 @@
     <ManagementEndpointsOption>false</ManagementEndpointsOption>
     <MongoDbDriverVersion>2.8.*</MongoDbDriverVersion>
     <MongoDbOption>false</MongoDbOption>
+    <MessagingRabbitMqOption>false</MessagingRabbitMqOption>
     <MySqlDriverVersion>8.0.*</MySqlDriverVersion>
     <MySqlEfCoreOption>false</MySqlEfCoreOption>
     <MySqlOption>false</MySqlOption>

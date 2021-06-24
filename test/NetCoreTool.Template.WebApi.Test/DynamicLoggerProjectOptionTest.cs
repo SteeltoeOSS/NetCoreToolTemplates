@@ -21,22 +21,21 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             List<string> snippets)
         {
             snippets.Add("using Steeltoe.Extensions.Logging;");
-            switch (framework)
+            if (framework < Framework.NetCoreApp31)
             {
-                case Framework.NetCoreApp21:
-                    snippets.Add(
-                        "loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection(\"Logging\"));");
-                    snippets.Add(@"
+                snippets.Add(
+                    "loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection(\"Logging\"));");
+                snippets.Add(@"
 .ConfigureLogging((hostingContext, loggingBuilder) =>
 {
     loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection(""Logging""));
     loggingBuilder.AddDynamicConsole();
  })
  ");
-                    break;
-                default:
-                    snippets.Add(".ConfigureLogging((context, builder) => builder.AddDynamicConsole())");
-                    break;
+            }
+            else
+            {
+                snippets.Add(".ConfigureLogging((context, builder) => builder.AddDynamicConsole())");
             }
         }
     }

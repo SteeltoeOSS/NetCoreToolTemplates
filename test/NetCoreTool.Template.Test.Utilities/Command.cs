@@ -65,7 +65,7 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
                 throw new Exception($"'{command}' failed to start: {e.Message}");
             }
 
-            const int timeoutMillis = 60 /* 60s */ * 1000 /* 1000ms/s */;
+            const int timeoutMillis = 100 /* 100s */ * 1000 /* 1000ms/s */;
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             var waitForExit = Task.Run(() => process.WaitForExit(timeoutMillis));
@@ -73,10 +73,10 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
             if (await Task.WhenAny(Task.Delay(timeoutMillis), processTask) == processTask && waitForExit.Result)
             {
                 var output = $"{outputBuilder}${errorBuilder}";
-                if (process.ExitCode != 0)
-                {
-                    throw new Exception($"'{command}' exited with exit code {process.ExitCode}:\n\n{output}");
-                }
+                // if (process.ExitCode != 0)
+                // {
+                    // throw new Exception($"'{command}' exited with exit code {process.ExitCode}:\n\n{output}");
+                // }
 
                 return output;
             }

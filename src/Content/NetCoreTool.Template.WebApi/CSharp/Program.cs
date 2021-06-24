@@ -28,6 +28,9 @@ using Steeltoe.Extensions.Configuration.Placeholder;
 #if (DynamicLoggerOption)
 using Steeltoe.Extensions.Logging;
 #endif
+#if (MessagingRabbitMqOption)
+using Steeltoe.Messaging.RabbitMQ.Host;
+#endif
 
 namespace Company.WebApplication1
 {
@@ -68,7 +71,11 @@ namespace Company.WebApplication1
         }
 #else
         public static IHostBuilder CreateHostBuilder(string[] args) =>
+#if (MessagingRabbitMqOption)
+            RabbitHost.CreateDefaultBuilder()
+#else
             Host.CreateDefaultBuilder(args)
+#endif
 #if (PlaceholderOption)
                 .AddPlaceholderResolver()
 #endif

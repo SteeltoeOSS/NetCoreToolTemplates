@@ -6,7 +6,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
     public class MongoDbProjectOptionTest : ProjectOptionTest
     {
-        public MongoDbProjectOptionTest(ITestOutputHelper logger) : base("mongodb", "Add access to MongoDB databases", logger)
+        public MongoDbProjectOptionTest(ITestOutputHelper logger) : base("mongodb", "Add access to MongoDB databases",
+            logger)
         {
         }
 
@@ -14,34 +15,33 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             List<(string, string)> packages)
         {
             packages.Add(("MongoDB.Driver", "2.8.*"));
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
-                    break;
-                default:
-                    packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
-                    break;
+                packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
+            }
+            else
+            {
+                packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
             }
         }
 
         protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    snippets.Add("using Steeltoe.CloudFoundry.Connector.MongoDb;");
-                    break;
-                default:
-                    snippets.Add("using Steeltoe.Connector.MongoDb;");
-                    break;
+                snippets.Add("using Steeltoe.CloudFoundry.Connector.MongoDb;");
+            }
+            else
+            {
+                snippets.Add("using Steeltoe.Connector.MongoDb;");
             }
 
             snippets.Add("services.AddMongoClient(Configuration);");
         }
 
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
+            Framework framework,
             List<string> snippets)
         {
             snippets.Add("using MongoDB.Driver;");

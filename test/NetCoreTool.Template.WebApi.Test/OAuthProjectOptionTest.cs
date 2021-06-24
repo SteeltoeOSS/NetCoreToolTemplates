@@ -13,38 +13,35 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
-                    break;
-                default:
-                    packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
-                    break;
+                packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
+            }
+            else
+            {
+                packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
             }
 
-            switch (framework)
+            if (framework < Framework.NetCoreApp31)
             {
-                case Framework.NetCoreApp21:
-                    packages.Add(("Microsoft.AspNetCore.Authentication.AzureAD.UI", "2.1.*"));
-                    break;
-                default:
-                    packages.Add(("Microsoft.AspNetCore.Authentication.AzureAD.UI", "3.1.*"));
-                    break;
+                packages.Add(("Microsoft.AspNetCore.Authentication.AzureAD.UI", "2.1.*"));
+            }
+            else
+            {
+                packages.Add(("Microsoft.AspNetCore.Authentication.AzureAD.UI", "3.1.*"));
             }
         }
 
         protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    snippets.Add("using Steeltoe.CloudFoundry.Connector.OAuth;");
-                    break;
-                default:
-                    snippets.Add("using Steeltoe.Connector.OAuth;");
-                    break;
+                snippets.Add("using Steeltoe.CloudFoundry.Connector.OAuth;");
+            }
+            else
+            {
+                snippets.Add("using Steeltoe.Connector.OAuth;");
             }
 
             snippets.Add("services.AddOAuthServiceOptions(Configuration);");

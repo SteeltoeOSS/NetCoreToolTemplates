@@ -15,34 +15,33 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             List<(string, string)> packages)
         {
             packages.Add(("RabbitMQ.Client", "5.1.*"));
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
-                    break;
-                default:
-                    packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
-                    break;
+                packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
+            }
+            else
+            {
+                packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
             }
         }
 
         protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
-            switch (steeltoeVersion)
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                case SteeltoeVersion.Steeltoe2:
-                    snippets.Add("using Steeltoe.CloudFoundry.Connector.RabbitMQ;");
-                    break;
-                default:
-                    snippets.Add("using Steeltoe.Connector.RabbitMQ;");
-                    break;
+                snippets.Add("using Steeltoe.CloudFoundry.Connector.RabbitMQ;");
+            }
+            else
+            {
+                snippets.Add("using Steeltoe.Connector.RabbitMQ;");
             }
 
             snippets.Add("services.AddRabbitMQConnection(Configuration);");
         }
 
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
+            Framework framework,
             List<string> snippets)
         {
             snippets.Add("using RabbitMQ.Client;");

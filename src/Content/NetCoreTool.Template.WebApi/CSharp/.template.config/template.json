@@ -42,6 +42,16 @@
             "Models/ErrorViewModel.cs",
             "Models/SampleContext.cs"
           ]
+        },
+        {
+          "condition": "(!MessagingRabbitMqOption || Steeltoe2 || Steeltoe30)",
+          "exclude": [
+            "Queues.cs",
+            "Controllers/RabbitMessagesController.cs",
+            "Services/RabbitMessagesListener.cs",
+            "Models/Message.cs",
+            "Models/SpecialMessage.cs"
+          ]
         }
       ]
     }
@@ -63,13 +73,17 @@
       "type": "computed",
       "value": "MySqlEfCoreOption || PostgreSqlEfCoreOption"
     },
+    "AnyMessaging": {
+      "type": "computed",
+      "value": "MessagingRabbitMqOption"
+    },
     "AnySqlDatabase": {
       "type": "computed",
       "value": "MySqlOption || PostgreSqlOption || SqlServerOption"
     },
     "AnySteeltoeLibrary": {
       "type": "computed",
-      "value": "AnyCloudManagement || AnyConfigurator || AnyConnector"
+      "value": "AnyCloudManagement || AnyConfigurator || AnyConnector || AnyMessaging"
     },
     "AzureOAuthVersion": {
       "type": "generated",
@@ -218,6 +232,12 @@
       "description": "Add application management endpoints, such as health and metrics.",
       "defaultValue": "false"
     },
+    "MessagingRabbitMqOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add RabbitMQ messaging support and auto-configuration.",
+      "defaultValue": "false"
+    },
     "MongoDbDriverVersion": {
       "type": "generated",
       "generator": "constant",
@@ -363,6 +383,24 @@
     "Steeltoe3ManagementEndpoints": {
       "type": "computed",
       "value": "Steeltoe3 && ManagementEndpointsOption"
+    },
+    "Steeltoe30": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "SteeltoeVersionOption",
+        "pattern": "^3.0.*"
+      }
+    },
+    "Steeltoe31": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "SteeltoeVersionOption",
+        "pattern": "^3.1.*"
+      }
     },
     "SteeltoeVersionOption": {
       "description": "Set the Steeltoe version for the project.",
