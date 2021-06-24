@@ -44,6 +44,12 @@
           ]
         },
         {
+          "condition": "(MessagingRabbitMqOption)",
+          "exclude": [
+            "Controllers/ValuesController.cs"
+          ]
+        },
+        {
           "condition": "(!MessagingRabbitMqOption || Steeltoe2 || Steeltoe30)",
           "exclude": [
             "Queues.cs",
