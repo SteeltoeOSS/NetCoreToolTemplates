@@ -106,6 +106,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 select e
             ).ToArray().ToDictionary(e => e.Name.ToString(), e => e.Value);
             properties.Should().Contain(expectedProperties);
+            properties.Keys.Should().NotContain("Description");
         }
 
         protected virtual void AssertCsprojPropertiesHook(SteeltoeVersion steeltoeVersion, Framework framework,

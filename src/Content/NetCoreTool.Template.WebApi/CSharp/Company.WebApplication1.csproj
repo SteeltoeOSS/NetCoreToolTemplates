@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>$(FrameworkOption)</TargetFramework>
+    <!--#if (HasDescription) -->
+    <Description>$(DescriptionOption)</Description>
+    <!--#endif -->
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 

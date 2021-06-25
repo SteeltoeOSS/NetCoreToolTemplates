@@ -6,6 +6,7 @@
     <AzureSpringCloudHostingOption>false</AzureSpringCloudHostingOption>
     <CloudConfigOption>false</CloudConfigOption>
     <CloudFoundryHostingOption>false</CloudFoundryHostingOption>
+    <DescriptionOption/>
     <DockerOption>false</DockerOption>
     <DynamicLoggerOption>false</DynamicLoggerOption>
     <EntityFrameworkCoreVersion>3.1.2</EntityFrameworkCoreVersion>

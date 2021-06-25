@@ -132,6 +132,13 @@
       "description": "Add hosting support for Cloud Foundry.",
       "defaultValue": "false"
     },
+    "DescriptionOption": {
+      "description": "Add a project description.",
+      "type": "parameter",
+      "datatype": "string",
+      "defaultValue": "",
+      "replaces": "$(DescriptionOption)"
+    },
     "DockerImageTag": {
       "type": "generated",
       "generator": "switch",
@@ -224,6 +231,15 @@
       "parameters": {
         "source": "Framework",
         "pattern": "^netcoreapp2.1$"
+      }
+    },
+    "HasDescription": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "DescriptionOption",
+        "pattern": "^.+"
       }
     },
     "HystrixOption": {
