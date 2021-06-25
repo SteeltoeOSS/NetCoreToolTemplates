@@ -25,6 +25,13 @@
       "isVisible": "true"
     },
     {
+      "id": "DescriptionOption",
+      "name": {
+        "text": "Add a project description"
+      },
+      "isVisible": "true"
+    },
+    {
       "id": "DockerOption",
       "name": {
         "text": "Add support for Docker"
