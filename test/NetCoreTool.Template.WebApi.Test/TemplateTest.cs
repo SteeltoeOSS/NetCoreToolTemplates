@@ -27,7 +27,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         [Fact]
         [Trait("Category", "Smoke")]
-        public async void SmokeTest()
+        public async void Smoke_Test()
         {
             Logger.WriteLine($"smoke testing help");
             using var helpBox = await TemplateSandbox("--help");

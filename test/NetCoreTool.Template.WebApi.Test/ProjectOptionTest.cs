@@ -23,7 +23,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         [Theory]
         [Trait("Category", "ProjectGeneration")]
         [ClassData(typeof(TemplateOptions.SteeltoeVersionsAndFrameworks))]
-        public async void TestProjectGeneration(string steeltoeOption, string frameworkOption)
+        public async void Project_Should_Be_Generated(string steeltoeOption, string frameworkOption)
         {
             Logger.WriteLine($"steeltoe/framework/option: {steeltoeOption}/{frameworkOption}/{Option}");
             Sandbox = await TemplateSandbox(
@@ -42,7 +42,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         [Theory]
         [Trait("Category", "ProjectBuild")]
         [ClassData(typeof(TemplateOptions.SteeltoeVersionsAndFrameworks))]
-        public async void TestProjectBuild(string steeltoeOption, string frameworkOption)
+        public async void Project_Should_Be_Built(string steeltoeOption, string frameworkOption)
         {
             Logger.WriteLine($"steeltoe/framework/option: {steeltoeOption}/{frameworkOption}/{Option}");
             Logger.WriteLine("generating project");
