@@ -91,6 +91,10 @@
       "type": "computed",
       "value": "AnyCloudManagement || AnyConfigurator || AnyConnector || AnyMessaging"
     },
+    "DynamicLogging": {
+      "type": "computed",
+      "value": "DynamicLoggerOption || ManagementEndpointsOption"
+    },
     "AzureOAuthVersion": {
       "type": "generated",
       "generator": "switch",

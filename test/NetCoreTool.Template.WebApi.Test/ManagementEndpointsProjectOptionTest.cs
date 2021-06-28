@@ -39,5 +39,14 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 snippets.Add("services.AddAllActuators(Configuration);");
             }
         }
+
+        protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
+            List<string> snippets)
+        {
+            if (steeltoeVersion >= SteeltoeVersion.Steeltoe30)
+            {
+                snippets.Add("ConfigureLogging((context, builder) => builder.AddDynamicConsole())");
+            }
+        }
     }
 }

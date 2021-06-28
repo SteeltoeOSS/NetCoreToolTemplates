@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 #if (AzureSpringCloudHostingOption && !FrameworkNetCoreApp21)
 using Microsoft.Azure.SpringCloud.Client;
 #endif
-#if (DynamicLoggerOption && FrameworkNetCoreApp21)
+#if (DynamicLogging && FrameworkNetCoreApp21)
 using Microsoft.Extensions.Logging;
 #endif
 #if (CloudFoundryHostingOption)
@@ -25,7 +25,7 @@ using Steeltoe.Extensions.Configuration.PlaceholderCore;
 using Steeltoe.Extensions.Configuration.Placeholder;
 #endif
 #endif
-#if (DynamicLoggerOption)
+#if (DynamicLogging)
 using Steeltoe.Extensions.Logging;
 #endif
 #if (MessagingRabbitMqOption)
@@ -89,7 +89,7 @@ namespace Company.WebApplication1
 #if (CloudConfigOption)
                 .AddConfigServer()
 #endif
-#if (DynamicLoggerOption)
+#if (DynamicLogging)
                 .ConfigureLogging((context, builder) => builder.AddDynamicConsole())
 #endif
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
