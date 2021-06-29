@@ -149,6 +149,13 @@
         "text": "Add access to Microsoft SQL Server databases"
       },
       "isVisible": "true"
+    },
+    {
+      "id": "StreamRabbitMqOption",
+      "name": {
+        "text": "Add RabbitMQ stream support and auto-configuration"
+      },
+      "isVisible": "true"
     }
   ]
 }

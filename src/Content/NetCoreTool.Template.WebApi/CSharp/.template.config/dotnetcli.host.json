@@ -94,6 +94,10 @@
     },
     "SteeltoeVersionOption": {
       "longName": "steeltoe"
+    },
+    "StreamRabbitMqOption": {
+      "longName": "stream-rabbitmq",
+      "shortName": ""
     }
   }
 }

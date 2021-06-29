@@ -34,6 +34,7 @@
     <RedisOption>false</RedisOption>
     <SqlServerOption>false</SqlServerOption>
     <SteeltoeVersionOption>3.0.*</SteeltoeVersionOption>
+    <StreamRabbitMqOption>false</StreamRabbitMqOption>
   </PropertyGroup>
 
 </Project>

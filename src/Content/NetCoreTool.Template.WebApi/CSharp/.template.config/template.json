@@ -58,6 +58,12 @@
             "Models/Message.cs",
             "Models/SpecialMessage.cs"
           ]
+        },
+        {
+          "condition": "(StreamRabbitMqOption)",
+          "exclude": [
+            "Startup.cs"
+          ]
         }
       ]
     }
@@ -89,7 +95,11 @@
     },
     "AnySteeltoeLibrary": {
       "type": "computed",
-      "value": "AnyCloudManagement || AnyConfigurator || AnyConnector || AnyMessaging"
+      "value": "AnyCloudManagement || AnyConfigurator || AnyConnector || AnyMessaging || AnyStream"
+    },
+    "AnyStream": {
+      "type": "computed",
+      "value": "StreamRabbitMqOption"
     },
     "DynamicLogging": {
       "type": "computed",
@@ -434,6 +444,12 @@
       "datatype": "string",
       "defaultValue": "3.0.*",
       "replaces": "$(SteeltoeVersionOption)"
+    },
+    "StreamRabbitMqOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add RabbitMQ stream support and auto-configuration.",
+      "defaultValue": "false"
     }
   },
   "primaryOutputs": [

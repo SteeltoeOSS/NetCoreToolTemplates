@@ -57,6 +57,8 @@
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Condition="'$(Steeltoe2ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(Steeltoe3ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Messaging.RabbitMQ" Condition="'$(MessagingRabbitMqOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Stream.Binder.RabbitMQ" Condition="'$(StreamRabbitMqOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Stream.StreamBase" Condition="'$(AnyStream)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="System.Data.SqlClient" Condition="'$(SqlServerOption)' == 'True'" Version="4.8.*" />
   </ItemGroup>
   <!--#endif -->
