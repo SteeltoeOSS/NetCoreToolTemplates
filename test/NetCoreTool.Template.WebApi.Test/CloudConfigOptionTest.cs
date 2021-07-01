@@ -4,9 +4,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class CloudConfigProjectOptionTest : ProjectOptionTest
+    public class CloudConfigOptionTest : ProjectOptionTest
     {
-        public CloudConfigProjectOptionTest(ITestOutputHelper logger) : base("cloud-config",
+        public CloudConfigOptionTest(ITestOutputHelper logger) : base("cloud-config",
             "Add client support for Spring Cloud Config", logger)
         {
         }

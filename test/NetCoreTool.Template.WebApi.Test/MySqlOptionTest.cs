@@ -4,9 +4,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class MySqlProjectOptionTest : ProjectOptionTest
+    public class MySqlOptionTest : ProjectOptionTest
     {
-        public MySqlProjectOptionTest(ITestOutputHelper logger) : base("mysql", "Add access to MySQL databases", logger)
+        public MySqlOptionTest(ITestOutputHelper logger) : base("mysql", "Add access to MySQL databases", logger)
         {
         }
 

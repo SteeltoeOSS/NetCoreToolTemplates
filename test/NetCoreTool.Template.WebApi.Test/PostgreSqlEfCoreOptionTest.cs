@@ -8,9 +8,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class PostgreSqlEfCoreProjectOptionTest : ProjectOptionTest
+    public class PostgreSqlEfCoreOptionTest : ProjectOptionTest
     {
-        public PostgreSqlEfCoreProjectOptionTest(ITestOutputHelper logger) : base("postgresql-efcore",
+        public PostgreSqlEfCoreOptionTest(ITestOutputHelper logger) : base("postgresql-efcore",
             "Add access to PostgreSQL databases using Entity Framework Core", logger)
         {
         }

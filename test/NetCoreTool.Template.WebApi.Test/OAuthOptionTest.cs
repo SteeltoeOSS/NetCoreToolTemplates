@@ -4,9 +4,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class OAuthProjectOptionTest : ProjectOptionTest
+    public class OAuthOptionTest : ProjectOptionTest
     {
-        public OAuthProjectOptionTest(ITestOutputHelper logger) : base("oauth", "Add access to OAuth security", logger)
+        public OAuthOptionTest(ITestOutputHelper logger) : base("oauth", "Add access to OAuth security", logger)
         {
         }
 

@@ -4,9 +4,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class AzureSpringCloudProjectOptionTest : ProjectOptionTest
+    public class AzureSpringCloudOptionTest : ProjectOptionTest
     {
-        public AzureSpringCloudProjectOptionTest(ITestOutputHelper logger) : base("azure-spring-cloud",
+        public AzureSpringCloudOptionTest(ITestOutputHelper logger) : base("azure-spring-cloud",
             "Add hosting support for Microsoft Azure Spring Cloud", logger)
         {
         }

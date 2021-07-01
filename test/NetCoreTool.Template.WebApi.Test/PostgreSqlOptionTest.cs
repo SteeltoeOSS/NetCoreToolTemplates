@@ -4,9 +4,10 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class MongoDbProjectOptionTest : ProjectOptionTest
+    public class PostgreSqlOptionTest : ProjectOptionTest
     {
-        public MongoDbProjectOptionTest(ITestOutputHelper logger) : base("mongodb", "Add access to MongoDB databases",
+        public PostgreSqlOptionTest(ITestOutputHelper logger) : base("postgresql",
+            "Add access to PostgreSQL databases",
             logger)
         {
         }
@@ -14,7 +15,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
-            packages.Add(("MongoDB.Driver", "2.8.*"));
+            packages.Add(("Npgsql", "4.1.*"));
             if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
                 packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
@@ -30,38 +31,44 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                snippets.Add("using Steeltoe.CloudFoundry.Connector.MongoDb;");
+                snippets.Add("using Steeltoe.CloudFoundry.Connector.PostgreSql;");
             }
             else
             {
-                snippets.Add("using Steeltoe.Connector.MongoDb;");
+                snippets.Add("using Steeltoe.Connector.PostgreSql;");
             }
 
-            snippets.Add("services.AddMongoClient(Configuration);");
+            snippets.Add("services.AddPostgresConnection(Configuration);");
         }
 
         protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
             Framework framework,
             List<string> snippets)
         {
-            snippets.Add("using MongoDB.Driver;");
-            // snippets.Add("using System.Data;");
+            snippets.Add("using Npgsql;");
+            snippets.Add("using System.Data;");
             snippets.Add(@"
-private readonly IMongoClient _mongoClient;
-private readonly MongoUrl _mongoUrl;
-public ValuesController(IMongoClient mongoClient, MongoUrl mongoUrl)
+private readonly NpgsqlConnection _dbConnection;
+public ValuesController([FromServices] NpgsqlConnection dbConnection)
 {
-    _mongoClient = mongoClient;
-    _mongoUrl = mongoUrl;
+    _dbConnection = dbConnection;
 }
 ");
             snippets.Add(@"
 [HttpGet]
 public ActionResult<IEnumerable<string>> Get()
 {
-    List<string> listing = _mongoClient.ListDatabaseNames().ToList();
-    listing.Insert(0, _mongoUrl.Url);
-    return listing;
+    List<string> tables = new List<string>();
+    _dbConnection.Open();
+    DataTable dt = _dbConnection.GetSchema(""Tables"");
+    _dbConnection.Close();
+    foreach (DataRow row in dt.Rows)
+    {
+        string tablename = (string)row[2];
+        tables.Add(tablename);
+    }
+
+    return tables;
 }
 ");
         }

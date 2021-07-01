@@ -4,17 +4,18 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class RedisProjectOptionTest : ProjectOptionTest
+    public class SqlServerOptionTest : ProjectOptionTest
     {
-        public RedisProjectOptionTest(ITestOutputHelper logger) : base("redis",
-            "Add access to Redis data stores", logger)
+        public SqlServerOptionTest(ITestOutputHelper logger) : base("sqlserver",
+            "Add access to Microsoft SQL Server databases",
+            logger)
         {
         }
 
         protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
-            packages.Add(("Microsoft.Extensions.Caching.StackExchangeRedis", "3.1.*"));
+            packages.Add(("System.Data.SqlClient", "4.8.*"));
             if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
                 packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
@@ -30,38 +31,44 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                snippets.Add("using Steeltoe.CloudFoundry.Connector.Redis;");
+                snippets.Add("using Steeltoe.CloudFoundry.Connector.SqlServer;");
             }
             else
             {
-                snippets.Add("using Steeltoe.Connector.Redis;");
+                snippets.Add("using Steeltoe.Connector.SqlServer;");
             }
 
-            snippets.Add("services.AddDistributedRedisCache(Configuration)");
+            snippets.Add("services.AddSqlServerConnection(Configuration);");
         }
 
         protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
             Framework framework,
             List<string> snippets)
         {
-            snippets.Add("using Microsoft.Extensions.Caching.Distributed;");
-            snippets.Add("using System.Threading.Tasks;");
-            snippets.Add("using System.Collections.Generic;");
+            snippets.Add("using System.Data;");
+            snippets.Add("using System.Data.SqlClient;");
+            snippets.Add("private readonly SqlConnection _dbConnection;");
             snippets.Add(@"
-public ValuesController(IDistributedCache cache)
+private readonly SqlConnection _dbConnection;
+public ValuesController([FromServices] SqlConnection dbConnection)
 {
-    _cache = cache;
+    _dbConnection = dbConnection;
 }
 ");
             snippets.Add(@"
 [HttpGet]
-public async Task<IEnumerable<string>> Get()
+public ActionResult<IEnumerable<string>> Get()
 {
-    await _cache.SetStringAsync(""MyValue1"", ""123"");
-    await _cache.SetStringAsync(""MyValue2"", ""456"");
-    string myval1 = await _cache.GetStringAsync(""MyValue1"");
-    string myval2 = await _cache.GetStringAsync(""MyValue2"");
-    return new[] { myval1, myval2};
+    List<string> tables = new List<string>();
+    _dbConnection.Open();
+    DataTable dt = _dbConnection.GetSchema(""Tables"");
+    _dbConnection.Close();
+    foreach (DataRow row in dt.Rows)
+    {
+        string tablename = (string)row[2];
+        tables.Add(tablename);
+    }
+    return tables;
 }
 ");
         }

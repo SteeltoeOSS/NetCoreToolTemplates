@@ -8,9 +8,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class HystrixProjectOptionTest : ProjectOptionTest
+    public class HystrixOptionTest : ProjectOptionTest
     {
-        public HystrixProjectOptionTest(ITestOutputHelper logger) : base("hystrix",
+        public HystrixOptionTest(ITestOutputHelper logger) : base("hystrix",
             "Add support for Netflix Hystrix, a latency and fault tolerance library", logger)
         {
         }

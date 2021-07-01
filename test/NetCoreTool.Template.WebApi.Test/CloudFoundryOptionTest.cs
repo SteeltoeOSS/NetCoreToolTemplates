@@ -4,10 +4,10 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class CloudFoundryProjectOptionTest : ProjectOptionTest
+    public class CloudFoundryOptionTest : ProjectOptionTest
 
     {
-        public CloudFoundryProjectOptionTest(ITestOutputHelper logger) : base("cloud-foundry",
+        public CloudFoundryOptionTest(ITestOutputHelper logger) : base("cloud-foundry",
             "Add hosting support for Cloud Foundry", logger)
         {
         }

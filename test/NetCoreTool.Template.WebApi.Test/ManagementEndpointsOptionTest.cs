@@ -4,9 +4,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class ManagementEndpointsProjectOptionTest : ProjectOptionTest
+    public class ManagementEndpointsOptionTest : ProjectOptionTest
     {
-        public ManagementEndpointsProjectOptionTest(ITestOutputHelper logger) : base("management-endpoints",
+        public ManagementEndpointsOptionTest(ITestOutputHelper logger) : base("management-endpoints",
             "Add application management endpoints, such as health and metrics", logger)
         {
         }

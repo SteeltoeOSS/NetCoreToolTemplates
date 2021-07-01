@@ -4,9 +4,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class RandomValueProjectOptionTest : ProjectOptionTest
+    public class RandomValueOptionTest : ProjectOptionTest
     {
-        public RandomValueProjectOptionTest(ITestOutputHelper logger) : base("random-value",
+        public RandomValueOptionTest(ITestOutputHelper logger) : base("random-value",
             "Add a random value configuration source", logger)
         {
         }

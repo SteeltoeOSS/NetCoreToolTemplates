@@ -6,9 +6,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class MessagingRabbitMqProjectOptionTest : ProjectOptionTest
+    public class MessagingRabbitMqOptionTest : ProjectOptionTest
     {
-        public MessagingRabbitMqProjectOptionTest(ITestOutputHelper logger) : base("messaging-rabbitmq",
+        public MessagingRabbitMqOptionTest(ITestOutputHelper logger) : base("messaging-rabbitmq",
             "Add RabbitMQ messaging support and auto-configuration", logger)
         {
         }
