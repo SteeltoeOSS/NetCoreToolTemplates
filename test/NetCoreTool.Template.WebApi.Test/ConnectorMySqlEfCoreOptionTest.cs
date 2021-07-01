@@ -8,10 +8,10 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class MySqlEfCoreOptionTest : ProjectOptionTest
+    public class ConnectorMySqlEfCoreOptionTest : ProjectOptionTest
     {
-        public MySqlEfCoreOptionTest(ITestOutputHelper logger) : base("mysql-efcore",
-            "Add access to MySQL databases using Entity Framework Core", logger)
+        public ConnectorMySqlEfCoreOptionTest(ITestOutputHelper logger) : base("connector-mysql-efcore",
+            "Add a connector for MySQL databases using Entity Framework Core", logger)
         {
         }
 

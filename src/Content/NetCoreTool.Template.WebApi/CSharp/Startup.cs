@@ -8,67 +8,67 @@ using Microsoft.Extensions.Hosting;
 #if (FrameworkNet50)
 using Microsoft.OpenApi.Models;
 #endif
-#if (HystrixOption)
+#if (CircuitBreakerHystrixOption)
 using Steeltoe.CircuitBreaker.Hystrix;
 #endif
-#if (MongoDbOption && Steeltoe2)
+#if (ConnectorMongoDbOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.MongoDb;
 #endif
-#if (MongoDbOption && !Steeltoe2)
+#if (ConnectorMongoDbOption && !Steeltoe2)
 using Steeltoe.Connector.MongoDb;
 #endif
-#if (MySqlOption && Steeltoe2)
+#if (ConnectorMySqlOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.MySql;
 #endif
-#if (MySqlOption && !Steeltoe2)
+#if (ConnectorMySqlOption && !Steeltoe2)
 using Steeltoe.Connector.MySql;
 #endif
-#if (MySqlEfCoreOption && Steeltoe2)
+#if (ConnectorMySqlEfCoreOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
 #endif
-#if (MySqlEfCoreOption && !Steeltoe2)
+#if (ConnectorMySqlEfCoreOption && !Steeltoe2)
 using Steeltoe.Connector.MySql.EFCore;
 #endif
-#if (OAuthOption && Steeltoe2)
+#if (ConnectorOAuthOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.OAuth;
 #endif
-#if (OAuthOption && !Steeltoe2)
+#if (ConnectorOAuthOption && !Steeltoe2)
 using Steeltoe.Connector.OAuth;
 #endif
-#if (PostgreSqlOption && Steeltoe2)
+#if (ConnectorPostgreSqlOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.PostgreSql;
 #endif
-#if (PostgreSqlOption && !Steeltoe2)
+#if (ConnectorPostgreSqlOption && !Steeltoe2)
 using Steeltoe.Connector.PostgreSql;
 #endif
-#if (PostgreSqlEfCoreOption && Steeltoe2)
+#if (ConnectorPostgreSqlEfCoreOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.PostgreSql.EFCore;
 #endif
-#if (PostgreSqlEfCoreOption && !Steeltoe2)
+#if (ConnectorPostgreSqlEfCoreOption && !Steeltoe2)
 using Steeltoe.Connector.PostgreSql.EFCore;
 #endif
-#if (RabbitMqOption && Steeltoe2)
+#if (ConnectorRabbitMqOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 #endif
-#if (RabbitMqOption && !Steeltoe2)
+#if (ConnectorRabbitMqOption && !Steeltoe2)
 using Steeltoe.Connector.RabbitMQ;
 #endif
-#if (RedisOption && Steeltoe2)
+#if (ConnectorRedisOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.Redis;
 #endif
-#if (RedisOption && !Steeltoe2)
+#if (ConnectorRedisOption && !Steeltoe2)
 using Steeltoe.Connector.Redis;
 #endif
-#if (SqlServerOption && Steeltoe2)
+#if (ConnectorSqlServerOption && Steeltoe2)
 using Steeltoe.CloudFoundry.Connector.SqlServer;
 #endif
-#if (SqlServerOption && !Steeltoe2)
+#if (ConnectorSqlServerOption && !Steeltoe2)
 using Steeltoe.Connector.SqlServer;
 #endif
-#if (EurekaOption)
+#if (DiscoveryEurekaOption)
 using Steeltoe.Discovery.Client;
 #endif
-#if (CloudFoundryHostingOption)
+#if (HostingCloudFoundryOption)
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
 #if (Steeltoe2ManagementEndpoints)
@@ -103,40 +103,40 @@ namespace Company.WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-#if (OAuthOption)
+#if (ConnectorOAuthOption)
             services.AddOAuthServiceOptions(Configuration);
 #endif
-#if (CloudFoundryHostingOption)
+#if (HostingCloudFoundryOption)
             services.ConfigureCloudFoundryOptions(Configuration);
 #endif
-#if (EurekaOption)
+#if (DiscoveryEurekaOption)
             services.AddDiscoveryClient(Configuration);
 #endif
-#if (MongoDbOption)
+#if (ConnectorMongoDbOption)
             services.AddMongoClient(Configuration);
 #endif
-#if (MySqlOption)
+#if (ConnectorMySqlOption)
             services.AddMySqlConnection(Configuration);
 #endif
-#if (MySqlEfCoreOption)
+#if (ConnectorMySqlEfCoreOption)
             services.AddDbContext<SampleContext>(options => options.UseMySql(Configuration));
 #endif
-#if (PostgreSqlOption)
+#if (ConnectorPostgreSqlOption)
             services.AddPostgresConnection(Configuration);
 #endif
-#if (PostgreSqlEfCoreOption)
+#if (ConnectorPostgreSqlEfCoreOption)
             services.AddDbContext<SampleContext>(options => options.UseNpgsql(Configuration));
 #endif
-#if (RabbitMqOption)
+#if (ConnectorRabbitMqOption)
             services.AddRabbitMQConnection(Configuration);
 #endif
-#if (RedisOption)
+#if (ConnectorRedisOption)
             services.AddDistributedRedisCache(Configuration);
 #endif
-#if (SqlServerOption)
+#if (ConnectorSqlServerOption)
             services.AddSqlServerConnection(Configuration);
 #endif
-#if (HystrixOption)
+#if (CircuitBreakerHystrixOption)
             services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);
             services.AddHystrixMetricsStream(Configuration);
 #endif
@@ -187,10 +187,10 @@ namespace Company.WebApplication1
 #endif
             }
 
-#if (EurekaOption)
+#if (DiscoveryEurekaOption)
             app.UseDiscoveryClient();
 #endif
-#if (HystrixOption)
+#if (CircuitBreakerHystrixOption)
             app.UseHystrixRequestContext();
             app.UseHystrixMetricsStream();
 #endif

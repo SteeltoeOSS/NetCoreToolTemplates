@@ -1,46 +1,46 @@
-#if (!RabbitMqOption)
+#if (!ConnectorRabbitMqOption)
 using System.Collections.Generic;
 #endif
 #if (AnySqlDatabase)
 using System.Data;
 #endif
-#if (SqlServerOption)
+#if (ConnectorSqlServerOption)
 using System.Data.SqlClient;
 #endif
-#if (RabbitMqOption)
+#if (ConnectorRabbitMqOption)
 using System.Text;
 using System.Threading;
 #endif
-#if (RedisOption)
+#if (ConnectorRedisOption)
 using System.Threading.Tasks;
 #endif
 using Microsoft.AspNetCore.Mvc;
-#if (RedisOption)
+#if (ConnectorRedisOption)
 using Microsoft.Extensions.Caching.Distributed;
 #endif
 #if (AnyConfigurator)
 using Microsoft.Extensions.Configuration;
 #endif
-#if (RabbitMqOption)
+#if (ConnectorRabbitMqOption)
 using Microsoft.Extensions.Logging;
 #endif
-#if (CloudFoundryHostingOption)
+#if (HostingCloudFoundryOption)
 using Microsoft.Extensions.Options;
 #endif
-#if (MongoDbOption)
+#if (ConnectorMongoDbOption)
 using MongoDB.Driver;
 #endif
-#if (MySqlOption)
+#if (ConnectorMySqlOption)
 using MySql.Data.MySqlClient;
 #endif
-#if (PostgreSqlOption)
+#if (ConnectorPostgreSqlOption)
 using Npgsql;
 #endif
-#if (RabbitMqOption)
+#if (ConnectorRabbitMqOption)
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 #endif
-#if (CloudFoundryHostingOption)
+#if (HostingCloudFoundryOption)
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
 
@@ -50,7 +50,7 @@ namespace Company.WebApplication1.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-#if (CloudFoundryHostingOption)
+#if (HostingCloudFoundryOption)
         private readonly CloudFoundryApplicationOptions _appOptions;
 
         public ValuesController(IOptions<CloudFoundryApplicationOptions> appOptions)
@@ -66,7 +66,7 @@ namespace Company.WebApplication1.Controllers
             _configuration = configuration;
         }
 #endif
-#if (MongoDbOption)
+#if (ConnectorMongoDbOption)
         private readonly IMongoClient _mongoClient;
         private readonly MongoUrl _mongoUrl;
 
@@ -76,7 +76,7 @@ namespace Company.WebApplication1.Controllers
             _mongoUrl = mongoUrl;
         }
 #endif
-#if (RabbitMqOption)
+#if (ConnectorRabbitMqOption)
         private readonly ILogger _logger;
         private readonly ConnectionFactory _factory;
         private const string QueueName = "my-queue";
@@ -87,7 +87,7 @@ namespace Company.WebApplication1.Controllers
             _factory = factory;
         }
 #endif
-#if (RedisOption)
+#if (ConnectorRedisOption)
         private readonly IDistributedCache _cache;
 
         public ValuesController(IDistributedCache cache)
@@ -96,17 +96,17 @@ namespace Company.WebApplication1.Controllers
         }
 #endif
 #if (AnySqlDatabase)
-#if (SqlServerOption)
+#if (ConnectorSqlServerOption)
         private readonly SqlConnection _dbConnection;
 
         public ValuesController([FromServices] SqlConnection dbConnection)
 #endif
-#if (MySqlOption)
+#if (ConnectorMySqlOption)
         private readonly MySqlConnection _dbConnection;
 
         public ValuesController([FromServices] MySqlConnection dbConnection)
 #endif
-#if (PostgreSqlOption)
+#if (ConnectorPostgreSqlOption)
         private readonly NpgsqlConnection _dbConnection;
 
         public ValuesController([FromServices] NpgsqlConnection dbConnection)
@@ -117,7 +117,7 @@ namespace Company.WebApplication1.Controllers
 #endif
 
         [HttpGet]
-#if (RabbitMqOption)
+#if (ConnectorRabbitMqOption)
         public ActionResult<string> Get()
         {
             using (var connection = _factory.CreateConnection())
@@ -156,7 +156,7 @@ namespace Company.WebApplication1.Controllers
             }
 
             return "Wrote 5 message to the info log. Have a look!";
-#elif (RedisOption)
+#elif (ConnectorRedisOption)
         public async Task<IEnumerable<string>> Get()
         {
             await _cache.SetStringAsync("MyValue1", "123");
@@ -168,17 +168,17 @@ namespace Company.WebApplication1.Controllers
 #else
         public ActionResult<IEnumerable<string>> Get()
         {
-#if (CloudConfigOption)
+#if (ConfigurationCloudConfigOption)
             var val1 = _configuration["Value1"];
             var val2 = _configuration["Value2"];
 
             return new[] { val1, val2 };
-#elif (CloudFoundryHostingOption)
+#elif (HostingCloudFoundryOption)
             string appName = _appOptions.ApplicationName;
             string appInstance = _appOptions.ApplicationId;
 
             return new[] { appInstance, appName };
-#elif (MongoDbOption)
+#elif (ConnectorMongoDbOption)
             List<string> listing = _mongoClient.ListDatabaseNames().ToList();
             listing.Insert(0, _mongoUrl.Url);
             return listing;
@@ -194,13 +194,13 @@ namespace Company.WebApplication1.Controllers
             }
 
             return tables;
-#elif (PlaceholderOption)
+#elif (ConfigurationPlaceholderOption)
             var val1 = _configuration["ResolvedPlaceholderFromEnvVariables"];
             var val2 = _configuration["UnresolvedPlaceholder"];
             var val3 = _configuration["ResolvedPlaceholderFromJson"];
 
             return new[] { val1, val2, val3 };
-#elif (RandomValueOption)
+#elif (ConfigurationRandomValueOption)
             var val1 = _configuration["random:int"];
             var val2 = _configuration["random:uuid"];
             var val3 = _configuration["random:string"];

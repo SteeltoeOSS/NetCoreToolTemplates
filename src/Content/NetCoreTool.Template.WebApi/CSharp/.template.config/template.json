@@ -25,7 +25,7 @@
           ]
         },
         {
-          "condition": "(!HystrixOption)",
+          "condition": "(!CircuitBreakerHystrixOption)",
           "exclude": [
             "HelloHystrixCommand.cs"
           ]
@@ -71,19 +71,19 @@
   "symbols": {
     "AnyCloudManagement": {
       "type": "computed",
-      "value": "AzureSpringCloudHostingOption || CloudFoundryHostingOption || DynamicLoggerOption || EurekaOption || HystrixOption || ManagementEndpointsOption"
+      "value": "HostingAzureSpringCloudOption || HostingCloudFoundryOption || LoggingDynamicLoggerOption || DiscoveryEurekaOption || CircuitBreakerHystrixOption || ManagementEndpointsOption"
     },
     "AnyConfigurator": {
       "type": "computed",
-      "value": "CloudConfigOption || PlaceholderOption || RandomValueOption"
+      "value": "ConfigurationCloudConfigOption || ConfigurationPlaceholderOption || ConfigurationRandomValueOption"
     },
     "AnyConnector": {
       "type": "computed",
-      "value": "MongoDbOption || MySqlEfCoreOption || MySqlOption || OAuthOption || PostgreSqlEfCoreOption || PostgreSqlOption || RedisOption || RabbitMqOption || SqlServerOption"
+      "value": "ConnectorMongoDbOption || ConnectorMySqlEfCoreOption || ConnectorMySqlOption || ConnectorOAuthOption || ConnectorPostgreSqlEfCoreOption || ConnectorPostgreSqlOption || ConnectorRedisOption || ConnectorRabbitMqOption || ConnectorSqlServerOption"
     },
     "AnyEfCore": {
       "type": "computed",
-      "value": "MySqlEfCoreOption || PostgreSqlEfCoreOption"
+      "value": "ConnectorMySqlEfCoreOption || ConnectorPostgreSqlEfCoreOption"
     },
     "AnyMessaging": {
       "type": "computed",
@@ -91,7 +91,7 @@
     },
     "AnySqlDatabase": {
       "type": "computed",
-      "value": "MySqlOption || PostgreSqlOption || SqlServerOption"
+      "value": "ConnectorMySqlOption || ConnectorPostgreSqlOption || ConnectorSqlServerOption"
     },
     "AnySteeltoeLibrary": {
       "type": "computed",
@@ -100,10 +100,6 @@
     "AnyStream": {
       "type": "computed",
       "value": "StreamRabbitMqOption"
-    },
-    "DynamicLogging": {
-      "type": "computed",
-      "value": "DynamicLoggerOption || ManagementEndpointsOption"
     },
     "AzureOAuthVersion": {
       "type": "generated",
@@ -128,22 +124,82 @@
         ]
       }
     },
-    "AzureSpringCloudHostingOption": {
+    "CircuitBreakerHystrixOption": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add hosting support for Microsoft Azure Spring Cloud.",
+      "description": "Add support for Netflix Hystrix, a latency and fault tolerance library.",
       "defaultValue": "false"
     },
-    "CloudConfigOption": {
+    "ConfigurationCloudConfigOption": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add client support for Spring Cloud Config.",
+      "description": "Add a Spring Cloud Config configuration source.",
       "defaultValue": "false"
     },
-    "CloudFoundryHostingOption": {
+    "ConfigurationPlaceholderOption": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add hosting support for Cloud Foundry.",
+      "description": "Add a placeholder configuration source.",
+      "defaultValue": "false"
+    },
+    "ConfigurationRandomValueOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a random value configuration source.",
+      "defaultValue": "false"
+    },
+    "ConnectorMongoDbOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for MongoDB databases.",
+      "defaultValue": "false"
+    },
+    "ConnectorMySqlEfCoreOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for MySQL databases using Entity Framework Core.",
+      "defaultValue": "false"
+    },
+    "ConnectorMySqlOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for MySQL databases.",
+      "defaultValue": "false"
+    },
+    "ConnectorOAuthOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for OAuth security.",
+      "defaultValue": "false"
+    },
+    "ConnectorPostgreSqlEfCoreOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for PostgreSQL databases using Entity Framework Core.",
+      "defaultValue": "false"
+    },
+    "ConnectorPostgreSqlOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for PostgreSQL databases.",
+      "defaultValue": "false"
+    },
+    "ConnectorRabbitMqOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for RabbitMQ message brokers.",
+      "defaultValue": "false"
+    },
+    "ConnectorRedisOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for Redis data stores.",
+      "defaultValue": "false"
+    },
+    "ConnectorSqlServerOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for Microsoft SQL Server databases.",
       "defaultValue": "false"
     },
     "DescriptionOption": {
@@ -152,6 +208,12 @@
       "datatype": "string",
       "defaultValue": "",
       "replaces": "$(DescriptionOption)"
+    },
+    "DiscoveryEurekaOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add access to Eureka, a REST-based service for locating services.",
+      "defaultValue": "false"
     },
     "DockerImageTag": {
       "type": "generated",
@@ -182,11 +244,9 @@
       "description": "Add support for Docker.",
       "defaultValue": "false"
     },
-    "DynamicLoggerOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a dynamic logger.",
-      "defaultValue": "false"
+    "DynamicLogging": {
+      "type": "computed",
+      "value": "LoggingDynamicLoggerOption || ManagementEndpointsOption"
     },
     "EntityFrameworkCoreVersion": {
       "type": "generated",
@@ -195,12 +255,6 @@
         "value": "3.1.*"
       },
       "replaces": "$(EntityFrameworkCoreVersion)"
-    },
-    "EurekaOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to Eureka, a REST-based service for locating services.",
-      "defaultValue": "false"
     },
     "Framework": {
       "description": "Set the target framework for the project.",
@@ -256,10 +310,22 @@
         "pattern": "^.+"
       }
     },
-    "HystrixOption": {
+    "HostingAzureSpringCloudOption": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add support for Netflix Hystrix, a latency and fault tolerance library.",
+      "description": "Add hosting support for Microsoft Azure Spring Cloud.",
+      "defaultValue": "false"
+    },
+    "HostingCloudFoundryOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add hosting support for Cloud Foundry.",
+      "defaultValue": "false"
+    },
+    "LoggingDynamicLoggerOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a dynamic logger.",
       "defaultValue": "false"
     },
     "ManagementEndpointsOption": {
@@ -282,12 +348,6 @@
       },
       "replaces": "$(MongoDbDriverVersion)"
     },
-    "MongoDbOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to MongoDB databases.",
-      "defaultValue": "false"
-    },
     "MySqlDriverVersion": {
       "type": "generated",
       "generator": "constant",
@@ -295,18 +355,6 @@
         "value": "8.0.*"
       },
       "replaces": "$(MySqlDriverVersion)"
-    },
-    "MySqlEfCoreOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to MySQL databases using Entity Framework Core.",
-      "defaultValue": "false"
-    },
-    "MySqlOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to MySQL databases.",
-      "defaultValue": "false"
     },
     "NpgsqlDriverVersion": {
       "type": "generated",
@@ -316,30 +364,6 @@
       },
       "replaces": "$(NpgsqlDriverVersion)"
     },
-    "OAuthOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to OAuth security.",
-      "defaultValue": "false"
-    },
-    "PlaceholderOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a placeholder configuration source.",
-      "defaultValue": "false"
-    },
-    "PostgreSqlEfCoreOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to PostgreSQL databases using Entity Framework Core.",
-      "defaultValue": "false"
-    },
-    "PostgreSqlOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to PostgreSQL databases.",
-      "defaultValue": "false"
-    },
     "RabbitMqDriverVersion": {
       "type": "generated",
       "generator": "constant",
@@ -347,18 +371,6 @@
         "value": "5.1.*"
       },
       "replaces": "$(RabbitMqDriverVersion)"
-    },
-    "RabbitMqOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to RabbitMQ message brokers.",
-      "defaultValue": "false"
-    },
-    "RandomValueOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a random value configuration source.",
-      "defaultValue": "false"
     },
     "RedisDriverVersion": {
       "type": "generated",
@@ -368,22 +380,10 @@
       },
       "replaces": "$(RedisDriverVersion)"
     },
-    "RedisOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to Redis data stores.",
-      "defaultValue": "false"
-    },
     "SkipRestoreOption": {
       "type": "parameter",
       "datatype": "bool",
       "description": "Skip the automatic restore of the project on create.",
-      "defaultValue": "false"
-    },
-    "SqlServerOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to Microsoft SQL Server databases.",
       "defaultValue": "false"
     },
     "Steeltoe2": {

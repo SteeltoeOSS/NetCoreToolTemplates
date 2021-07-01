@@ -4,10 +4,10 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class CloudFoundryOptionTest : ProjectOptionTest
+    public class HostingCloudFoundryOptionTest : ProjectOptionTest
 
     {
-        public CloudFoundryOptionTest(ITestOutputHelper logger) : base("cloud-foundry",
+        public HostingCloudFoundryOptionTest(ITestOutputHelper logger) : base("hosting-cloud-foundry",
             "Add hosting support for Cloud Foundry", logger)
         {
         }
@@ -34,7 +34,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             snippets.Add("services.ConfigureCloudFoundryOptions(Configuration);");
         }
 
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
+            Framework framework,
             List<string> snippets)
         {
             snippets.Add("using Steeltoe.Extensions.Configuration.CloudFoundry;");

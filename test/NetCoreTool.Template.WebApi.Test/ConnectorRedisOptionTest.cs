@@ -4,18 +4,17 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class PostgreSqlOptionTest : ProjectOptionTest
+    public class ConnectorRedisOptionTest : ProjectOptionTest
     {
-        public PostgreSqlOptionTest(ITestOutputHelper logger) : base("postgresql",
-            "Add access to PostgreSQL databases",
-            logger)
+        public ConnectorRedisOptionTest(ITestOutputHelper logger) : base("connector-redis",
+            "Add a connector for Redis data stores", logger)
         {
         }
 
         protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
-            packages.Add(("Npgsql", "4.1.*"));
+            packages.Add(("Microsoft.Extensions.Caching.StackExchangeRedis", "3.1.*"));
             if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
                 packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
@@ -31,44 +30,38 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                snippets.Add("using Steeltoe.CloudFoundry.Connector.PostgreSql;");
+                snippets.Add("using Steeltoe.CloudFoundry.Connector.Redis;");
             }
             else
             {
-                snippets.Add("using Steeltoe.Connector.PostgreSql;");
+                snippets.Add("using Steeltoe.Connector.Redis;");
             }
 
-            snippets.Add("services.AddPostgresConnection(Configuration);");
+            snippets.Add("services.AddDistributedRedisCache(Configuration)");
         }
 
         protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
             Framework framework,
             List<string> snippets)
         {
-            snippets.Add("using Npgsql;");
-            snippets.Add("using System.Data;");
+            snippets.Add("using Microsoft.Extensions.Caching.Distributed;");
+            snippets.Add("using System.Threading.Tasks;");
+            snippets.Add("using System.Collections.Generic;");
             snippets.Add(@"
-private readonly NpgsqlConnection _dbConnection;
-public ValuesController([FromServices] NpgsqlConnection dbConnection)
+public ValuesController(IDistributedCache cache)
 {
-    _dbConnection = dbConnection;
+    _cache = cache;
 }
 ");
             snippets.Add(@"
 [HttpGet]
-public ActionResult<IEnumerable<string>> Get()
+public async Task<IEnumerable<string>> Get()
 {
-    List<string> tables = new List<string>();
-    _dbConnection.Open();
-    DataTable dt = _dbConnection.GetSchema(""Tables"");
-    _dbConnection.Close();
-    foreach (DataRow row in dt.Rows)
-    {
-        string tablename = (string)row[2];
-        tables.Add(tablename);
-    }
-
-    return tables;
+    await _cache.SetStringAsync(""MyValue1"", ""123"");
+    await _cache.SetStringAsync(""MyValue2"", ""456"");
+    string myval1 = await _cache.GetStringAsync(""MyValue1"");
+    string myval2 = await _cache.GetStringAsync(""MyValue2"");
+    return new[] { myval1, myval2};
 }
 ");
         }

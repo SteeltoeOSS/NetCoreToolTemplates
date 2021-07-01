@@ -3,36 +3,36 @@
   <PropertyGroup>
     <AzureOAuthVersion>3.1.*</AzureOAuthVersion>
     <AzureSpringCloudClientVersion>2.0.0-preview.1</AzureSpringCloudClientVersion>
-    <AzureSpringCloudHostingOption>false</AzureSpringCloudHostingOption>
-    <CloudConfigOption>false</CloudConfigOption>
-    <CloudFoundryHostingOption>false</CloudFoundryHostingOption>
+    <CircuitBreakerHystrixOption>false</CircuitBreakerHystrixOption>
+    <ConfigurationCloudConfigOption>false</ConfigurationCloudConfigOption>
+    <ConfigurationPlaceholderOption>false</ConfigurationPlaceholderOption>
+    <ConfigurationRandomValueOption>false</ConfigurationRandomValueOption>
+    <ConnectorMongoDbOption>false</ConnectorMongoDbOption>
+    <ConnectorMySqlEfCoreOption>false</ConnectorMySqlEfCoreOption>
+    <ConnectorMySqlOption>false</ConnectorMySqlOption>
+    <ConnectorOAuthOption>false</ConnectorOAuthOption>
+    <ConnectorPostgreSqlEfCoreOption>false</ConnectorPostgreSqlEfCoreOption>
+    <ConnectorPostgreSqlOption>false</ConnectorPostgreSqlOption>
+    <ConnectorRabbitMqOption>false</ConnectorRabbitMqOption>
+    <ConnectorRedisOption>false</ConnectorRedisOption>
+    <ConnectorSqlServerOption>false</ConnectorSqlServerOption>
     <DescriptionOption/>
+    <DiscoveryEurekaOption>false</DiscoveryEurekaOption>
     <DockerOption>false</DockerOption>
-    <DynamicLoggerOption>false</DynamicLoggerOption>
     <EntityFrameworkCoreVersion>3.1.2</EntityFrameworkCoreVersion>
-    <EurekaOption>false</EurekaOption>
     <FrameworkOption>net5.0</FrameworkOption>
     <FrameworkNet50>true</FrameworkNet50>
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
-    <HystrixOption>false</HystrixOption>
+    <HostingAzureSpringCloudOption>false</HostingAzureSpringCloudOption>
+    <HostingCloudFoundryOption>false</HostingCloudFoundryOption>
+    <LoggingDynamicLoggerOption>false</LoggingDynamicLoggerOption>
     <ManagementEndpointsOption>false</ManagementEndpointsOption>
     <MongoDbDriverVersion>2.8.*</MongoDbDriverVersion>
-    <MongoDbOption>false</MongoDbOption>
     <MessagingRabbitMqOption>false</MessagingRabbitMqOption>
     <MySqlDriverVersion>8.0.*</MySqlDriverVersion>
-    <MySqlEfCoreOption>false</MySqlEfCoreOption>
-    <MySqlOption>false</MySqlOption>
     <NpgsqlDriverVersion>4.1.*</NpgsqlDriverVersion>
-    <OAuthOption>false</OAuthOption>
-    <PlaceholderOption>false</PlaceholderOption>
-    <PostgreSqlEfCoreOption>false</PostgreSqlEfCoreOption>
-    <PostgreSqlOption>false</PostgreSqlOption>
     <RabbitMqDriverVersion>5.1.*</RabbitMqDriverVersion>
-    <RabbitMqOption>false</RabbitMqOption>
-    <RandomValueOption>false</RandomValueOption>
     <RedisDriverVersion>3.1.*</RedisDriverVersion>
-    <RedisOption>false</RedisOption>
-    <SqlServerOption>false</SqlServerOption>
     <SteeltoeVersionOption>3.0.*</SteeltoeVersionOption>
     <StreamRabbitMqOption>false</StreamRabbitMqOption>
   </PropertyGroup>

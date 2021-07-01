@@ -4,23 +4,93 @@
   "icon": "steeltoe-icon.png",
   "symbolInfo": [
     {
-      "id": "AzureSpringCloudHostingOption",
+      "id": "CircuitBreakerHystrixOption",
       "name": {
-        "text": "Add hosting support for Microsoft Azure Spring Cloud"
+        "text": "Add support for Netflix Hystrix, a latency and fault tolerance library"
       },
       "isVisible": "true"
     },
     {
-      "id": "CloudConfigOption",
+      "id": "ConfigurationCloudConfigOption",
       "name": {
-        "text": "Add client support for Spring Cloud Config"
+        "text": "Add a Spring Cloud Config configuration source "
       },
       "isVisible": "true"
     },
     {
-      "id": "CloudFoundryOption",
+      "id": "ConfigurationPlaceholderOption",
       "name": {
-        "text": "Add hosting support for Cloud Foundry"
+        "text": "Add a placeholder configuration source"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "ConfigurationRandomValueOption",
+      "name": {
+        "text": "Add a random value configuration source"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "ConnectorMongoDbOption",
+      "name": {
+        "text": "Add a connector for MongoDB databases"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "ConnectorMySqlEfCoreOption",
+      "name": {
+        "text": "Add a connector for MySQL databases using Entity Framework Core"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "ConnectorMySqlOption",
+      "name": {
+        "text": "Add a connector for MySQL databases"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "ConnectorOAuthOption",
+      "name": {
+        "text": "Add a connector for OAuth security"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "ConnectorPostgreSqlEfCoreOption",
+      "name": {
+        "text": "Add a connector for PostgreSQL databases using Entity Framework Core"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "ConnectorPostgreSqlOption",
+      "name": {
+        "text": "Add a connector for PostgreSQL databases"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "ConnectorRabbitMqOption",
+      "name": {
+        "text": "Add a connector for RabbitMQ message brokers"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "ConnectorRedisOption",
+      "name": {
+        "text": "Add a connector for Redis data stores"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "ConnectorSqlServerOption",
+      "name": {
+        "text": "Add a connector for Microsoft SQL Server databases"
       },
       "isVisible": "true"
     },
@@ -32,6 +102,13 @@
       "isVisible": "true"
     },
     {
+      "id": "DiscoveryEurekaOption",
+      "name": {
+        "text": "Add access to Eureka, a REST-based service for locating services"
+      },
+      "isVisible": "true"
+    },
+    {
       "id": "DockerOption",
       "name": {
         "text": "Add support for Docker"
@@ -39,23 +116,23 @@
       "isVisible": "true"
     },
     {
-      "id": "DynamicLoggerOption",
+      "id": "HostingAzureSpringCloudOption",
+      "name": {
+        "text": "Add hosting support for Microsoft Azure Spring Cloud"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "HostingCloudFoundryOption",
+      "name": {
+        "text": "Add hosting support for Cloud Foundry"
+      },
+      "isVisible": "true"
+    },
+    {
+      "id": "LoggingDynamicLoggerOption",
       "name": {
         "text": "Add a dynamic logger"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "EurekaOption",
-      "name": {
-        "text": "Add access to Eureka, a REST-based service for locating services"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "HystrixOption",
-      "name": {
-        "text": "Add support for Netflix Hystrix, a latency and fault tolerance library"
       },
       "isVisible": "true"
     },
@@ -70,83 +147,6 @@
       "id": "MessagingRabbitMqOption",
       "name": {
         "text": "Add RabbitMQ messaging support and auto-configuration"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "MongoDbOption",
-      "name": {
-        "text": "Add access to MongoDB databases"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "MySqlEfCoreOption",
-      "name": {
-        "text": "Add access to MySQL databases using Entity Framework Core"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "MySqlOption",
-      "name": {
-        "text": "Add access to MySQL databases"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "OAuthOption",
-      "name": {
-        "text": "Add access to OAuth security"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "PlaceholderOption",
-      "name": {
-        "text": "Add a placeholder configuration source"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "PostgreSqlEfCoreOption",
-      "name": {
-        "text": "Add access to PostgreSQL databases using Entity Framework Core"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "PostgreSqlOption",
-      "name": {
-        "text": "Add access to PostgreSQL databases"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "RabbitMqOption",
-      "name": {
-        "text": "Add access to RabbitMQ message brokers"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "RandomValueOption",
-      "name": {
-        "text": "Add a random value configuration source"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "RedisOption",
-      "name": {
-        "text": "Add access to Redis data stores"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "SqlServerOption",
-      "name": {
-        "text": "Add access to Microsoft SQL Server databases"
       },
       "isVisible": "true"
     },

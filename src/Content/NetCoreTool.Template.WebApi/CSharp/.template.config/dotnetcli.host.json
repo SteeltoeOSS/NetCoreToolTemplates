@@ -1,39 +1,83 @@
 {
   "$schema": "https://json.schemastore.org/dotnetcli.host",
   "symbolInfo": {
-    "AzureSpringCloudHostingOption": {
-      "longName": "azure-spring-cloud",
+    "CircuitBreakerHystrixOption": {
+      "longName": "circuit-breaker-hystrix",
       "shortName": ""
     },
-    "CloudConfigOption": {
-      "longName": "cloud-config",
+    "ConfigurationCloudConfigOption": {
+      "longName": "configuration-cloud-config",
       "shortName": ""
     },
-    "CloudFoundryHostingOption": {
-      "longName": "cloud-foundry",
+    "ConfigurationPlaceholderOption": {
+      "longName": "configuration-placeholder",
+      "shortName": ""
+    },
+    "ConfigurationRandomValueOption": {
+      "longName": "configuration-random-value",
+      "shortName": ""
+    },
+    "ConnectorMongoDbOption": {
+      "longName": "connector-mongodb",
+      "shortName": ""
+    },
+    "ConnectorMySqlEfCoreOption": {
+      "longName": "connector-mysql-efcore",
+      "shortName": ""
+    },
+    "ConnectorMySqlOption": {
+      "longName": "connector-mysql",
+      "shortName": ""
+    },
+    "ConnectorOAuthOption": {
+      "longName": "connector-oauth",
+      "shortName": ""
+    },
+    "ConnectorPostgreSqlEfCoreOption": {
+      "longName": "connector-postgresql-efcore",
+      "shortName": ""
+    },
+    "ConnectorPostgreSqlOption": {
+      "longName": "connector-postgresql",
+      "shortName": ""
+    },
+    "ConnectorRabbitMqOption": {
+      "longName": "connector-rabbitmq",
+      "shortName": ""
+    },
+    "ConnectorRedisOption": {
+      "longName": "connector-redis",
+      "shortName": ""
+    },
+    "ConnectorSqlServerOption": {
+      "longName": "connector-sqlserver",
       "shortName": ""
     },
     "DescriptionOption": {
       "longName": "description",
       "shortName": "D"
     },
+    "DiscoveryEurekaOption": {
+      "longName": "discovery-eureka",
+      "shortName": ""
+    },
     "DockerOption": {
       "longName": "docker",
-      "shortName": ""
-    },
-    "DynamicLoggerOption": {
-      "longName": "dynamic-logger",
-      "shortName": ""
-    },
-    "EurekaOption": {
-      "longName": "eureka",
       "shortName": ""
     },
     "Framework": {
       "longName": "framework"
     },
-    "HystrixOption": {
-      "longName": "hystrix",
+    "HostingAzureSpringCloudOption": {
+      "longName": "hosting-azure-spring-cloud",
+      "shortName": ""
+    },
+    "HostingCloudFoundryOption": {
+      "longName": "hosting-cloud-foundry",
+      "shortName": ""
+    },
+    "LoggingDynamicLoggerOption": {
+      "longName": "logging-dynamic-logger",
       "shortName": ""
     },
     "ManagementEndpointsOption": {
@@ -44,52 +88,8 @@
       "longName": "messaging-rabbitmq",
       "shortName": ""
     },
-    "MongoDbOption": {
-      "longName": "mongodb",
-      "shortName": ""
-    },
-    "MySqlEfCoreOption": {
-      "longName": "mysql-efcore",
-      "shortName": ""
-    },
-    "MySqlOption": {
-      "longName": "mysql",
-      "shortName": ""
-    },
-    "OAuthOption": {
-      "longName": "oauth",
-      "shortName": ""
-    },
-    "PlaceholderOption": {
-      "longName": "placeholder",
-      "shortName": ""
-    },
-    "PostgreSqlEfCoreOption": {
-      "longName": "postgresql-efcore",
-      "shortName": ""
-    },
-    "PostgreSqlOption": {
-      "longName": "postgresql",
-      "shortName": ""
-    },
-    "RabbitMqOption": {
-      "longName": "rabbitmq",
-      "shortName": ""
-    },
-    "RandomValueOption": {
-      "longName": "random-value",
-      "shortName": ""
-    },
-    "RedisOption": {
-      "longName": "redis",
-      "shortName": ""
-    },
     "SkipRestoreOption": {
       "longName": "no-restore",
-      "shortName": ""
-    },
-    "SqlServerOption": {
-      "longName": "sqlserver",
       "shortName": ""
     },
     "SteeltoeVersionOption": {

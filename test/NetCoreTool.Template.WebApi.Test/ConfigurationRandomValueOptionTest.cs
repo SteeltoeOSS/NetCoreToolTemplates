@@ -4,9 +4,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class RandomValueOptionTest : ProjectOptionTest
+    public class ConfigurationRandomValueOptionTest : ProjectOptionTest
     {
-        public RandomValueOptionTest(ITestOutputHelper logger) : base("random-value",
+        public ConfigurationRandomValueOptionTest(ITestOutputHelper logger) : base("configuration-random-value",
             "Add a random value configuration source", logger)
         {
         }
@@ -17,7 +17,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             packages.Add(("Steeltoe.Extensions.Configuration.RandomValueBase", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
+            Framework framework,
             List<string> snippets)
         {
             snippets.Add("using Microsoft.Extensions.Configuration;");

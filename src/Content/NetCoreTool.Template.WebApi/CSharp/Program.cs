@@ -42,20 +42,20 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 #endif
-#if (AzureSpringCloudHostingOption && !FrameworkNetCoreApp21)
+#if (HostingAzureSpringCloudOption && !FrameworkNetCoreApp21)
 using Microsoft.Azure.SpringCloud.Client;
 #endif
 #if (DynamicLogging && FrameworkNetCoreApp21)
 using Microsoft.Extensions.Logging;
 #endif
-#if (CloudFoundryHostingOption)
+#if (HostingCloudFoundryOption)
 using Steeltoe.Common.Hosting;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
-#if (CloudConfigOption)
+#if (ConfigurationCloudConfigOption)
 using Steeltoe.Extensions.Configuration.ConfigServer;
 #endif
-#if (PlaceholderOption)
+#if (ConfigurationPlaceholderOption)
 #if (Steeltoe2)
 using Steeltoe.Extensions.Configuration.PlaceholderCore;
 #else
@@ -86,17 +86,17 @@ namespace Company.WebApplication1
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             var builder = WebHost.CreateDefaultBuilder(args)
-#if (CloudConfigOption)
+#if (ConfigurationCloudConfigOption)
                 .AddConfigServer()
 #endif
-#if (PlaceholderOption)
+#if (ConfigurationPlaceholderOption)
                 .AddPlaceholderResolver()
 #endif
-#if (CloudFoundryHostingOption)
+#if (HostingCloudFoundryOption)
                 .UseCloudHosting()
                 .AddCloudFoundryConfiguration()
 #endif
-#if (DynamicLoggerOption)
+#if (LoggingDynamicLoggerOption)
                 .ConfigureLogging((hostingContext, loggingBuilder) =>
                 {
                     loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
@@ -113,17 +113,17 @@ namespace Company.WebApplication1
 #else
             Host.CreateDefaultBuilder(args)
 #endif
-#if (PlaceholderOption)
+#if (ConfigurationPlaceholderOption)
                 .AddPlaceholderResolver()
 #endif
-#if (AzureSpringCloudHostingOption)
+#if (HostingAzureSpringCloudOption)
                 .UseAzureSpringCloudService()
 #endif
-#if (CloudFoundryHostingOption)
+#if (HostingCloudFoundryOption)
                 .UseCloudHosting()
                 .AddCloudFoundryConfiguration()
 #endif
-#if (CloudConfigOption)
+#if (ConfigurationCloudConfigOption)
                 .AddConfigServer()
 #endif
 #if (DynamicLogging)

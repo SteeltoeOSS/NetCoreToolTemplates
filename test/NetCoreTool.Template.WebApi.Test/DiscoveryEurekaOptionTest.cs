@@ -4,9 +4,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class EurekaOptionTest : ProjectOptionTest
+    public class DiscoveryEurekaOptionTest : ProjectOptionTest
     {
-        public EurekaOptionTest(ITestOutputHelper logger) : base("eureka",
+        public DiscoveryEurekaOptionTest(ITestOutputHelper logger) : base("discovery-eureka",
             "Add access to Eureka, a REST-based service for locating services", logger)
         {
         }

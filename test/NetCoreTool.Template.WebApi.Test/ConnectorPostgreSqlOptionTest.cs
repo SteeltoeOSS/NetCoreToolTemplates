@@ -4,16 +4,18 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class MySqlOptionTest : ProjectOptionTest
+    public class ConnectorPostgreSqlOptionTest : ProjectOptionTest
     {
-        public MySqlOptionTest(ITestOutputHelper logger) : base("mysql", "Add access to MySQL databases", logger)
+        public ConnectorPostgreSqlOptionTest(ITestOutputHelper logger) : base("connector-postgresql",
+            "Add a connector for PostgreSQL databases",
+            logger)
         {
         }
 
         protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
-            packages.Add(("MySql.Data", "8.0.*"));
+            packages.Add(("Npgsql", "4.1.*"));
             if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
                 packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
@@ -29,25 +31,25 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                snippets.Add("using Steeltoe.CloudFoundry.Connector.MySql;");
+                snippets.Add("using Steeltoe.CloudFoundry.Connector.PostgreSql;");
             }
             else
             {
-                snippets.Add("using Steeltoe.Connector.MySql;");
+                snippets.Add("using Steeltoe.Connector.PostgreSql;");
             }
 
-            snippets.Add("services.AddMySqlConnection(Configuration);");
+            snippets.Add("services.AddPostgresConnection(Configuration);");
         }
 
         protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
             Framework framework,
             List<string> snippets)
         {
-            snippets.Add("using MySql.Data.MySqlClient;");
+            snippets.Add("using Npgsql;");
             snippets.Add("using System.Data;");
             snippets.Add(@"
-private readonly MySqlConnection _dbConnection;
-public ValuesController([FromServices] MySqlConnection dbConnection)
+private readonly NpgsqlConnection _dbConnection;
+public ValuesController([FromServices] NpgsqlConnection dbConnection)
 {
     _dbConnection = dbConnection;
 }

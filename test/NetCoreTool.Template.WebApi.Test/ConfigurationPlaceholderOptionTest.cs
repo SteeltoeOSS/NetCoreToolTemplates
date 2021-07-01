@@ -7,9 +7,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class PlaceholderOptionTest : ProjectOptionTest
+    public class ConfigurationPlaceholderOptionTest : ProjectOptionTest
     {
-        public PlaceholderOptionTest(ITestOutputHelper logger) : base("placeholder",
+        public ConfigurationPlaceholderOptionTest(ITestOutputHelper logger) : base("configuration-placeholder",
             "Add a placeholder configuration source", logger)
         {
         }

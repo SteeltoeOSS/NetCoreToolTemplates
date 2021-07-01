@@ -4,9 +4,10 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class DynamicLoggerOptionTest : ProjectOptionTest
+    public class LoggingDynamicLoggerOptionTest : ProjectOptionTest
     {
-        public DynamicLoggerOptionTest(ITestOutputHelper logger) : base("dynamic-logger", "Add a dynamic logger",
+        public LoggingDynamicLoggerOptionTest(ITestOutputHelper logger) : base("logging-dynamic-logger",
+            "Add a dynamic logger",
             logger)
         {
         }

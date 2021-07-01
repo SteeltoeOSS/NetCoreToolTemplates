@@ -4,17 +4,17 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class CloudConfigOptionTest : ProjectOptionTest
+    public class ConfigurationCloudConfigOptionTest : ProjectOptionTest
     {
-        public CloudConfigOptionTest(ITestOutputHelper logger) : base("cloud-config",
-            "Add client support for Spring Cloud Config", logger)
+        public ConfigurationCloudConfigOptionTest(ITestOutputHelper logger) : base("configuration-cloud-config",
+            "Add a Spring Cloud Config configuration source", logger)
         {
         }
 
         protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
-            packages.Add(("Steeltoe.Extensions.Configuration.ConfigServerCore","$(SteeltoeVersion)"));
+            packages.Add(("Steeltoe.Extensions.Configuration.ConfigServerCore", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
@@ -24,7 +24,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             snippets.Add(".AddConfigServer()");
         }
 
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
+        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
+            Framework framework,
             List<string> snippets)
         {
             snippets.Add(@"
