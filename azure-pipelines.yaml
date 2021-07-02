@@ -47,7 +47,7 @@ stages:
             displayName: dotnet pack
             inputs:
               command: pack
-              packagesToPack: src/
+              packagesToPack: src/Steeltoe.NetCoreTool.Templates.csproj
               arguments: --no-build
           - task: PublishBuildArtifacts@1
             displayName: Publish Build Artifacts
