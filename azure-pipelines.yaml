@@ -43,3 +43,11 @@ stages:
             inputs:
               command: test
               arguments: --no-build --filter Category=Smoke
+          - task: DotNetCoreCLI@2
+            displayName: dotnet pack
+            inputs:
+              command: pack
+              packagesToPack: src/
+              arguments: --no-build
+          - task: PublishBuildArtifacts@1
+            displayName: Publish Build Artifacts
