@@ -1,7 +1,7 @@
 #if (!ConnectorRabbitMqOption)
 using System.Collections.Generic;
 #endif
-#if (AnySqlDatabase)
+#if (AnySql)
 using System.Data;
 #endif
 #if (ConnectorSqlServerOption)
@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 #if (ConnectorRedisOption)
 using Microsoft.Extensions.Caching.Distributed;
 #endif
-#if (AnyConfigurator)
+#if (AnyConfiguration)
 using Microsoft.Extensions.Configuration;
 #endif
 #if (ConnectorRabbitMqOption)
@@ -58,7 +58,7 @@ namespace Company.WebApplication1.Controllers
             _appOptions = appOptions.Value;
         }
 #endif
-#if (AnyConfigurator)
+#if (AnyConfiguration)
         private readonly IConfiguration _configuration;
 
         public ValuesController(IConfiguration configuration)
@@ -95,7 +95,7 @@ namespace Company.WebApplication1.Controllers
             _cache = cache;
         }
 #endif
-#if (AnySqlDatabase)
+#if (AnySql)
 #if (ConnectorSqlServerOption)
         private readonly SqlConnection _dbConnection;
 
@@ -182,7 +182,7 @@ namespace Company.WebApplication1.Controllers
             List<string> listing = _mongoClient.ListDatabaseNames().ToList();
             listing.Insert(0, _mongoUrl.Url);
             return listing;
-#elif (AnySqlDatabase)
+#elif (AnySql)
             List<string> tables = new List<string>();
             _dbConnection.Open();
             DataTable dt = _dbConnection.GetSchema("Tables");

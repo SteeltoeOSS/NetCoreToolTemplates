@@ -29,7 +29,7 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(NetCoreApp21Version)" />
   </ItemGroup>
   <!--#endif -->
-  <!--#if (AnySteeltoeLibrary) -->
+  <!--#if (AnySteeltoe) -->
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Condition="'$(ConnectorOAuthOption)' == 'True'" Version="$(AzureOAuthVersion)" />

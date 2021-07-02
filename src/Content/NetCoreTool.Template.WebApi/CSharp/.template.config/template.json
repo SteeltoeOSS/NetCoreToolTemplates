@@ -25,6 +25,13 @@
           ]
         },
         {
+          "condition": "(!AnyEfCore)",
+          "exclude": [
+            "Models/ErrorViewModel.cs",
+            "Models/SampleContext.cs"
+          ]
+        },
+        {
           "condition": "(!CircuitBreakerHystrixOption)",
           "exclude": [
             "HelloHystrixCommand.cs"
@@ -34,13 +41,6 @@
           "condition": "(!DockerOption)",
           "exclude": [
             "Dockerfile"
-          ]
-        },
-        {
-          "condition": "(!AnyEfCore)",
-          "exclude": [
-            "Models/ErrorViewModel.cs",
-            "Models/SampleContext.cs"
           ]
         },
         {
@@ -71,9 +71,9 @@
   "symbols": {
     "AnyCloudManagement": {
       "type": "computed",
-      "value": "HostingAzureSpringCloudOption || HostingCloudFoundryOption || LoggingDynamicLoggerOption || DiscoveryEurekaOption || CircuitBreakerHystrixOption || ManagementEndpointsOption"
+      "value": "CircuitBreakerHystrixOption || DiscoveryEurekaOption || HostingAzureSpringCloudOption || HostingCloudFoundryOption || LoggingDynamicLoggerOption || ManagementEndpointsOption"
     },
-    "AnyConfigurator": {
+    "AnyConfiguration": {
       "type": "computed",
       "value": "ConfigurationCloudConfigOption || ConfigurationPlaceholderOption || ConfigurationRandomValueOption"
     },
@@ -89,13 +89,13 @@
       "type": "computed",
       "value": "MessagingRabbitMqOption"
     },
-    "AnySqlDatabase": {
+    "AnySql": {
       "type": "computed",
       "value": "ConnectorMySqlOption || ConnectorPostgreSqlOption || ConnectorSqlServerOption"
     },
-    "AnySteeltoeLibrary": {
+    "AnySteeltoe": {
       "type": "computed",
-      "value": "AnyCloudManagement || AnyConfigurator || AnyConnector || AnyMessaging || AnyStream"
+      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyMessaging || AnyStream"
     },
     "AnyStream": {
       "type": "computed",
