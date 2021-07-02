@@ -62,7 +62,8 @@
         {
           "condition": "(StreamRabbitMqOption)",
           "exclude": [
-            "Startup.cs"
+            "Startup.cs",
+            "Properties/launchSettings.json"
           ]
         }
       ]
