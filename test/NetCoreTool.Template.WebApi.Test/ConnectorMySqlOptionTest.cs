@@ -39,37 +39,5 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             snippets.Add("services.AddMySqlConnection(Configuration);");
         }
-
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
-            Framework framework,
-            List<string> snippets)
-        {
-            snippets.Add("using MySql.Data.MySqlClient;");
-            snippets.Add("using System.Data;");
-            snippets.Add(@"
-private readonly MySqlConnection _dbConnection;
-public ValuesController([FromServices] MySqlConnection dbConnection)
-{
-    _dbConnection = dbConnection;
-}
-");
-            snippets.Add(@"
-[HttpGet]
-public ActionResult<IEnumerable<string>> Get()
-{
-    List<string> tables = new List<string>();
-    _dbConnection.Open();
-    DataTable dt = _dbConnection.GetSchema(""Tables"");
-    _dbConnection.Close();
-    foreach (DataRow row in dt.Rows)
-    {
-        string tablename = (string)row[2];
-        tables.Add(tablename);
-    }
-
-    return tables;
-}
-");
-        }
     }
 }

@@ -35,24 +35,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             snippets.Add(".AddPlaceholderResolver()");
         }
 
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
-            Framework framework,
-            List<string> snippets)
-        {
-            snippets.Add("using Microsoft.Extensions.Configuration;");
-            snippets.Add("private readonly IConfiguration _configuration;");
-            snippets.Add(@"
-[HttpGet]
-public ActionResult<IEnumerable<string>> Get()
-{
-    var val1 = _configuration[""ResolvedPlaceholderFromEnvVariables""];
-    var val2 = _configuration[""UnresolvedPlaceholder""];
-    var val3 = _configuration[""ResolvedPlaceholderFromJson""];
-    return new[] { val1, val2, val3 };
-}
-");
-        }
-
         protected override void AssertAppSettingsJsonHook(
             List<Action<SteeltoeVersion, Framework, AppSettings>> assertions)
         {

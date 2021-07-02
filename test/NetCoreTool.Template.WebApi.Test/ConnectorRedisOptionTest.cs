@@ -39,31 +39,5 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             snippets.Add("services.AddDistributedRedisCache(Configuration)");
         }
-
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
-            Framework framework,
-            List<string> snippets)
-        {
-            snippets.Add("using Microsoft.Extensions.Caching.Distributed;");
-            snippets.Add("using System.Threading.Tasks;");
-            snippets.Add("using System.Collections.Generic;");
-            snippets.Add(@"
-public ValuesController(IDistributedCache cache)
-{
-    _cache = cache;
-}
-");
-            snippets.Add(@"
-[HttpGet]
-public async Task<IEnumerable<string>> Get()
-{
-    await _cache.SetStringAsync(""MyValue1"", ""123"");
-    await _cache.SetStringAsync(""MyValue2"", ""456"");
-    string myval1 = await _cache.GetStringAsync(""MyValue1"");
-    string myval2 = await _cache.GetStringAsync(""MyValue2"");
-    return new[] { myval1, myval2};
-}
-");
-        }
     }
 }

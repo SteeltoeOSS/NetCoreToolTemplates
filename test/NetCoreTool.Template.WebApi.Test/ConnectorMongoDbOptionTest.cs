@@ -40,31 +40,5 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             snippets.Add("services.AddMongoClient(Configuration);");
         }
-
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
-            Framework framework,
-            List<string> snippets)
-        {
-            snippets.Add("using MongoDB.Driver;");
-            // snippets.Add("using System.Data;");
-            snippets.Add(@"
-private readonly IMongoClient _mongoClient;
-private readonly MongoUrl _mongoUrl;
-public ValuesController(IMongoClient mongoClient, MongoUrl mongoUrl)
-{
-    _mongoClient = mongoClient;
-    _mongoUrl = mongoUrl;
-}
-");
-            snippets.Add(@"
-[HttpGet]
-public ActionResult<IEnumerable<string>> Get()
-{
-    List<string> listing = _mongoClient.ListDatabaseNames().ToList();
-    listing.Insert(0, _mongoUrl.Url);
-    return listing;
-}
-");
-        }
     }
 }

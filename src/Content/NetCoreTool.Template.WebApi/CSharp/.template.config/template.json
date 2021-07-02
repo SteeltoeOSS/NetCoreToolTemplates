@@ -46,14 +46,14 @@
         {
           "condition": "(MessagingRabbitMqOption)",
           "exclude": [
-            "Controllers/ValuesController.cs"
+            "WeatherForecast.cs",
+            "Controllers/WeatherForecastController.cs"
           ]
         },
         {
           "condition": "(!MessagingRabbitMqOption || Steeltoe2 || Steeltoe30)",
           "exclude": [
             "Queues.cs",
-            "Controllers/RabbitMessagesController.cs",
             "Services/RabbitMessagesListener.cs",
             "Models/Message.cs",
             "Models/SpecialMessage.cs"

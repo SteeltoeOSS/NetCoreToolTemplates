@@ -33,21 +33,5 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             snippets.Add("using Steeltoe.Extensions.Configuration.CloudFoundry;");
             snippets.Add("services.ConfigureCloudFoundryOptions(Configuration);");
         }
-
-        protected override void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
-            Framework framework,
-            List<string> snippets)
-        {
-            snippets.Add("using Steeltoe.Extensions.Configuration.CloudFoundry;");
-            snippets.Add(@"
-[HttpGet]
-public ActionResult<IEnumerable<string>> Get()
-{
-    string appName = _appOptions.ApplicationName;
-    string appInstance = _appOptions.ApplicationId;
-    return new[] { appInstance, appName };
-}
-");
-        }
     }
 }

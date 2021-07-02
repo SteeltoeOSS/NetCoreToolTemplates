@@ -58,7 +58,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             await AssertCsprojProperties(steeltoeVersion, framework);
             await AssertProgramCsSnippets(steeltoeVersion, framework);
             await AssertStartupCsSnippets(steeltoeVersion, framework);
-            await AssertValuesControllerCsSnippets(steeltoeVersion, framework);
             await AssertAppSettingsJson(steeltoeVersion, framework);
             await AssertLaunchSettingsJson(steeltoeVersion, framework);
         }
@@ -158,31 +157,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         }
 
         protected virtual void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> snippets)
-        {
-        }
-
-        private async Task AssertValuesControllerCsSnippets(SteeltoeVersion steeltoeVersion, Framework framework)
-        {
-            var snippets = new List<string>();
-
-            AssertValuesControllerCsSnippetsHook(steeltoeVersion, framework, snippets);
-            if (snippets.Count == 0)
-            {
-                Logger.WriteLine("no ValuesController.cs snippets to assert");
-                return;
-            }
-
-            Logger.WriteLine("asserting ValuesController.cs snippets");
-            var source = await Sandbox.GetFileTextAsync("Controllers/ValuesController.cs");
-            foreach (var snippet in snippets)
-            {
-                source.Should().ContainSnippet(snippet);
-            }
-        }
-
-        protected virtual void AssertValuesControllerCsSnippetsHook(SteeltoeVersion steeltoeVersion,
-            Framework framework,
             List<string> snippets)
         {
         }
