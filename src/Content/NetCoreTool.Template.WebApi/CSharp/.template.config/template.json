@@ -38,7 +38,7 @@
           ]
         },
         {
-          "condition": "(!DockerOption)",
+          "condition": "(!DockerfileOption)",
           "exclude": [
             "Dockerfile"
           ]
@@ -238,10 +238,10 @@
         ]
       }
     },
-    "DockerOption": {
+    "DockerfileOption": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add support for Docker.",
+      "description": "Add a Dockerfile.",
       "defaultValue": "false"
     },
     "DynamicLogging": {

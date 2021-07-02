@@ -7,9 +7,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class DockerOptionTest : ProjectOptionTest
+    public class DockerfileOptionTest : ProjectOptionTest
     {
-        public DockerOptionTest(ITestOutputHelper logger) : base("docker", "Add support for Docker", logger)
+        public DockerfileOptionTest(ITestOutputHelper logger) : base("dockerfile", "Add a Dockerfile", logger)
         {
         }
 

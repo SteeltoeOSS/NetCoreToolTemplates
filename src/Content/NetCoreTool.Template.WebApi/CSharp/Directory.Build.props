@@ -18,7 +18,7 @@
     <ConnectorSqlServerOption>false</ConnectorSqlServerOption>
     <DescriptionOption/>
     <DiscoveryEurekaOption>false</DiscoveryEurekaOption>
-    <DockerOption>false</DockerOption>
+    <DockerfileOption>false</DockerfileOption>
     <EntityFrameworkCoreVersion>3.1.2</EntityFrameworkCoreVersion>
     <FrameworkOption>net5.0</FrameworkOption>
     <FrameworkNet50>true</FrameworkNet50>

@@ -61,8 +61,8 @@
       "longName": "discovery-eureka",
       "shortName": ""
     },
-    "DockerOption": {
-      "longName": "docker",
+    "DockerfileOption": {
+      "longName": "dockerfile",
       "shortName": ""
     },
     "Framework": {

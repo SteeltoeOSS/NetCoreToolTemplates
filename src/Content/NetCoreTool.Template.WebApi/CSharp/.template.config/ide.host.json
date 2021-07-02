@@ -109,9 +109,9 @@
       "isVisible": "true"
     },
     {
-      "id": "DockerOption",
+      "id": "DockerfileOption",
       "name": {
-        "text": "Add support for Docker"
+        "text": "Add a Dockerfile"
       },
       "isVisible": "true"
     },
