@@ -81,7 +81,7 @@ using Steeltoe.Management.Endpoint;
 using Company.WebApplication1.Models;
 #endif
 
-#if (MessagingRabbitMqOption)
+#if (MessagingRabbitMqOption && !Steeltoe2 && !Steeltoe30)
 using Company.WebApplication1.Services;
 using Steeltoe.Messaging.RabbitMQ.Config;
 using Steeltoe.Messaging.RabbitMQ.Extensions;
@@ -140,7 +140,7 @@ namespace Company.WebApplication1
             services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);
             services.AddHystrixMetricsStream(Configuration);
 #endif
-#if (MessagingRabbitMqOption)
+#if (MessagingRabbitMqOption && !Steeltoe2 && !Steeltoe30)
             // Add some queues to the container that the rabbit admin will discover and declare at startup
             services.AddRabbitQueue(new Queue(Queues.ReceiveAndConvertQueue));
             services.AddRabbitQueue(new Queue(Queues.InferredMessageQueue));
