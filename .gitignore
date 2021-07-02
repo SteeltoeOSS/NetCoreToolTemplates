@@ -1,7 +1,6 @@
 # build output
 bin/
 obj/
-/*.nupkg
 
 # user settings
 *.DotSettings.User

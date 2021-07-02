@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <IsTestProject>false</IsTestProject>
+    <IsPackable>false</IsPackable>
     <RootNamespace>Steeltoe.NetCoreTool.Template.Test.Utilities</RootNamespace>
   </PropertyGroup>
 
