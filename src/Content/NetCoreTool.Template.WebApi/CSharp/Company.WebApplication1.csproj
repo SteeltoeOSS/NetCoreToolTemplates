@@ -40,7 +40,7 @@
     <PackageReference Include="MongoDB.Driver" Condition="'$(ConnectorMongoDbOption)' == 'True'" Version="$(MongoDbDriverVersion)" />
     <PackageReference Include="MySql.Data" Condition="'$(ConnectorMySqlOption)' == 'True'" Version="$(MySqlDriverVersion)" />
     <PackageReference Include="Npgsql" Condition="'$(ConnectorPostgreSqlOption)' == 'True'" Version="$(NpgsqlDriverVersion)" />
-    <PackageReference Include="RabbitMQ.Client" Condition="'$(RabbitMqOption)' == 'True' OR '$(CircuitBreakerHystrixOption)' == 'True'" Version="$(RabbitMqDriverVersion)" />
+    <PackageReference Include="RabbitMQ.Client" Condition="'$(ConnectorRabbitMqOption)' == 'True'" Version="$(RabbitMqDriverVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(CircuitBreakerHystrixOption)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(CircuitBreakerHystrixOption)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.CloudFoundry.Connector.EFCore" Condition="'$(Steeltoe2Connector)' == 'True' AND '$(AnyEfCore)' == 'True'" Version="$(SteeltoeVersion)" />
