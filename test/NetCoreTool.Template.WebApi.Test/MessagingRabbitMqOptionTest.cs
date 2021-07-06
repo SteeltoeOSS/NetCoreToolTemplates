@@ -55,9 +55,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             snippets.Add("using Steeltoe.Messaging.RabbitMQ.Config;");
             snippets.Add("using Steeltoe.Messaging.RabbitMQ.Extensions;");
-            snippets.Add("services.AddRabbitQueue(new Queue(Queues.ReceiveAndConvertQueue));");
-            snippets.Add("services.AddRabbitQueue(new Queue(Queues.InferredMessageQueue));");
-            snippets.Add("services.AddRabbitQueue(new Queue(Queues.InferredSpecialMessageQueue));");
+            snippets.Add("services.AddRabbitQueue(new Queue(\"my.message.queue\"));");
             snippets.Add("services.AddSingleton<RabbitMessagesListener>();");
             snippets.Add("services.AddRabbitListeners<RabbitMessagesListener>();");
         }

@@ -1,4 +1,5 @@
 #if (StreamRabbitMqOption)
+#if (Steeltoe31)
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -34,6 +35,17 @@ namespace Company.WebApplication1
         }
     }
 }
+#else
+namespace Company.WebApplication1
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+        }
+    }
+}
+#endif
 #else
 #if (FrameworkNetCoreApp21)
 using Microsoft.AspNetCore;
