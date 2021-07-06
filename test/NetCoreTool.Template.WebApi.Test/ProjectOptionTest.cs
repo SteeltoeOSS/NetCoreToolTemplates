@@ -47,8 +47,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             Logger.WriteLine($"steeltoe/framework/option: {steeltoeOption}/{frameworkOption}/{Option}");
             Logger.WriteLine("generating project");
             using var sandbox = await TemplateSandbox($"--steeltoe {steeltoeOption} --framework {frameworkOption}");
+            sandbox.CommandExitCode.Should().Be(0, sandbox.CommandOutput);
             Logger.WriteLine("building project");
             await sandbox.ExecuteCommandAsync("dotnet build /p:TreatWarningsAsErrors=True");
+            sandbox.CommandExitCode.Should().Be(0, sandbox.CommandOutput);
         }
 
         protected virtual async Task AssertProjectGeneration(SteeltoeVersion steeltoeVersion, Framework framework)

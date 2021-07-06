@@ -17,6 +17,8 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
 
         private readonly ITestOutputHelper _logger;
 
+        public int CommandExitCode { get; private set; }
+
         public string CommandOutput { get; private set; }
 
         public string Name
@@ -34,7 +36,7 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
         public async Task ExecuteCommandAsync(string command)
         {
             _logger.WriteLine($"executing: {command}");
-            CommandOutput = await new Command().ExecuteAsync(command, Path);
+            (CommandExitCode, CommandOutput) = await new Command().ExecuteAsync(command, Path);
         }
 
         public bool DirectoryExists(string path)

@@ -7,7 +7,7 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
 {
     public class Command
     {
-        public async Task<string> ExecuteAsync(string command, string workingDirectory)
+        public async Task<(int, string)> ExecuteAsync(string command, string workingDirectory)
         {
             using var process = new Process();
 
@@ -78,7 +78,7 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
                     // throw new Exception($"'{command}' exited with exit code {process.ExitCode}:\n\n{output}");
                 // }
 
-                return output;
+                return (process.ExitCode, output);
             }
 
             try
