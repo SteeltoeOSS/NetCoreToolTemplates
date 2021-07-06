@@ -18,31 +18,17 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             await base.AssertProjectGeneration(steeltoeVersion, framework);
             if (steeltoeVersion < SteeltoeVersion.Steeltoe31)
             {
-                Logger.WriteLine("asserting no Queues.cs");
-                Sandbox.FileExists("Queues.cs").Should().BeFalse();
                 Logger.WriteLine("asserting no Models/Message.cs");
                 Sandbox.FileExists("Models/Message.cs").Should().BeFalse();
-                Logger.WriteLine("asserting no Models/SpecialMessage.cs");
-                Sandbox.FileExists("Models/SpecialMessage.cs").Should().BeFalse();
-                Logger.WriteLine("asserting no Controllers/RabbitMessagesController.cs");
-                Sandbox.FileExists("Controllers/RabbitMessagesController.cs").Should().BeFalse();
                 Logger.WriteLine("asserting no Services/RabbitMessagesListener.cs");
                 Sandbox.FileExists("Services/RabbitMessagesListener.cs").Should().BeFalse();
             }
             else
             {
-                Logger.WriteLine("asserting Queues.cs");
-                var queuesCs = await Sandbox.GetFileTextAsync("Queues.cs");
-                queuesCs.Should().Contain("public static class Queues");
                 Logger.WriteLine("asserting Models/Message.cs");
-                var msgsCs = await Sandbox.GetFileTextAsync("Models/Message.cs");
-                msgsCs.Should().Contain("public class Message");
-                Logger.WriteLine("asserting Models/SpecialMessage.cs");
-                var specialMsgsCs = await Sandbox.GetFileTextAsync("Models/SpecialMessage.cs");
-                specialMsgsCs.Should().Contain("public class SpecialMessage : Message");
-                Logger.WriteLine("asserting Controller/RabbitMessagesController.cs");
-                var controllerCs = await Sandbox.GetFileTextAsync("Controllers/RabbitMessagesController.cs");
-                controllerCs.Should().Contain("public class RabbitMessagesController : ControllerBase");
+                var msgCs = await Sandbox.GetFileTextAsync("Models/Message.cs");
+                msgCs.Should().Contain("public class Message");
+                Logger.WriteLine("asserting Services/RabbitMessageListener.cs");
                 var servicesCs = await Sandbox.GetFileTextAsync("Services/RabbitMessagesListener.cs");
                 servicesCs.Should().Contain("public RabbitMessagesListener(ILogger<RabbitMessagesListener> logger)");
             }

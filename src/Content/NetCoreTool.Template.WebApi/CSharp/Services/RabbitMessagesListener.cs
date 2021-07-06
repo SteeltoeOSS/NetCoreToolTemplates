@@ -14,16 +14,10 @@ namespace Company.WebApplication1.Services
             _logger = logger;
         }
 
-        [RabbitListener(Queues.InferredMessageQueue)]
+        [RabbitListener("my.message.queue")]
         public void ListenForMessage(Message message)
         {
             _logger.LogInformation("Got a message: {Message}", message.Value);
-        }
-
-        [RabbitListener(Queues.InferredSpecialMessageQueue)]
-        public void ListenForSpecialMessage(SpecialMessage message)
-        {
-            _logger.LogInformation("Got a special message: {Message}", message.Value);
         }
     }
 }

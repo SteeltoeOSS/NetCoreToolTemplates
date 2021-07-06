@@ -1,4 +1,4 @@
-#if StreamRabbitMqOption
+#if (StreamRabbitMqOption)
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -66,7 +66,11 @@ using Steeltoe.Extensions.Configuration.Placeholder;
 using Steeltoe.Extensions.Logging;
 #endif
 #if (MessagingRabbitMqOption)
+#if (Steeltoe31)
+#if (!FrameworkNetCoreApp21)
 using Steeltoe.Messaging.RabbitMQ.Host;
+#endif
+#endif
 #endif
 
 namespace Company.WebApplication1
@@ -109,7 +113,13 @@ namespace Company.WebApplication1
 #else
         public static IHostBuilder CreateHostBuilder(string[] args) =>
 #if (MessagingRabbitMqOption)
+#if (Steeltoe31)
+#if (!FrameworkNetCoreApp21)
             RabbitHost.CreateDefaultBuilder()
+#endif
+#else
+            Host.CreateDefaultBuilder(args)
+#endif
 #else
             Host.CreateDefaultBuilder(args)
 #endif

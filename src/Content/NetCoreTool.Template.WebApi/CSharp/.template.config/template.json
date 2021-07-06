@@ -53,10 +53,8 @@
         {
           "condition": "(!MessagingRabbitMqOption || Steeltoe2 || Steeltoe30)",
           "exclude": [
-            "Queues.cs",
             "Services/RabbitMessagesListener.cs",
             "Models/Message.cs",
-            "Models/SpecialMessage.cs"
           ]
         },
         {

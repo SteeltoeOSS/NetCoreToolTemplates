@@ -142,9 +142,7 @@ namespace Company.WebApplication1
 #endif
 #if (MessagingRabbitMqOption && !Steeltoe2 && !Steeltoe30)
             // Add some queues to the container that the rabbit admin will discover and declare at startup
-            services.AddRabbitQueue(new Queue(Queues.ReceiveAndConvertQueue));
-            services.AddRabbitQueue(new Queue(Queues.InferredMessageQueue));
-            services.AddRabbitQueue(new Queue(Queues.InferredSpecialMessageQueue));
+            services.AddRabbitQueue(new Queue("my.message.queue"));
 
             // Add singleton that will process incoming messages
             services.AddSingleton<RabbitMessagesListener>();
