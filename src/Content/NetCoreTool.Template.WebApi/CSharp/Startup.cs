@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 #if (!FrameworkNetCoreApp21)
 using Microsoft.Extensions.Hosting;
+
 #endif
 #if (FrameworkNet50)
 using Microsoft.OpenApi.Models;
@@ -200,7 +201,13 @@ namespace Company.WebApplication1
 #else
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+#if (ManagementEndpointsOption)
+                endpoints.MapAllActuators();
+#endif
+            });
 #endif
         }
     }
