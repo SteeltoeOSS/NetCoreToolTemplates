@@ -13,6 +13,7 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
         private static JsonSerializerOptions Options { get; } = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
+            ReadCommentHandling = JsonCommentHandling.Skip,
         };
 
         private readonly ITestOutputHelper _logger;

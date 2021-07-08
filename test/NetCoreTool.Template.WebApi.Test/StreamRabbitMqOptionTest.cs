@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using FluentAssertions;
+using Steeltoe.NetCoreTool.Template.Test.Utilities.Models;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
 using Xunit.Abstractions;
 
@@ -34,6 +37,25 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             snippets.Add("StreamHost.CreateDefaultBuilder<Program>(args)");
             snippets.Add("[StreamListener(ISink.INPUT)]");
             snippets.Add("[SendTo(ISource.OUTPUT)]");
+        }
+
+        protected override void AssertAppSettingsJsonHook(
+            List<Action<SteeltoeVersion, Framework, AppSettings>> assertions)
+        {
+            assertions.Add(AssertStreamSettings);
+        }
+
+        private void AssertStreamSettings(SteeltoeVersion steeltoeVersion, Framework framework,
+            AppSettings settings)
+        {
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe31)
+            {
+                settings.Spring.Should().BeNull();
+            }
+            else
+            {
+                settings.Spring.Cloud.Stream.Binder.Should().Be("rabbit");
+            }
         }
     }
 }
