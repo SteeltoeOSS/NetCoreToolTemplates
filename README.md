@@ -20,6 +20,7 @@ For learning how to develop additional options for the templates, see [DEVELOPER
 ```
 $ dotnet nuget add source https://pkgs.dev.azure.com/dotnet/Steeltoe/_packaging/dev/nuget/v3/index.json -n SteeltoeDev
 $ dotnet new --install Steeltoe.NetCoreTool.Templates
+```
 
 ### From Source
 
