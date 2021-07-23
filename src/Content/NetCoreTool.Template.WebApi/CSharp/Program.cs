@@ -17,14 +17,7 @@ namespace Company.WebApplication1
         static async Task Main(string[] args)
         {
             await StreamHost.CreateDefaultBuilder<Program>(args)
-                .ConfigureServices((context, services) =>
-                {
-                    services.AddLogging(builder =>
-                    {
-                        builder.AddDebug();
-                        builder.AddConsole();
-                    });
-                }).RunConsoleAsync();
+                    .RunConsoleAsync();
         }
 
         [StreamListener(ISink.INPUT)]
