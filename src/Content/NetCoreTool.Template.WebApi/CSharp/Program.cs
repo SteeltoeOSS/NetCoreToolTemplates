@@ -17,7 +17,7 @@ namespace Company.WebApplication1
         static async Task Main(string[] args)
         {
             await StreamHost.CreateDefaultBuilder<Program>(args)
-                    .RunConsoleAsync();
+                .RunConsoleAsync();
         }
 
         [StreamListener(ISink.INPUT)]
