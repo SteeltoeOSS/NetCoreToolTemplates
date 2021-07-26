@@ -9,7 +9,7 @@
     <!--#if (HasDescription) -->
     <Description>$(DescriptionOption)</Description>
     <!--#endif -->
-    <!--#if !(StreamRabbitMqOption) -->
+    <!--#if (!StreamRabbitMqOption) -->
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <!--#endif-->
   </PropertyGroup>
