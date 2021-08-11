@@ -111,7 +111,11 @@ namespace Company.WebApplication1
             services.ConfigureCloudFoundryOptions(Configuration);
 #endif
 #if (DiscoveryEurekaOption)
+#if (Steeltoe2 || Steeltoe30)
             services.AddDiscoveryClient(Configuration);
+#else
+            services.AddServiceDiscovery();
+#endif
 #endif
 #if (ConnectorMongoDbOption)
             services.AddMongoClient(Configuration);
@@ -187,7 +191,9 @@ namespace Company.WebApplication1
             }
 
 #if (DiscoveryEurekaOption)
+#if (Steeltoe2 || Steeltoe30)
             app.UseDiscoveryClient();
+#endif
 #endif
 #if (CircuitBreakerHystrixOption)
             app.UseHystrixRequestContext();

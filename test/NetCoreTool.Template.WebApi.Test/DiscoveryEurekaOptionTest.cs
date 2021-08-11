@@ -14,14 +14,29 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<(string, string)> packages)
         {
-            packages.Add(("Steeltoe.Discovery.ClientCore", "$(SteeltoeVersion)"));
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe31)
+            {
+                packages.Add(("Steeltoe.Discovery.ClientCore", "$(SteeltoeVersion)"));
+            }
+
+            if (steeltoeVersion >= SteeltoeVersion.Steeltoe30)
+            {
+                packages.Add(("Steeltoe.Discovery.Eureka", "$(SteeltoeVersion)"));
+            }
         }
 
         protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
-            snippets.Add("services.AddDiscoveryClient(Configuration);");
-            snippets.Add("app.UseDiscoveryClient();");
+            if (steeltoeVersion < SteeltoeVersion.Steeltoe31)
+            {
+                snippets.Add("services.AddDiscoveryClient(Configuration);");
+                snippets.Add("app.UseDiscoveryClient();");
+            }
+            else
+            {
+                snippets.Add("services.AddServiceDiscovery();");
+            }
         }
     }
 }
