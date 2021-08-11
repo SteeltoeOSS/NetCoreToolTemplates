@@ -1,8 +1,4 @@
-<!--#if (StreamRabbitMqOption) -->
-<Project Sdk="Microsoft.NET.Sdk">
-<!--#else -->
 <Project Sdk="Microsoft.NET.Sdk.Web">
-<!--#endif -->
 
   <PropertyGroup>
     <TargetFramework>$(FrameworkOption)</TargetFramework>
