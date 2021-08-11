@@ -43,8 +43,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 snippets.Add("endpoints.MapAllActuators()");
             }
-
-            ;
         }
 
         protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
