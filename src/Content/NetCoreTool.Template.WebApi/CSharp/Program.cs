@@ -67,6 +67,9 @@ using Steeltoe.Extensions.Configuration.PlaceholderCore;
 using Steeltoe.Extensions.Configuration.Placeholder;
 #endif
 #endif
+#if (ConfigurationRandomValueOption)
+using Steeltoe.Extensions.Configuration.RandomValue;
+#endif
 #if (DynamicLogging)
 using Steeltoe.Extensions.Logging;
 #endif
@@ -100,6 +103,9 @@ namespace Company.WebApplication1
 #endif
 #if (ConfigurationPlaceholderOption)
                 .AddPlaceholderResolver()
+#endif
+#if (ConfigurationRandomValueOption)
+                .ConfigureAppConfiguration(b => b.AddRandomValueSource())
 #endif
 #if (HostingCloudFoundryOption)
                 .UseCloudHosting()
@@ -140,6 +146,9 @@ namespace Company.WebApplication1
 #endif
 #if (ConfigurationCloudConfigOption)
                 .AddConfigServer()
+#endif
+#if (ConfigurationRandomValueOption)
+                .ConfigureAppConfiguration(b => b.AddRandomValueSource())
 #endif
 #if (DynamicLogging)
                 .ConfigureLogging((context, builder) => builder.AddDynamicConsole())

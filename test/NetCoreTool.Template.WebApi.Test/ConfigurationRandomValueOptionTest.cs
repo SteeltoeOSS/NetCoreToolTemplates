@@ -16,5 +16,11 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             packages.Add(("Steeltoe.Extensions.Configuration.RandomValueBase", "$(SteeltoeVersion)"));
         }
+
+        protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework, List<string> snippets)
+        {
+            snippets.Add("using Steeltoe.Extensions.Configuration.RandomValue");
+            snippets.Add(".ConfigureAppConfiguration(b => b.AddRandomValueSource())");
+        }
     }
 }
