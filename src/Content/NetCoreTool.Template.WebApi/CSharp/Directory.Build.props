@@ -33,7 +33,7 @@
     <NpgsqlDriverVersion>4.1.*</NpgsqlDriverVersion>
     <RabbitMqDriverVersion>5.1.*</RabbitMqDriverVersion>
     <RedisDriverVersion>3.1.*</RedisDriverVersion>
-    <SteeltoeVersionOption>3.0.*</SteeltoeVersionOption>
+    <SteeltoeVersionOption>3.1.*</SteeltoeVersionOption>
     <StreamRabbitMqOption>false</StreamRabbitMqOption>
   </PropertyGroup>
 

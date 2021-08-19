@@ -49,7 +49,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             switch (steeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe31:
-                    properties["SteeltoeVersion"] = "3.1.0-rc2";
+                    properties["SteeltoeVersion"] = "3.1.*";
                     break;
                 case SteeltoeVersion.Steeltoe30:
                     properties["SteeltoeVersion"] = "3.0.*";

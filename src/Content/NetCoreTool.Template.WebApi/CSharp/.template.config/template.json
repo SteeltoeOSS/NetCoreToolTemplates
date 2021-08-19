@@ -441,7 +441,7 @@
       "description": "Set the Steeltoe version for the project.",
       "type": "parameter",
       "datatype": "string",
-      "defaultValue": "3.0.*",
+      "defaultValue": "3.1.*",
       "replaces": "$(SteeltoeVersionOption)"
     },
     "StreamRabbitMqOption": {
