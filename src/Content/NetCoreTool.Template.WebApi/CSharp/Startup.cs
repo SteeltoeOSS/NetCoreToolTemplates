@@ -195,7 +195,9 @@ namespace Company.WebApplication1
 #endif
 #if (CircuitBreakerHystrixOption)
             app.UseHystrixRequestContext();
+#if (Steeltoe30)
             app.UseHystrixMetricsStream();
+#endif
 #endif
 #if (Steeltoe2ManagementEndpoints)
             app.UseCloudFoundryActuators();
