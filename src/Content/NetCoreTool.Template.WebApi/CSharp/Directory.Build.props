@@ -25,6 +25,7 @@
     <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
     <HostingAzureSpringCloudOption>false</HostingAzureSpringCloudOption>
     <HostingCloudFoundryOption>false</HostingCloudFoundryOption>
+    <HostingCloudOption>false</HostingCloudOption>
     <LoggingDynamicLoggerOption>false</LoggingDynamicLoggerOption>
     <ManagementEndpointsOption>false</ManagementEndpointsOption>
     <MongoDbDriverVersion>2.8.*</MongoDbDriverVersion>

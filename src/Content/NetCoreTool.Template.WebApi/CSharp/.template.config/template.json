@@ -84,6 +84,10 @@
       "type": "computed",
       "value": "ConnectorMySqlEfCoreOption || ConnectorPostgreSqlEfCoreOption"
     },
+    "AnyHosting": {
+      "type": "computed",
+      "value": "HostingCloudFoundryOption || HostingCloudOption"
+    },
     "AnyMessaging": {
       "type": "computed",
       "value": "MessagingRabbitMqOption"
@@ -94,7 +98,7 @@
     },
     "AnySteeltoe": {
       "type": "computed",
-      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyMessaging || AnyStream"
+      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyHosting || AnyMessaging || AnyStream"
     },
     "AnyStream": {
       "type": "computed",
@@ -319,6 +323,12 @@
       "type": "parameter",
       "datatype": "bool",
       "description": "Add hosting support for Cloud Foundry.",
+      "defaultValue": "false"
+    },
+    "HostingCloudOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add hosting support for clouds.",
       "defaultValue": "false"
     },
     "LoggingDynamicLoggerOption": {

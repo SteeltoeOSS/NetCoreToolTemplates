@@ -53,8 +53,10 @@ using Microsoft.Azure.SpringCloud.Client;
 #if (DynamicLogging && FrameworkNetCoreApp21)
 using Microsoft.Extensions.Logging;
 #endif
-#if (HostingCloudFoundryOption)
+#if (AnyHosting)
 using Steeltoe.Common.Hosting;
+#endif
+#if (HostingCloudFoundryOption)
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
 #if (ConfigurationCloudConfigOption)
@@ -107,8 +109,10 @@ namespace Company.WebApplication1
 #if (ConfigurationRandomValueOption)
                 .ConfigureAppConfiguration(b => b.AddRandomValueSource())
 #endif
-#if (HostingCloudFoundryOption)
+#if (AnyHosting)
                 .UseCloudHosting()
+#endif
+#if (HostingCloudFoundryOption)
                 .AddCloudFoundryConfiguration()
 #endif
 #if (LoggingDynamicLoggerOption)
@@ -140,8 +144,10 @@ namespace Company.WebApplication1
 #if (HostingAzureSpringCloudOption)
                 .UseAzureSpringCloudService()
 #endif
-#if (HostingCloudFoundryOption)
+#if (AnyHosting)
                 .UseCloudHosting()
+#endif
+#if (HostingCloudFoundryOption)
                 .AddCloudFoundryConfiguration()
 #endif
 #if (ConfigurationCloudConfigOption)

@@ -76,6 +76,10 @@
       "longName": "hosting-cloud-foundry",
       "shortName": ""
     },
+    "HostingCloudOption": {
+      "longName": "hosting-cloud",
+      "shortName": ""
+    },
     "LoggingDynamicLoggerOption": {
       "longName": "logging-dynamic-logger",
       "shortName": ""
