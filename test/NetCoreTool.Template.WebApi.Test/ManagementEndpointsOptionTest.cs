@@ -36,12 +36,14 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             else
             {
                 snippets.Add("using Steeltoe.Management.Endpoint;");
-                snippets.Add("services.AddAllActuators(Configuration);");
-            }
-
-            if (framework >= Framework.NetCoreApp31)
-            {
-                snippets.Add("endpoints.MapAllActuators()");
+                if (framework >= Framework.NetCoreApp31)
+                {
+                    snippets.Add("endpoints.MapAllActuators()");
+                }
+                else
+                {
+                    snippets.Add("services.AddAllActuators(Configuration);");
+                }
             }
         }
 

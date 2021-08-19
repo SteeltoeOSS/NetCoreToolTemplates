@@ -208,7 +208,7 @@ namespace Company.WebApplication1
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-#if (ManagementEndpointsOption)
+#if (Steeltoe3ManagementEndpoints)
                 endpoints.MapAllActuators();
 #endif
             });
