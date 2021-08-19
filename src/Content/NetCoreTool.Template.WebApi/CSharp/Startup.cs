@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 #if (!FrameworkNetCoreApp21)
 using Microsoft.Extensions.Hosting;
-
 #endif
 #if (FrameworkNet50)
 using Microsoft.OpenApi.Models;
@@ -81,7 +80,6 @@ using Steeltoe.Management.Endpoint;
 #if (AnyEfCore)
 using Company.WebApplication1.Models;
 #endif
-
 #if (MessagingRabbitMqOption && !Steeltoe2 && !Steeltoe30)
 using Company.WebApplication1.Services;
 using Steeltoe.Messaging.RabbitMQ.Config;
