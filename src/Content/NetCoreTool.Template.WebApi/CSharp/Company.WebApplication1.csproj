@@ -49,6 +49,7 @@
     <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Condition="'$(Steeltoe2Connector)' == 'True' AND '$(AnyEfCore)' != 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(AnyHosting)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Connector.EFCore" Condition="'$(Steeltoe3Connector)' == 'True' AND '$(AnyEfCore)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.CloudFoundry" Condition="'$(Steeltoe3Connector)' == 'True' AND '$(HostingCloudFoundryOption)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Connector.ConnectorCore" Condition="'$(Steeltoe3Connector)' == 'True' AND '$(AnyEfCore)' != 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Discovery.ClientCore" Condition="'$(DiscoveryEurekaOption)' == 'True' AND ('$(Steeltoe2)' == 'True' OR '$(Steeltoe30)' == 'True')" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Discovery.Eureka" Condition="'$(DiscoveryEurekaOption)' == 'True' AND ('$(Steeltoe2)' != 'True')" Version="$(SteeltoeVersion)" />
