@@ -28,15 +28,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
             List<string> snippets)
         {
+            snippets.Add("services.AddDiscoveryClient(Configuration)");
             if (steeltoeVersion < SteeltoeVersion.Steeltoe31)
             {
-                snippets.Add("services.AddDiscoveryClient(Configuration)");
                 snippets.Add("app.UseDiscoveryClient()");
-            }
-            else
-            {
-                snippets.Add("services.AddServiceDiscovery()");
-                snippets.Add("services.AddDiscoveryClient(Configuration)");
             }
         }
     }

@@ -110,9 +110,6 @@ namespace Company.WebApplication1
 #endif
 #if (DiscoveryEurekaOption)
             services.AddDiscoveryClient(Configuration);
-#if (!Steeltoe2)
-            services.AddServiceDiscovery();
-#endif
 #endif
 #if (ConnectorMongoDbOption)
             services.AddMongoClient(Configuration);
