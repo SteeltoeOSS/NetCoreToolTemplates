@@ -199,8 +199,8 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
                     break;
                 case Framework.NetCoreApp31:
                 case Framework.NetCoreApp21:
-                    settings.Profiles["IIS Express"].LaunchUrl.Should().Be("api/values");
-                    settings.Profiles[Sandbox.Name].LaunchUrl.Should().Be("api/values");
+                    settings.Profiles["IIS Express"].LaunchUrl.Should().Be("weatherforecast");
+                    settings.Profiles[Sandbox.Name].LaunchUrl.Should().Be("weatherforecast");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());
