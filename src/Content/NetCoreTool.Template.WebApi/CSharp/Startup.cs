@@ -109,9 +109,8 @@ namespace Company.WebApplication1
             services.ConfigureCloudFoundryOptions(Configuration);
 #endif
 #if (DiscoveryEurekaOption)
-#if (Steeltoe2 || Steeltoe30)
             services.AddDiscoveryClient(Configuration);
-#else
+#if (!Steeltoe2)
             services.AddServiceDiscovery();
 #endif
 #endif

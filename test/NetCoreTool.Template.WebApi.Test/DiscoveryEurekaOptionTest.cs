@@ -30,12 +30,13 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             if (steeltoeVersion < SteeltoeVersion.Steeltoe31)
             {
-                snippets.Add("services.AddDiscoveryClient(Configuration);");
-                snippets.Add("app.UseDiscoveryClient();");
+                snippets.Add("services.AddDiscoveryClient(Configuration)");
+                snippets.Add("app.UseDiscoveryClient()");
             }
             else
             {
-                snippets.Add("services.AddServiceDiscovery();");
+                snippets.Add("services.AddServiceDiscovery()");
+                snippets.Add("services.AddDiscoveryClient(Configuration)");
             }
         }
     }
