@@ -15,12 +15,89 @@ For learning how to develop additional options for the templates, see [DEVELOPER
 
 ## Install
 
-### From NuGet
+### From NuGet.org (production)
+
+```
+$ dotnet new --install Steeltoe.NetCoreTool.Templates
+```
+
+### From .NET Foundation (staging)
 
 ```
 $ dotnet nuget add source https://pkgs.dev.azure.com/dotnet/Steeltoe/_packaging/dev/nuget/v3/index.json -n SteeltoeDev
 $ dotnet new --install Steeltoe.NetCoreTool.Templates
 ```
+
+### From Source (development)
+
+```
+$ dotnet pack src/Steeltoe.NetCoreTool.Templates.csproj
+$ dotnet new --install Steeltoe.NetCoreTool.Templates.*.nupkg
+```
+
+Note: To see templates in Visual Studio, you may need to enable:
+
+_Tools->Options..._ _Preview Features:_ _Show all .NET Core templates in the NEW project dialog_
+
+### Uninstall
+
+```
+$ dotnet new --uninstall Steeltoe.NetCoreTool.Templates
+```
+
+
+## `steeltoe-webapi`
+
+### About
+
+Creates a Steeltoe-influenced .NET Web API project.
+
+### Usage
+
+```
+$ dotnet new steeltoe-webapi [options]
+```
+
+### Options
+
+```
+  --circuit-breaker-hystrix      Add support for Netflix Hystrix, a latency and fault tolerance library.
+                                 bool - Optional
+                                 Default: false
+
+  --configuration-cloud-config   Add a Spring Cloud Config configuration source.
+                                 bool - Optional
+                                 Default: false
+
+  --configuration-placeholder    Add a placeholder configuration source.
+                                 bool - Optional
+                                 Default: false
+
+  --configuration-random-value   Add a random value configuration source.
+                                 bool - Optional
+                                 Default: false
+
+  --connector-mongodb            Add a connector for MongoDB databases.
+                                 bool - Optional
+                                 Default: false
+
+  --connector-mysql-efcore       Add a connector for MySQL databases using Entity Framework Core.
+                                 bool - Optional
+                                 Default: false
+
+  --connector-mysql              Add a connector for MySQL databases.
+                                 bool - Optional
+                                 Default: false
+
+  --connector-oauth              Add a connector for OAuth security.
+                                 bool - Optional
+                                 Default: false
+
+  --connector-postgresql-efcore  Add a connector for PostgreSQL databases using Entity Framework Core.
+                                 bool - Optional
+                                 Default: false
+
+  --connector-postgresql         Add a connector for PostgreSQL databases.
 
 ### From Source
 
