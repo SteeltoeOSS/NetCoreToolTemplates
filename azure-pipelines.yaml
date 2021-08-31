@@ -12,6 +12,7 @@ variables:
     value: true
   - name: DOTNET_CLI_TELEMETRY_OPTOUT
     value: 1
+  - group: PackageSigningSecrets
 
 name: $(major).$(minor).$(patch)-$(Rev:r)
 
