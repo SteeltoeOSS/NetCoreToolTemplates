@@ -49,5 +49,13 @@ stages:
               command: pack
               packagesToPack: src/Steeltoe.NetCoreTool.Templates.csproj
               arguments: --no-build
+          - task: Powershell@2
+            displayName: Sign NuGets
+            inputs:
+              filePath: sign/SignPackages.ps1
+            env:
+              ArtifactStagingDirectory: $(Build.ArtifactStagingDirectory)
+              SignClientUser: $(SignClientUser)
+              SignClientSecret: $(SignClientSecret)
           - task: PublishBuildArtifacts@1
             displayName: Publish Build Artifacts
