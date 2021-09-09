@@ -110,7 +110,7 @@ namespace Company.WebApplication1
                 .ConfigureAppConfiguration(b => b.AddRandomValueSource())
 #endif
 #if (AnyHosting)
-                .UseCloudHosting()
+                .UseCloudHosting(8080)
 #endif
 #if (HostingCloudFoundryOption)
                 .AddCloudFoundryConfiguration()
@@ -145,7 +145,7 @@ namespace Company.WebApplication1
                 .UseAzureSpringCloudService()
 #endif
 #if (AnyHosting)
-                .UseCloudHosting()
+                .UseCloudHosting(8080)
 #endif
 #if (HostingCloudFoundryOption)
                 .AddCloudFoundryConfiguration()

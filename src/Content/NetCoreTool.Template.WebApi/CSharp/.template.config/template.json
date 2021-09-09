@@ -107,7 +107,7 @@
     "ApplicationPort": {
       "type": "generated",
       "generator": "port",
-      "replaces": "5000"
+      "replaces": "8080"
     },
     "AzureOAuthVersion": {
       "type": "generated",
