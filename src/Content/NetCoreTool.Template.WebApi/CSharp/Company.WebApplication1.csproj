@@ -5,9 +5,7 @@
     <!--#if (HasDescription) -->
     <Description>$(DescriptionOption)</Description>
     <!--#endif -->
-    <!--#if (!StreamRabbitMqOption) -->
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <!--#endif-->
   </PropertyGroup>
 
   <PropertyGroup>
@@ -62,8 +60,6 @@
     <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(Steeltoe3ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.TracingCore" Condition="'$(DistributedTracingOption)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Messaging.RabbitMQ" Condition="'$(MessagingRabbitMqOption)' == 'True' AND '$(Steeltoe31)' == 'True' AND '$(FrameworkNetCoreApp21)' != 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Stream.Binder.RabbitMQ" Condition="'$(StreamRabbitMqOption)' == 'True' AND '$(Steeltoe31)' == 'True' AND '$(FrameworkNetCoreApp21)' != 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Stream.StreamBase" Condition="'$(AnyStream)' == 'True' AND '$(Steeltoe31)' == 'True' AND '$(FrameworkNetCoreApp21)' != 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="System.Data.SqlClient" Condition="'$(ConnectorSqlServerOption)' == 'True'" Version="4.8.*" />
   </ItemGroup>
   <!--#endif -->

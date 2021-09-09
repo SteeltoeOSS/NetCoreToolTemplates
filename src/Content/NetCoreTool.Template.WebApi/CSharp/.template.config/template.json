@@ -42,27 +42,6 @@
           "exclude": [
             "Dockerfile"
           ]
-        },
-        {
-          "condition": "(MessagingRabbitMqOption)",
-          "exclude": [
-            "WeatherForecast.cs",
-            "Controllers/WeatherForecastController.cs"
-          ]
-        },
-        {
-          "condition": "(!MessagingRabbitMqOption || Steeltoe2 || Steeltoe30)",
-          "exclude": [
-            "Services/RabbitMessagesListener.cs",
-            "Models/Message.cs",
-          ]
-        },
-        {
-          "condition": "(StreamRabbitMqOption)",
-          "exclude": [
-            "Startup.cs",
-            "Properties/launchSettings.json"
-          ]
         }
       ]
     }
@@ -88,21 +67,13 @@
       "type": "computed",
       "value": "HostingCloudFoundryOption || HostingCloudOption"
     },
-    "AnyMessaging": {
-      "type": "computed",
-      "value": "MessagingRabbitMqOption"
-    },
     "AnySql": {
       "type": "computed",
       "value": "ConnectorMySqlOption || ConnectorPostgreSqlOption || ConnectorSqlServerOption"
     },
     "AnySteeltoe": {
       "type": "computed",
-      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyHosting || AnyMessaging || AnyStream || AnyTracing"
-    },
-    "AnyStream": {
-      "type": "computed",
-      "value": "StreamRabbitMqOption"
+      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyHosting || AnyTracing"
     },
     "AnyTracing": {
       "type": "computed",
@@ -358,12 +329,6 @@
       "description": "Add application management endpoints, such as health and metrics.",
       "defaultValue": "false"
     },
-    "MessagingRabbitMqOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add RabbitMQ messaging support and auto-configuration.",
-      "defaultValue": "false"
-    },
     "MongoDbDriverVersion": {
       "type": "generated",
       "generator": "constant",
@@ -468,12 +433,6 @@
       "datatype": "string",
       "defaultValue": "3.1.*",
       "replaces": "$(SteeltoeVersionOption)"
-    },
-    "StreamRabbitMqOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add RabbitMQ stream support and auto-configuration.",
-      "defaultValue": "false"
     }
   },
   "primaryOutputs": [

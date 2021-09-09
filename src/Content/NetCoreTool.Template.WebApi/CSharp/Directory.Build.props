@@ -29,13 +29,11 @@
     <LoggingDynamicLoggerOption>false</LoggingDynamicLoggerOption>
     <ManagementEndpointsOption>false</ManagementEndpointsOption>
     <MongoDbDriverVersion>2.8.*</MongoDbDriverVersion>
-    <MessagingRabbitMqOption>false</MessagingRabbitMqOption>
     <MySqlDriverVersion>8.0.*</MySqlDriverVersion>
     <NpgsqlDriverVersion>4.1.*</NpgsqlDriverVersion>
     <RabbitMqDriverVersion>5.1.*</RabbitMqDriverVersion>
     <RedisDriverVersion>3.1.*</RedisDriverVersion>
     <SteeltoeVersionOption>3.1.*</SteeltoeVersionOption>
-    <StreamRabbitMqOption>false</StreamRabbitMqOption>
     <TracingOption>false</TracingOption>
   </PropertyGroup>
 

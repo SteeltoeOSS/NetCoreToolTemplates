@@ -1,45 +1,3 @@
-#if (StreamRabbitMqOption)
-#if (Steeltoe31)
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Steeltoe.Messaging.Handler.Attributes;
-using Steeltoe.Stream.Attributes;
-using Steeltoe.Stream.Messaging;
-using Steeltoe.Stream.StreamHost;
-using System.Threading.Tasks;
-
-namespace Company.WebApplication1
-{
-    [EnableBinding(typeof(IProcessor))]
-    public class Program
-    {
-        static async Task Main(string[] args)
-        {
-            await StreamHost.CreateDefaultBuilder<Program>(args)
-                .RunConsoleAsync();
-        }
-
-        [StreamListener(ISink.INPUT)]
-        [SendTo(ISource.OUTPUT)]
-        public string Handle(string inputVal)
-        {
-            return inputVal.ToUpper();
-        }
-    }
-}
-#else
-namespace Company.WebApplication1
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-        }
-    }
-}
-#endif
-#else
 #if (FrameworkNetCoreApp21)
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -163,4 +121,3 @@ namespace Company.WebApplication1
 #endif
     }
 }
-#endif
