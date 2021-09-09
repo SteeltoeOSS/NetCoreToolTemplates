@@ -60,6 +60,7 @@
     <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Condition="'$(LoggingDynamicLoggerOption)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Condition="'$(Steeltoe2ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(Steeltoe3ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.TracingCore" Condition="'$(DistributedTracingOption)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Messaging.RabbitMQ" Condition="'$(MessagingRabbitMqOption)' == 'True' AND '$(Steeltoe31)' == 'True' AND '$(FrameworkNetCoreApp21)' != 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Stream.Binder.RabbitMQ" Condition="'$(StreamRabbitMqOption)' == 'True' AND '$(Steeltoe31)' == 'True' AND '$(FrameworkNetCoreApp21)' != 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Stream.StreamBase" Condition="'$(AnyStream)' == 'True' AND '$(Steeltoe31)' == 'True' AND '$(FrameworkNetCoreApp21)' != 'True'" Version="$(SteeltoeVersion)" />

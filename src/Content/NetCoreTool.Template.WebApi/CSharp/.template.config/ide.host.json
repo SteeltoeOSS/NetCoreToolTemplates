@@ -109,6 +109,13 @@
       "isVisible": "true"
     },
     {
+      "id": "DistributedTracingOption",
+      "name": {
+        "text": "Add distributed tracing support"
+      },
+      "isVisible": "true"
+    },
+    {
       "id": "DockerfileOption",
       "name": {
         "text": "Add a Dockerfile"

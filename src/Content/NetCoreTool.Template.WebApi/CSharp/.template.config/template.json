@@ -98,11 +98,15 @@
     },
     "AnySteeltoe": {
       "type": "computed",
-      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyHosting || AnyMessaging || AnyStream"
+      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyHosting || AnyMessaging || AnyStream || AnyTracing"
     },
     "AnyStream": {
       "type": "computed",
       "value": "StreamRabbitMqOption"
+    },
+    "AnyTracing": {
+      "type": "computed",
+      "value": "DistributedTracingOption"
     },
     "ApplicationPort": {
       "type": "generated",
@@ -221,6 +225,12 @@
       "type": "parameter",
       "datatype": "bool",
       "description": "Add access to Eureka, a REST-based service for locating services.",
+      "defaultValue": "false"
+    },
+    "DistributedTracingOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add distributed tracing support.",
       "defaultValue": "false"
     },
     "DockerImageTag": {

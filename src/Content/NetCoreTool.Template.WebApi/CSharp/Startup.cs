@@ -77,6 +77,9 @@ using Steeltoe.Management.CloudFoundry;
 #if (Steeltoe3ManagementEndpoints)
 using Steeltoe.Management.Endpoint;
 #endif
+#if (AnyTracing)
+using Steeltoe.Management.Tracing;
+#endif
 #if (AnyEfCore)
 using Company.WebApplication1.Models;
 #endif
@@ -154,6 +157,15 @@ namespace Company.WebApplication1
 #endif
 #if (Steeltoe3ManagementEndpoints)
             services.AddAllActuators(Configuration);
+#endif
+#if (AnyTracing)
+#if (Steeltoe2)
+            services.AddDistributedTracing(Configuration);
+#elif (Steeltoe30)
+            services.AddDistributedTracing();
+#else
+            services.AddDistributedTracingAspNetCore();
+#endif
 #endif
 #if (FrameworkNetCoreApp21)
             services.AddMvc();
