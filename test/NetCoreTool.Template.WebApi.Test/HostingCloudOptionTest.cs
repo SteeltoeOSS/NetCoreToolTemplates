@@ -22,7 +22,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             List<string> snippets)
         {
             snippets.Add("using Steeltoe.Common.Hosting;");
-            snippets.Add(".UseCloudHosting()");
+            snippets.Add(".UseCloudHosting(");
         }
     }
 }

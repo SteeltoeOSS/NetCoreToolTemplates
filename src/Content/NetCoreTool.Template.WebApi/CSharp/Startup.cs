@@ -2,9 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-#if (!FrameworkNetCoreApp21)
 using Microsoft.Extensions.Hosting;
-#endif
 #if (FrameworkNet50)
 using Microsoft.OpenApi.Models;
 #endif
@@ -150,11 +148,7 @@ namespace Company.WebApplication1
             services.AddDistributedTracingAspNetCore();
 #endif
 #endif
-#if (FrameworkNetCoreApp21)
-            services.AddMvc();
-#else
             services.AddControllers();
-#endif
 #if (FrameworkNet50)
             services.AddSwaggerGen(c =>
             {
@@ -164,11 +158,7 @@ namespace Company.WebApplication1
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-#if (FrameworkNetCoreApp21)
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-#else
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-#endif
         {
             if (env.IsDevelopment())
             {
@@ -186,16 +176,13 @@ namespace Company.WebApplication1
 #endif
 #if (CircuitBreakerHystrixOption)
             app.UseHystrixRequestContext();
-#if (Steeltoe30)
+#if (Steeltoe2 || Steeltoe30)
             app.UseHystrixMetricsStream();
 #endif
 #endif
 #if (Steeltoe2ManagementEndpoints)
             app.UseCloudFoundryActuators();
 #endif
-#if (FrameworkNetCoreApp21)
-            app.UseMvc();
-#else
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
@@ -205,7 +192,6 @@ namespace Company.WebApplication1
                 endpoints.MapAllActuators();
 #endif
             });
-#endif
         }
     }
 }

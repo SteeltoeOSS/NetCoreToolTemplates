@@ -22,7 +22,6 @@
     <EntityFrameworkCoreVersion>3.1.2</EntityFrameworkCoreVersion>
     <FrameworkOption>net5.0</FrameworkOption>
     <FrameworkNet50>true</FrameworkNet50>
-    <FrameworkNetCoreApp21>false</FrameworkNetCoreApp21>
     <HostingAzureSpringCloudOption>false</HostingAzureSpringCloudOption>
     <HostingCloudFoundryOption>false</HostingCloudFoundryOption>
     <HostingCloudOption>false</HostingCloudOption>

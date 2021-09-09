@@ -17,7 +17,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utils
                     new object[] { "3.0.*", "net5.0", },
                     new object[] { "3.0.*", "netcoreapp3.1", },
                     new object[] { "2.5.*", "netcoreapp3.1", },
-                    new object[] { "2.5.*", "netcoreapp2.1", },
                 }.GetEnumerator();
             }
 

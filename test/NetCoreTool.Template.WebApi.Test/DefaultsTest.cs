@@ -30,14 +30,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                     break;
                 case Framework.NetCoreApp31:
                     break;
-                case Framework.NetCoreApp21:
-                    packages.Add(("Microsoft.AspNetCore", "$(NetCoreApp21Version)"));
-                    packages.Add(("Microsoft.AspNetCore.CookiePolicy", "$(NetCoreApp21Version)"));
-                    packages.Add(("Microsoft.AspNetCore.HttpsPolicy", "$(NetCoreApp21Version)"));
-                    packages.Add(("Microsoft.AspNetCore.Mvc", "$(NetCoreApp21Version)"));
-                    packages.Add(("Microsoft.AspNetCore.Session", "$(NetCoreApp21Version)"));
-                    packages.Add(("Microsoft.AspNetCore.StaticFiles", "$(NetCoreApp21Version)"));
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());
             }
@@ -69,9 +61,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 case Framework.NetCoreApp31:
                     properties["TargetFramework"] = "netcoreapp3.1";
                     break;
-                case Framework.NetCoreApp21:
-                    properties["TargetFramework"] = "netcoreapp2.1";
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());
             }
@@ -90,18 +79,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                     snippets.Add(@"
 public static IHostBuilder CreateHostBuilder(string[] args) =>
     Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
-");
-                    break;
-                case Framework.NetCoreApp21:
-                    snippets.Add("using Microsoft.AspNetCore;");
-                    snippets.Add("using Microsoft.AspNetCore.Hosting;");
-                    snippets.Add("CreateWebHostBuilder(args).Build().Run();");
-                    snippets.Add(@"
-public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-{
-    var builder = WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
-    return builder;
-}
 ");
                     break;
                 default:
@@ -161,23 +138,6 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ");
                     break;
-                case Framework.NetCoreApp21:
-                    snippets.Add("using Microsoft.AspNetCore.Builder;");
-                    snippets.Add("using Microsoft.AspNetCore.Hosting;");
-                    snippets.Add("using Microsoft.Extensions.Configuration;");
-                    snippets.Add("using Microsoft.Extensions.DependencyInjection;");
-                    snippets.Add("services.AddMvc();");
-                    snippets.Add(@"
-public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-{
-    if (env.IsDevelopment())
-    {
-        app.UseDeveloperExceptionPage();
-    }
-    app.UseMvc();
-}
-");
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());
             }
@@ -198,9 +158,6 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
                     settings.Profiles[Sandbox.Name].LaunchUrl.Should().Be("swagger");
                     break;
                 case Framework.NetCoreApp31:
-                case Framework.NetCoreApp21:
-                    settings.Profiles["IIS Express"].LaunchUrl.Should().Be("weatherforecast");
-                    settings.Profiles[Sandbox.Name].LaunchUrl.Should().Be("weatherforecast");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());

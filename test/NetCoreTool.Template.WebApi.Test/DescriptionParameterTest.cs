@@ -16,6 +16,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         }
 
         [Fact]
+        [Trait("Category", "ProjectGeneration")]
         public async Task Description_Can_Be_Configured()
         {
             using var sandbox = await TemplateSandbox("\"my project\"");

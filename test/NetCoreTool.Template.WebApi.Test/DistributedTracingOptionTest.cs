@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using FluentAssertions;
-using Steeltoe.NetCoreTool.Template.Test.Utilities.Models;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
 using Xunit.Abstractions;
 

@@ -47,7 +47,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             snippets.Add("services.AddHystrixCommand<HelloHystrixCommand>(\"MyCircuitBreakers\", Configuration);");
             snippets.Add("services.AddHystrixMetricsStream(Configuration);");
             snippets.Add("app.UseHystrixRequestContext();");
-            snippets.Add("app.UseHystrixMetricsStream();");
+            if (steeltoeVersion <= SteeltoeVersion.Steeltoe30)
+            {
+                snippets.Add("app.UseHystrixMetricsStream();");
+            }
         }
     }
 }

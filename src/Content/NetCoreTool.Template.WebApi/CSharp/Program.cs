@@ -1,15 +1,7 @@
-#if (FrameworkNetCoreApp21)
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-#else
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-#endif
-#if (HostingAzureSpringCloudOption && !FrameworkNetCoreApp21)
+#if (HostingAzureSpringCloudOption)
 using Microsoft.Azure.SpringCloud.Client;
-#endif
-#if (DynamicLogging && FrameworkNetCoreApp21)
-using Microsoft.Extensions.Logging;
 #endif
 #if (AnyHosting)
 using Steeltoe.Common.Hosting;
@@ -33,13 +25,6 @@ using Steeltoe.Extensions.Configuration.RandomValue;
 #if (DynamicLogging)
 using Steeltoe.Extensions.Logging;
 #endif
-#if (MessagingRabbitMqOption)
-#if (Steeltoe31)
-#if (!FrameworkNetCoreApp21)
-using Steeltoe.Messaging.RabbitMQ.Host;
-#endif
-#endif
-#endif
 
 namespace Company.WebApplication1
 {
@@ -47,55 +32,11 @@ namespace Company.WebApplication1
     {
         public static void Main(string[] args)
         {
-#if (FrameworkNetCoreApp21)
-            CreateWebHostBuilder(args).Build().Run();
-#else
             CreateHostBuilder(args).Build().Run();
-#endif
         }
 
-#if (FrameworkNetCoreApp21)
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            var builder = WebHost.CreateDefaultBuilder(args)
-#if (ConfigurationCloudConfigOption)
-                .AddConfigServer()
-#endif
-#if (ConfigurationPlaceholderOption)
-                .AddPlaceholderResolver()
-#endif
-#if (ConfigurationRandomValueOption)
-                .ConfigureAppConfiguration(b => b.AddRandomValueSource())
-#endif
-#if (AnyHosting)
-                .UseCloudHosting(8080)
-#endif
-#if (HostingCloudFoundryOption)
-                .AddCloudFoundryConfiguration()
-#endif
-#if (LoggingDynamicLoggerOption)
-                .ConfigureLogging((hostingContext, loggingBuilder) =>
-                {
-                    loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    loggingBuilder.AddDynamicConsole();
-                })
-#endif
-                .UseStartup<Startup>();
-            return builder;
-        }
-#else
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-#if (MessagingRabbitMqOption)
-#if (Steeltoe31)
-#if (!FrameworkNetCoreApp21)
-            RabbitHost.CreateDefaultBuilder()
-#endif
-#else
             Host.CreateDefaultBuilder(args)
-#endif
-#else
-            Host.CreateDefaultBuilder(args)
-#endif
 #if (ConfigurationPlaceholderOption)
                 .AddPlaceholderResolver()
 #endif
@@ -118,6 +59,5 @@ namespace Company.WebApplication1
                 .ConfigureLogging((context, builder) => builder.AddDynamicConsole())
 #endif
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
-#endif
     }
 }
