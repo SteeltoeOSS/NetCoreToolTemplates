@@ -93,10 +93,6 @@
         "datatype": "string",
         "cases": [
           {
-            "condition": "(Framework == 'netcoreapp2.1')",
-            "value": "2.1.*"
-          },
-          {
             "condition": "(Framework == 'netcoreapp3.1')",
             "value": "3.1.*"
           },
@@ -219,10 +215,6 @@
           {
             "condition": "(Framework == 'netcoreapp3.1')",
             "value": "3.1-alpine"
-          },
-          {
-            "condition": "(Framework == 'netcoreapp2.1')",
-            "value": "2.1-alpine"
           }
         ]
       }
@@ -255,9 +247,6 @@
         },
         {
           "choice": "netcoreapp3.1"
-        },
-        {
-          "choice": "netcoreapp2.1"
         }
       ],
       "defaultValue": "net5.0",
@@ -279,15 +268,6 @@
       "parameters": {
         "source": "Framework",
         "pattern": "^netcoreapp3.1$"
-      }
-    },
-    "FrameworkNetCoreApp21": {
-      "type": "generated",
-      "generator": "regexMatch",
-      "datatype": "bool",
-      "parameters": {
-        "source": "Framework",
-        "pattern": "^netcoreapp2.1$"
       }
     },
     "HasDescription": {
