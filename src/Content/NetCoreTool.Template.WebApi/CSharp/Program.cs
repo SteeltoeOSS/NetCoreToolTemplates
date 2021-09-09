@@ -44,7 +44,11 @@ namespace Company.WebApplication1
                 .UseAzureSpringCloudService()
 #endif
 #if (AnyHosting)
+#if (HostingCloudOption)
                 .UseCloudHosting(8080)
+#else
+                .UseCloudHosting()
+#endif
 #endif
 #if (HostingCloudFoundryOption)
                 .AddCloudFoundryConfiguration()
