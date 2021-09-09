@@ -61,6 +61,10 @@
       "longName": "discovery-eureka",
       "shortName": ""
     },
+    "DistributedTracingOption": {
+      "longName": "distributed-tracing",
+      "shortName": ""
+    },
     "DockerfileOption": {
       "longName": "dockerfile",
       "shortName": ""
