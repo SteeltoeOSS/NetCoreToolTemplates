@@ -13,3 +13,6 @@ obj/
 
 # Rider
 .idea/
+
+# local tools
+tools/
