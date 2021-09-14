@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>0.5.0</PackageVersion>
+    <PackageVersion>0.0.0</PackageVersion>
     <PackageId>Steeltoe.NetCoreTool.Templates</PackageId>
     <Title>Steeltoe Net Core Tool Templates</Title>
     <Authors>VMware</Authors>
