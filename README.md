@@ -31,7 +31,7 @@ $ dotnet new --install Steeltoe.NetCoreTool.Templates
 ### From Source (development)
 
 ```
-$ dotnet new --install Steeltoe.NetCoreTool.Templates.*.nupkg
+$ dotnet new --install src/Content
 ```
 
 Note: To see templates in Visual Studio, you may need to enable:
