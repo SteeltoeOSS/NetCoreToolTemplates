@@ -73,6 +73,3 @@ if ! $sed --version 2>/dev/null | grep 'GNU sed' >/dev/null; then
 fi
 
 $sed -i 's:<PackageVersion>.*</PackageVersion>:<PackageVersion>'$major.$minor.$patch'</PackageVersion>:' $base_dir/src/Steeltoe.NetCoreTool.Templates.csproj
-$sed -i '/- name: major/{n;s/value:.*/value: '$major'/}' $base_dir/azure-pipelines.yaml
-$sed -i '/- name: minor/{n;s/value:.*/value: '$minor'/}' $base_dir/azure-pipelines.yaml
-$sed -i '/- name: patch/{n;s/value:.*/value: '$patch'/}' $base_dir/azure-pipelines.yaml
