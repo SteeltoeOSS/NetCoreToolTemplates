@@ -6,8 +6,9 @@
     "WebAPI",
     "Steeltoe"
   ],
-  "identity": "steeltoe.webapi.csharp",
   "name": "Steeltoe Web API",
+  "identity": "steeltoe.webapi.csharp",
+  "groupIdentity": "steeltoe.webapi",
   "shortName": "steeltoe-webapi",
   "tags": {
     "type": "project",
