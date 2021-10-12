@@ -1,0 +1,9 @@
+dataSource: "issues"
+prefix: ""
+onlyMilestones: false
+groupBy:
+  "Enhancements": ["enhancement"]
+  "Bug Fixes": ["bug"]
+changelogFilename: "CHANGELOG.md"
+template:
+  issue: "- {{name}} [{{text}}]({{url}})"

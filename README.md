@@ -1,6 +1,7 @@
 # Steeltoe NetCoreToolTemplates
 
 [![Build Status](https://dev.azure.com/SteeltoeOSS/Steeltoe/_apis/build/status/Initializr/SteeltoeOSS.NetCoreToolTemplates?branchName=main)](https://dev.azure.com/SteeltoeOSS/Steeltoe/_build/latest?definitionId=46&branchName=main)
+[![Automated Release Notes by gren](https://img.shields.io/badge/%F0%9F%A4%96-release%20notes-00B2EE.svg)](https://github-tools.github.io/github-release-notes/)
 
 Steeltoe NetCoreToolTemplates is a collection of .NET Core Tool templates.
 
