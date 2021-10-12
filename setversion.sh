@@ -72,4 +72,6 @@ if ! $sed --version 2>/dev/null | grep 'GNU sed' >/dev/null; then
   die "This script requires GNU sed"
 fi
 
+echo "Setting version to $major.$minor.$patch"
+
 $sed -i 's:<PackageVersion>.*</PackageVersion>:<PackageVersion>'$major.$minor.$patch'</PackageVersion>:' $base_dir/src/Steeltoe.NetCoreTool.Templates.csproj
