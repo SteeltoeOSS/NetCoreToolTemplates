@@ -1,5 +1,5 @@
 trigger:
-  - main
+  - 1.0.x
 
 variables:
   - name: major
