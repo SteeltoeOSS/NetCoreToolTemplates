@@ -68,6 +68,7 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
             const int timeoutMillis = 100 /* 100s */ * 1000 /* 1000ms/s */;
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
+            // ReSharper disable once AccessToDisposedClosure
             var waitForExit = Task.Run(() => process.WaitForExit(timeoutMillis));
             var processTask = Task.WhenAll(waitForExit, outputCloseEvent.Task, errorCloseEvent.Task);
             if (await Task.WhenAny(Task.Delay(timeoutMillis), processTask) == processTask && waitForExit.Result)

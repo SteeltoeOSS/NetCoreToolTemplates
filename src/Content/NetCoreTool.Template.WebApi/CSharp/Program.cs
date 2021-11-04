@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 #if (HostingAzureSpringCloudOption)
 using Microsoft.Azure.SpringCloud.Client;
 #endif
+using Microsoft.Extensions.Hosting;
 #if (AnyHosting)
 using Steeltoe.Common.Hosting;
 #endif

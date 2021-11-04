@@ -1,4 +1,4 @@
-namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utils
+namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
 {
     public enum Framework
     {

@@ -2,21 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utils
+namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
 {
     public static class TemplateOptions
     {
-        public class SteeltoeVersionsAndFrameworks : IEnumerable<object[]>
+        public class BaseOptions : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
             {
                 return new List<object[]>
                 {
-                    new object[] { "3.1.*", "net5.0", },
-                    new object[] { "3.1.*", "netcoreapp3.1", },
-                    new object[] { "3.0.*", "net5.0", },
-                    new object[] { "3.0.*", "netcoreapp3.1", },
-                    new object[] { "2.5.*", "netcoreapp3.1", },
+                    new object[] { "3.1.*", "net5.0", "C#", },
+                    new object[] { "3.1.*", "net5.0", "F#", },
+                    new object[] { "3.1.*", "netcoreapp3.1", "C#", },
+                    new object[] { "3.1.*", "netcoreapp3.1", "F#", },
+                    new object[] { "3.0.*", "net5.0", "C#", },
+                    new object[] { "3.0.*", "net5.0", "F#", },
+                    new object[] { "3.0.*", "netcoreapp3.1", "C#", },
+                    new object[] { "3.0.*", "netcoreapp3.1", "F#", },
+                    new object[] { "2.5.*", "netcoreapp3.1", "C#", },
+                    new object[] { "2.5.*", "netcoreapp3.1", "F#", },
                 }.GetEnumerator();
             }
 
@@ -26,7 +31,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utils
             }
         }
 
-        public class SteeltoeVersionsAndFrameworksAndOptions : IEnumerable<object[]>
+        public class DependencyOptions : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
             {
@@ -58,7 +63,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utils
                 };
                 foreach (var option in options)
                 {
-                    foreach (var steeltoeVersionsAndFramework in new SteeltoeVersionsAndFrameworks())
+                    foreach (var steeltoeVersionsAndFramework in new BaseOptions())
                     {
                         matrix.Add(steeltoeVersionsAndFramework.Append(option).ToArray());
                     }

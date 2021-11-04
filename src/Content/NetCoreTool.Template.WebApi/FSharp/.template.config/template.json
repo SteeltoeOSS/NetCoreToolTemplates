@@ -1,0 +1,424 @@
+{
+  "$schema": "https://json.schemastore.org/template",
+  "author": "VMware",
+  "classifications": [
+    "Web",
+    "WebAPI",
+    "Steeltoe"
+  ],
+  "name": "Steeltoe Web API",
+  "identity": "steeltoe.webapi.fsharp",
+  "groupIdentity": "steeltoe.webapi",
+  "shortName": "steeltoe-webapi",
+  "tags": {
+    "type": "project",
+    "language": "F#"
+  },
+  "sourceName": "Company.WebApplication1",
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            "Directory.Build.props",
+            ".idea/**",
+            ".vscode/**"
+          ]
+        },
+        {
+          "condition": "(!AnyEfCore)",
+          "exclude": [
+            "Models/ErrorViewModel.cs",
+            "Models/SampleContext.cs"
+          ]
+        },
+        {
+          "condition": "(!CircuitBreakerHystrixOption)",
+          "exclude": [
+            "HelloHystrixCommand.fs"
+          ]
+        },
+        {
+          "condition": "(!DockerfileOption)",
+          "exclude": [
+            "Dockerfile"
+          ]
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "AnyCloudManagement": {
+      "type": "computed",
+      "value": "CircuitBreakerHystrixOption || DiscoveryEurekaOption || HostingAzureSpringCloudOption || HostingCloudFoundryOption || LoggingDynamicLoggerOption || ManagementEndpointsOption"
+    },
+    "AnyConfiguration": {
+      "type": "computed",
+      "value": "ConfigurationCloudConfigOption || ConfigurationPlaceholderOption || ConfigurationRandomValueOption"
+    },
+    "AnyConnector": {
+      "type": "computed",
+      "value": "ConnectorMongoDbOption || ConnectorMySqlEfCoreOption || ConnectorMySqlOption || ConnectorOAuthOption || ConnectorPostgreSqlEfCoreOption || ConnectorPostgreSqlOption || ConnectorRedisOption || ConnectorRabbitMqOption || ConnectorSqlServerOption"
+    },
+    "AnyEfCore": {
+      "type": "computed",
+      "value": "ConnectorMySqlEfCoreOption || ConnectorPostgreSqlEfCoreOption"
+    },
+    "AnyHosting": {
+      "type": "computed",
+      "value": "HostingCloudFoundryOption || HostingCloudOption"
+    },
+    "AnySql": {
+      "type": "computed",
+      "value": "ConnectorMySqlOption || ConnectorPostgreSqlOption || ConnectorSqlServerOption"
+    },
+    "AnySteeltoe": {
+      "type": "computed",
+      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyHosting || AnyTracing"
+    },
+    "AnyTracing": {
+      "type": "computed",
+      "value": "DistributedTracingOption"
+    },
+    "ApplicationPort": {
+      "type": "generated",
+      "generator": "port",
+      "replaces": "8080"
+    },
+    "AzureOAuthVersion": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "$(AzureOAuthVersion)",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(Framework == 'netcoreapp3.1')",
+            "value": "3.1.*"
+          },
+          {
+            "condition": "(Framework == 'net5.0')",
+            "value": "3.1.*"
+          }
+        ]
+      }
+    },
+    "CircuitBreakerHystrixOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add support for Netflix Hystrix, a latency and fault tolerance library.",
+      "defaultValue": "false"
+    },
+    "ConfigurationCloudConfigOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a Spring Cloud Config configuration source.",
+      "defaultValue": "false"
+    },
+    "ConfigurationPlaceholderOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a placeholder configuration source.",
+      "defaultValue": "false"
+    },
+    "ConfigurationRandomValueOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a random value configuration source.",
+      "defaultValue": "false"
+    },
+    "ConnectorMongoDbOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for MongoDB databases.",
+      "defaultValue": "false"
+    },
+    "ConnectorMySqlEfCoreOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for MySQL databases using Entity Framework Core.",
+      "defaultValue": "false"
+    },
+    "ConnectorMySqlOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for MySQL databases.",
+      "defaultValue": "false"
+    },
+    "ConnectorOAuthOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for OAuth security.",
+      "defaultValue": "false"
+    },
+    "ConnectorPostgreSqlEfCoreOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for PostgreSQL databases using Entity Framework Core.",
+      "defaultValue": "false"
+    },
+    "ConnectorPostgreSqlOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for PostgreSQL databases.",
+      "defaultValue": "false"
+    },
+    "ConnectorRabbitMqOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for RabbitMQ message brokers.",
+      "defaultValue": "false"
+    },
+    "ConnectorRedisOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for Redis data stores.",
+      "defaultValue": "false"
+    },
+    "ConnectorSqlServerOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for Microsoft SQL Server databases.",
+      "defaultValue": "false"
+    },
+    "DescriptionOption": {
+      "description": "Add a project description.",
+      "type": "parameter",
+      "datatype": "string",
+      "defaultValue": "",
+      "replaces": "$(DescriptionOption)"
+    },
+    "DiscoveryEurekaOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add access to Eureka, a REST-based service for locating services.",
+      "defaultValue": "false"
+    },
+    "DistributedTracingOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add distributed tracing support.",
+      "defaultValue": "false"
+    },
+    "DockerImageTag": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "5.0-alpine",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(Framework == 'net5.0')",
+            "value": "5.0-alpine"
+          },
+          {
+            "condition": "(Framework == 'netcoreapp3.1')",
+            "value": "3.1-alpine"
+          }
+        ]
+      }
+    },
+    "DockerfileOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a Dockerfile.",
+      "defaultValue": "false"
+    },
+    "DynamicLogging": {
+      "type": "computed",
+      "value": "LoggingDynamicLoggerOption || ManagementEndpointsOption"
+    },
+    "EntityFrameworkCoreVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "3.1.*"
+      },
+      "replaces": "$(EntityFrameworkCoreVersion)"
+    },
+    "Framework": {
+      "description": "Set the target framework for the project.",
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "net5.0"
+        },
+        {
+          "choice": "netcoreapp3.1"
+        }
+      ],
+      "defaultValue": "net5.0",
+      "replaces": "$(FrameworkOption)"
+    },
+    "FrameworkNet50": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "Framework",
+        "pattern": "^net5.0$"
+      }
+    },
+    "FrameworkNetCoreApp31": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "Framework",
+        "pattern": "^netcoreapp3.1$"
+      }
+    },
+    "HasDescription": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "DescriptionOption",
+        "pattern": "^.+"
+      }
+    },
+    "HostingAzureSpringCloudOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add hosting support for Microsoft Azure Spring Cloud.",
+      "defaultValue": "false"
+    },
+    "HostingCloudFoundryOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add hosting support for Cloud Foundry.",
+      "defaultValue": "false"
+    },
+    "HostingCloudOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add hosting support for clouds.",
+      "defaultValue": "false"
+    },
+    "LoggingDynamicLoggerOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a dynamic logger.",
+      "defaultValue": "false"
+    },
+    "ManagementEndpointsOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add application management endpoints, such as health and metrics.",
+      "defaultValue": "false"
+    },
+    "MongoDbDriverVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "2.8.*"
+      },
+      "replaces": "$(MongoDbDriverVersion)"
+    },
+    "MySqlDriverVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "8.0.*"
+      },
+      "replaces": "$(MySqlDriverVersion)"
+    },
+    "NpgsqlDriverVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "4.1.*"
+      },
+      "replaces": "$(NpgsqlDriverVersion)"
+    },
+    "RabbitMqDriverVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "5.1.*"
+      },
+      "replaces": "$(RabbitMqDriverVersion)"
+    },
+    "RedisDriverVersion": {
+      "type": "generated",
+      "generator": "constant",
+      "parameters": {
+        "value": "3.1.*"
+      },
+      "replaces": "$(RedisDriverVersion)"
+    },
+    "SkipRestoreOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Skip the automatic restore of the project on create.",
+      "defaultValue": "false"
+    },
+    "Steeltoe2": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "SteeltoeVersionOption",
+        "pattern": "^2.*"
+      }
+    },
+    "Steeltoe2Connector": {
+      "type": "computed",
+      "value": "Steeltoe2 && AnyConnector"
+    },
+    "Steeltoe2ManagementEndpoints": {
+      "type": "computed",
+      "value": "Steeltoe2 && ManagementEndpointsOption"
+    },
+    "Steeltoe3": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "SteeltoeVersionOption",
+        "pattern": "^3.*"
+      }
+    },
+    "Steeltoe3Connector": {
+      "type": "computed",
+      "value": "Steeltoe3 && AnyConnector"
+    },
+    "Steeltoe3ManagementEndpoints": {
+      "type": "computed",
+      "value": "Steeltoe3 && ManagementEndpointsOption"
+    },
+    "Steeltoe30": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "SteeltoeVersionOption",
+        "pattern": "^3.0.*"
+      }
+    },
+    "Steeltoe31": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "SteeltoeVersionOption",
+        "pattern": "^3.1.*"
+      }
+    },
+    "SteeltoeVersionOption": {
+      "description": "Set the Steeltoe version for the project.",
+      "type": "parameter",
+      "datatype": "string",
+      "defaultValue": "3.1.*",
+      "replaces": "$(SteeltoeVersionOption)"
+    }
+  },
+  "primaryOutputs": [
+    {
+      "path": "Company.WebApplication1.csproj"
+    }
+  ]
+}

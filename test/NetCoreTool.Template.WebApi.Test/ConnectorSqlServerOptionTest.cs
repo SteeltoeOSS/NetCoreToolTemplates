@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -12,11 +12,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
-        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<(string, string)> packages)
+        protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("System.Data.SqlClient", "4.8.*"));
-            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
+            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
                 packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
             }
@@ -26,19 +25,18 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             }
         }
 
-        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> snippets)
+        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
+            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                snippets.Add("using Steeltoe.CloudFoundry.Connector.SqlServer;");
+                snippets.Add("Steeltoe.CloudFoundry.Connector.SqlServer");
             }
             else
             {
-                snippets.Add("using Steeltoe.Connector.SqlServer;");
+                snippets.Add("Steeltoe.Connector.SqlServer");
             }
 
-            snippets.Add("services.AddSqlServerConnection(Configuration);");
+            snippets.Add("services.AddSqlServerConnection");
         }
     }
 }

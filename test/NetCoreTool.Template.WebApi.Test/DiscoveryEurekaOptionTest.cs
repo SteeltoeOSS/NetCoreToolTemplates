@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -11,27 +11,25 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
-        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<(string, string)> packages)
+        protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            if (steeltoeVersion < SteeltoeVersion.Steeltoe31)
+            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe31)
             {
                 packages.Add(("Steeltoe.Discovery.ClientCore", "$(SteeltoeVersion)"));
             }
 
-            if (steeltoeVersion >= SteeltoeVersion.Steeltoe30)
+            if (options.SteeltoeVersion >= SteeltoeVersion.Steeltoe30)
             {
                 packages.Add(("Steeltoe.Discovery.Eureka", "$(SteeltoeVersion)"));
             }
         }
 
-        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> snippets)
+        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add("services.AddDiscoveryClient(Configuration)");
-            if (steeltoeVersion < SteeltoeVersion.Steeltoe31)
+            snippets.Add("services.AddDiscoveryClient");
+            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe31)
             {
-                snippets.Add("app.UseDiscoveryClient()");
+                snippets.Add("app.UseDiscoveryClient");
             }
         }
     }

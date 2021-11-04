@@ -1,4 +1,4 @@
-namespace Steeltoe.NetCoreTool.Template.Test.Utilities.Models
+namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
 {
     public class AppSettings
     {

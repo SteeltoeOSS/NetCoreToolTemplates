@@ -1,7 +1,8 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using Steeltoe.NetCoreTool.Template.Test.Utilities;
-using Steeltoe.NetCoreTool.Template.Test.Utilities.Assertions;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
 using Xunit;
 using Xunit.Abstractions;
 

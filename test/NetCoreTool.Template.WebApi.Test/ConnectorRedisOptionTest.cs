@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -11,11 +11,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
-        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<(string, string)> packages)
+        protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("Microsoft.Extensions.Caching.StackExchangeRedis", "3.1.*"));
-            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
+            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
                 packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
             }
@@ -25,19 +24,18 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             }
         }
 
-        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> snippets)
+        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
+            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                snippets.Add("using Steeltoe.CloudFoundry.Connector.Redis;");
+                snippets.Add("Steeltoe.CloudFoundry.Connector.Redis");
             }
             else
             {
-                snippets.Add("using Steeltoe.Connector.Redis;");
+                snippets.Add("Steeltoe.Connector.Redis");
             }
 
-            snippets.Add("services.AddDistributedRedisCache(Configuration)");
+            snippets.Add("services.AddDistributedRedisCache");
         }
     }
 }

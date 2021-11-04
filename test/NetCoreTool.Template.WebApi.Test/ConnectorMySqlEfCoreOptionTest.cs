@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Steeltoe.NetCoreTool.Template.Test.Utilities.Assertions;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -22,22 +21,22 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             using var sandbox = await TemplateSandbox("false");
             sandbox.FileExists("Models/ErrorViewModel.cs").Should().BeFalse();
             sandbox.FileExists("Models/SampleContext.cs").Should().BeFalse();
+            sandbox.FileExists("Models/ErrorViewModel.fs").Should().BeFalse();
+            sandbox.FileExists("Models/SampleContext.fs").Should().BeFalse();
         }
 
-        protected override async Task AssertProjectGeneration(SteeltoeVersion steeltoeVersion, Framework framework)
+        protected override async Task AssertProjectGeneration(ProjectOptions options)
         {
-            await base.AssertProjectGeneration(steeltoeVersion, framework);
-            Logger.WriteLine("asserting Models/SampleContext.cs");
-            var source = await Sandbox.GetFileTextAsync("Models/SampleContext.cs");
-            source.Should().ContainSnippet("public class SampleContext : DbContext");
-            Sandbox.FileExists("Models/ErrorViewModel.cs").Should().BeTrue();
+            await base.AssertProjectGeneration(options);
+            Logger.WriteLine("asserting Models/SampleContext");
+            Sandbox.FileExists(GetSourceFileForLanguage("Models/SampleContext", options.Language)).Should().BeTrue();
+            Sandbox.FileExists(GetSourceFileForLanguage("Models/ErrorViewModel", options.Language)).Should().BeTrue();
         }
 
-        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<(string, string)> packages)
+        protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("Microsoft.EntityFrameworkCore", "3.1.*"));
-            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
+            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
                 packages.Add(("Steeltoe.CloudFoundry.Connector.EFCore", "$(SteeltoeVersion)"));
             }
@@ -47,20 +46,19 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             }
         }
 
-        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> snippets)
+        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (steeltoeVersion < SteeltoeVersion.Steeltoe30)
+            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
             {
-                snippets.Add("using Steeltoe.CloudFoundry.Connector.MySql.EFCore;");
+                snippets.Add("Steeltoe.CloudFoundry.Connector.MySql.EFCore");
             }
             else
             {
-                snippets.Add("using Steeltoe.Connector.MySql.EFCore;");
+                snippets.Add("Steeltoe.Connector.MySql.EFCore");
             }
 
-            snippets.Add($"using {Sandbox.Name}.Models;");
-            snippets.Add("services.AddDbContext<SampleContext>(options => options.UseMySql(Configuration));");
+            snippets.Add($"{Sandbox.Name}.Models");
+            snippets.Add(".UseMySql");
         }
     }
 }

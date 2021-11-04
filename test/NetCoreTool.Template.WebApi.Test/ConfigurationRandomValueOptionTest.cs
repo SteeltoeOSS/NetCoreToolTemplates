@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -11,16 +11,15 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
-        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<(string, string)> packages)
+        protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("Steeltoe.Extensions.Configuration.RandomValueBase", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework, List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add("using Steeltoe.Extensions.Configuration.RandomValue");
-            snippets.Add(".ConfigureAppConfiguration(b => b.AddRandomValueSource())");
+            snippets.Add("Steeltoe.Extensions.Configuration.RandomValue");
+            snippets.Add(".ConfigureAppConfiguration");
         }
     }
 }

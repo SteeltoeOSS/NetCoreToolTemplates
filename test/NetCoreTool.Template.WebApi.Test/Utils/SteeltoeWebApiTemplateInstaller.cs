@@ -3,7 +3,7 @@ using System.IO;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Steeltoe.NetCoreTool.Template.Test.Utilities
+namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utils
 {
     public sealed class SteeltoeWebApiTemplateInstaller
     {

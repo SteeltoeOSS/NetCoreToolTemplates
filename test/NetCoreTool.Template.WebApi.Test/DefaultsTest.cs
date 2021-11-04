@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Steeltoe.NetCoreTool.Template.Test.Utilities.Models;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -14,16 +13,15 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
-        protected override async Task AssertProjectGeneration(SteeltoeVersion steeltoeVersion, Framework framework)
+        protected override async Task AssertProjectGeneration(ProjectOptions options)
         {
-            await base.AssertProjectGeneration(steeltoeVersion, framework);
+            await base.AssertProjectGeneration(options);
             Sandbox.FileExists("app.config").Should().BeTrue();
         }
 
-        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<(string, string)> packages)
+        protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            switch (framework)
+            switch (options.Framework)
             {
                 case Framework.Net50:
                     packages.Add(("Swashbuckle.AspNetCore", "5.6.*"));
@@ -31,14 +29,13 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 case Framework.NetCoreApp31:
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());
+                    throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString());
             }
         }
 
-        protected override void AssertCsprojPropertiesHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            Dictionary<string, string> properties)
+        protected override void AssertProjectPropertiesHook(ProjectOptions options, Dictionary<string, string> properties)
         {
-            switch (steeltoeVersion)
+            switch (options.SteeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe31:
                     properties["SteeltoeVersion"] = "3.1.*";
@@ -50,10 +47,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                     properties["SteeltoeVersion"] = "2.5.*";
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(steeltoeVersion), steeltoeVersion.ToString());
+                    throw new ArgumentOutOfRangeException(nameof(options.SteeltoeVersion), options.SteeltoeVersion.ToString());
             }
 
-            switch (framework)
+            switch (options.Framework)
             {
                 case Framework.Net50:
                     properties["TargetFramework"] = "net5.0";
@@ -62,14 +59,13 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                     properties["TargetFramework"] = "netcoreapp3.1";
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());
+                    throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString());
             }
         }
 
-        protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            switch (framework)
+            switch (options.Framework)
             {
                 case Framework.Net50:
                 case Framework.NetCoreApp31:
@@ -82,14 +78,13 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
 ");
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());
+                    throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString());
             }
         }
 
-        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> snippets)
+        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            switch (framework)
+            switch (options.Framework)
             {
                 case Framework.Net50:
                     snippets.Add("using Microsoft.AspNetCore.Builder;");
@@ -139,19 +134,18 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 ");
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());
+                    throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString());
             }
         }
 
-        protected override void AssertLaunchSettingsHook(
-            List<Action<SteeltoeVersion, Framework, LaunchSettings>> assertions)
+        protected override void AssertLaunchSettingsHook(List<Action<ProjectOptions, LaunchSettings>> assertions)
         {
             assertions.Add(AssertLaunchSettings);
         }
 
-        private void AssertLaunchSettings(SteeltoeVersion steeltoeVersion, Framework framework, LaunchSettings settings)
+        private void AssertLaunchSettings(ProjectOptions options, LaunchSettings settings)
         {
-            switch (framework)
+            switch (options.Framework)
             {
                 case Framework.Net50:
                     settings.Profiles["IIS Express"].LaunchUrl.Should().Be("swagger");
@@ -160,7 +154,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
                 case Framework.NetCoreApp31:
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString());
+                    throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString());
             }
         }
     }

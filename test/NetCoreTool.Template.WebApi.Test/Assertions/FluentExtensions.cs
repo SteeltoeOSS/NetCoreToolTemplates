@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using FluentAssertions;
 using FluentAssertions.Primitives;
 
-namespace Steeltoe.NetCoreTool.Template.Test.Utilities.Assertions
+namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions
 {
     public static class FluentExtensions
     {

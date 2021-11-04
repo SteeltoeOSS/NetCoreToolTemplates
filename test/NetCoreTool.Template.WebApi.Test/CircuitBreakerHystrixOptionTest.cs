@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Steeltoe.NetCoreTool.Template.Test.Utilities.Assertions;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -21,35 +21,32 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             using var sandbox = await TemplateSandbox("false");
             sandbox.FileExists("HelloHystrixCommand.cs").Should().BeFalse();
+            sandbox.FileExists("HelloHystrixCommand.fs").Should().BeFalse();
         }
 
-        protected override async Task AssertProjectGeneration(SteeltoeVersion steeltoeVersion, Framework framework)
+        protected override async Task AssertProjectGeneration(ProjectOptions options)
         {
-            await base.AssertProjectGeneration(steeltoeVersion, framework);
-            Logger.WriteLine("asserting HelloHystrixCommand.cs");
-            var source = await Sandbox.GetFileTextAsync("HelloHystrixCommand.cs");
-            source.Should().ContainSnippet("public sealed class HelloHystrixCommand : HystrixCommand<string>");
-            source.Should()
-                .ContainSnippet(
-                    "public HelloHystrixCommand(string name) : base(HystrixCommandGroupKeyDefault.AsKey(\"MyCircuitBreakers\"))");
+            await base.AssertProjectGeneration(options);
+            Logger.WriteLine($"asserting HelloHystrixCommand");
+            var sourceFile = GetSourceFileForLanguage("HelloHystrixCommand", options.Language);
+            var source = await Sandbox.GetFileTextAsync(sourceFile);
+            source.Should().ContainSnippet("HelloHystrixCommand");
         }
 
-        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<(string, string)> packages)
+        protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("Steeltoe.CircuitBreaker.HystrixCore", "$(SteeltoeVersion)"));
             packages.Add(("Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> snippets)
+        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add("services.AddHystrixCommand<HelloHystrixCommand>(\"MyCircuitBreakers\", Configuration);");
-            snippets.Add("services.AddHystrixMetricsStream(Configuration);");
-            snippets.Add("app.UseHystrixRequestContext();");
-            if (steeltoeVersion <= SteeltoeVersion.Steeltoe30)
+            snippets.Add("services.AddHystrixCommand<HelloHystrixCommand>");
+            snippets.Add("services.AddHystrixMetricsStream");
+            snippets.Add("app.UseHystrixRequestContext");
+            if (options.SteeltoeVersion <= SteeltoeVersion.Steeltoe30)
             {
-                snippets.Add("app.UseHystrixMetricsStream();");
+                snippets.Add("app.UseHystrixMetricsStream");
             }
         }
     }

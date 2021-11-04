@@ -1,0 +1,16 @@
+# build output
+bin/
+obj/
+
+# Visual Studio
+/.vs/
+
+# Visual Studio Code
+/.vscode/
+
+# JetBrains Rider
+/.idea/
+
+# Ionide
+.fake
+.ionide

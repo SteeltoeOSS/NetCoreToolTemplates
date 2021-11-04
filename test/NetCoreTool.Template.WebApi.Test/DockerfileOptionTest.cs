@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Steeltoe.NetCoreTool.Template.Test.Utilities.Assertions;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -13,16 +13,16 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
-        protected override async Task AssertProjectGeneration(SteeltoeVersion steeltoeVersion, Framework framework)
+        protected override async Task AssertProjectGeneration(ProjectOptions options)
         {
-            await base.AssertProjectGeneration(steeltoeVersion, framework);
+            await base.AssertProjectGeneration(options);
             Logger.WriteLine("asserting Dockerfile");
             var dockerfile = await Sandbox.GetFileTextAsync("Dockerfile");
-            var tag = framework switch
+            var tag = options.Framework switch
             {
                 Framework.Net50 => "5.0-alpine",
                 Framework.NetCoreApp31 => "3.1-alpine",
-                _ => throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString())
+                _ => throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString())
             };
             dockerfile.Should().ContainSnippet($"FROM mcr.microsoft.com/dotnet/aspnet:{tag} AS base");
             dockerfile.Should().ContainSnippet($"FROM mcr.microsoft.com/dotnet/sdk:{tag} AS build");

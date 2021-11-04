@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -11,26 +11,24 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
-        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<(string, string)> packages)
+        protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("Steeltoe.Management.TracingCore", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertStartupCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> snippets)
+        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add("using Steeltoe.Management.Tracing;");
-            switch (steeltoeVersion)
+            snippets.Add("Steeltoe.Management.Tracing");
+            switch (options.SteeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe25:
-                    snippets.Add("services.AddDistributedTracing(Configuration);");
+                    snippets.Add("services.AddDistributedTracing");
                     break;
                 case SteeltoeVersion.Steeltoe30:
-                    snippets.Add("services.AddDistributedTracing();");
+                    snippets.Add("services.AddDistributedTracing");
                     break;
                 default:
-                    snippets.Add("services.AddDistributedTracingAspNetCore();");
+                    snippets.Add("services.AddDistributedTracingAspNetCore");
                     break;
             }
         }

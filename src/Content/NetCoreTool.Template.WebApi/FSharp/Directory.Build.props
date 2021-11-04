@@ -1,0 +1,39 @@
+<Project>
+
+  <PropertyGroup>
+    <AzureOAuthVersion>3.1.*</AzureOAuthVersion>
+    <AzureSpringCloudClientVersion>2.0.0-preview.1</AzureSpringCloudClientVersion>
+    <CircuitBreakerHystrixOption>false</CircuitBreakerHystrixOption>
+    <ConfigurationCloudConfigOption>false</ConfigurationCloudConfigOption>
+    <ConfigurationPlaceholderOption>false</ConfigurationPlaceholderOption>
+    <ConfigurationRandomValueOption>false</ConfigurationRandomValueOption>
+    <ConnectorMongoDbOption>false</ConnectorMongoDbOption>
+    <ConnectorMySqlEfCoreOption>false</ConnectorMySqlEfCoreOption>
+    <ConnectorMySqlOption>false</ConnectorMySqlOption>
+    <ConnectorOAuthOption>false</ConnectorOAuthOption>
+    <ConnectorPostgreSqlEfCoreOption>false</ConnectorPostgreSqlEfCoreOption>
+    <ConnectorPostgreSqlOption>false</ConnectorPostgreSqlOption>
+    <ConnectorRabbitMqOption>false</ConnectorRabbitMqOption>
+    <ConnectorRedisOption>false</ConnectorRedisOption>
+    <ConnectorSqlServerOption>false</ConnectorSqlServerOption>
+    <DescriptionOption/>
+    <DiscoveryEurekaOption>false</DiscoveryEurekaOption>
+    <DockerfileOption>false</DockerfileOption>
+    <EntityFrameworkCoreVersion>3.1.2</EntityFrameworkCoreVersion>
+    <FrameworkOption>net5.0</FrameworkOption>
+    <FrameworkNet50>true</FrameworkNet50>
+    <HostingAzureSpringCloudOption>false</HostingAzureSpringCloudOption>
+    <HostingCloudFoundryOption>false</HostingCloudFoundryOption>
+    <HostingCloudOption>false</HostingCloudOption>
+    <LoggingDynamicLoggerOption>false</LoggingDynamicLoggerOption>
+    <ManagementEndpointsOption>false</ManagementEndpointsOption>
+    <MongoDbDriverVersion>2.8.*</MongoDbDriverVersion>
+    <MySqlDriverVersion>8.0.*</MySqlDriverVersion>
+    <NpgsqlDriverVersion>4.1.*</NpgsqlDriverVersion>
+    <RabbitMqDriverVersion>5.1.*</RabbitMqDriverVersion>
+    <RedisDriverVersion>3.1.*</RedisDriverVersion>
+    <SteeltoeVersionOption>3.1.*</SteeltoeVersionOption>
+    <TracingOption>false</TracingOption>
+  </PropertyGroup>
+
+</Project>

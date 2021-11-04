@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -12,31 +12,20 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
-        protected override void AssertCsprojPackagesHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<(string, string)> packages)
+        protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("Steeltoe.Extensions.Logging.DynamicLogger", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertProgramCsSnippetsHook(SteeltoeVersion steeltoeVersion, Framework framework,
-            List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add("using Steeltoe.Extensions.Logging;");
-            if (framework < Framework.NetCoreApp31)
+            snippets.Add("Steeltoe.Extensions.Logging");
+            snippets.Add(".ConfigureLogging(");
+            if (options.Framework < Framework.NetCoreApp31)
             {
                 snippets.Add(
-                    "loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection(\"Logging\"));");
-                snippets.Add(@"
-.ConfigureLogging((hostingContext, loggingBuilder) =>
-{
-    loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection(""Logging""));
-    loggingBuilder.AddDynamicConsole();
- })
- ");
-            }
-            else
-            {
-                snippets.Add(".ConfigureLogging((context, builder) => builder.AddDynamicConsole())");
+                    "loggingBuilder.AddConfiguration");
+                snippets.Add(".AddDynamicConsole(");
             }
         }
     }

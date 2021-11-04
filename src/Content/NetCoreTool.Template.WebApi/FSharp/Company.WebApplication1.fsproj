@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>$(FrameworkOption)</TargetFramework>
+    <!--#if (HasDescription) -->
+    <Description>$(DescriptionOption)</Description>
+    <!--#endif -->
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SteeltoeVersion>$(SteeltoeVersionOption)</SteeltoeVersion>
+  </PropertyGroup>
+  <!--#if (AnySteeltoe) -->
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Condition="'$(ConnectorOAuthOption)' == 'True'" Version="$(AzureOAuthVersion)" />
+    <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(HostingAzureSpringCloudOption)' == 'True' AND '$(Steeltoe3)' == 'True'" Version="2.0.0-preview.1" />
+    <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(HostingAzureSpringCloudOption)' == 'True' AND '$(Steeltoe2)' == 'True'" Version="1.0.0-preview.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Condition="'$(AnyEfCore)' == 'True'" Version="$(EntityFrameworkCoreVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(ConnectorRedisOption)' == 'True'" Version="$(RedisDriverVersion)" />
+    <PackageReference Include="MongoDB.Driver" Condition="'$(ConnectorMongoDbOption)' == 'True'" Version="$(MongoDbDriverVersion)" />
+    <PackageReference Include="MySql.Data" Condition="'$(ConnectorMySqlOption)' == 'True'" Version="$(MySqlDriverVersion)" />
+    <PackageReference Include="Npgsql" Condition="'$(ConnectorPostgreSqlOption)' == 'True'" Version="$(NpgsqlDriverVersion)" />
+    <PackageReference Include="RabbitMQ.Client" Condition="'$(ConnectorRabbitMqOption)' == 'True'" Version="$(RabbitMqDriverVersion)" />
+    <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(CircuitBreakerHystrixOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(CircuitBreakerHystrixOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.CloudFoundry.Connector.EFCore" Condition="'$(Steeltoe2Connector)' == 'True' AND '$(AnyEfCore)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Condition="'$(Steeltoe2Connector)' == 'True' AND '$(AnyEfCore)' != 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(AnyHosting)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.CloudFoundry" Condition="'$(Steeltoe3Connector)' == 'True' AND '$(HostingCloudFoundryOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.ConnectorCore" Condition="'$(Steeltoe3Connector)' == 'True' AND '$(AnyEfCore)' != 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.EFCore" Condition="'$(Steeltoe3Connector)' == 'True' AND '$(AnyEfCore)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Discovery.ClientCore" Condition="'$(DiscoveryEurekaOption)' == 'True' AND ('$(Steeltoe2)' == 'True' OR '$(Steeltoe30)' == 'True')" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Discovery.Eureka" Condition="'$(DiscoveryEurekaOption)' == 'True' AND ('$(Steeltoe2)' != 'True')" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Condition="'$(HostingCloudFoundryOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServerCore" Condition="'$(ConfigurationCloudConfigOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.PlaceholderCore" Condition="'$(ConfigurationPlaceholderOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.RandomValueBase" Condition="'$(ConfigurationRandomValueOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Condition="'$(LoggingDynamicLoggerOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Condition="'$(Steeltoe2ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(Steeltoe3ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.TracingCore" Condition="'$(DistributedTracingOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="System.Data.SqlClient" Condition="'$(ConnectorSqlServerOption)' == 'True'" Version="4.8.*" />
+  </ItemGroup>
+  <!--#endif -->
+
+  <ItemGroup>
+    <Compile Include="WeatherForecast.fs" />
+    <Compile Include="Controllers/WeatherForecastController.fs" />
+    <!--#if (CircuitBreakerHystrixOption) -->
+    <Compile Include="HelloHystrixCommand.fs" />
+    <!--#endif  -->
+    <!--#if (AnyEfCore) -->
+    <Compile Include="Models/ErrorViewModel.fs" />
+    <Compile Include="Models/SampleContext.fs" />
+    <!--#endif  -->
+    <Compile Include="Startup.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
