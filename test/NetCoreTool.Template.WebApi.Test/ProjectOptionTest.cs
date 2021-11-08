@@ -222,6 +222,17 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
+        protected static string GetProjectFileForLanguage(string baseName, Language language)
+        {
+            var ext = language switch
+            {
+                Language.CSharp => ".csproj",
+                Language.FSharp => ".fsproj",
+                _ => throw new ArgumentOutOfRangeException(nameof(language), language.ToString())
+            };
+            return $"{baseName}{ext}";
+        }
+
         protected static string GetSourceFileForLanguage(string baseName, Language language)
         {
             var ext = language switch
@@ -281,17 +292,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 "F#" => Language.FSharp,
                 _ => throw new ArgumentOutOfRangeException(nameof(language), language)
             };
-        }
-
-        private static string GetProjectFileForLanguage(string baseName, Language language)
-        {
-            var ext = language switch
-            {
-                Language.CSharp => ".csproj",
-                Language.FSharp => ".fsproj",
-                _ => throw new ArgumentOutOfRangeException(nameof(language), language.ToString())
-            };
-            return $"{baseName}{ext}";
         }
     }
 }

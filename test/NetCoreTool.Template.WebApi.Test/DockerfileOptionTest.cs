@@ -26,6 +26,11 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             };
             dockerfile.Should().ContainSnippet($"FROM mcr.microsoft.com/dotnet/aspnet:{tag} AS base");
             dockerfile.Should().ContainSnippet($"FROM mcr.microsoft.com/dotnet/sdk:{tag} AS build");
+            var projectFile = GetProjectFileForLanguage(Sandbox.Name, options.Language);
+            dockerfile.Should().ContainSnippet($"COPY [\"{projectFile}\", \".\"]");
+            dockerfile.Should().ContainSnippet($"RUN dotnet build \"{projectFile}\"");
+            dockerfile.Should().ContainSnippet($"RUN dotnet publish \"{projectFile}\"");
+            dockerfile.Should().ContainSnippet($"ENTRYPOINT [\"dotnet\", \"{Sandbox.Name}.dll\"");
         }
     }
 }
