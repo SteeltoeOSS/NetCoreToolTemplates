@@ -57,10 +57,12 @@ module Program =
     [<EntryPoint>]
     let main args =
         CreateHostBuilder(args)
+#if (AnyHosting)
 #if (HostingCloudOption)
             .UseCloudHosting(8080)
 #else
             .UseCloudHosting()
+#endif
 #endif
 #if (HostingCloudFoundryOption)
             .AddCloudFoundryConfiguration()
