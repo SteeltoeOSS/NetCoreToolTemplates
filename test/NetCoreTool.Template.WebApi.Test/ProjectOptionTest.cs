@@ -113,7 +113,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             }
 
             Logger.WriteLine("asserting project properties");
-            var project = await Sandbox.GetXmlDocumentAsync($"{Sandbox.Name}.csproj");
+            var projectFile = GetProjectFileForLanguage(Sandbox.Name, options.Language);
+            var project = await Sandbox.GetXmlDocumentAsync(projectFile);
             var properties =
             (
                 from e in project.Elements().Elements("PropertyGroup").Elements()
