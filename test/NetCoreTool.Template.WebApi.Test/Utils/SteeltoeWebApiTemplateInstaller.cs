@@ -27,14 +27,19 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utils
                     new ProcessStartInfo
                     {
                         FileName = "dotnet",
-                        Arguments = $"new -i {Directory.GetCurrentDirectory()}/../../../../../src/Content",
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
+                        Arguments = $"new --uninstall {Directory.GetCurrentDirectory()}/../../../../../src/Content",
                     }
                 );
                 Assert.NotNull(p);
-                p.BeginOutputReadLine();
-                p.BeginErrorReadLine();
+                p.WaitForExit();
+                p = Process.Start(
+                    new ProcessStartInfo
+                    {
+                        FileName = "dotnet",
+                        Arguments = $"new --install {Directory.GetCurrentDirectory()}/../../../../../src/Content",
+                    }
+                );
+                Assert.NotNull(p);
                 p.WaitForExit();
                 Assert.True(p.ExitCode == 0);
             }
