@@ -28,8 +28,8 @@
         {
           "condition": "(!AnyEfCore)",
           "exclude": [
-            "Models/ErrorViewModel.cs",
-            "Models/SampleContext.cs"
+            "Models/ErrorViewModel.fs",
+            "Models/SampleContext.fs"
           ]
         },
         {
