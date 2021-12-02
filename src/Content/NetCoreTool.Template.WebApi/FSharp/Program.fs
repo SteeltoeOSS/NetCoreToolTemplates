@@ -71,7 +71,7 @@ module Program =
             .AddConfigServer()
 #endif
 #if (DynamicLogging)
-            .ConfigureLogging(fun (context, builder) -> builder.AddDynamicConsole() |> ignore)
+            .ConfigureLogging(fun (builder) -> builder.AddDynamicConsole() |> ignore)
 #endif
             .Build().Run()
 
