@@ -17,11 +17,13 @@ USAGE
       $prog [-h] version
 WHERE
       version
-              Template version in <major>.<minor>.<patch> format.
+              Template version.
+              If version includes ':' character, version string trimmed from
+              that point.  E.g., "1.2.3-rc4:9876" becomes "1.2.3-rc4".
 OPTIONS
-      -h      print this message
+      -h      Print this message.
 DESCRIPTION
-      Updates the NuGet spec and DevOps pipeline with the specified version.
+      Sets package version.
 EOF
 }
 
@@ -50,28 +52,17 @@ if [ $# -eq 0 ]; then
   die "version not specified; run with -h for help"
 fi
 
-version=$(echo $1 | cut -d- -f1)
+version=${1%:*}
 shift
 
 if [ $# -gt 0 ]; then
   die "too many args; run with -h for help"
 fi
 
-major=$(echo $version | cut -d. -f1)
-minor=$(echo $version | cut -d. -f2)
-patch=$(echo $version | cut -d. -f3)
-
-if [[ "$major.$minor.$patch" != "$version" ]]; then
-  die "version not in major.minor.patch format"
-fi
-[[ $major =~ ^-?[0-9]+$ ]] || die "invalid major value: $major"
-[[ $minor =~ ^-?[0-9]+$ ]] || die "invalid minor value: $minor"
-[[ $patch =~ ^-?[0-9]+$ ]] || die "invalid patch value: $patch"
-
 if ! $sed --version 2>/dev/null | grep 'GNU sed' >/dev/null; then
   die "This script requires GNU sed"
 fi
 
-echo "Setting version to $major.$minor.$patch"
+echo "Setting version to $version"
 
-$sed -i 's:<PackageVersion>.*</PackageVersion>:<PackageVersion>'$major.$minor.$patch'</PackageVersion>:' $base_dir/src/Steeltoe.NetCoreTool.Templates.csproj
+$sed -i 's:<PackageVersion>.*</PackageVersion>:<PackageVersion>'$version'</PackageVersion>:' $base_dir/src/Steeltoe.NetCoreTool.Templates.csproj
