@@ -52,7 +52,7 @@ if [ $# -eq 0 ]; then
   die "version not specified; run with -h for help"
 fi
 
-version=${1%:*}
+version=${1%#*}
 shift
 
 if [ $# -gt 0 ]; then
