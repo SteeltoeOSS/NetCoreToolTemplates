@@ -1,5 +1,5 @@
 trigger:
-  - main
+  - release/1.2
 
 variables:
   - name: major
