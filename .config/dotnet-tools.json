@@ -7,6 +7,12 @@
       "commands": [
         "reportgenerator"
       ]
+    },
+    "nbgv": {
+      "version": "3.4.244",
+      "commands": [
+        "nbgv"
+      ]
     }
   }
 }
