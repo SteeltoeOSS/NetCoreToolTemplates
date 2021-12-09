@@ -30,6 +30,7 @@
     <MongoDbDriverVersion>2.8.*</MongoDbDriverVersion>
     <MySqlDriverVersion>8.0.*</MySqlDriverVersion>
     <NpgsqlDriverVersion>4.1.*</NpgsqlDriverVersion>
+    <NeedsSelf>false</NeedsSelf>
     <RabbitMqDriverVersion>5.1.*</RabbitMqDriverVersion>
     <RedisDriverVersion>3.1.*</RedisDriverVersion>
     <SteeltoeVersionOption>3.1.*</SteeltoeVersionOption>
