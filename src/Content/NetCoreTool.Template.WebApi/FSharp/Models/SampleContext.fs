@@ -1,4 +1,4 @@
-namespace Company.WebApplication1.Models
+namespace Company.WebApplication.FS.Models
 
 #if (AnyEfCore)
 open Microsoft.EntityFrameworkCore

@@ -1,5 +1,5 @@
 #if (AnyEfCore)
-namespace Company.WebApplication1.Models
+namespace Company.WebApplication.CS.Models
 {
     public class ErrorViewModel
     {

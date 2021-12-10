@@ -1,6 +1,6 @@
 using System;
 
-namespace Company.WebApplication1.Models
+namespace Company.WebApplication.CS.Models
 {
     [Serializable]
     public class Message

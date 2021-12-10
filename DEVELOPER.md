@@ -221,7 +221,7 @@ using Microsoft.Extensions.Logging;
 #endif
         {
 #if (HelloWorldOption)
-            logger.LogInformation("Hello, World, from {Name}", "Company.WebApplication1");
+            logger.LogInformation("Hello, World, from {Name}", "Company.WebApplication.CS");
 #endif
             if (env.IsDevelopment())
 ...

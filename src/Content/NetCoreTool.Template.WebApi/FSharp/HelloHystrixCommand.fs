@@ -1,4 +1,4 @@
-namespace Company.WebApplication1
+namespace Company.WebApplication.FS
 #if (CircuitBreakerHystrixOption)
 
 open System.Threading.Tasks

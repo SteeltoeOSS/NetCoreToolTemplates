@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Company.WebApplication1.Models
+namespace Company.WebApplication.CS.Models
 {
     public class SampleContext : DbContext
     {

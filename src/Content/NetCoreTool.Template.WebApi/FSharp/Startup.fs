@@ -1,4 +1,4 @@
-namespace Company.WebApplication1
+namespace Company.WebApplication.FS
 
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
@@ -78,7 +78,7 @@ open Steeltoe.Management.Endpoint
 open Steeltoe.Management.Tracing
 #endif
 #if (AnyEfCore)
-open Company.WebApplication1.Models
+open Company.WebApplication.FS.Models
 #endif
 
 #if (NeedsSelf)
