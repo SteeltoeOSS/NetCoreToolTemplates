@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Company.WebApplication1.Controllers
+namespace Company.WebApplication.CS.Controllers
 {
     [ApiController]
     [Route("[controller]")]

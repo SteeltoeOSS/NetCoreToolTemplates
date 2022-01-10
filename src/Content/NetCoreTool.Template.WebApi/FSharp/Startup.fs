@@ -1,13 +1,7 @@
-namespace Company.WebApplication1
+namespace Company.WebApplication.FS
 
-open System
-open System.Collections.Generic
-open System.Linq
-open System.Threading.Tasks
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
-open Microsoft.AspNetCore.HttpsPolicy;
-open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
@@ -25,9 +19,6 @@ open Steeltoe.CloudFoundry.Connector.MySql.EFCore
 #endif
 #if (ConnectorMySqlEfCoreOption && !Steeltoe2)
 open Steeltoe.Connector.MySql.EFCore
-#endif
-#if (AnyEfCore)
-open Company.WebApplication1.Models
 #endif
 #if (ConnectorMySqlOption && Steeltoe2)
 open Steeltoe.CloudFoundry.Connector.MySql
@@ -87,10 +78,14 @@ open Steeltoe.Management.Endpoint
 open Steeltoe.Management.Tracing
 #endif
 #if (AnyEfCore)
-open Company.WebApplication1.Models
+open Company.WebApplication.FS.Models
 #endif
 
+#if (NeedsSelf)
 type Startup(configuration: IConfiguration) as self =
+#else
+type Startup(configuration: IConfiguration) =
+#endif
     member _.Configuration = configuration
 
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -111,13 +106,13 @@ type Startup(configuration: IConfiguration) as self =
         services.AddMySqlConnection(self.Configuration) |> ignore
 #endif
 #if (ConnectorMySqlEfCoreOption)
-        services.AddDbContext<SampleContext>(fun options -> options.UseMySql(self.Configuration) |> ignore)
+        services.AddDbContext<SampleContext>(fun options -> options.UseMySql(self.Configuration) |> ignore) |> ignore
 #endif
 #if (ConnectorPostgreSqlOption)
         services.AddPostgresConnection(self.Configuration) |> ignore
 #endif
 #if (ConnectorPostgreSqlEfCoreOption)
-        services.AddDbContext<SampleContext>(fun options -> options.UseNpgsql(self.Configuration)) |> ignore
+        services.AddDbContext<SampleContext>(fun options -> options.UseNpgsql(self.Configuration) |> ignore) |> ignore
 #endif
 #if (ConnectorRabbitMqOption)
         services.AddRabbitMQConnection(self.Configuration) |> ignore
@@ -129,18 +124,18 @@ type Startup(configuration: IConfiguration) as self =
         services.AddSqlServerConnection(self.Configuration) |> ignore
 #endif
 #if (CircuitBreakerHystrixOption)
-        services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", self.Configuration) |> ignore
-        services.AddHystrixMetricsStream(self.Configuration) |> ignore
+        services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", self.Configuration)
+        services.AddHystrixMetricsStream(self.Configuration)
 #endif
 #if (Steeltoe2ManagementEndpoints)
-        services.AddCloudFoundryActuators(self.Configuration) |> ignore
+        services.AddCloudFoundryActuators(self.Configuration)
 #endif
 #if (Steeltoe3ManagementEndpoints)
-        services.AddAllActuators(self.Configuration) |> ignore
+        services.AddAllActuators(self.Configuration)
 #endif
 #if (AnyTracing)
 #if (Steeltoe2)
-        services.AddDistributedTracing(Configuration) |> ignore
+        services.AddDistributedTracing(self.Configuration)
 #elif (Steeltoe30)
         services.AddDistributedTracing() |> ignore
 #else
@@ -148,7 +143,7 @@ type Startup(configuration: IConfiguration) as self =
 #endif
 #endif
         // Add framework services.
-        services.AddControllers() |> ignore
+        services.AddControllers()
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     member _.Configure(app: IApplicationBuilder, env: IWebHostEnvironment) =
@@ -166,7 +161,7 @@ type Startup(configuration: IConfiguration) as self =
 #endif
 #endif
 #if (Steeltoe2ManagementEndpoints)
-        app.UseCloudFoundryActuators() |> ignore
+        app.UseCloudFoundryActuators()
 #endif
         app.UseHttpsRedirection()
            .UseRouting()

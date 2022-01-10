@@ -326,6 +326,10 @@
       },
       "replaces": "$(MySqlDriverVersion)"
     },
+    "NeedsSelf": {
+      "type": "computed",
+      "value": "AnyConnector || CircuitBreakerHystrixOption || DiscoveryEurekaOption || (DistributedTracingOption && Steeltoe2) || HostingCloudFoundryOption || ManagementEndpointsOption"
+    },
     "NpgsqlDriverVersion": {
       "type": "generated",
       "generator": "constant",

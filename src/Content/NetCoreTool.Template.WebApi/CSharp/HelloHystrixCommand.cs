@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Steeltoe.CircuitBreaker.Hystrix;
 
-namespace Company.WebApplication1
+namespace Company.WebApplication.CS
 {
     public sealed class HelloHystrixCommand : HystrixCommand<string>
     {

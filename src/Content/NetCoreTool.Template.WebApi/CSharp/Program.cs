@@ -26,7 +26,7 @@ using Steeltoe.Extensions.Configuration.RandomValue;
 using Steeltoe.Extensions.Logging;
 #endif
 
-namespace Company.WebApplication1
+namespace Company.WebApplication.CS
 {
     public class Program
     {

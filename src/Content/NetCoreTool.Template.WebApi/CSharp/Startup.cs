@@ -79,10 +79,10 @@ using Steeltoe.Management.Endpoint;
 using Steeltoe.Management.Tracing;
 #endif
 #if (AnyEfCore)
-using Company.WebApplication1.Models;
+using Company.WebApplication.CS.Models;
 #endif
 
-namespace Company.WebApplication1
+namespace Company.WebApplication.CS
 {
     public class Startup
     {
@@ -152,7 +152,7 @@ namespace Company.WebApplication1
 #if (FrameworkNet50)
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Company.WebApplication1", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Company.WebApplication.CS", Version = "v1" });
             });
 #endif
         }
@@ -165,7 +165,7 @@ namespace Company.WebApplication1
                 app.UseDeveloperExceptionPage();
 #if (FrameworkNet50)
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.WebApplication1 v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.WebApplication.CS"));
 #endif
             }
 

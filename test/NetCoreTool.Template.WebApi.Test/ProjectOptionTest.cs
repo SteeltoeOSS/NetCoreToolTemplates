@@ -55,14 +55,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             sandbox.CommandExitCode.Should().Be(0, sandbox.CommandOutput);
             Logger.WriteLine("building project");
             var buildCmd = "dotnet build";
-            // TODO: can we ignore specific F# warnings so we can error if there are unexpected warnings?
-            if (ToLanguageEnum(languageOption) == Language.CSharp)
-            {
-                buildCmd += " /p:TreatWarningsAsErrors=True";
-            }
-
+            buildCmd += " /p:TreatWarningsAsErrors=True";
             await sandbox.ExecuteCommandAsync(buildCmd);
-
             sandbox.CommandExitCode.Should().Be(0, sandbox.CommandOutput);
         }
 
