@@ -1,5 +1,5 @@
 trigger:
-  - release/1.2
+  - main
 
 variables:
   - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
