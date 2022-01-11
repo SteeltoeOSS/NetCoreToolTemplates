@@ -14,7 +14,7 @@
     "type": "project",
     "language": "C#"
   },
-  "sourceName": "Company.WebApplication1",
+  "sourceName": "Company.WebApplication.CS",
   "sources": [
     {
       "modifiers": [
@@ -418,7 +418,7 @@
   },
   "primaryOutputs": [
     {
-      "path": "Company.WebApplication1.csproj"
+      "path": "Company.WebApplication.CS.csproj"
     }
   ],
   "postActions": [
