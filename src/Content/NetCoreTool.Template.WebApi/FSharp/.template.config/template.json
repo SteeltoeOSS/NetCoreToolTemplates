@@ -14,7 +14,7 @@
     "type": "project",
     "language": "F#"
   },
-  "sourceName": "Company.WebApplication1",
+  "sourceName": "Company.WebApplication.FS",
   "sources": [
     {
       "modifiers": [
@@ -422,7 +422,7 @@
   },
   "primaryOutputs": [
     {
-      "path": "Company.WebApplication1.csproj"
+      "path": "Company.WebApplication.FS.fsproj"
     }
   ]
 }
