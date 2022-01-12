@@ -52,6 +52,9 @@
 
   <ItemGroup>
     <Compile Include="WeatherForecast.fs" />
+    <!--#if (ConfigurationRandomValueOption) -->
+    <Compile Include="Controllers/RandomValueController.fs" />
+    <!--#endif  -->  
     <Compile Include="Controllers/WeatherForecastController.fs" />
     <!--#if (CircuitBreakerHystrixOption) -->
     <Compile Include="HelloHystrixCommand.fs" />

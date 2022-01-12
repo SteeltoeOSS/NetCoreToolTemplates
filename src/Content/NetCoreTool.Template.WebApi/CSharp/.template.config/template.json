@@ -43,6 +43,12 @@
           "exclude": [
             "Dockerfile"
           ]
+        },
+        {
+          "condition": "(!ConfigurationRandomValueOption)",
+          "exclude": [
+            "Controllers/RandomValueController.cs"
+          ]
         }
       ]
     }
