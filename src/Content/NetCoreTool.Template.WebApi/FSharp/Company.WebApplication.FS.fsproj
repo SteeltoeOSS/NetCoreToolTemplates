@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(HostingAzureSpringCloudOption)' == 'True' AND '$(Steeltoe3)' == 'True'" Version="2.0.0-preview.1" />
     <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(HostingAzureSpringCloudOption)' == 'True' AND '$(Steeltoe2)' == 'True'" Version="1.0.0-preview.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Condition="'$(AnyEfCore)' == 'True'" Version="$(EntityFrameworkCoreVersion)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Condition="'$(AnyEfCore)' == 'True'" Version="$(EntityFrameworkCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(ConnectorRedisOption)' == 'True'" Version="$(RedisDriverVersion)" />
     <PackageReference Include="MongoDB.Driver" Condition="'$(ConnectorMongoDbOption)' == 'True'" Version="$(MongoDbDriverVersion)" />
     <PackageReference Include="MySql.Data" Condition="'$(ConnectorMySqlOption)' == 'True'" Version="$(MySqlDriverVersion)" />
