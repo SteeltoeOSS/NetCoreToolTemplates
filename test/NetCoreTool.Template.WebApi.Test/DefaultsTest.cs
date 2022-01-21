@@ -29,7 +29,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 switch (options.Framework)
                 {
                     case Framework.Net50:
-                        packages.Add(("Swashbuckle.AspNetCore", "5.6.*"));
+                        packages.Add(("Swashbuckle.AspNetCore", "6.2.*"));
                         break;
                     case Framework.NetCoreApp31:
                         break;
@@ -78,7 +78,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private void AssertLaunchSettings(ProjectOptions options, LaunchSettings settings)
         {
-            if (options.Language == Language.CSharp && options.Framework >= Framework.Net50)
+            if (options.Framework >= Framework.Net50)
             {
                 settings.Profiles[Sandbox.Name].LaunchUrl.Should().Be("swagger");
             }

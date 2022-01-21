@@ -21,7 +21,7 @@
   <ItemGroup>
     <Content Include="Content\**\*" Exclude="Content\**\bin\**;Content\**\obj\**" />
     <Compile Remove="**\*" />
-    <None Include="resources\icon.png" Pack="true" PackagePath="\"/>
+    <None Include="resources\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
