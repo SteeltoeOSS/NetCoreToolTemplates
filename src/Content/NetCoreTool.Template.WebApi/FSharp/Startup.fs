@@ -132,6 +132,9 @@ type Startup(configuration: IConfiguration) =
 #endif
 #if (Steeltoe3ManagementEndpoints)
         services.AddAllActuators(self.Configuration)
+#if (!Steeltoe30)
+        services.ActivateActuatorEndpoints()
+#endif
 #endif
 #if (AnyTracing)
 #if (Steeltoe2)
@@ -169,6 +172,8 @@ type Startup(configuration: IConfiguration) =
            .UseEndpoints(fun endpoints ->
                 endpoints.MapControllers() |> ignore
 #if (Steeltoe3ManagementEndpoints)
+#if (Steeltoe30)
                 endpoints.MapAllActuators() |> ignore
+#endif
 #endif
             ) |> ignore
