@@ -138,6 +138,9 @@ namespace Company.WebApplication.CS
 #endif
 #if (Steeltoe3ManagementEndpoints)
             services.AddAllActuators(Configuration);
+#if (!Steeltoe30)
+            services.ActivateActuatorEndpoints();
+#endif
 #endif
 #if (AnyTracing)
 #if (Steeltoe2)
@@ -189,7 +192,9 @@ namespace Company.WebApplication.CS
             {
                 endpoints.MapControllers();
 #if (Steeltoe3ManagementEndpoints)
+#if (Steeltoe30)
                 endpoints.MapAllActuators();
+#endif
 #endif
             });
         }
