@@ -9,8 +9,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
     public class DefaultsTest : ProjectOptionTest
     {
-        public DefaultsTest(ITestOutputHelper logger) : base(null, "toe Web", logger)
-        // public DefaultsTest(ITestOutputHelper logger) : base(null, "Steeltoe Web API (C#) Author: VMware", logger)
+        public DefaultsTest(ITestOutputHelper logger) : base(null, "Steeltoe Web API (C#) Author: VMware", logger)
         {
         }
 
