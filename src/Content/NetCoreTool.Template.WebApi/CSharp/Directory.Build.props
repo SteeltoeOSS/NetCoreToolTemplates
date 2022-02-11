@@ -20,8 +20,9 @@
     <DiscoveryEurekaOption>false</DiscoveryEurekaOption>
     <DockerfileOption>false</DockerfileOption>
     <EntityFrameworkCoreVersion>3.1.2</EntityFrameworkCoreVersion>
-    <FrameworkOption>net5.0</FrameworkOption>
-    <FrameworkNet50>true</FrameworkNet50>
+    <FrameworkOption>net6.0</FrameworkOption>
+    <FrameworkNet60>true</FrameworkNet60>
+    <FrameworkNet50>false</FrameworkNet50>
     <HostingAzureSpringCloudOption>false</HostingAzureSpringCloudOption>
     <HostingCloudFoundryOption>false</HostingCloudFoundryOption>
     <HostingCloudOption>false</HostingCloudOption>

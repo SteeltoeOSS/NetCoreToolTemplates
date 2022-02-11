@@ -4,5 +4,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
     {
         NetCoreApp31,
         Net50,
+        Net60,
     }
 }

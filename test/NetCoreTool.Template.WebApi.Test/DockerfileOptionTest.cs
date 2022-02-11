@@ -20,6 +20,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             var dockerfile = await Sandbox.GetFileTextAsync("Dockerfile");
             var tag = options.Framework switch
             {
+                Framework.Net60 => "6.0-alpine",
                 Framework.Net50 => "5.0-alpine",
                 Framework.NetCoreApp31 => "3.1-alpine",
                 _ => throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString())

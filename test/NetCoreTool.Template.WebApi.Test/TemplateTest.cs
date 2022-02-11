@@ -32,7 +32,9 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             Logger.WriteLine($"smoke testing help");
             using var helpBox = await TemplateSandbox("--help");
-            helpBox.CommandOutput.Should().ContainSnippet($"{Option} {Description}");
+            helpBox.CommandOutput.Should()
+                .ContainSnippet(Option is null ? $"{Description}" : $"{Option} {Description}");
+
             Logger.WriteLine($"smoke testing option");
             using var smokeBox = await TemplateSandbox($"{GetSmokeTestArgs()}");
         }
