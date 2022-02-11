@@ -12,10 +12,14 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
             {
                 return new List<object[]>
                 {
+                    new object[] { "3.1.*", "net6.0", "C#", },
+                    new object[] { "3.1.*", "net6.0", "F#", },
                     new object[] { "3.1.*", "net5.0", "C#", },
                     new object[] { "3.1.*", "net5.0", "F#", },
                     new object[] { "3.1.*", "netcoreapp3.1", "C#", },
                     new object[] { "3.1.*", "netcoreapp3.1", "F#", },
+                    new object[] { "3.0.*", "net6.0", "C#", },
+                    new object[] { "3.0.*", "net6.0", "F#", },
                     new object[] { "3.0.*", "net5.0", "C#", },
                     new object[] { "3.0.*", "net5.0", "F#", },
                     new object[] { "3.0.*", "netcoreapp3.1", "C#", },

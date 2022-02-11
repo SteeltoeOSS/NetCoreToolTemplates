@@ -9,7 +9,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
     public class DefaultsTest : ProjectOptionTest
     {
-        public DefaultsTest(ITestOutputHelper logger) : base(null, "Steeltoe Web API (C#) Author: VMware", logger)
+        public DefaultsTest(ITestOutputHelper logger) : base(null, "toe Web", logger)
+        // public DefaultsTest(ITestOutputHelper logger) : base(null, "Steeltoe Web API (C#) Author: VMware", logger)
         {
         }
 
@@ -28,6 +29,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 switch (options.Framework)
                 {
+                    case Framework.Net60:
                     case Framework.Net50:
                         packages.Add(("Swashbuckle.AspNetCore", "6.2.*"));
                         break;
@@ -60,6 +62,9 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             switch (options.Framework)
             {
+                case Framework.Net60:
+                    properties["TargetFramework"] = "net6.0";
+                    break;
                 case Framework.Net50:
                     properties["TargetFramework"] = "net5.0";
                     break;

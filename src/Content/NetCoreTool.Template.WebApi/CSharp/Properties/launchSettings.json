@@ -4,7 +4,7 @@
     "Company.WebApplication.CS": {
       "commandName": "Project",
       "launchBrowser": true,
-      //#if (FrameworkNet50)
+      //#if (FrameworkNet60 || FrameworkNet50)
       "launchUrl": "swagger",
       //#else
       "launchUrl": "weatherforecast",

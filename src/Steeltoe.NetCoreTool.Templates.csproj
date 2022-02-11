@@ -12,7 +12,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl>https://steeltoe.io/images/transparent.png</PackageIconUrl>
     <NoDefaultExcludes>true</NoDefaultExcludes>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
