@@ -75,6 +75,26 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             }
         }
 
+        protected override void AssertAppSettingsJsonHook(List<Action<ProjectOptions, AppSettings>> assertions)
+        {
+            assertions.Add(AssertAppSettings);
+        }
+
+        private void AssertAppSettings(ProjectOptions options, AppSettings settings)
+        {
+            settings.Schema.Should().Be("https://steeltoe.io/schema/latest/schema.json");
+        }
+
+        protected override void AssertDevelopmentAppSettingsJsonHook(List<Action<ProjectOptions, AppSettings>> assertions)
+        {
+            assertions.Add(AssertDevelopmentAppSettings);
+        }
+
+        private void AssertDevelopmentAppSettings(ProjectOptions options, AppSettings settings)
+        {
+            settings.Schema.Should().Be("https://steeltoe.io/schema/latest/schema.json");
+        }
+
         protected override void AssertLaunchSettingsHook(List<Action<ProjectOptions, LaunchSettings>> assertions)
         {
             assertions.Add(AssertLaunchSettings);

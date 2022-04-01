@@ -179,18 +179,40 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             if (assertions.Count == 0)
             {
                 Logger.WriteLine("no appsettings.json assertions");
-                return;
+            }
+            else
+            {
+                Logger.WriteLine("asserting appsettings.json");
+                var settings = await Sandbox.GetJsonDocumentAsync<AppSettings>("appsettings.json");
+                foreach (var assertion in assertions)
+                {
+                    assertion(options, settings);
+                }
             }
 
-            Logger.WriteLine("asserting appsettings.json");
-            var settings = await Sandbox.GetJsonDocumentAsync<AppSettings>("appsettings.json");
-            foreach (var assertion in assertions)
+            assertions.Clear();
+            AssertDevelopmentAppSettingsJsonHook(assertions);
+            if (assertions.Count == 0)
             {
-                assertion(options, settings);
+                Logger.WriteLine("no appsettings.Development.json assertions");
+            }
+            else
+            {
+                Logger.WriteLine("asserting appsettings.Development.json");
+                var settings = await Sandbox.GetJsonDocumentAsync<AppSettings>("appsettings.Development.json");
+                foreach (var assertion in assertions)
+                {
+                    assertion(options, settings);
+                }
             }
         }
 
         protected virtual void AssertAppSettingsJsonHook(List<Action<ProjectOptions, AppSettings>> assertions)
+        {
+        }
+
+        protected virtual void AssertDevelopmentAppSettingsJsonHook(
+            List<Action<ProjectOptions, AppSettings>> assertions)
         {
         }
 
