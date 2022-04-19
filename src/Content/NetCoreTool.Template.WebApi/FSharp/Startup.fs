@@ -134,7 +134,7 @@ type Startup(configuration: IConfiguration) =
         services.AddCloudFoundryActuators(self.Configuration)
 #endif
 #if (Steeltoe3ManagementEndpoints)
-        services.AddAllActuators(self.Configuration)
+        services.AddAllActuators(self.Configuration) |> ignore
 #if (!Steeltoe30)
         services.ActivateActuatorEndpoints()
 #endif

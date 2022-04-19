@@ -273,6 +273,11 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static SteeltoeVersion ToSteeltoeEnum(string steeltoe)
         {
+            if (steeltoe.StartsWith("3.2."))
+            {
+                return SteeltoeVersion.Steeltoe32;
+            }
+
             if (steeltoe.StartsWith("3.1."))
             {
                 return SteeltoeVersion.Steeltoe31;
