@@ -5,5 +5,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
         Steeltoe25,
         Steeltoe30,
         Steeltoe31,
+        Steeltoe32,
     }
 }
