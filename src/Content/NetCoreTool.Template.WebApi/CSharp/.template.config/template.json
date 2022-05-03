@@ -72,9 +72,13 @@
       "type": "computed",
       "value": "ConnectorMySqlOption || ConnectorPostgreSqlOption || ConnectorSqlServerOption"
     },
+    "AnyMessagingRabbitMq": {
+      "type": "computed",
+      "value": "MessagingRabbitMqClientOption || MessagingRabbitMqListenerOption"
+    },
     "AnySteeltoe": {
       "type": "computed",
-      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyHosting || AnyTracing"
+      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyHosting || AnyTracing || AnyMessagingRabbitMq"
     },
     "AnyTracing": {
       "type": "computed",
