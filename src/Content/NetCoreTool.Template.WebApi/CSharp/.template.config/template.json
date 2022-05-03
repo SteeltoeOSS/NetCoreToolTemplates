@@ -39,6 +39,18 @@
           ]
         },
         {
+          "condition": "(!MessagingRabbitMqListenerOption && !MessagingRabbitMqOption)",
+          "exclude": [
+            "RabbitListenerService.cs"
+          ]
+        },
+        {
+          "condition": "(!MessagingRabbitMqClientOption && !MessagingRabbitMqOption)",
+          "exclude": [
+            "Controllers/WriteMessageController.cs"
+          ]
+        },
+        {
           "condition": "(!DockerfileOption)",
           "exclude": [
             "Dockerfile"
