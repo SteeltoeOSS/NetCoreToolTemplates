@@ -82,7 +82,7 @@ using Steeltoe.Management.Tracing;
 using Company.WebApplication.CS.Models;
 #endif
 
-#if (MessagingRabbitMqListenerOption || MessagingRabbitMQClientOption)
+#if (MessagingRabbitMqListenerOption || MessagingRabbitMqClientOption)
 using Steeltoe.Messaging.RabbitMQ.Config;
 using Steeltoe.Messaging.RabbitMQ.Extensions;
 #endif
@@ -92,7 +92,7 @@ namespace Company.WebApplication.CS
     public class Startup
     {
 
-#if (MessagingRabbitMqListenerOption || MessagingRabbitMQClientOption)
+#if (MessagingRabbitMqListenerOption || MessagingRabbitMqClientOption)
         public const string RECEIVE_AND_CONVERT_QUEUE = "steeltoe_message_queue";
 #endif        
         public Startup(IConfiguration configuration)
@@ -105,7 +105,7 @@ namespace Company.WebApplication.CS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-#if (MessagingRabbitMqListenerOption || MessagingRabbitMQClientOption)
+#if (MessagingRabbitMqListenerOption || MessagingRabbitMqClientOption)
             services.AddRabbitMQConnection(Configuration);
 
             // Add Steeltoe Rabbit services, use default .NET serialization
@@ -127,7 +127,7 @@ namespace Company.WebApplication.CS
             // Tell steeltoe about singleton so it can wire up queues with methods to process queues
             services.AddRabbitListeners<RabbitListenerService>();
 #endif
-#if (MessagingRabbitMQClientOption)
+#if (MessagingRabbitMqClientOption)
             // Add Steeltoe RabbitTemplate for sending/receiving
             services.AddRabbitTemplate();
 #endif
