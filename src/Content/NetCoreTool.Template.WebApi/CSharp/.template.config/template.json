@@ -74,7 +74,7 @@
     },
     "AnyMessagingRabbitMq": {
       "type": "computed",
-      "value": "MessagingRabbitMqClientOption || MessagingRabbitMqListenerOption"
+      "value": "MessagingRabbitMqClientOption || MessagingRabbitMqListenerOption || MessagingRabbitMqOption"
     },
     "AnySteeltoe": {
       "type": "computed",
@@ -201,6 +201,12 @@
       "type": "parameter",
       "datatype": "bool",
       "description": "Add access to Eureka, a REST-based service for locating services.",
+      "defaultValue": "false"
+    },
+    "MessagingRabbitMqOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add both RabbitMq listener and client services.",
       "defaultValue": "false"
     },
     "MessagingRabbitMqListenerOption": {

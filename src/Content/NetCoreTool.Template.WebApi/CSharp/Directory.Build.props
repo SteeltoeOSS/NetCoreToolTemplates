@@ -28,6 +28,7 @@
     <HostingCloudOption>false</HostingCloudOption>
     <LoggingDynamicLoggerOption>false</LoggingDynamicLoggerOption>
     <ManagementEndpointsOption>false</ManagementEndpointsOption>
+    <MessagingRabbitMqOption>false</MessagingRabbitMqOption>
     <MessagingRabbitMqListenerOption>false</MessagingRabbitMqListenerOption>
     <MessagingRabbitMqClientOption>false</MessagingRabbitMqClientOption>
     <MongoDbDriverVersion>2.8.*</MongoDbDriverVersion>

@@ -116,6 +116,13 @@
       "isVisible": "true"
     },
     {
+      "id": "MessagingRabbitMqOption",
+      "name": {
+        "text": "Add both RabbitMq listener and client services."
+      },
+      "isVisible": "true"
+    },
+    {
       "id": "MessagingRabbitMqListenerOption",
       "name": {
         "text": "Add a RabbitMq listener service for processing messages from queues."

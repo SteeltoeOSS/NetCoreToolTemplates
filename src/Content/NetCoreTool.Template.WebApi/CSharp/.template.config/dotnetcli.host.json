@@ -92,6 +92,10 @@
       "longName": "management-endpoints",
       "shortName": ""
     },
+    "MessagingRabbitMqOption": {
+      "longName": "messaging-rabbitmq",
+      "shortName": ""
+    },
     "MessagingRabbitMqListenerOption": {
       "longName": "messaging-rabbitmq-listener",
       "shortName": ""

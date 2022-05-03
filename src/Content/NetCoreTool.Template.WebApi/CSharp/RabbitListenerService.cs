@@ -1,4 +1,4 @@
-#if (MessagingRabbitMqListenerOption)
+#if (MessagingRabbitMqOption || MessagingRabbitMqListenerOption)
 using Microsoft.Extensions.Logging;
 using Steeltoe.Messaging.RabbitMQ.Attributes;
 
