@@ -82,10 +82,19 @@ using Steeltoe.Management.Tracing;
 using Company.WebApplication.CS.Models;
 #endif
 
+#if (MessagingRabbitMqListenerOption || MessagingRabbitMQClientOption)
+using Steeltoe.Messaging.RabbitMQ.Config;
+using Steeltoe.Messaging.RabbitMQ.Extensions;
+#endif
+
 namespace Company.WebApplication.CS
 {
     public class Startup
     {
+
+#if (MessagingRabbitMqListenerOption || MessagingRabbitMQClientOption)
+        public const string RECEIVE_AND_CONVERT_QUEUE = "steeltoe_message_queue";
+#endif        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -96,6 +105,32 @@ namespace Company.WebApplication.CS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+#if (MessagingRabbitMqListenerOption || MessagingRabbitMQClientOption)
+            services.AddRabbitMQConnection(Configuration);
+
+            // Add Steeltoe Rabbit services, use default .NET serialization
+            //services.AddRabbitServices();
+
+            // Add Steeltoe Rabbit services, use JSON serialization
+            services.AddRabbitServices(true);
+
+            // Add Steeltoe RabbitAdmin services to get queues declared
+            services.AddRabbitAdmin();
+
+            // Add a queue to the message container that the rabbit admin will discover and declare at startup
+            services.AddRabbitQueue(new Queue(RECEIVE_AND_CONVERT_QUEUE));
+#endif
+#if (MessagingRabbitMqListenerOption)
+            // Add singleton that will process incoming messages
+            services.AddSingleton<RabbitListenerService>();
+
+            // Tell steeltoe about singleton so it can wire up queues with methods to process queues
+            services.AddRabbitListeners<RabbitListenerService>();
+#endif
+#if (MessagingRabbitMQClientOption)
+            // Add Steeltoe RabbitTemplate for sending/receiving
+            services.AddRabbitTemplate();
+#endif
 #if (ConnectorOAuthOption)
             services.AddOAuthServiceOptions(Configuration);
 #endif
