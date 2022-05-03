@@ -92,7 +92,7 @@ namespace Company.WebApplication.CS
     public class Startup
     {
 
-#if (MessagingRabbitMqListenerOption || MessagingRabbitMqClientOption)
+#if (AnyMessagingRabbitMq)
         public const string RECEIVE_AND_CONVERT_QUEUE = "steeltoe_message_queue";
 #endif        
         public Startup(IConfiguration configuration)
@@ -105,9 +105,7 @@ namespace Company.WebApplication.CS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-#if (MessagingRabbitMqListenerOption || MessagingRabbitMqClientOption)
-            services.AddRabbitMQConnection(Configuration);
-
+#if (AnyMessagingRabbitMq)
             // Add Steeltoe Rabbit services, use default .NET serialization
             //services.AddRabbitServices();
 
