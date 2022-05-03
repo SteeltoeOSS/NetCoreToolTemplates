@@ -1,4 +1,4 @@
-#if (MessagingRabbitMqClientOption)
+#if (MessagingRabbitMqOption || MessagingRabbitMqClientOption)
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Messaging.RabbitMQ.Core;
