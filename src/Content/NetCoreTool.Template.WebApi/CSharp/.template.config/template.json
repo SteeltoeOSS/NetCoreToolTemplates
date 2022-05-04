@@ -221,18 +221,6 @@
       "description": "Add both RabbitMq listener and client services.",
       "defaultValue": "false"
     },
-    "MessagingRabbitMqListenerOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a RabbitMq listener service for processing messages from queues.",
-      "defaultValue": "false"
-    },
-    "MessagingRabbitMqClientOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a RabbitMq client service for sending and receiving messages.",
-      "defaultValue": "false"
-    },
     "DistributedTracingOption": {
       "type": "parameter",
       "datatype": "bool",
@@ -362,6 +350,18 @@
       "type": "parameter",
       "datatype": "bool",
       "description": "Add application management endpoints, such as health and metrics.",
+      "defaultValue": "false"
+    },
+    "MessagingRabbitMqClientOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a RabbitMQ client service for sending and receiving messages.",
+      "defaultValue": "false"
+    },
+    "MessagingRabbitMqListenerOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a RabbitMQ listener service for processing messages.",
       "defaultValue": "false"
     },
     "MongoDbDriverVersion": {
