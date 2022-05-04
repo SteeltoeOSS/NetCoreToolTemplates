@@ -215,12 +215,6 @@
       "description": "Add access to Eureka, a REST-based service for locating services.",
       "defaultValue": "false"
     },
-    "MessagingRabbitMqOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add both RabbitMq listener and client services.",
-      "defaultValue": "false"
-    },
     "DistributedTracingOption": {
       "type": "parameter",
       "datatype": "bool",
@@ -350,6 +344,12 @@
       "type": "parameter",
       "datatype": "bool",
       "description": "Add application management endpoints, such as health and metrics.",
+      "defaultValue": "false"
+    },
+    "MessagingRabbitMqOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add both RabbitMQ client and listener services.\nSame as specifying --messaging-rabbitmq-client and --messaging-rabbitmq-listener.",
       "defaultValue": "false"
     },
     "MessagingRabbitMqClientOption": {

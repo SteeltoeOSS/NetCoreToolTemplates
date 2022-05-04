@@ -96,12 +96,12 @@
       "longName": "messaging-rabbitmq",
       "shortName": ""
     },
-    "MessagingRabbitMqListenerOption": {
-      "longName": "messaging-rabbitmq-listener",
-      "shortName": ""
-    },
     "MessagingRabbitMqClientOption": {
       "longName": "messaging-rabbitmq-client",
+      "shortName": ""
+    },
+    "MessagingRabbitMqListenerOption": {
+      "longName": "messaging-rabbitmq-listener",
       "shortName": ""
     },
     "SkipRestoreOption": {
