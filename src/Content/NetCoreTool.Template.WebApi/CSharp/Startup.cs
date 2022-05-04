@@ -94,7 +94,7 @@ namespace Company.WebApplication.CS
 
 #if (AnyMessagingRabbitMq)
         public const string RECEIVE_AND_CONVERT_QUEUE = "steeltoe_message_queue";
-#endif        
+#endif
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -106,22 +106,17 @@ namespace Company.WebApplication.CS
         public void ConfigureServices(IServiceCollection services)
         {
 #if (AnyMessagingRabbitMq)
-            // Add Steeltoe Rabbit services, use default .NET serialization
-            //services.AddRabbitServices();
-
-            // Add Steeltoe Rabbit services, use JSON serialization
+            // Add Steeltoe Rabbit services using JSON serialization
+            // to use .NET default serialization, pass "false"
             services.AddRabbitServices(true);
-
             // Add Steeltoe RabbitAdmin services to get queues declared
             services.AddRabbitAdmin();
-
             // Add a queue to the message container that the rabbit admin will discover and declare at startup
             services.AddRabbitQueue(new Queue(RECEIVE_AND_CONVERT_QUEUE));
 #endif
 #if (MessagingRabbitMqOption || MessagingRabbitMqListenerOption)
             // Add singleton that will process incoming messages
             services.AddSingleton<RabbitListenerService>();
-
             // Tell steeltoe about singleton so it can wire up queues with methods to process queues
             services.AddRabbitListeners<RabbitListenerService>();
 #endif
