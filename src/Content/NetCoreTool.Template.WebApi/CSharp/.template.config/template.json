@@ -39,21 +39,21 @@
           ]
         },
         {
-          "condition": "(!MessagingRabbitMqListenerOption && !MessagingRabbitMqOption)",
+          "condition": "(!DockerfileOption)",
+          "exclude": [
+            "Dockerfile"
+          ]
+        },
+        {
+          "condition": "(!MessagingRabbitMqListener && !MessagingRabbitMq)",
           "exclude": [
             "RabbitListenerService.cs"
           ]
         },
         {
-          "condition": "(!MessagingRabbitMqClientOption && !MessagingRabbitMqOption)",
+          "condition": "(!MessagingRabbitMqClient && !MessagingRabbitMq)",
           "exclude": [
             "Controllers/WriteMessageController.cs"
-          ]
-        },
-        {
-          "condition": "(!DockerfileOption)",
-          "exclude": [
-            "Dockerfile"
           ]
         }
       ]
@@ -80,13 +80,13 @@
       "type": "computed",
       "value": "HostingCloudFoundryOption || HostingCloudOption"
     },
+    "AnyMessagingRabbitMq": {
+      "type": "computed",
+      "value": "MessagingRabbitMq || MessagingRabbitMqClient || MessagingRabbitMqListener"
+    },
     "AnySql": {
       "type": "computed",
       "value": "ConnectorMySqlOption || ConnectorPostgreSqlOption || ConnectorSqlServerOption"
-    },
-    "AnyMessagingRabbitMq": {
-      "type": "computed",
-      "value": "MessagingRabbitMqClientOption || MessagingRabbitMqListenerOption || MessagingRabbitMqOption"
     },
     "AnySteeltoe": {
       "type": "computed",
@@ -346,17 +346,29 @@
       "description": "Add application management endpoints, such as health and metrics.",
       "defaultValue": "false"
     },
+    "MessagingRabbitMq": {
+      "type": "computed",
+      "value": "MessagingRabbitMqOption && !Steeltoe2"
+    },
     "MessagingRabbitMqOption": {
       "type": "parameter",
       "datatype": "bool",
       "description": "Add both RabbitMQ client and listener services.\nSame as specifying --messaging-rabbitmq-client and --messaging-rabbitmq-listener.",
       "defaultValue": "false"
     },
+    "MessagingRabbitMqClient": {
+      "type": "computed",
+      "value": "MessagingRabbitMqClientOption && !Steeltoe2"
+    },
     "MessagingRabbitMqClientOption": {
       "type": "parameter",
       "datatype": "bool",
       "description": "Add a RabbitMQ client service for sending and receiving messages.",
       "defaultValue": "false"
+    },
+    "MessagingRabbitMqListener": {
+      "type": "computed",
+      "value": "MessagingRabbitMqListenerOption && !Steeltoe2"
     },
     "MessagingRabbitMqListenerOption": {
       "type": "parameter",
