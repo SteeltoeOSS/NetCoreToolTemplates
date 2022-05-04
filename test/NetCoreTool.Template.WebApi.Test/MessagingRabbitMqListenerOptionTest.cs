@@ -13,6 +13,11 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
+        protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
+        {
+            packages.Add(("Steeltoe.Messaging.RabbitMQ", "$(SteeltoeVersion)"));
+        }
+
         protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Messaging.RabbitMQ.Config");
