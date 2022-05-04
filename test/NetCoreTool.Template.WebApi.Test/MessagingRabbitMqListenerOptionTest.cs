@@ -13,13 +13,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
-        protected override async Task AssertProjectGeneration(ProjectOptions options)
-        {
-            await base.AssertProjectGeneration(options);
-            Logger.WriteLine("asserting RabbitListenerService");
-            Sandbox.FileExists(GetSourceFileForLanguage("RabbitListenerService", options.Language)).Should().BeTrue();
-        }
-
         protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Messaging.RabbitMQ.Config");
@@ -30,6 +23,13 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             snippets.Add("services.AddRabbitQueue(new Queue(RECEIVE_AND_CONVERT_QUEUE))");
             snippets.Add("services.AddSingleton<RabbitListenerService>()");
             snippets.Add("services.AddRabbitListeners<RabbitListenerService>()");
+        }
+
+        protected override async Task AssertProjectGeneration(ProjectOptions options)
+        {
+            await base.AssertProjectGeneration(options);
+            Logger.WriteLine("asserting RabbitListenerService");
+            Sandbox.FileExists(GetSourceFileForLanguage("RabbitListenerService", options.Language)).Should().BeTrue();
         }
     }
 }
