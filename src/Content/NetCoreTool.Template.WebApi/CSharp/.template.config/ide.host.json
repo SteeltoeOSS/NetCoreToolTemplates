@@ -116,27 +116,6 @@
       "isVisible": "true"
     },
     {
-      "id": "MessagingRabbitMqOption",
-      "name": {
-        "text": "Add both RabbitMq listener and client services."
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "MessagingRabbitMqListenerOption",
-      "name": {
-        "text": "Add a RabbitMq listener service for processing messages from queues."
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "MessagingRabbitMqClientOption",
-      "name": {
-        "text": "Add a RabbitMq client service for sending and receiving messages."
-      },
-      "isVisible": "true"
-    },
-    {
       "id": "DockerfileOption",
       "name": {
         "text": "Add a Dockerfile"
