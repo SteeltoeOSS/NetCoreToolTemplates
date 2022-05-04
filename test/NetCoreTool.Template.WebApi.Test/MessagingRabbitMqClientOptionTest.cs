@@ -13,6 +13,11 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
         }
 
+        protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
+        {
+            packages.Add(("Steeltoe.Messaging.RabbitMQ", "$(SteeltoeVersion)"));
+        }
+
         protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Messaging.RabbitMQ.Config");
@@ -28,7 +33,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             await base.AssertProjectGeneration(options);
             Logger.WriteLine("asserting Controllers/WriteMessageController");
-            Sandbox.FileExists(GetSourceFileForLanguage("Controllers/WriteMessageController", options.Language)).Should().BeTrue();
+            Sandbox.FileExists(GetSourceFileForLanguage("Controllers/WriteMessageController", options.Language))
+                .Should().BeTrue();
         }
     }
 }
