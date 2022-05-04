@@ -9,7 +9,8 @@ namespace Company.WebApplication.CS
     [Route("[controller]")]
     public class WriteMessageController : ControllerBase
     {
-        public const string RECEIVE_AND_CONVERT_QUEUE = "steeltoe_message_queue";
+        private const string ReceiveAndConvertQueue = "steeltoe_message_queue";
+
         private readonly ILogger<WriteMessageController> _logger;
         private readonly RabbitTemplate _rabbitTemplate;
         private readonly RabbitAdmin _rabbitAdmin;
@@ -26,9 +27,9 @@ namespace Company.WebApplication.CS
         {
             var msg = "Hi there from over here.";
 
-            _rabbitTemplate.ConvertAndSend(RECEIVE_AND_CONVERT_QUEUE, msg);
+            _rabbitTemplate.ConvertAndSend(ReceiveAndConvertQueue, msg);
 
-            _logger.LogInformation($"Sending message '{msg}' to queue '{RECEIVE_AND_CONVERT_QUEUE}'");
+            _logger.LogInformation($"Sending message '{msg}' to queue '{ReceiveAndConvertQueue}'");
 
             return "Message sent to queue.";
         }
