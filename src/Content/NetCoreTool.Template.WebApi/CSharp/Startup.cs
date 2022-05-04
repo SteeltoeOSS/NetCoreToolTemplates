@@ -91,9 +91,9 @@ namespace Company.WebApplication.CS
 {
     public class Startup
     {
-
 #if (AnyMessagingRabbitMq)
-        public const string RECEIVE_AND_CONVERT_QUEUE = "steeltoe_message_queue";
+        private const string ReceiveAndConvertQueue = "steeltoe_message_queue";
+
 #endif
         public Startup(IConfiguration configuration)
         {
@@ -112,7 +112,7 @@ namespace Company.WebApplication.CS
             // Add Steeltoe RabbitAdmin services to get queues declared
             services.AddRabbitAdmin();
             // Add a queue to the message container that the rabbit admin will discover and declare at startup
-            services.AddRabbitQueue(new Queue(RECEIVE_AND_CONVERT_QUEUE));
+            services.AddRabbitQueue(new Queue(ReceiveAndConvertQueue));
 #endif
 #if (MessagingRabbitMqOption || MessagingRabbitMqListenerOption)
             // Add singleton that will process incoming messages

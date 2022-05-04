@@ -20,7 +20,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             snippets.Add("services.AddRabbitServices(true)");
             snippets.Add("services.AddRabbitAdmin()");
-            snippets.Add("services.AddRabbitQueue(new Queue(RECEIVE_AND_CONVERT_QUEUE))");
+            snippets.Add("services.AddRabbitQueue(new Queue(ReceiveAndConvertQueue))");
             snippets.Add("services.AddSingleton<RabbitListenerService>()");
             snippets.Add("services.AddRabbitListeners<RabbitListenerService>()");
         }
