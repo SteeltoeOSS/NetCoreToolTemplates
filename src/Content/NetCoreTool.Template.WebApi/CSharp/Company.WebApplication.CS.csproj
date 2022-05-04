@@ -47,8 +47,8 @@
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Condition="'$(Steeltoe2ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(Steeltoe3ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.TracingCore" Condition="'$(DistributedTracingOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="System.Data.SqlClient" Condition="'$(ConnectorSqlServerOption)' == 'True'" Version="4.8.*" />
     <PackageReference Include="Steeltoe.Messaging.RabbitMQ" Condition="'$(AnyMessagingRabbitMq)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="System.Data.SqlClient" Condition="'$(ConnectorSqlServerOption)' == 'True'" Version="4.8.*" />
   </ItemGroup>
   <!--#endif -->
 
