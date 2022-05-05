@@ -158,16 +158,16 @@
       "isVisible": "true"
     },
     {
-      "id": "MessagingRabbitMqOption",
+      "id": "MessagingRabbitMqClientOption",
       "name": {
-        "text": "Add RabbitMQ messaging support and auto-configuration"
+        "text": "Add a RabbitMQ client service for sending and receiving messages"
       },
       "isVisible": "true"
     },
     {
-      "id": "StreamRabbitMqOption",
+      "id": "MessagingRabbitMqListenerOption",
       "name": {
-        "text": "Add RabbitMQ stream support and auto-configuration"
+        "text": "Add a RabbitMQ listener service for processing messages"
       },
       "isVisible": "true"
     }

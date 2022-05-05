@@ -170,13 +170,6 @@
         "text": "Add a RabbitMQ listener service for processing messages"
       },
       "isVisible": "true"
-    },
-    {
-      "id": "StreamRabbitMqOption",
-      "name": {
-        "text": "Add RabbitMQ stream support and auto-configuration"
-      },
-      "isVisible": "true"
     }
   ]
 }

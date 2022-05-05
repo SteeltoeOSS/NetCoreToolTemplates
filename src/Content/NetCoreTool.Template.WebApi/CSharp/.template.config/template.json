@@ -90,7 +90,7 @@
     },
     "AnySteeltoe": {
       "type": "computed",
-      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyHosting || AnyTracing || AnyMessagingRabbitMq"
+      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyHosting || AnyMessagingRabbitMq || AnyTracing"
     },
     "AnyTracing": {
       "type": "computed",
