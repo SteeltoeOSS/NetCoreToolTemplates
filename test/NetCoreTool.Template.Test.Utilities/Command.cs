@@ -65,7 +65,7 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
                 throw new Exception($"'{command}' failed to start: {e.Message}");
             }
 
-            const int timeoutMillis = 100 /* 100s */ * 1000 /* 1000ms/s */;
+            const int timeoutMillis = 5 /* 5m */ * 60 /* 60s/m */ * 1000 /* 1000ms/s */;
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             // ReSharper disable once AccessToDisposedClosure
