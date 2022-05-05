@@ -1,0 +1,2 @@
+module Company.WebApplication.FS.Controllers.WriteMessageController
+

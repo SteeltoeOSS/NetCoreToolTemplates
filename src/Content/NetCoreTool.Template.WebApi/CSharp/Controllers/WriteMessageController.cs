@@ -1,9 +1,9 @@
-#if (MessagingRabbitMq || MessagingRabbitMqClient)
+#if (MessagingRabbitMqClient)
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Messaging.RabbitMQ.Core;
 
-namespace Company.WebApplication.CS
+namespace Company.WebApplication.CS.Controller
 {
     [ApiController]
     [Route("[controller]")]

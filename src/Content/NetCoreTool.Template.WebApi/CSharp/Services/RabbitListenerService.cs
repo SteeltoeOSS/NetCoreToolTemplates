@@ -1,12 +1,11 @@
-#if (MessagingRabbitMqOption || MessagingRabbitMqListenerOption)
+#if (MessagingRabbitMqListener)
 using Microsoft.Extensions.Logging;
 using Steeltoe.Messaging.RabbitMQ.Attributes;
 
-namespace Company.WebApplication.CS
+namespace Company.WebApplication.CS.Services
 {
     public class RabbitListenerService
     {
-        public const string RECEIVE_AND_CONVERT_QUEUE = "steeltoe_message_queue";
         private ILogger _logger;
 
         public RabbitListenerService(ILogger<RabbitListenerService> logger)
@@ -14,7 +13,7 @@ namespace Company.WebApplication.CS
             _logger = logger;
         }
 
-        [RabbitListener(RECEIVE_AND_CONVERT_QUEUE)]
+        [RabbitListener("steeltoe_message_queue")]
         public void ListenForAMessage(string msg)
         {
             _logger.LogInformation($"Received the message '{msg}' from the queue.");

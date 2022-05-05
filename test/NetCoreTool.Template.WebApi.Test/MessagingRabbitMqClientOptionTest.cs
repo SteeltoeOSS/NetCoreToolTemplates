@@ -35,7 +35,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             snippets.Add("services.AddRabbitServices(true)");
             snippets.Add("services.AddRabbitAdmin()");
-            snippets.Add("services.AddRabbitQueue(new Queue(ReceiveAndConvertQueue))");
+            snippets.Add("services.AddRabbitQueue(");
             snippets.Add("services.AddRabbitTemplate()");
         }
 
