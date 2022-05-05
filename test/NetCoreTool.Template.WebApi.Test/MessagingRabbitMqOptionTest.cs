@@ -51,8 +51,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             await base.AssertProjectGeneration(options);
             Logger.WriteLine("asserting Services/RabbitListenerService");
             Sandbox.FileExists(GetSourceFileForLanguage("Services/RabbitListenerService", options.Language)).Should().BeTrue();
-            Logger.WriteLine("asserting Controllers/WriteMessageController");
-            Sandbox.FileExists(GetSourceFileForLanguage("Controllers/WriteMessageController", options.Language))
+            Logger.WriteLine("asserting Controllers/RabbitMessageController");
+            Sandbox.FileExists(GetSourceFileForLanguage("Controllers/RabbitMessageController", options.Language))
                 .Should().BeTrue();
         }
     }

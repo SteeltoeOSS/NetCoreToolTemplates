@@ -58,7 +58,7 @@
     <!--#endif  -->
     <Compile Include="Controllers\WeatherForecastController.fs" />
     <!--#if (MessagingRabbitMqClient) -->
-    <Compile Include="Controllers\WriteMessageController.fs" />
+    <Compile Include="Controllers\RabbitMessageController.fs" />
     <!--#endif  -->
     <!--#if (CircuitBreakerHystrixOption) -->
     <Compile Include="HelloHystrixCommand.fs" />

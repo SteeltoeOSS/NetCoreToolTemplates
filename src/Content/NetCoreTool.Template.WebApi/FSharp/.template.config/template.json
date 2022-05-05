@@ -47,7 +47,7 @@
         {
           "condition": "(!MessagingRabbitMqClient)",
           "exclude": [
-            "Controllers/WriteMessageController.fs"
+            "Controllers/RabbitMessageController.fs"
           ]
         },
         {
@@ -363,7 +363,7 @@
     "MessagingRabbitMqClientOption": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Add a RabbitMQ client service for sending and receiving messages.",
+      "description": "Add a RabbitMQ client controller for sending and receiving messages.",
       "defaultValue": "false"
     },
     "MessagingRabbitMqListener": {

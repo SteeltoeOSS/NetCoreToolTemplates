@@ -7,15 +7,13 @@ namespace Company.WebApplication.CS.Controller
 {
     [ApiController]
     [Route("[controller]")]
-    public class WriteMessageController : ControllerBase
+    public class RabbitMessageController : ControllerBase
     {
-        private const string ReceiveAndConvertQueue = "steeltoe_message_queue";
-
-        private readonly ILogger<WriteMessageController> _logger;
+        private readonly ILogger<RabbitMessageController> _logger;
         private readonly RabbitTemplate _rabbitTemplate;
         private readonly RabbitAdmin _rabbitAdmin;
 
-        public WriteMessageController(ILogger<WriteMessageController> logger, RabbitTemplate rabbitTemplate, RabbitAdmin rabbitAdmin)
+        public RabbitMessageController(ILogger<RabbitMessageController> logger, RabbitTemplate rabbitTemplate, RabbitAdmin rabbitAdmin)
         {
             _logger = logger;
             _rabbitTemplate = rabbitTemplate;
@@ -26,11 +24,8 @@ namespace Company.WebApplication.CS.Controller
         public ActionResult<string> Index()
         {
             var msg = "Hi there from over here.";
-
-            _rabbitTemplate.ConvertAndSend(ReceiveAndConvertQueue, msg);
-
-            _logger.LogInformation($"Sending message '{msg}' to queue '{ReceiveAndConvertQueue}'");
-
+            _rabbitTemplate.ConvertAndSend("steeltoe_message_queue", msg);
+            _logger.LogInformation($"Sending message '{msg}' to queue 'steeltoe_message_queue'");
             return "Message sent to queue.";
         }
     }
