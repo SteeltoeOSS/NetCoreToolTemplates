@@ -46,19 +46,26 @@
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Condition="'$(Steeltoe2ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(Steeltoe3ManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.TracingCore" Condition="'$(DistributedTracingOption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Messaging.RabbitMQ" Condition="'$(AnyMessagingRabbitMq)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="System.Data.SqlClient" Condition="'$(ConnectorSqlServerOption)' == 'True'" Version="4.8.*" />
   </ItemGroup>
   <!--#endif -->
 
   <ItemGroup>
     <Compile Include="WeatherForecast.fs" />
-    <Compile Include="Controllers/WeatherForecastController.fs" />
+    <!--#if (MessagingRabbitMqListener) -->
+    <Compile Include="Services\RabbitListenerService.fs" />
+    <!--#endif  -->
+    <Compile Include="Controllers\WeatherForecastController.fs" />
+    <!--#if (MessagingRabbitMqClient) -->
+    <Compile Include="Controllers\WriteMessageController.fs" />
+    <!--#endif  -->
     <!--#if (CircuitBreakerHystrixOption) -->
     <Compile Include="HelloHystrixCommand.fs" />
     <!--#endif  -->
     <!--#if (AnyEfCore) -->
-    <Compile Include="Models/ErrorViewModel.fs" />
-    <Compile Include="Models/SampleContext.fs" />
+    <Compile Include="Models\ErrorViewModel.fs" />
+    <Compile Include="Models\SampleContext.fs" />
     <!--#endif  -->
     <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />

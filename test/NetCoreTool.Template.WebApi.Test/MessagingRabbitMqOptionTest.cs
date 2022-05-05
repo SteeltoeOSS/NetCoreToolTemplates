@@ -35,7 +35,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             snippets.Add("services.AddRabbitServices(true)");
             snippets.Add("services.AddRabbitAdmin()");
-            snippets.Add("services.AddRabbitQueue(new Queue(ReceiveAndConvertQueue))");
+            snippets.Add("services.AddRabbitQueue(");
             snippets.Add("services.AddSingleton<RabbitListenerService>()");
             snippets.Add("services.AddRabbitListeners<RabbitListenerService>()");
             snippets.Add("services.AddRabbitTemplate()");
@@ -49,8 +49,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             }
 
             await base.AssertProjectGeneration(options);
-            Logger.WriteLine("asserting RabbitListenerService");
-            Sandbox.FileExists(GetSourceFileForLanguage("RabbitListenerService", options.Language)).Should().BeTrue();
+            Logger.WriteLine("asserting Services/RabbitListenerService");
+            Sandbox.FileExists(GetSourceFileForLanguage("Services/RabbitListenerService", options.Language)).Should().BeTrue();
             Logger.WriteLine("asserting Controllers/WriteMessageController");
             Sandbox.FileExists(GetSourceFileForLanguage("Controllers/WriteMessageController", options.Language))
                 .Should().BeTrue();

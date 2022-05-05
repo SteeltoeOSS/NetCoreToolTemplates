@@ -43,6 +43,18 @@
           "exclude": [
             "Dockerfile"
           ]
+        },
+        {
+          "condition": "(!MessagingRabbitMqClient)",
+          "exclude": [
+            "Controllers/WriteMessageController.fs"
+          ]
+        },
+        {
+          "condition": "(!MessagingRabbitMqListener)",
+          "exclude": [
+            "Services/RabbitListenerService.fs"
+          ]
         }
       ]
     }
@@ -70,7 +82,7 @@
     },
     "AnyMessagingRabbitMq": {
       "type": "computed",
-      "value": "MessagingRabbitMq || MessagingRabbitMqClient || MessagingRabbitMqListener"
+      "value": "MessagingRabbitMqClient || MessagingRabbitMqListener"
     },
     "AnySql": {
       "type": "computed",
@@ -346,7 +358,7 @@
     },
     "MessagingRabbitMqClient": {
       "type": "computed",
-      "value": "MessagingRabbitMqClientOption && !Steeltoe2"
+      "value": "(MessagingRabbitMqClientOption && !Steeltoe2) || MessagingRabbitMq"
     },
     "MessagingRabbitMqClientOption": {
       "type": "parameter",
@@ -356,7 +368,7 @@
     },
     "MessagingRabbitMqListener": {
       "type": "computed",
-      "value": "MessagingRabbitMqListenerOption && !Steeltoe2"
+      "value": "(MessagingRabbitMqListenerOption && !Steeltoe2) || MessagingRabbitMq"
     },
     "MessagingRabbitMqListenerOption": {
       "type": "parameter",

@@ -80,8 +80,15 @@ open Steeltoe.Management.Endpoint
 #if (AnyTracing)
 open Steeltoe.Management.Tracing
 #endif
+#if (AnyMessagingRabbitMq)
+open Steeltoe.Messaging.RabbitMQ.Config
+open Steeltoe.Messaging.RabbitMQ.Extensions
+#endif
 #if (AnyEfCore)
 open Company.WebApplication.FS.Models
+#endif
+#if (MessagingRabbitMqListener)
+open Company.WebApplication.FS.Services
 #endif
 
 #if (NeedsSelf)
@@ -93,6 +100,25 @@ type Startup(configuration: IConfiguration) =
 
     // This method gets called by the runtime. Use this method to add services to the container.
     member _.ConfigureServices(services: IServiceCollection) =
+#if (AnyMessagingRabbitMq)
+        // Add Steeltoe Rabbit services using JSON serialization
+        // to use .NET default serialization, pass "false"
+        services.AddRabbitServices(true) |> ignore
+        // Add Steeltoe RabbitAdmin services to get queues declared
+        services.AddRabbitAdmin() |> ignore
+        // Add a queue to the message container that the rabbit admin will discover and declare at startup
+        services.AddRabbitQueue(new Queue("steeltoe_message_queue")) |> ignore
+#endif
+#if (MessagingRabbitMqClient)
+        // Add Steeltoe RabbitTemplate for sending/receiving
+        services.AddRabbitTemplate() |> ignore
+#endif
+#if (MessagingRabbitMqListener)
+        // Add singleton that will process incoming messages
+        services.AddSingleton<RabbitListenerService>() |> ignore
+        // Tell steeltoe about singleton so it can wire up queues with methods to process queues
+        services.AddRabbitListeners<RabbitListenerService>() |> ignore
+#endif
 #if (ConnectorOAuthOption)
         services.AddOAuthServiceOptions(self.Configuration) |> ignore
 #endif

@@ -85,15 +85,14 @@ using Steeltoe.Messaging.RabbitMQ.Extensions;
 #if (AnyEfCore)
 using Company.WebApplication.CS.Models;
 #endif
+#if (MessagingRabbitMqListener)
+using Company.WebApplication.CS.Services;
+#endif
 
 namespace Company.WebApplication.CS
 {
     public class Startup
     {
-#if (AnyMessagingRabbitMq)
-        private const string ReceiveAndConvertQueue = "steeltoe_message_queue";
-
-#endif
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -111,13 +110,13 @@ namespace Company.WebApplication.CS
             // Add Steeltoe RabbitAdmin services to get queues declared
             services.AddRabbitAdmin();
             // Add a queue to the message container that the rabbit admin will discover and declare at startup
-            services.AddRabbitQueue(new Queue(ReceiveAndConvertQueue));
+            services.AddRabbitQueue(new Queue("steeltoe_message_queue"));
 #endif
-#if (MessagingRabbitMq || MessagingRabbitMqClient)
+#if (MessagingRabbitMqClient)
             // Add Steeltoe RabbitTemplate for sending/receiving
             services.AddRabbitTemplate();
 #endif
-#if (MessagingRabbitMq || MessagingRabbitMqListener)
+#if (MessagingRabbitMqListener)
             // Add singleton that will process incoming messages
             services.AddSingleton<RabbitListenerService>();
             // Tell steeltoe about singleton so it can wire up queues with methods to process queues
