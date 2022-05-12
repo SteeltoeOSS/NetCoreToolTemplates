@@ -9,7 +9,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     public class MessagingRabbitMqClientOptionTest : ProjectOptionTest
     {
         public MessagingRabbitMqClientOptionTest(ITestOutputHelper logger) : base("messaging-rabbitmq-client",
-            "Add a RabbitMQ client service for sending and receiving messages", logger)
+            "Add a RabbitMQ client controller for sending and receiving messages", logger)
         {
         }
 
