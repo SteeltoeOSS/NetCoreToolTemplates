@@ -19,7 +19,7 @@ For learning how to develop additional options for the templates, see [DEVELOPER
 ### From NuGet.org (production)
 
 ```
-$ dotnet new --install Steeltoe.NetCoreTool.Templates
+$ dotnet new install Steeltoe.NetCoreTool.Templates
 ```
 
 ### From .NET Foundation (staging)
