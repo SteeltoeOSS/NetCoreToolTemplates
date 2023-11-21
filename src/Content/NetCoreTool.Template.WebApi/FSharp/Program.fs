@@ -23,11 +23,7 @@ open Steeltoe.Extensions.Configuration.CloudFoundry
 open Steeltoe.Extensions.Configuration.ConfigServer
 #endif
 #if (ConfigurationPlaceholderOption)
-#if (Steeltoe2)
-open Steeltoe.Extensions.Configuration.PlaceholderCore;
-#else
 open Steeltoe.Extensions.Configuration.Placeholder;
-#endif
 #endif
 #if (ConfigurationRandomValueOption)
 open Steeltoe.Extensions.Configuration.RandomValue
