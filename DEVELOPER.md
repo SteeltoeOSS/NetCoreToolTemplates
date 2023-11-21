@@ -197,7 +197,6 @@ We'll edit `Startup.cs` so that a hello log message is output when the app start
 The message will be logged from the `Configure` method so its signature will need to be changed to inject a logger.
 There's also a corresponding `using` statement for the `ILogger` type.
 However, we only want projects that are generated with the `hello-world` option to have these changes so we'll use the C# `HelloWorldOption` preprocessor directive around our new code.
-Note there are two `Configure` method signatures; one for `netcoreapp2.1` and one for everything else.
 
 Edit `src/Content/NetCoreTool.Template.WebApi/CSharp/Startup.cs`:
 ```C#
@@ -206,18 +205,10 @@ Edit `src/Content/NetCoreTool.Template.WebApi/CSharp/Startup.cs`:
 using Microsoft.Extensions.Logging;
 #endif
 ...
-#if (FrameworkNetCoreApp21)
-#if (HelloWorldOption)
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger)
-#else
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-#endif
-#else
 #if (HelloWorldOption)
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
 #else
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-#endif
 #endif
         {
 #if (HelloWorldOption)
@@ -234,12 +225,6 @@ $ dotnet new steeltoe-webapi --output MyHelloWorldApp --hello-world
 ▶ dotnet run --project MyHelloWorldApp
 info: MyHelloWorldApp.Startup[0]
       Hello, World, from MyHelloWorldApp
-...
-
-$ dotnet new steeltoe-webapi --output MyHelloWorldApp21 --hello-world --framework netcoreapp2.1
-$ dotnet run --project MyHelloWorldApp21
-info: MyHelloWorldApp21.Startup[0]
-      Hello, World, from MyHelloWorldApp21
 ...
 ```
 
@@ -281,9 +266,6 @@ Add the following override to the `test/NetCoreTool.Template.WebApi.Test/HelloWo
             snippets.Add("using Microsoft.Extensions.Logging;");
             switch (framework)
             {
-                case Framework.NetCoreApp21:
-                    snippets.Add("public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger)");
-                    break;
                 default:
                     snippets.Add("public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)");
                     break;
