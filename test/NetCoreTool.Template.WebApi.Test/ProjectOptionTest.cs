@@ -278,11 +278,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 return SteeltoeVersion.Steeltoe32;
             }
 
-            if (steeltoe.StartsWith("3.1."))
-            {
-                return SteeltoeVersion.Steeltoe31;
-            }
-
             throw new ArgumentOutOfRangeException(nameof(steeltoe), steeltoe);
         }
 

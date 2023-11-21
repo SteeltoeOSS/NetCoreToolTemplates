@@ -13,21 +13,12 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe31)
-            {
-                packages.Add(("Steeltoe.Discovery.ClientCore", "$(SteeltoeVersion)"));
-            }
-
             packages.Add(("Steeltoe.Discovery.Eureka", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("services.AddDiscoveryClient");
-            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe31)
-            {
-                snippets.Add("app.UseDiscoveryClient");
-            }
         }
     }
 }

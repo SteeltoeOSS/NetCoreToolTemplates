@@ -367,28 +367,11 @@
       "description": "Skip the automatic restore of the project on create.",
       "defaultValue": "false"
     },
-    "Steeltoe3": {
-      "type": "generated",
-      "generator": "regexMatch",
-      "datatype": "bool",
-      "parameters": {
-        "source": "SteeltoeVersionOption",
-        "pattern": "^3.*"
-      }
-    },
-    "Steeltoe3Connector": {
-      "type": "computed",
-      "value": "Steeltoe3 && AnyConnector"
-    },
-    "Steeltoe3ManagementEndpoints": {
-      "type": "computed",
-      "value": "Steeltoe3 && ManagementEndpointsOption"
-    },
     "SteeltoeVersionOption": {
       "description": "Set the Steeltoe version for the project.",
       "type": "parameter",
       "datatype": "string",
-      "defaultValue": "3.1.*",
+      "defaultValue": "3.2.*",
       "replaces": "$(SteeltoeVersionOption)"
     }
   },
