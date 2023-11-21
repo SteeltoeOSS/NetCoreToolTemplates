@@ -301,7 +301,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             return framework switch
             {
                 "net6.0" => Framework.Net60,
-                "net5.0" => Framework.Net50,
                 _ => throw new ArgumentOutOfRangeException(nameof(framework), framework)
             };
         }

@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-#if (FrameworkNet60 || FrameworkNet50)
 using Microsoft.OpenApi.Models;
-#endif
 #if (CircuitBreakerHystrixOption)
 using Steeltoe.CircuitBreaker.Hystrix;
 #endif
@@ -178,12 +176,10 @@ namespace Company.WebApplication.CS
 #endif
 #endif
             services.AddControllers();
-#if (FrameworkNet60 || FrameworkNet50)
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Company.WebApplication.CS", Version = "v1" });
             });
-#endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -192,10 +188,8 @@ namespace Company.WebApplication.CS
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-#if (FrameworkNet60 || FrameworkNet50)
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.WebApplication.CS"));
-#endif
             }
 
 #if (DiscoveryEurekaOption)

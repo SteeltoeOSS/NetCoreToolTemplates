@@ -208,21 +208,9 @@
     },
     "DockerImageTag": {
       "type": "generated",
-      "generator": "switch",
-      "replaces": "6.0-alpine",
+      "generator": "constant",
       "parameters": {
-        "evaluator": "C++",
-        "datatype": "string",
-        "cases": [
-          {
-            "condition": "(Framework == 'net6.0')",
-            "value": "6.0-alpine"
-          },
-          {
-            "condition": "(Framework == 'net5.0')",
-            "value": "5.0-alpine"
-          }
-        ]
+        "value": "6.0-alpine"
       }
     },
     "DockerfileOption": {
@@ -250,9 +238,6 @@
       "choices": [
         {
           "choice": "net6.0"
-        },
-        {
-          "choice": "net5.0"
         }
       ],
       "defaultValue": "net6.0",
@@ -265,15 +250,6 @@
       "parameters": {
         "source": "Framework",
         "pattern": "^net6.0$"
-      }
-    },
-    "FrameworkNet50": {
-      "type": "generated",
-      "generator": "regexMatch",
-      "datatype": "bool",
-      "parameters": {
-        "source": "Framework",
-        "pattern": "^net5.0$"
       }
     },
     "HasDescription": {
