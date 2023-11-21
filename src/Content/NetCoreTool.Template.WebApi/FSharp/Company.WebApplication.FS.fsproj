@@ -10,11 +10,10 @@
   <PropertyGroup>
     <SteeltoeVersion>$(SteeltoeVersionOption)</SteeltoeVersion>
   </PropertyGroup>
-  <!--#if (FrameworkNet50) -->
-    <ItemGroup Condition="'$(FrameworkNet50)'">
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.*" />
-    </ItemGroup>
-  <!--#endif -->
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.*" />
+  </ItemGroup>
   <!--#if (AnySteeltoe) -->
 
   <ItemGroup>

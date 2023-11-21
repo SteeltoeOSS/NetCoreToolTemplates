@@ -4,11 +4,7 @@
     "Company.WebApplication.CS": {
       "commandName": "Project",
       "launchBrowser": true,
-      //#if (FrameworkNet60 || FrameworkNet50)
       "launchUrl": "swagger",
-      //#else
-      "launchUrl": "weatherforecast",
-      //#endif
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

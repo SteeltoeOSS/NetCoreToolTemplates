@@ -5,9 +5,7 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
-#if (FrameworkNet50)
 open Microsoft.OpenApi.Models
-#endif
 #if (CircuitBreakerHystrixOption)
 open Steeltoe.CircuitBreaker.Hystrix
 #endif
@@ -176,21 +174,17 @@ type Startup(configuration: IConfiguration) =
 #endif
         // Add framework services.
         services.AddControllers() |> ignore
-#if (FrameworkNet50)
         let info = OpenApiInfo()
         info.Title <- "Company.WebApplication.FS"
         info.Version <- "v1"
         services.AddSwaggerGen(fun c -> c.SwaggerDoc("v1", info)) |> ignore
-#endif
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     member _.Configure(app: IApplicationBuilder, env: IWebHostEnvironment) =
         if (env.IsDevelopment()) then
             app.UseDeveloperExceptionPage() |> ignore
-#if (FrameworkNet50)
             app.UseSwagger() |> ignore
             app.UseSwaggerUI(fun c -> c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.WebApplication.FS")) |> ignore
-#endif
 #if (DiscoveryEurekaOption)
 #if (Steeltoe2 || Steeltoe30)
         app.UseDiscoveryClient() |> ignore

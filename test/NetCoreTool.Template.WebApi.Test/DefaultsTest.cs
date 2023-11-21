@@ -62,9 +62,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 case Framework.Net60:
                     properties["TargetFramework"] = "net6.0";
                     break;
-                case Framework.Net50:
-                    properties["TargetFramework"] = "net5.0";
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString());
             }
