@@ -32,8 +32,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                     case Framework.Net50:
                         packages.Add(("Swashbuckle.AspNetCore", "6.2.*"));
                         break;
-                    case Framework.NetCoreApp31:
-                        break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString());
                 }
@@ -66,9 +64,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                     break;
                 case Framework.Net50:
                     properties["TargetFramework"] = "net5.0";
-                    break;
-                case Framework.NetCoreApp31:
-                    properties["TargetFramework"] = "netcoreapp3.1";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString());

@@ -103,26 +103,11 @@
     },
     "AzureOAuthVersion": {
       "type": "generated",
-      "generator": "switch",
-      "replaces": "$(AzureOAuthVersion)",
+      "generator": "constant",
       "parameters": {
-        "evaluator": "C++",
-        "datatype": "string",
-        "cases": [
-          {
-            "condition": "(Framework == 'netcoreapp3.1')",
-            "value": "3.1.*"
-          },
-          {
-            "condition": "(Framework == 'net5.0')",
-            "value": "3.1.*"
-          },
-          {
-            "condition": "(Framework == 'net6.0')",
-            "value": "3.1.*"
-          }
-        ]
-      }
+        "value": "3.1.*"
+      },
+      "replaces": "$(AzureOAuthVersion)"
     },
     "CircuitBreakerHystrixOption": {
       "type": "parameter",
@@ -236,10 +221,6 @@
           {
             "condition": "(Framework == 'net5.0')",
             "value": "5.0-alpine"
-          },
-          {
-            "condition": "(Framework == 'netcoreapp3.1')",
-            "value": "3.1-alpine"
           }
         ]
       }
@@ -272,9 +253,6 @@
         },
         {
           "choice": "net5.0"
-        },
-        {
-          "choice": "netcoreapp3.1"
         }
       ],
       "defaultValue": "net6.0",
@@ -296,15 +274,6 @@
       "parameters": {
         "source": "Framework",
         "pattern": "^net5.0$"
-      }
-    },
-    "FrameworkNetCoreApp31": {
-      "type": "generated",
-      "generator": "regexMatch",
-      "datatype": "bool",
-      "parameters": {
-        "source": "Framework",
-        "pattern": "^netcoreapp3.1$"
       }
     },
     "HasDescription": {

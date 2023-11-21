@@ -21,12 +21,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             snippets.Add("Steeltoe.Extensions.Logging");
             snippets.Add(".ConfigureLogging(");
-            if (options.Framework < Framework.NetCoreApp31)
-            {
-                snippets.Add(
-                    "loggingBuilder.AddConfiguration");
-                snippets.Add(".AddDynamicConsole(");
-            }
         }
     }
 }

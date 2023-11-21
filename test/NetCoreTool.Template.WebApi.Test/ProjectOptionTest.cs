@@ -302,7 +302,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 "net6.0" => Framework.Net60,
                 "net5.0" => Framework.Net50,
-                "netcoreapp3.1" => Framework.NetCoreApp31,
                 _ => throw new ArgumentOutOfRangeException(nameof(framework), framework)
             };
         }

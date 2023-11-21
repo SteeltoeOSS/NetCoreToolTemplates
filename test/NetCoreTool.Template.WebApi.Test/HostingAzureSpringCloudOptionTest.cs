@@ -13,11 +13,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            if (options.Framework < Framework.NetCoreApp31)
-            {
-                return;
-            }
-
             switch (options.SteeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe25:
@@ -31,11 +26,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (options.Framework < Framework.NetCoreApp31)
-            {
-                return;
-            }
-
             snippets.Add("Microsoft.Azure.SpringCloud.Client");
             snippets.Add(".UseAzureSpringCloudService");
         }
