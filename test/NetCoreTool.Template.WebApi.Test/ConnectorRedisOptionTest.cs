@@ -14,27 +14,12 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("Microsoft.Extensions.Caching.StackExchangeRedis", "3.1.*"));
-            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
-            {
-                packages.Add(("Steeltoe.CloudFoundry.ConnectorCore", "$(SteeltoeVersion)"));
-            }
-            else
-            {
-                packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
-            }
+            packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
-            {
-                snippets.Add("Steeltoe.CloudFoundry.Connector.Redis");
-            }
-            else
-            {
-                snippets.Add("Steeltoe.Connector.Redis");
-            }
-
+            snippets.Add("Steeltoe.Connector.Redis");
             snippets.Add("services.AddDistributedRedisCache");
         }
     }

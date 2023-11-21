@@ -129,16 +129,10 @@ namespace Company.WebApplication.CS
 #endif
 #if (Steeltoe3ManagementEndpoints)
             services.AddAllActuators(Configuration);
-#if (!Steeltoe30)
             services.ActivateActuatorEndpoints();
 #endif
-#endif
 #if (AnyTracing)
-#if (Steeltoe30)
-            services.AddDistributedTracing();
-#else
             services.AddDistributedTracingAspNetCore();
-#endif
 #endif
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -157,16 +151,8 @@ namespace Company.WebApplication.CS
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.WebApplication.CS"));
             }
 
-#if (DiscoveryEurekaOption)
-#if (Steeltoe30)
-            app.UseDiscoveryClient();
-#endif
-#endif
 #if (CircuitBreakerHystrixOption)
             app.UseHystrixRequestContext();
-#if (Steeltoe30)
-            app.UseHystrixMetricsStream();
-#endif
 #endif
             app.UseHttpsRedirection();
             app.UseRouting();
@@ -174,9 +160,6 @@ namespace Company.WebApplication.CS
             {
                 endpoints.MapControllers();
 #if (Steeltoe3ManagementEndpoints)
-#if (Steeltoe30)
-                endpoints.MapAllActuators();
-#endif
 #endif
             });
         }

@@ -20,15 +20,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
-            {
-                snippets.Add("Steeltoe.Extensions.Configuration.PlaceholderCore");
-            }
-            else
-            {
-                snippets.Add("Steeltoe.Extensions.Configuration.Placeholder");
-            }
-
+            snippets.Add("Steeltoe.Extensions.Configuration.Placeholder");
             snippets.Add(".AddPlaceholderResolver()");
         }
 

@@ -46,9 +46,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 case SteeltoeVersion.Steeltoe31:
                     properties["SteeltoeVersion"] = "3.1.*";
                     break;
-                case SteeltoeVersion.Steeltoe30:
-                    properties["SteeltoeVersion"] = "3.0.*";
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(options.SteeltoeVersion),
                         options.SteeltoeVersion.ToString());

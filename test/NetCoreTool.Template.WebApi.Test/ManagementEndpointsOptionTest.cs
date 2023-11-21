@@ -13,45 +13,26 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
-            {
-                packages.Add(("Steeltoe.Management.CloudFoundryCore", "$(SteeltoeVersion)"));
-            }
-            else
-            {
-                packages.Add(("Steeltoe.Management.EndpointCore", "$(SteeltoeVersion)"));
-            }
+            packages.Add(("Steeltoe.Management.EndpointCore", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
+            snippets.Add("Steeltoe.Management.Endpoint");
+            snippets.Add("services.AddAllActuators(");
+            if (options.SteeltoeVersion >= SteeltoeVersion.Steeltoe31)
             {
-                snippets.Add("Steeltoe.Management.CloudFoundry");
-                snippets.Add("services.AddCloudFoundryActuators(");
-                snippets.Add("app.UseCloudFoundryActuators(");
+                snippets.Add("services.ActivateActuatorEndpoints()");
             }
             else
             {
-                snippets.Add("Steeltoe.Management.Endpoint");
-                snippets.Add("services.AddAllActuators(");
-                if (options.SteeltoeVersion >= SteeltoeVersion.Steeltoe31)
-                {
-                    snippets.Add("services.ActivateActuatorEndpoints()");
-                }
-                else
-                {
-                    snippets.Add("endpoints.MapAllActuators()");
-                }
+                snippets.Add("endpoints.MapAllActuators()");
             }
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (options.SteeltoeVersion >= SteeltoeVersion.Steeltoe30)
-            {
-                snippets.Add(".AddDynamicConsole(");
-            }
+            snippets.Add(".AddDynamicConsole(");
         }
     }
 }

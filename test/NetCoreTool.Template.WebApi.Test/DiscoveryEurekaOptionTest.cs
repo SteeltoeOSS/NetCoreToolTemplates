@@ -18,10 +18,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 packages.Add(("Steeltoe.Discovery.ClientCore", "$(SteeltoeVersion)"));
             }
 
-            if (options.SteeltoeVersion >= SteeltoeVersion.Steeltoe30)
-            {
-                packages.Add(("Steeltoe.Discovery.Eureka", "$(SteeltoeVersion)"));
-            }
+            packages.Add(("Steeltoe.Discovery.Eureka", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
