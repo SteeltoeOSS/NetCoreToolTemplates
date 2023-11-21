@@ -7,58 +7,31 @@ using Microsoft.OpenApi.Models;
 #if (CircuitBreakerHystrixOption)
 using Steeltoe.CircuitBreaker.Hystrix;
 #endif
-#if (ConnectorMongoDbOption && Steeltoe2)
-using Steeltoe.CloudFoundry.Connector.MongoDb;
-#endif
-#if (ConnectorMongoDbOption && !Steeltoe2)
+#if (ConnectorMongoDbOption)
 using Steeltoe.Connector.MongoDb;
 #endif
-#if (ConnectorMySqlOption && Steeltoe2)
-using Steeltoe.CloudFoundry.Connector.MySql;
-#endif
-#if (ConnectorMySqlOption && !Steeltoe2)
+#if (ConnectorMySqlOption)
 using Steeltoe.Connector.MySql;
 #endif
-#if (ConnectorMySqlEfCoreOption && Steeltoe2)
-using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
-#endif
-#if (ConnectorMySqlEfCoreOption && !Steeltoe2)
+#if (ConnectorMySqlEfCoreOption)
 using Steeltoe.Connector.MySql.EFCore;
 #endif
-#if (ConnectorOAuthOption && Steeltoe2)
-using Steeltoe.CloudFoundry.Connector.OAuth;
-#endif
-#if (ConnectorOAuthOption && !Steeltoe2)
+#if (ConnectorOAuthOption &&)
 using Steeltoe.Connector.OAuth;
 #endif
-#if (ConnectorPostgreSqlOption && Steeltoe2)
-using Steeltoe.CloudFoundry.Connector.PostgreSql;
-#endif
-#if (ConnectorPostgreSqlOption && !Steeltoe2)
+#if (ConnectorPostgreSqlOption)
 using Steeltoe.Connector.PostgreSql;
 #endif
-#if (ConnectorPostgreSqlEfCoreOption && Steeltoe2)
-using Steeltoe.CloudFoundry.Connector.PostgreSql.EFCore;
-#endif
-#if (ConnectorPostgreSqlEfCoreOption && !Steeltoe2)
+#if (ConnectorPostgreSqlEfCoreOption)
 using Steeltoe.Connector.PostgreSql.EFCore;
 #endif
-#if (ConnectorRabbitMqOption && Steeltoe2)
-using Steeltoe.CloudFoundry.Connector.RabbitMQ;
-#endif
-#if (ConnectorRabbitMqOption && !Steeltoe2)
+#if (ConnectorRabbitMqOption)
 using Steeltoe.Connector.RabbitMQ;
 #endif
-#if (ConnectorRedisOption && Steeltoe2)
-using Steeltoe.CloudFoundry.Connector.Redis;
-#endif
-#if (ConnectorRedisOption && !Steeltoe2)
+#if (ConnectorRedisOption)
 using Steeltoe.Connector.Redis;
 #endif
-#if (ConnectorSqlServerOption && Steeltoe2)
-using Steeltoe.CloudFoundry.Connector.SqlServer;
-#endif
-#if (ConnectorSqlServerOption && !Steeltoe2)
+#if (ConnectorSqlServerOption)
 using Steeltoe.Connector.SqlServer;
 #endif
 #if (DiscoveryEurekaOption)
@@ -66,9 +39,6 @@ using Steeltoe.Discovery.Client;
 #endif
 #if (HostingCloudFoundryOption)
 using Steeltoe.Extensions.Configuration.CloudFoundry;
-#endif
-#if (Steeltoe2ManagementEndpoints)
-using Steeltoe.Management.CloudFoundry;
 #endif
 #if (Steeltoe3ManagementEndpoints)
 using Steeltoe.Management.Endpoint;
@@ -157,9 +127,6 @@ namespace Company.WebApplication.CS
             services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);
             services.AddHystrixMetricsStream(Configuration);
 #endif
-#if (Steeltoe2ManagementEndpoints)
-            services.AddCloudFoundryActuators(Configuration);
-#endif
 #if (Steeltoe3ManagementEndpoints)
             services.AddAllActuators(Configuration);
 #if (!Steeltoe30)
@@ -167,9 +134,7 @@ namespace Company.WebApplication.CS
 #endif
 #endif
 #if (AnyTracing)
-#if (Steeltoe2)
-            services.AddDistributedTracing(Configuration);
-#elif (Steeltoe30)
+#if (Steeltoe30)
             services.AddDistributedTracing();
 #else
             services.AddDistributedTracingAspNetCore();
@@ -193,18 +158,15 @@ namespace Company.WebApplication.CS
             }
 
 #if (DiscoveryEurekaOption)
-#if (Steeltoe2 || Steeltoe30)
+#if (Steeltoe30)
             app.UseDiscoveryClient();
 #endif
 #endif
 #if (CircuitBreakerHystrixOption)
             app.UseHystrixRequestContext();
-#if (Steeltoe2 || Steeltoe30)
+#if (Steeltoe30)
             app.UseHystrixMetricsStream();
 #endif
-#endif
-#if (Steeltoe2ManagementEndpoints)
-            app.UseCloudFoundryActuators();
 #endif
             app.UseHttpsRedirection();
             app.UseRouting();

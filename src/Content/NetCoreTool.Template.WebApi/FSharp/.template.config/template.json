@@ -293,7 +293,7 @@
     },
     "MessagingRabbitMq": {
       "type": "computed",
-      "value": "MessagingRabbitMqOption && !Steeltoe2"
+      "value": "MessagingRabbitMqOption"
     },
     "MessagingRabbitMqOption": {
       "type": "parameter",
@@ -303,7 +303,7 @@
     },
     "MessagingRabbitMqClient": {
       "type": "computed",
-      "value": "(MessagingRabbitMqClientOption && !Steeltoe2) || MessagingRabbitMq"
+      "value": "(MessagingRabbitMqClientOption) || MessagingRabbitMq"
     },
     "MessagingRabbitMqClientOption": {
       "type": "parameter",
@@ -313,7 +313,7 @@
     },
     "MessagingRabbitMqListener": {
       "type": "computed",
-      "value": "(MessagingRabbitMqListenerOption && !Steeltoe2) || MessagingRabbitMq"
+      "value": "(MessagingRabbitMqListenerOption) || MessagingRabbitMq"
     },
     "MessagingRabbitMqListenerOption": {
       "type": "parameter",
@@ -339,7 +339,7 @@
     },
     "NeedsSelf": {
       "type": "computed",
-      "value": "AnyConnector || CircuitBreakerHystrixOption || DiscoveryEurekaOption || (DistributedTracingOption && Steeltoe2) || HostingCloudFoundryOption || ManagementEndpointsOption"
+      "value": "AnyConnector || CircuitBreakerHystrixOption || DiscoveryEurekaOption || (DistributedTracingOption) || HostingCloudFoundryOption || ManagementEndpointsOption"
     },
     "NpgsqlDriverVersion": {
       "type": "generated",
@@ -371,23 +371,6 @@
       "description": "Skip the automatic restore of the project on create.",
       "defaultValue": "false"
     },
-    "Steeltoe2": {
-      "type": "generated",
-      "generator": "regexMatch",
-      "datatype": "bool",
-      "parameters": {
-        "source": "SteeltoeVersionOption",
-        "pattern": "^2.*"
-      }
-    },
-    "Steeltoe2Connector": {
-      "type": "computed",
-      "value": "Steeltoe2 && AnyConnector"
-    },
-    "Steeltoe2ManagementEndpoints": {
-      "type": "computed",
-      "value": "Steeltoe2 && ManagementEndpointsOption"
-    },
     "Steeltoe3": {
       "type": "generated",
       "generator": "regexMatch",
@@ -404,24 +387,6 @@
     "Steeltoe3ManagementEndpoints": {
       "type": "computed",
       "value": "Steeltoe3 && ManagementEndpointsOption"
-    },
-    "Steeltoe30": {
-      "type": "generated",
-      "generator": "regexMatch",
-      "datatype": "bool",
-      "parameters": {
-        "source": "SteeltoeVersionOption",
-        "pattern": "^3.0.*"
-      }
-    },
-    "Steeltoe31": {
-      "type": "generated",
-      "generator": "regexMatch",
-      "datatype": "bool",
-      "parameters": {
-        "source": "SteeltoeVersionOption",
-        "pattern": "^3.1.*"
-      }
     },
     "SteeltoeVersionOption": {
       "description": "Set the Steeltoe version for the project.",

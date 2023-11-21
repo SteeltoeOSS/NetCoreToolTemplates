@@ -21,9 +21,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             snippets.Add("Steeltoe.Management.Tracing");
             switch (options.SteeltoeVersion)
             {
-                case SteeltoeVersion.Steeltoe25:
-                    snippets.Add("services.AddDistributedTracing");
-                    break;
                 case SteeltoeVersion.Steeltoe30:
                     snippets.Add("services.AddDistributedTracing");
                     break;

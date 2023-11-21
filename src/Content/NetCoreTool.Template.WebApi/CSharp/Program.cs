@@ -13,11 +13,7 @@ using Steeltoe.Extensions.Configuration.CloudFoundry;
 using Steeltoe.Extensions.Configuration.ConfigServer;
 #endif
 #if (ConfigurationPlaceholderOption)
-#if (Steeltoe2)
-using Steeltoe.Extensions.Configuration.PlaceholderCore;
-#else
 using Steeltoe.Extensions.Configuration.Placeholder;
-#endif
 #endif
 #if (ConfigurationRandomValueOption)
 using Steeltoe.Extensions.Configuration.RandomValue;
