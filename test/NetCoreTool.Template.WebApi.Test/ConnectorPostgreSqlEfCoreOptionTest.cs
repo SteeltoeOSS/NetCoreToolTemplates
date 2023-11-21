@@ -35,27 +35,12 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("Microsoft.EntityFrameworkCore", "3.1.*"));
-            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
-            {
-                packages.Add(("Steeltoe.CloudFoundry.Connector.EFCore", "$(SteeltoeVersion)"));
-            }
-            else
-            {
-                packages.Add(("Steeltoe.Connector.EFCore", "$(SteeltoeVersion)"));
-            }
+            packages.Add(("Steeltoe.Connector.EFCore", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (options.SteeltoeVersion < SteeltoeVersion.Steeltoe30)
-            {
-                snippets.Add("Steeltoe.CloudFoundry.Connector.PostgreSql.EFCore");
-            }
-            else
-            {
-                snippets.Add("Steeltoe.Connector.PostgreSql.EFCore");
-            }
-
+            snippets.Add("Steeltoe.Connector.PostgreSql.EFCore");
             snippets.Add($"{Sandbox.Name}.Models");
             snippets.Add("options.UseNpgsql");
         }

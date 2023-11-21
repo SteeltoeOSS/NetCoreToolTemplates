@@ -126,16 +126,10 @@ type Startup(configuration: IConfiguration) =
 #endif
 #if (Steeltoe3ManagementEndpoints)
         services.AddAllActuators(self.Configuration) |> ignore
-#if (!Steeltoe30)
         services.ActivateActuatorEndpoints()
 #endif
-#endif
 #if (AnyTracing)
-#if (Steeltoe30)
-        services.AddDistributedTracing() |> ignore
-#else
         services.AddDistributedTracingAspNetCore() |> ignore
-#endif
 #endif
         // Add framework services.
         services.AddControllers() |> ignore
@@ -150,16 +144,8 @@ type Startup(configuration: IConfiguration) =
             app.UseDeveloperExceptionPage() |> ignore
             app.UseSwagger() |> ignore
             app.UseSwaggerUI(fun c -> c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company.WebApplication.FS")) |> ignore
-#if (DiscoveryEurekaOption)
-#if (Steeltoe30)
-        app.UseDiscoveryClient() |> ignore
-#endif
-#endif
 #if (CircuitBreakerHystrixOption)
         app.UseHystrixRequestContext() |> ignore
-#if (Steeltoe30)
-        app.UseHystrixMetricsStream() |> ignore
-#endif
 #endif
         app.UseHttpsRedirection()
            .UseRouting()
@@ -167,8 +153,5 @@ type Startup(configuration: IConfiguration) =
            .UseEndpoints(fun endpoints ->
                 endpoints.MapControllers() |> ignore
 #if (Steeltoe3ManagementEndpoints)
-#if (Steeltoe30)
-                endpoints.MapAllActuators() |> ignore
-#endif
 #endif
             ) |> ignore

@@ -44,10 +44,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             snippets.Add("services.AddHystrixCommand<HelloHystrixCommand>");
             snippets.Add("services.AddHystrixMetricsStream");
             snippets.Add("app.UseHystrixRequestContext");
-            if (options.SteeltoeVersion <= SteeltoeVersion.Steeltoe30)
-            {
-                snippets.Add("app.UseHystrixMetricsStream");
-            }
         }
     }
 }
