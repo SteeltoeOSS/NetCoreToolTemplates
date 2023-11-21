@@ -9,7 +9,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
     public class DescriptionParameterTest : ParameterTest
     {
-        public DescriptionParameterTest(ITestOutputHelper logger) : base("description", "Add a project description",
+        public DescriptionParameterTest(ITestOutputHelper logger) : base("description",
+            "<description> Add a project description",
             logger)
         {
             Values.Add("dummy");

@@ -23,14 +23,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
             }
 
-            if (options.Framework < Framework.NetCoreApp31)
-            {
-                packages.Add(("Microsoft.AspNetCore.Authentication.AzureAD.UI", "2.1.*"));
-            }
-            else
-            {
-                packages.Add(("Microsoft.AspNetCore.Authentication.AzureAD.UI", "3.1.*"));
-            }
+            packages.Add(("Microsoft.AspNetCore.Authentication.AzureAD.UI", "3.1.*"));
         }
 
         protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)

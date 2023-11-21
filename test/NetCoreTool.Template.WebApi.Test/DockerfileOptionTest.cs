@@ -22,7 +22,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 Framework.Net60 => "6.0-alpine",
                 Framework.Net50 => "5.0-alpine",
-                Framework.NetCoreApp31 => "3.1-alpine",
                 _ => throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString())
             };
             dockerfile.Should().ContainSnippet($"FROM mcr.microsoft.com/dotnet/aspnet:{tag} AS base");
