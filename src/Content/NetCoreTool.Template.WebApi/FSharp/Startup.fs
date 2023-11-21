@@ -42,7 +42,7 @@ open Steeltoe.Discovery.Client
 #if (HostingCloudFoundryOption)
 open Steeltoe.Extensions.Configuration.CloudFoundry
 #endif
-#if (Steeltoe3ManagementEndpoints)
+#if (ManagementEndpointsOption)
 open Steeltoe.Management.Endpoint
 #endif
 #if (AnyTracing)
@@ -124,7 +124,7 @@ type Startup(configuration: IConfiguration) =
         services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", self.Configuration)
         services.AddHystrixMetricsStream(self.Configuration)
 #endif
-#if (Steeltoe3ManagementEndpoints)
+#if (ManagementEndpointsOption)
         services.AddAllActuators(self.Configuration) |> ignore
         services.ActivateActuatorEndpoints()
 #endif
@@ -152,6 +152,4 @@ type Startup(configuration: IConfiguration) =
            .UseAuthorization()
            .UseEndpoints(fun endpoints ->
                 endpoints.MapControllers() |> ignore
-#if (Steeltoe3ManagementEndpoints)
-#endif
             ) |> ignore

@@ -26,15 +26,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             if (options.Language == Language.CSharp)
             {
-                switch (options.Framework)
-                {
-                    case Framework.Net60:
-                    case Framework.Net50:
-                        packages.Add(("Swashbuckle.AspNetCore", "6.2.*"));
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString());
-                }
+                packages.Add(("Swashbuckle.AspNetCore", "6.2.*"));
             }
         }
 
@@ -43,8 +35,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             switch (options.SteeltoeVersion)
             {
-                case SteeltoeVersion.Steeltoe31:
-                    properties["SteeltoeVersion"] = "3.1.*";
+                case SteeltoeVersion.Steeltoe32:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(options.SteeltoeVersion),
@@ -88,14 +79,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private void AssertLaunchSettings(ProjectOptions options, LaunchSettings settings)
         {
-            if (options.Framework >= Framework.Net50)
-            {
-                settings.Profiles[Sandbox.Name].LaunchUrl.Should().Be("swagger");
-            }
-            else
-            {
-                settings.Profiles[Sandbox.Name].LaunchUrl.Should().Be("weatherforecast");
-            }
+            settings.Profiles[Sandbox.Name].LaunchUrl.Should().Be("swagger");
         }
     }
 }

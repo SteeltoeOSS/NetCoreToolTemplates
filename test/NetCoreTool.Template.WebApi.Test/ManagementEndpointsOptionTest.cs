@@ -20,14 +20,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             snippets.Add("Steeltoe.Management.Endpoint");
             snippets.Add("services.AddAllActuators(");
-            if (options.SteeltoeVersion >= SteeltoeVersion.Steeltoe31)
-            {
-                snippets.Add("services.ActivateActuatorEndpoints()");
-            }
-            else
-            {
-                snippets.Add("endpoints.MapAllActuators()");
-            }
+            snippets.Add("services.ActivateActuatorEndpoints()");
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)

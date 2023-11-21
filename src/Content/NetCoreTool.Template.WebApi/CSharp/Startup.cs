@@ -16,7 +16,7 @@ using Steeltoe.Connector.MySql;
 #if (ConnectorMySqlEfCoreOption)
 using Steeltoe.Connector.MySql.EFCore;
 #endif
-#if (ConnectorOAuthOption &&)
+#if (ConnectorOAuthOption)
 using Steeltoe.Connector.OAuth;
 #endif
 #if (ConnectorPostgreSqlOption)
@@ -40,7 +40,7 @@ using Steeltoe.Discovery.Client;
 #if (HostingCloudFoundryOption)
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 #endif
-#if (Steeltoe3ManagementEndpoints)
+#if (ManagementEndpointsOption)
 using Steeltoe.Management.Endpoint;
 #endif
 #if (AnyTracing)
@@ -127,7 +127,7 @@ namespace Company.WebApplication.CS
             services.AddHystrixCommand<HelloHystrixCommand>("MyCircuitBreakers", Configuration);
             services.AddHystrixMetricsStream(Configuration);
 #endif
-#if (Steeltoe3ManagementEndpoints)
+#if (ManagementEndpointsOption)
             services.AddAllActuators(Configuration);
             services.ActivateActuatorEndpoints();
 #endif
@@ -159,8 +159,6 @@ namespace Company.WebApplication.CS
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-#if (Steeltoe3ManagementEndpoints)
-#endif
             });
         }
     }
