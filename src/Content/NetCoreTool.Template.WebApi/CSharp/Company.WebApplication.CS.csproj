@@ -19,6 +19,7 @@
   <!--#if (AnySteeltoe) -->
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Condition="'$(FrameworkNet80)' == 'True'" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Condition="'$(ConnectorOAuthOption)' == 'True'" Version="$(AzureOAuthVersion)" />
     <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(HostingAzureSpringCloudOption)' == 'True'" Version="2.0.0-preview.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Condition="'$(AnyEfCore)' == 'True'" Version="$(EntityFrameworkCoreVersion)" />
