@@ -1,3 +1,4 @@
+#if (FrameworkNet60)
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.WebApplication.CS.Controllers
@@ -18,7 +19,7 @@ namespace Company.WebApplication.CS.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             _logger.LogInformation("Getting forecast");
@@ -33,3 +34,4 @@ namespace Company.WebApplication.CS.Controllers
         }
     }
 }
+#endif

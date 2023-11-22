@@ -1,4 +1,5 @@
 #if (MessagingRabbitMqClient)
+#if (FrameworkNet60)
 using Microsoft.AspNetCore.Mvc;
 using Steeltoe.Messaging.RabbitMQ.Core;
 
@@ -29,4 +30,5 @@ namespace Company.WebApplication.CS.Controller
         }
     }
 }
+#endif
 #endif
