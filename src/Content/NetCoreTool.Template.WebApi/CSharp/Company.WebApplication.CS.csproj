@@ -5,7 +5,8 @@
     <!--#if (HasDescription) -->
     <Description>$(DescriptionOption)</Description>
     <!--#endif -->
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup>
