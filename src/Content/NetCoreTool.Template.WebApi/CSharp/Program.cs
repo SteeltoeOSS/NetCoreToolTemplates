@@ -20,33 +20,36 @@ using Steeltoe.Extensions.Configuration.RandomValue;
 using Steeltoe.Extensions.Logging;
 #endif
 
+#if (AnyBuilderOptions)
 var builder = WebApplication.CreateBuilder(args)
 #if (ConfigurationPlaceholderOption)
-            .AddPlaceholderResolver()
+    .AddPlaceholderResolver()
 #endif
 #if (HostingAzureSpringCloudOption)
-            .UseAzureSpringCloudService()
+    .UseAzureSpringCloudService()
 #endif
 #if (AnyHosting)
 #if (HostingCloudOption)
-            .UseCloudHosting(8080)
+    .UseCloudHosting(8080)
 #else
-            .UseCloudHosting()
+    .UseCloudHosting()
 #endif
 #endif
 #if (HostingCloudFoundryOption)
-            .AddCloudFoundryConfiguration()
+    .AddCloudFoundryConfiguration()
 #endif
 #if (ConfigurationCloudConfigOption)
-            .AddConfigServer()
+    .AddConfigServer()
 #endif
 #if (ConfigurationRandomValueOption)
-            .ConfigureAppConfiguration(b => b.AddRandomValueSource())
+    .ConfigureAppConfiguration(b => b.AddRandomValueSource())
 #endif
 #if (DynamicLogging)
-            .ConfigureLogging((context, builder) => builder.AddDynamicConsole())
+    .ConfigureLogging((context, builder) => builder.AddDynamicConsole())
 #endif
-
+#else
+var builder = WebApplication.CreateBuilder(args);
+#endif
 
 #if (AnyMessagingRabbitMq)
 builder.Services.AddRabbitServices(true);
@@ -110,7 +113,7 @@ builder.Service.ActivateActuatorEndpoints();
 builder.Service.AddDistributedTracingAspNetCore();
 #endif
 
-builder.Service.AddControllers();
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

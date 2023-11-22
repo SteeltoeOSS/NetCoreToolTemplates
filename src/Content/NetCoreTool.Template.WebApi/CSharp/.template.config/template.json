@@ -223,6 +223,10 @@
       "type": "computed",
       "value": "LoggingDynamicLoggerOption || ManagementEndpointsOption"
     },
+    "AnyBuilderOptions": {
+      "type": "computed",
+      "value": "ConfigurationPlaceholderOption || HostingAzureSpringCloudOption || AnyHosting || HostingCloudFoundryOption || ConfigurationCloudConfigOption || ConfigurationRandomValueOption || DynamicLogging"
+    },    
     "EntityFrameworkCoreVersion": {
       "type": "generated",
       "generator": "constant",
@@ -253,6 +257,15 @@
       "parameters": {
         "source": "Framework",
         "pattern": "^net6.0$"
+      }
+    },
+    "FrameworkNet80": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "Framework",
+        "pattern": "^net8.0$"
       }
     },
     "HasDescription": {
