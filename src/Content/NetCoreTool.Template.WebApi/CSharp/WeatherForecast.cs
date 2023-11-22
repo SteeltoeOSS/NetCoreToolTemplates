@@ -1,3 +1,4 @@
+#if (FrameworkNet60)
 namespace Company.WebApplication.CS
 {
     public class WeatherForecast
@@ -11,3 +12,4 @@ namespace Company.WebApplication.CS
         public string Summary { get; set; }
     }
 }
+#endif
