@@ -1,6 +1,5 @@
 #if (MessagingRabbitMqClient)
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Steeltoe.Messaging.RabbitMQ.Core;
 
 namespace Company.WebApplication.CS.Controller

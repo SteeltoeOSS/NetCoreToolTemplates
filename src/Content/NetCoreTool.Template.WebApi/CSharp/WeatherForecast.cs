@@ -1,5 +1,3 @@
-using System;
-
 namespace Company.WebApplication.CS
 {
     public class WeatherForecast
