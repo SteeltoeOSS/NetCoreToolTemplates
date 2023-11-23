@@ -223,11 +223,15 @@
       "type": "computed",
       "value": "LoggingDynamicLoggerOption || ManagementEndpointsOption"
     },
+    "AnyBuilderOptions": {
+      "type": "computed",
+      "value": "ConfigurationPlaceholderOption || HostingAzureSpringCloudOption || AnyHosting || HostingCloudFoundryOption || ConfigurationCloudConfigOption || ConfigurationRandomValueOption || DynamicLogging"
+    },    
     "EntityFrameworkCoreVersion": {
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "3.1.*"
+        "value": "6.0.*"
       },
       "replaces": "$(EntityFrameworkCoreVersion)"
     },
@@ -238,9 +242,12 @@
       "choices": [
         {
           "choice": "net6.0"
+        },
+        {
+          "choice": "net8.0"
         }
       ],
-      "defaultValue": "net6.0",
+      "defaultValue": "net8.0",
       "replaces": "$(FrameworkOption)"
     },
     "FrameworkNet60": {
@@ -250,6 +257,15 @@
       "parameters": {
         "source": "Framework",
         "pattern": "^net6.0$"
+      }
+    },
+    "FrameworkNet80": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "Framework",
+        "pattern": "^net8.0$"
       }
     },
     "HasDescription": {
@@ -325,7 +341,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "2.8.*"
+        "value": "2.19.*"
       },
       "replaces": "$(MongoDbDriverVersion)"
     },
@@ -345,7 +361,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "4.1.*"
+        "value": "6.0.*"
       },
       "replaces": "$(NpgsqlDriverVersion)"
     },
@@ -353,7 +369,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "5.1.*"
+        "value": "6.4.*"
       },
       "replaces": "$(RabbitMqDriverVersion)"
     },
@@ -361,7 +377,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "3.1.*"
+        "value": "6.0.*"
       },
       "replaces": "$(RedisDriverVersion)"
     },
@@ -382,6 +398,19 @@
   "primaryOutputs": [
     {
       "path": "Company.WebApplication.FS.fsproj"
+    }
+  ],
+  "postActions": [
+    {
+      "description": "Restore NuGet packages required by this project.",
+      "condition": "!SkipRestoreOption",
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore'"
+        }
+      ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
     }
   ]
 }
