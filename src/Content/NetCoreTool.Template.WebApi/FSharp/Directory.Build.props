@@ -19,7 +19,7 @@
     <DescriptionOption/>
     <DiscoveryEurekaOption>false</DiscoveryEurekaOption>
     <DockerfileOption>false</DockerfileOption>
-    <EntityFrameworkCoreVersion>3.1.2</EntityFrameworkCoreVersion>
+    <EntityFrameworkCoreVersion>6.0.*</EntityFrameworkCoreVersion>
     <FrameworkOption>net6.0</FrameworkOption>
     <FrameworkNet60>true</FrameworkNet60>
     <HostingAzureSpringCloudOption>false</HostingAzureSpringCloudOption>
@@ -27,13 +27,15 @@
     <HostingCloudOption>false</HostingCloudOption>
     <LoggingDynamicLoggerOption>false</LoggingDynamicLoggerOption>
     <ManagementEndpointsOption>false</ManagementEndpointsOption>
-    <MongoDbDriverVersion>2.8.*</MongoDbDriverVersion>
+    <MessagingRabbitMqOption>false</MessagingRabbitMqOption>
+    <MessagingRabbitMqListenerOption>false</MessagingRabbitMqListenerOption>
+    <MessagingRabbitMqClientOption>false</MessagingRabbitMqClientOption>
+    <MongoDbDriverVersion>2.19.*</MongoDbDriverVersion>
     <MySqlDriverVersion>8.0.*</MySqlDriverVersion>
-    <NpgsqlDriverVersion>4.1.*</NpgsqlDriverVersion>
-    <NeedsSelf>false</NeedsSelf>
-    <RabbitMqDriverVersion>5.1.*</RabbitMqDriverVersion>
-    <RedisDriverVersion>3.1.*</RedisDriverVersion>
-    <SteeltoeVersionOption>3.1.*</SteeltoeVersionOption>
+    <NpgsqlDriverVersion>6.0.*</NpgsqlDriverVersion>
+    <RabbitMqDriverVersion>6.4.*</RabbitMqDriverVersion>
+    <RedisDriverVersion>6.0.*</RedisDriverVersion>
+    <SteeltoeVersionOption>3.2.*</SteeltoeVersionOption>
     <TracingOption>false</TracingOption>
   </PropertyGroup>
 
