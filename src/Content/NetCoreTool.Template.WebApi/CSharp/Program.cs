@@ -169,7 +169,8 @@ app.UseRouting();
 
 #if (FrameworkNet60)
 app.MapControllers();
-#elseif (FrameworkNet80)
+#endif
+#if (FrameworkNet80)
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -200,7 +201,6 @@ app.MapGet("/sendtoqueue", ([FromServices] RabbitTemplate rabbitTemplate, [FromS
 .WithName("SendToQueue");
 #endif
 #endif
-
 app.Run();
 
 #if (FrameworkNet80)
