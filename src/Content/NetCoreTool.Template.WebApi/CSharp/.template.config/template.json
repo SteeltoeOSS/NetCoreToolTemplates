@@ -231,7 +231,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "3.1.*"
+        "value": "6.0.*"
       },
       "replaces": "$(EntityFrameworkCoreVersion)"
     },
@@ -341,7 +341,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "2.8.*"
+        "value": "2.19.*"
       },
       "replaces": "$(MongoDbDriverVersion)"
     },
@@ -357,7 +357,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "4.1.*"
+        "value": "6.0.*"
       },
       "replaces": "$(NpgsqlDriverVersion)"
     },
@@ -365,7 +365,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "5.1.*"
+        "value": "6.4.*"
       },
       "replaces": "$(RabbitMqDriverVersion)"
     },
@@ -373,7 +373,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "3.1.*"
+        "value": "6.0.*"
       },
       "replaces": "$(RedisDriverVersion)"
     },
