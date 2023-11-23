@@ -3,6 +3,7 @@ using Microsoft.Azure.SpringCloud.Client;
 #endif
 #if (CircuitBreakerHystrixOption)
 using Steeltoe.CircuitBreaker.Hystrix;
+using Company.WebApplication.CS;
 #endif
 #if (AnyHosting)
 using Steeltoe.Common.Hosting;
@@ -54,15 +55,26 @@ using Steeltoe.Extensions.Logging;
 #endif
 #if(ManagementEndpointsOption)
 using Steeltoe.Management.Endpoint;
+#endif
+#if (AnyTracing)
 using Steeltoe.Management.Tracing;
+#endif
+#if (AnyMessagingRabbitMq)
+using Microsoft.AspNetCore.Mvc;
+using Steeltoe.Messaging.RabbitMQ.Config;
+using Steeltoe.Messaging.RabbitMQ.Extensions;
+using Steeltoe.Messaging.RabbitMQ.Core;
+#endif
+#if (AnyEfCore)
+using Company.WebApplication.CS.Models;
+#endif
+#if(MessagingRabbitMqListener)
+using Company.WebApplication.CS.Services;
 #endif
 
 var builder = WebApplication.CreateBuilder(args)
 #if (ConfigurationPlaceholderOption)
     .AddPlaceholderResolver()
-#endif
-#if (HostingAzureSpringCloudOption)
-    .UseAzureSpringCloudService()
 #endif
 #if (AnyHosting)
 #if (HostingCloudOption)
@@ -76,6 +88,9 @@ var builder = WebApplication.CreateBuilder(args)
 #endif
 ;
 
+#if (HostingAzureSpringCloudOption)
+builder.WebHost.UseAzureSpringCloudService();
+#endif
 #if (ConfigurationCloudConfigOption)
 builder.Configuration.AddConfigServer();
 #endif
