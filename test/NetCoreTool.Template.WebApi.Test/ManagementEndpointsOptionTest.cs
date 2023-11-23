@@ -16,15 +16,11 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             packages.Add(("Steeltoe.Management.EndpointCore", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
-        {
-            snippets.Add("Steeltoe.Management.Endpoint");
-            snippets.Add("services.AddAllActuators(");
-            snippets.Add("services.ActivateActuatorEndpoints()");
-        }
-
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
+            snippets.Add("Steeltoe.Management.Endpoint");
+            snippets.Add("builder.Services.AddAllActuators(");
+            snippets.Add("builder.Services.ActivateActuatorEndpoints()");
             snippets.Add(".AddDynamicConsole(");
         }
     }

@@ -22,13 +22,9 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             snippets.Add("Steeltoe.Common.Hosting");
             snippets.Add("Steeltoe.Extensions.Configuration.CloudFoundry");
-            snippets.Add(".UseCloudHosting().AddCloudFoundryConfiguration()");
-        }
-
-        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
-        {
             snippets.Add("Steeltoe.Extensions.Configuration.CloudFoundry");
-            snippets.Add("services.ConfigureCloudFoundryOptions");
+            snippets.Add(".UseCloudHosting().AddCloudFoundryConfiguration()");
+            snippets.Add("builder.Services.ConfigureCloudFoundryOptions");
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Extensions.Logging");
-            snippets.Add(".ConfigureLogging(");
+            snippets.Add(".Logging.AddDynamicConsole()");
         }
     }
 }

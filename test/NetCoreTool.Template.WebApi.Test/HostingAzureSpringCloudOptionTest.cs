@@ -16,7 +16,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             switch (options.SteeltoeVersion)
             {
                 default:
-                    packages.Add(("Microsoft.Azure.SpringCloud.Client", "2.0.0-preview.1"));
+                    packages.Add(("Microsoft.Azure.SpringCloud.Client", "2.0.0-preview.3"));
                     break;
             }
         }

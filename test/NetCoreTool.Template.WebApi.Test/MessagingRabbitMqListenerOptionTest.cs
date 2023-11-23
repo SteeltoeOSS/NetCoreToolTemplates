@@ -18,16 +18,16 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             packages.Add(("Steeltoe.Messaging.RabbitMQ", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Messaging.RabbitMQ.Config");
             snippets.Add("Steeltoe.Messaging.RabbitMQ.Extensions");
 
-            snippets.Add("services.AddRabbitServices(true)");
-            snippets.Add("services.AddRabbitAdmin()");
-            snippets.Add("services.AddRabbitQueue(");
-            snippets.Add("services.AddSingleton<RabbitListenerService>()");
-            snippets.Add("services.AddRabbitListeners<RabbitListenerService>()");
+            snippets.Add("builder.Services.AddRabbitServices(true)");
+            snippets.Add("builder.Services.AddRabbitAdmin()");
+            snippets.Add("builder.Services.AddRabbitQueue(");
+            snippets.Add("builder.Services.AddSingleton<RabbitListenerService>()");
+            snippets.Add("builder.Services.AddRabbitListeners<RabbitListenerService>()");
         }
 
         protected override async Task AssertProjectGeneration(ProjectOptions options)

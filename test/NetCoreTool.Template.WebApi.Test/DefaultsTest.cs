@@ -26,7 +26,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             if (options.Language == Language.CSharp)
             {
-                packages.Add(("Swashbuckle.AspNetCore", "6.2.*"));
+                packages.Add(("Swashbuckle.AspNetCore", "6.4.*"));
             }
         }
 
