@@ -11,7 +11,7 @@ namespace Company.WebApplication.CS.Models
         {
         }
 
-        public DbSet<TestData> TestData { get; set; }
+        public DbSet<TestData>? TestData { get; set; }
     }
 
     public class TestData
@@ -20,7 +20,7 @@ namespace Company.WebApplication.CS.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
-        public string Data { get; set; }
+        public string? Data { get; set; }
     }
 }
 #endif
