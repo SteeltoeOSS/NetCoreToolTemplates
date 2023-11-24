@@ -66,7 +66,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             await AssertPackageReferences(options);
             await AssertProjectProperties(options);
             await AssertProgramSnippets(options);
-            //await AssertStartupSnippets(options);
             await AssertAppSettingsJson(options);
             await AssertLaunchSettingsJson(options);
         }
@@ -144,30 +143,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         }
 
         protected virtual void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
-        {
-        }
-
-        private async Task AssertStartupSnippets(ProjectOptions options)
-        {
-            var snippets = new List<string>();
-
-            AssertStartupSnippetsHook(options, snippets);
-            if (snippets.Count == 0)
-            {
-                Logger.WriteLine("no Startup snippets to assert");
-                return;
-            }
-
-            Logger.WriteLine("asserting Startup snippets");
-            var path = GetSourceFileForLanguage("Startup", options.Language);
-            var source = await Sandbox.GetFileTextAsync(path);
-            foreach (var snippet in snippets)
-            {
-                source.Should().ContainSnippet(snippet);
-            }
-        }
-
-        protected virtual void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
         {
         }
 
