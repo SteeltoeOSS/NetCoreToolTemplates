@@ -5,6 +5,7 @@
     <!--#if (HasDescription) -->
     <Description>$(DescriptionOption)</Description>
     <!--#endif -->
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -12,13 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.*" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.*" />
   </ItemGroup>
   <!--#if (AnySteeltoe) -->
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Condition="'$(ConnectorOAuthOption)' == 'True'" Version="$(AzureOAuthVersion)" />
-    <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(HostingAzureSpringCloudOption)' == 'True'" Version="2.0.0-preview.1" />
+    <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(HostingAzureSpringCloudOption)' == 'True'" Version="2.0.0-preview.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Condition="'$(AnyEfCore)' == 'True'" Version="$(EntityFrameworkCoreVersion)" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Condition="'$(AnyEfCore)' == 'True'" Version="$(EntityFrameworkCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(ConnectorRedisOption)' == 'True'" Version="$(RedisDriverVersion)" />
@@ -61,7 +62,6 @@
     <Compile Include="Models\ErrorViewModel.fs" />
     <Compile Include="Models\SampleContext.fs" />
     <!--#endif  -->
-    <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

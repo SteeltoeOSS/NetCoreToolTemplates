@@ -16,10 +16,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             packages.Add(("Steeltoe.Management.TracingCore", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Management.Tracing");
-            snippets.Add("services.AddDistributedTracingAspNetCore");
+            snippets.Add("builder.Services.AddDistributedTracingAspNetCore");
         }
     }
 }

@@ -39,10 +39,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             packages.Add(("Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add("services.AddHystrixCommand<HelloHystrixCommand>");
-            snippets.Add("services.AddHystrixMetricsStream");
+            snippets.Add("builder.Services.AddHystrixCommand<HelloHystrixCommand>");
+            snippets.Add("builder.Services.AddHystrixMetricsStream");
             snippets.Add("app.UseHystrixRequestContext");
         }
     }

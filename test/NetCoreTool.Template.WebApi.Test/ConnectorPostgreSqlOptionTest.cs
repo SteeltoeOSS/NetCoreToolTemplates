@@ -14,14 +14,14 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add(("Npgsql", "4.1.*"));
+            packages.Add(("Npgsql", "6.0.*"));
             packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Connector.PostgreSql");
-            snippets.Add("services.AddPostgresConnection");
+            snippets.Add("builder.Services.AddPostgresConnection");
         }
     }
 }

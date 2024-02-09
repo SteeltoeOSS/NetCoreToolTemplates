@@ -16,9 +16,9 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             packages.Add(("Steeltoe.Discovery.Eureka", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add("services.AddDiscoveryClient");
+            snippets.Add("builder.Services.AddDiscoveryClient");
         }
     }
 }

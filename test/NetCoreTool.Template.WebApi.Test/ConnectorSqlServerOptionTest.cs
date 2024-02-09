@@ -18,10 +18,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Connector.SqlServer");
-            snippets.Add("services.AddSqlServerConnection");
+            snippets.Add("builder.Services.AddSqlServerConnection");
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Extensions.Configuration.RandomValue");
-            snippets.Add(".ConfigureAppConfiguration");
+            snippets.Add("builder.Configuration.AddRandomValueSource()");
         }
     }
 }

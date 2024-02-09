@@ -34,11 +34,11 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add(("Microsoft.EntityFrameworkCore", "3.1.*"));
+            packages.Add(("Microsoft.EntityFrameworkCore", "6.0.*"));
             packages.Add(("Steeltoe.Connector.EFCore", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Connector.PostgreSql.EFCore");
             snippets.Add($"{Sandbox.Name}.Models");

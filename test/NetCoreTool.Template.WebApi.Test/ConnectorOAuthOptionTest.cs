@@ -18,10 +18,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             packages.Add(("Microsoft.AspNetCore.Authentication.AzureAD.UI", "3.1.*"));
         }
 
-        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Connector.OAuth");
-            snippets.Add("services.AddOAuthServiceOptions");
+            snippets.Add("builder.Services.AddOAuthServiceOptions");
         }
     }
 }

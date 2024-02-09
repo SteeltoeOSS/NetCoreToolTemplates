@@ -14,14 +14,14 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add(("MongoDB.Driver", "2.8.*"));
+            packages.Add(("MongoDB.Driver", "2.19.*"));
             packages.Add(("Steeltoe.Connector.ConnectorCore", "$(SteeltoeVersion)"));
         }
 
-        protected override void AssertStartupSnippetsHook(ProjectOptions options, List<string> snippets)
+        protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("Steeltoe.Connector.MongoDb");
-            snippets.Add("services.AddMongoClient");
+            snippets.Add("builder.Services.AddMongoClient");
         }
     }
 }
