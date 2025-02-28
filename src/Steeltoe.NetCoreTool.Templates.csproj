@@ -1,27 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
     <PackageType>Template</PackageType>
     <PackageVersion>0.0.0</PackageVersion>
     <PackageId>Steeltoe.NetCoreTool.Templates</PackageId>
-    <Title>Steeltoe Net Core Tool Templates</Title>
-    <Authors>VMware</Authors>
-    <Description>Templates for creating Steeltoe-influenced projects.</Description>
+    <Title>Steeltoe .NET Project Templates</Title>
+    <Authors>Broadcom</Authors>
+    <Description>Templates for creating .NET projects with Steeltoe components.</Description>
     <PackageTags>dotnet-new;templates;steeltoe</PackageTags>
     <PackageProjectUrl>https://steeltoe.io</PackageProjectUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl>https://steeltoe.io/images/transparent.png</PackageIconUrl>
     <NoDefaultExcludes>true</NoDefaultExcludes>
-    <TargetFramework>net6.0</TargetFramework>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Content\**\*" Exclude="Content\**\bin\**;Content\**\obj\**" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\**\*" Exclude="Content\**\bin\**;Content\**\obj\**;Content\**\Directory.Build.props;**\*.user" />
     <Compile Remove="**\*" />
     <None Include="resources\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
-
 </Project>

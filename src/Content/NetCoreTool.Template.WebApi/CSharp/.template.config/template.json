@@ -1,12 +1,15 @@
 {
   "$schema": "https://json.schemastore.org/template",
-  "author": "VMware",
+  "author": "Broadcom",
   "classifications": [
     "Web",
-    "WebAPI",
+    "Web API",
+    "API",
+    "Cloud",
     "Steeltoe"
   ],
-  "name": "Steeltoe Web API",
+  "name": "Steeltoe ASP.NET Core Web API",
+  "description": "A project template for creating a RESTful Web API using ASP.NET Core minimal APIs with Steeltoe components.",
   "identity": "steeltoe.webapi.csharp",
   "groupIdentity": "steeltoe.webapi",
   "shortName": "steeltoe-webapi",
@@ -15,6 +18,7 @@
     "language": "C#"
   },
   "sourceName": "Company.WebApplication.CS",
+  "defaultName": "SteeltoeWebApi",
   "sources": [
     {
       "modifiers": [
@@ -26,14 +30,13 @@
           ]
         },
         {
-          "condition": "(!AnyEfCore)",
+          "condition": "(!HasAnyEfCoreConnector)",
           "exclude": [
-            "Models/ErrorViewModel.cs",
-            "Models/SampleContext.cs"
+            "AppDbContext.cs"
           ]
         },
         {
-          "condition": "(!CircuitBreakerHystrixOption)",
+          "condition": "(!HasCircuitBreakerHystrixInSteeltoeV3)",
           "exclude": [
             "HelloHystrixCommand.cs"
           ]
@@ -45,147 +48,135 @@
           ]
         },
         {
-          "condition": "(!MessagingRabbitMqClient)",
+          "condition": "(!HasMessagingRabbitMqListenerInSteeltoeV3)",
           "exclude": [
-            "Controllers/RabbitMessageController.cs"
-          ]
-        },
-        {
-          "condition": "(!MessagingRabbitMqListener)",
-          "exclude": [
-            "Services/RabbitListenerService.cs"
+            "RabbitListenerService.cs"
           ]
         }
       ]
     }
   ],
   "symbols": {
-    "AnyCloudManagement": {
-      "type": "computed",
-      "value": "CircuitBreakerHystrixOption || DiscoveryEurekaOption || HostingAzureSpringCloudOption || HostingCloudFoundryOption || LoggingDynamicLoggerOption || ManagementEndpointsOption"
+    "Framework": {
+      "description": "The target framework for the project.",
+      "type": "parameter",
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "net6.0",
+          "description": "Target net6.0"
+        },
+        {
+          "choice": "net8.0",
+          "description": "Target net8.0"
+        },
+        {
+          "choice": "net9.0",
+          "description": "Target net9.0"
+        }
+      ],
+      "defaultValue": "net8.0",
+      "replaces": "$(FrameworkOption)"
     },
-    "AnyConfiguration": {
-      "type": "computed",
-      "value": "ConfigurationCloudConfigOption || ConfigurationPlaceholderOption || ConfigurationRandomValueOption"
-    },
-    "AnyConnector": {
-      "type": "computed",
-      "value": "ConnectorMongoDbOption || ConnectorMySqlEfCoreOption || ConnectorMySqlOption || ConnectorOAuthOption || ConnectorPostgreSqlEfCoreOption || ConnectorPostgreSqlOption || ConnectorRedisOption || ConnectorRabbitMqOption || ConnectorSqlServerOption"
-    },
-    "AnyEfCore": {
-      "type": "computed",
-      "value": "ConnectorMySqlEfCoreOption || ConnectorPostgreSqlEfCoreOption"
-    },
-    "AnyHosting": {
-      "type": "computed",
-      "value": "HostingCloudFoundryOption || HostingCloudOption"
-    },
-    "AnyMessagingRabbitMq": {
-      "type": "computed",
-      "value": "MessagingRabbitMqClient || MessagingRabbitMqListener"
-    },
-    "AnySql": {
-      "type": "computed",
-      "value": "ConnectorMySqlOption || ConnectorPostgreSqlOption || ConnectorSqlServerOption"
-    },
-    "AnySteeltoe": {
-      "type": "computed",
-      "value": "AnyCloudManagement || AnyConfiguration || AnyConnector || AnyHosting || AnyMessagingRabbitMq || AnyTracing"
-    },
-    "AnyTracing": {
-      "type": "computed",
-      "value": "DistributedTracingOption"
-    },
-    "ApplicationPort": {
+    "IsFrameworkNet60": {
       "type": "generated",
-      "generator": "port",
-      "replaces": "8080"
-    },
-    "AzureOAuthVersion": {
-      "type": "generated",
-      "generator": "constant",
+      "generator": "regexMatch",
+      "datatype": "bool",
       "parameters": {
-        "value": "3.1.*"
-      },
-      "replaces": "$(AzureOAuthVersion)"
+        "source": "Framework",
+        "pattern": "^net6\\.0$"
+      }
     },
-    "CircuitBreakerHystrixOption": {
-      "type": "parameter",
+    "IsFrameworkNet80": {
+      "type": "generated",
+      "generator": "regexMatch",
       "datatype": "bool",
-      "description": "Add support for Netflix Hystrix, a latency and fault tolerance library.",
-      "defaultValue": "false"
+      "parameters": {
+        "source": "Framework",
+        "pattern": "^net8\\.0$"
+      }
     },
-    "ConfigurationCloudConfigOption": {
-      "type": "parameter",
+    "IsFrameworkNet90": {
+      "type": "generated",
+      "generator": "regexMatch",
       "datatype": "bool",
-      "description": "Add a Spring Cloud Config configuration source.",
-      "defaultValue": "false"
+      "parameters": {
+        "source": "Framework",
+        "pattern": "^net9\\.0$"
+      }
     },
-    "ConfigurationPlaceholderOption": {
+    "SteeltoeVersionOption": {
+      "description": "The Steeltoe version to use.",
       "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a placeholder configuration source.",
-      "defaultValue": "false"
+      "datatype": "string",
+      "defaultValue": "4.0.*-*",
+      "replaces": "$(SteeltoeVersionInCLI)"
     },
-    "ConfigurationRandomValueOption": {
-      "type": "parameter",
+    "IsSteeltoeV3InCLI": {
+      "type": "generated",
+      "generator": "regexMatch",
       "datatype": "bool",
-      "description": "Add a random value configuration source.",
-      "defaultValue": "false"
+      "parameters": {
+        "source": "SteeltoeVersionOption",
+        "pattern": "^3"
+      }
     },
-    "ConnectorMongoDbOption": {
-      "type": "parameter",
+    "IsSteeltoeV4InCLI": {
+      "type": "generated",
+      "generator": "regexMatch",
       "datatype": "bool",
-      "description": "Add a connector for MongoDB databases.",
-      "defaultValue": "false"
+      "parameters": {
+        "source": "SteeltoeVersionOption",
+        "pattern": "^4"
+      }
     },
-    "ConnectorMySqlEfCoreOption": {
+    "ChooseSteeltoeVersionInIDE": {
       "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a connector for MySQL databases using Entity Framework Core.",
-      "defaultValue": "false"
+      "datatype": "choice",
+      "choices": [
+        {
+          "choice": "3.2.*"
+        },
+        {
+          "choice": "4.0.*-*"
+        }
+      ],
+      "replaces": "$(ChosenSteeltoeVersionInIDE)"
     },
-    "ConnectorMySqlOption": {
-      "type": "parameter",
+    "HasChosenSteeltoeVersionInIDE": {
+      "type": "generated",
+      "generator": "regexMatch",
       "datatype": "bool",
-      "description": "Add a connector for MySQL databases.",
-      "defaultValue": "false"
+      "parameters": {
+        "source": "ChooseSteeltoeVersionInIDE",
+        "pattern": "^.+$"
+      }
     },
-    "ConnectorOAuthOption": {
-      "type": "parameter",
+    "HasChosenSteeltoeV3InIDE": {
+      "type": "generated",
+      "generator": "regexMatch",
       "datatype": "bool",
-      "description": "Add a connector for OAuth security.",
-      "defaultValue": "false"
+      "parameters": {
+        "source": "ChooseSteeltoeVersionInIDE",
+        "pattern": "^3"
+      }
     },
-    "ConnectorPostgreSqlEfCoreOption": {
-      "type": "parameter",
+    "HasChosenSteeltoeV4InIDE": {
+      "type": "generated",
+      "generator": "regexMatch",
       "datatype": "bool",
-      "description": "Add a connector for PostgreSQL databases using Entity Framework Core.",
-      "defaultValue": "false"
+      "parameters": {
+        "source": "ChooseSteeltoeVersionInIDE",
+        "pattern": "^4"
+      }
     },
-    "ConnectorPostgreSqlOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a connector for PostgreSQL databases.",
-      "defaultValue": "false"
+    "IsSteeltoeV3": {
+      "type": "computed",
+      "value": "(HasChosenSteeltoeVersionInIDE && HasChosenSteeltoeV3InIDE) || (!HasChosenSteeltoeVersionInIDE && IsSteeltoeV3InCLI)"
     },
-    "ConnectorRabbitMqOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a connector for RabbitMQ message brokers.",
-      "defaultValue": "false"
-    },
-    "ConnectorRedisOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a connector for Redis data stores.",
-      "defaultValue": "false"
-    },
-    "ConnectorSqlServerOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a connector for Microsoft SQL Server databases.",
-      "defaultValue": "false"
+    "IsSteeltoeV4": {
+      "type": "computed",
+      "value": "(HasChosenSteeltoeVersionInIDE && HasChosenSteeltoeV4InIDE) || (!HasChosenSteeltoeVersionInIDE && IsSteeltoeV4InCLI)"
     },
     "DescriptionOption": {
       "description": "Add a project description.",
@@ -194,23 +185,13 @@
       "defaultValue": "",
       "replaces": "$(DescriptionOption)"
     },
-    "DiscoveryEurekaOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add access to Eureka, a REST-based service for locating services.",
-      "defaultValue": "false"
-    },
-    "DistributedTracingOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add distributed tracing support.",
-      "defaultValue": "false"
-    },
-    "DockerImageTag": {
+    "HasDescription": {
       "type": "generated",
-      "generator": "constant",
+      "generator": "regexMatch",
+      "datatype": "bool",
       "parameters": {
-        "value": "6.0-alpine"
+        "source": "DescriptionOption",
+        "pattern": "^.+$"
       }
     },
     "DockerfileOption": {
@@ -219,176 +200,586 @@
       "description": "Add a Dockerfile.",
       "defaultValue": "false"
     },
-    "DynamicLogging": {
-      "type": "computed",
-      "value": "LoggingDynamicLoggerOption || ManagementEndpointsOption"
-    },
-    "AnyBuilderOptions": {
-      "type": "computed",
-      "value": "ConfigurationPlaceholderOption || HostingAzureSpringCloudOption || AnyHosting || HostingCloudFoundryOption || ConfigurationCloudConfigOption || ConfigurationRandomValueOption || DynamicLogging"
-    },    
-    "EntityFrameworkCoreVersion": {
-      "type": "generated",
-      "generator": "constant",
-      "parameters": {
-        "value": "6.0.*"
-      },
-      "replaces": "$(EntityFrameworkCoreVersion)"
-    },
-    "Framework": {
-      "description": "Set the target framework for the project.",
+    "kestrelHttpPort": {
       "type": "parameter",
-      "datatype": "choice",
-      "choices": [
-        {
-          "choice": "net6.0"
-        },
-        {
-          "choice": "net8.0"
-        }
-      ],
-      "defaultValue": "net8.0",
-      "replaces": "$(FrameworkOption)"
+      "datatype": "integer",
+      "description": "Port number to use for the HTTP endpoint in launchSettings.json."
     },
-    "FrameworkNet60": {
+    "kestrelHttpPortGenerated": {
       "type": "generated",
-      "generator": "regexMatch",
-      "datatype": "bool",
+      "generator": "port",
       "parameters": {
-        "source": "Framework",
-        "pattern": "^net6.0$"
+        "low": 5002,
+        "high": 5300
       }
     },
-    "FrameworkNet80": {
+    "kestrelHttpPortReplacer": {
       "type": "generated",
-      "generator": "regexMatch",
-      "datatype": "bool",
+      "generator": "coalesce",
       "parameters": {
-        "source": "Framework",
-        "pattern": "^net8.0$"
+        "sourceVariableName": "kestrelHttpPort",
+        "fallbackVariableName": "kestrelHttpPortGenerated"
+      },
+      "replaces": "5000"
+    },
+    "kestrelHttpsPort": {
+      "type": "parameter",
+      "datatype": "integer",
+      "description": "Port number to use for the HTTPS endpoint in launchSettings.json."
+    },
+    "kestrelHttpsPortGenerated": {
+      "type": "generated",
+      "generator": "port",
+      "parameters": {
+        "low": 7000,
+        "high": 7300
       }
     },
-    "HasDescription": {
+    "kestrelHttpsPortReplacer": {
       "type": "generated",
-      "generator": "regexMatch",
-      "datatype": "bool",
+      "generator": "coalesce",
       "parameters": {
-        "source": "DescriptionOption",
-        "pattern": "^.+"
-      }
-    },
-    "HostingAzureSpringCloudOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add hosting support for Microsoft Azure Spring Cloud.",
-      "defaultValue": "false"
-    },
-    "HostingCloudFoundryOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add hosting support for Cloud Foundry.",
-      "defaultValue": "false"
-    },
-    "HostingCloudOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add hosting support for clouds.",
-      "defaultValue": "false"
-    },
-    "LoggingDynamicLoggerOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a dynamic logger.",
-      "defaultValue": "false"
-    },
-    "ManagementEndpointsOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add application management endpoints, such as health and metrics.",
-      "defaultValue": "false"
-    },
-    "MessagingRabbitMq": {
-      "type": "computed",
-      "value": "MessagingRabbitMqOption"
-    },
-    "MessagingRabbitMqOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add both RabbitMQ client and listener services.\nSame as specifying --messaging-rabbitmq-client and --messaging-rabbitmq-listener.",
-      "defaultValue": "false"
-    },
-    "MessagingRabbitMqClient": {
-      "type": "computed",
-      "value": "(MessagingRabbitMqClientOption) || MessagingRabbitMq"
-    },
-    "MessagingRabbitMqClientOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a RabbitMQ client controller for sending and receiving messages.",
-      "defaultValue": "false"
-    },
-    "MessagingRabbitMqListener": {
-      "type": "computed",
-      "value": "(MessagingRabbitMqListenerOption) || MessagingRabbitMq"
-    },
-    "MessagingRabbitMqListenerOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add a RabbitMQ listener service for processing messages.",
-      "defaultValue": "false"
-    },
-    "MongoDbDriverVersion": {
-      "type": "generated",
-      "generator": "constant",
-      "parameters": {
-        "value": "2.19.*"
+        "sourceVariableName": "kestrelHttpsPort",
+        "fallbackVariableName": "kestrelHttpsPortGenerated"
       },
-      "replaces": "$(MongoDbDriverVersion)"
-    },
-    "MySqlDriverVersion": {
-      "type": "generated",
-      "generator": "constant",
-      "parameters": {
-        "value": "8.0.*"
-      },
-      "replaces": "$(MySqlDriverVersion)"
-    },
-    "NpgsqlDriverVersion": {
-      "type": "generated",
-      "generator": "constant",
-      "parameters": {
-        "value": "6.0.*"
-      },
-      "replaces": "$(NpgsqlDriverVersion)"
-    },
-    "RabbitMqDriverVersion": {
-      "type": "generated",
-      "generator": "constant",
-      "parameters": {
-        "value": "6.4.*"
-      },
-      "replaces": "$(RabbitMqDriverVersion)"
-    },
-    "RedisDriverVersion": {
-      "type": "generated",
-      "generator": "constant",
-      "parameters": {
-        "value": "6.0.*"
-      },
-      "replaces": "$(RedisDriverVersion)"
+      "replaces": "5001"
     },
     "SkipRestoreOption": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Skip the automatic restore of the project on create.",
+      "description": "If specified, skips the automatic restore of the project on create.",
       "defaultValue": "false"
     },
-    "SteeltoeVersionOption": {
-      "description": "Set the Steeltoe version for the project.",
+    // Steeltoe components
+    "CircuitBreakerHystrixOption": {
       "type": "parameter",
+      "datatype": "bool",
+      "description": "Add support for Netflix Hystrix, a latency and fault tolerance library (Steeltoe 3.x only).",
+      "defaultValue": "false"
+    },
+    "HasCircuitBreakerHystrixInSteeltoeV3": {
+      "type": "computed",
+      "value": "CircuitBreakerHystrixOption && IsSteeltoeV3"
+    },
+    "HostingCloudOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add support for listening on the port specified by the hosting environment (Steeltoe 3.x only).",
+      "defaultValue": "false"
+    },
+    "HostingAzureSpringCloudOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add hosting support for running on Microsoft Azure Spring Cloud (Steeltoe 3.x only).",
+      "defaultValue": "false"
+    },
+    "HasHostingAzureSpringCloudInSteeltoeV3": {
+      "type": "computed",
+      "value": "HostingAzureSpringCloudOption && IsSteeltoeV3"
+    },
+    "HostingCloudFoundryOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add hosting support for running on Cloud Foundry.",
+      "defaultValue": "false"
+    },
+    "HasHostingCloudFoundryInSteeltoeV3": {
+      "type": "computed",
+      "value": "HostingCloudFoundryOption && IsSteeltoeV3"
+    },
+    "HasHostingCloudFoundryInSteeltoeV4": {
+      "type": "computed",
+      "value": "HostingCloudFoundryOption && IsSteeltoeV4"
+    },
+    "HasAnyNonAzureHostingInSteeltoeV3": {
+      "type": "computed",
+      "value": "(HostingCloudFoundryOption || HostingCloudOption) && IsSteeltoeV3"
+    },
+    "HasAnyHostingInSteeltoeV3": {
+      "type": "computed",
+      "value": "HasHostingAzureSpringCloudInSteeltoeV3 || HasAnyNonAzureHostingInSteeltoeV3"
+    },
+    "ConfigurationCloudConfigOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a client for Spring Cloud Config Server to configuration.",
+      "defaultValue": "false"
+    },
+    "HasConfigurationCloudConfigInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConfigurationCloudConfigOption && IsSteeltoeV3"
+    },
+    "HasConfigurationCloudConfigInSteeltoeV4": {
+      "type": "computed",
+      "value": "ConfigurationCloudConfigOption && IsSteeltoeV4"
+    },
+    "ConfigurationEncryptionOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add decryption of encrypted settings in configuration (Steeltoe 4.0 or higher).",
+      "defaultValue": "false"
+    },
+    "HasConfigurationEncryptionInSteeltoeV4": {
+      "type": "computed",
+      "value": "ConfigurationEncryptionOption && IsSteeltoeV4"
+    },
+    "ConfigurationPlaceholderOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add placeholder substitution to configuration.",
+      "defaultValue": "false"
+    },
+    "HasConfigurationPlaceholderInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConfigurationPlaceholderOption && IsSteeltoeV3"
+    },
+    "HasConfigurationPlaceholderInSteeltoeV4": {
+      "type": "computed",
+      "value": "ConfigurationPlaceholderOption && IsSteeltoeV4"
+    },
+    "ConfigurationRandomValueOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add random value generation to configuration.",
+      "defaultValue": "false"
+    },
+    "HasConfigurationRandomValueInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConfigurationRandomValueOption && IsSteeltoeV3"
+    },
+    "HasConfigurationRandomValueInSteeltoeV4": {
+      "type": "computed",
+      "value": "ConfigurationRandomValueOption && IsSteeltoeV4"
+    },
+    "ConfigurationSpringBootOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add support for reading Spring Boot-style keys from configuration.",
+      "defaultValue": "false"
+    },
+    "HasConfigurationSpringBootInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConfigurationSpringBootOption && IsSteeltoeV3"
+    },
+    "HasConfigurationSpringBootInSteeltoeV4": {
+      "type": "computed",
+      "value": "ConfigurationSpringBootOption && IsSteeltoeV4"
+    },
+    "HasAnyConfiguration": {
+      "type": "computed",
+      "value": "HostingCloudFoundryOption || ConfigurationCloudConfigOption || HasConfigurationEncryptionInSteeltoeV4 || ConfigurationPlaceholderOption || ConfigurationRandomValueOption || ConfigurationSpringBootOption"
+    },
+    "ConnectorCosmosDbOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for CosmosDB databases.",
+      "defaultValue": "false"
+    },
+    "HasConnectorCosmosDbInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConnectorCosmosDbOption && IsSteeltoeV3"
+    },
+    "HasConnectorCosmosDbInSteeltoeV4": {
+      "type": "computed",
+      "value": "ConnectorCosmosDbOption && IsSteeltoeV4"
+    },
+    "ConnectorMongoDbOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for MongoDB databases.",
+      "defaultValue": "false"
+    },
+    "HasConnectorMongoDbInV3": {
+      "type": "computed",
+      "value": "ConnectorMongoDbOption && IsSteeltoeV3"
+    },
+    "HasConnectorMongoDbInV4": {
+      "type": "computed",
+      "value": "ConnectorMongoDbOption && IsSteeltoeV4"
+    },
+    "ConnectorMySqlOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for MySQL databases using ADO.NET.",
+      "defaultValue": "false"
+    },
+    "HasConnectorMySqlInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConnectorMySqlOption && IsSteeltoeV3"
+    },
+    "HasConnectorMySqlInSteeltoeV4": {
+      "type": "computed",
+      "value": "(ConnectorMySqlOption || ConnectorMySqlEfCoreOption) && IsSteeltoeV4"
+    },
+    "ConnectorMySqlEfCoreOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for MySQL databases using Entity Framework Core.",
+      "defaultValue": "false"
+    },
+    "HasConnectorMySqlEfCoreInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConnectorMySqlEfCoreOption && IsSteeltoeV3"
+    },
+    "HasConnectorMySqlEfCoreInSteeltoeV4": {
+      "type": "computed",
+      "value": "ConnectorMySqlEfCoreOption && IsSteeltoeV4"
+    },
+    "ConnectorOAuthOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for OAuth2 security on Cloud Foundry (Steeltoe 3.x only).",
+      "defaultValue": "false"
+    },
+    "HasConnectorOAuthInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConnectorOAuthOption && IsSteeltoeV3"
+    },
+    "ConnectorPostgreSqlOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for PostgreSQL databases using ADO.NET.",
+      "defaultValue": "false"
+    },
+    "HasConnectorPostgreSqlInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConnectorPostgreSqlOption && IsSteeltoeV3"
+    },
+    "HasConnectorPostgreSqlInSteeltoeV4": {
+      "type": "computed",
+      "value": "(ConnectorPostgreSqlOption || ConnectorPostgreSqlEfCoreOption) && IsSteeltoeV4"
+    },
+    "ConnectorPostgreSqlEfCoreOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for PostgreSQL databases using Entity Framework Core.",
+      "defaultValue": "false"
+    },
+    "HasConnectorPostgreSqlEfCoreInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConnectorPostgreSqlEfCoreOption && IsSteeltoeV3"
+    },
+    "HasConnectorPostgreSqlEfCoreInSteeltoeV4": {
+      "type": "computed",
+      "value": "ConnectorPostgreSqlEfCoreOption && IsSteeltoeV4"
+    },
+    "ConnectorRabbitMqOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for RabbitMQ message brokers.",
+      "defaultValue": "false"
+    },
+    "HasConnectorRabbitMqInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConnectorRabbitMqOption && IsSteeltoeV3"
+    },
+    "HasConnectorRabbitMqInSteeltoeV4": {
+      "type": "computed",
+      "value": "ConnectorRabbitMqOption && IsSteeltoeV4"
+    },
+    "ConnectorRedisOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for Redis data stores.",
+      "defaultValue": "false"
+    },
+    "HasConnectorRedisInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConnectorRedisOption && IsSteeltoeV3"
+    },
+    "HasConnectorRedisInSteeltoeV4": {
+      "type": "computed",
+      "value": "ConnectorRedisOption && IsSteeltoeV4"
+    },
+    "ConnectorSqlServerOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for Microsoft SQL Server databases using ADO.NET.",
+      "defaultValue": "false"
+    },
+    "HasConnectorSqlServerInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConnectorSqlServerOption && IsSteeltoeV3"
+    },
+    "HasConnectorSqlServerInSteeltoeV4": {
+      "type": "computed",
+      "value": "(ConnectorSqlServerOption || ConnectorSqlServerEfCoreOption) && IsSteeltoeV4"
+    },
+    "ConnectorSqlServerEfCoreOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a connector for Microsoft SQL Server databases using Entity Framework Core.",
+      "defaultValue": "false"
+    },
+    "HasConnectorSqlServerEfCoreInSteeltoeV3": {
+      "type": "computed",
+      "value": "ConnectorSqlServerEfCoreOption && IsSteeltoeV3"
+    },
+    "HasConnectorSqlServerEfCoreInSteeltoeV4": {
+      "type": "computed",
+      "value": "ConnectorSqlServerEfCoreOption && IsSteeltoeV4"
+    },
+    "HasAnyConnector": {
+      "type": "computed",
+      "value": "ConnectorCosmosDbOption || ConnectorMongoDbOption || ConnectorMySqlOption || ConnectorMySqlEfCoreOption || HasConnectorOAuthInSteeltoeV3 || ConnectorPostgreSqlOption || ConnectorPostgreSqlEfCoreOption || ConnectorRabbitMqOption || ConnectorRedisOption || ConnectorSqlServerOption || ConnectorSqlServerEfCoreOption"
+    },
+    "HasAnyConnectorInSteeltoeV3": {
+      "type": "computed",
+      "value": "(HasAnyConnector || DataProtectionRedisOption) && IsSteeltoeV3"
+    },
+    "HasAnyConnectorInSteeltoeV4": {
+      "type": "computed",
+      "value": "HasAnyConnector && IsSteeltoeV4"
+    },
+    "HasAnyEfCoreConnector": {
+      "type": "computed",
+      "value": "ConnectorMySqlEfCoreOption || ConnectorPostgreSqlEfCoreOption || ConnectorSqlServerEfCoreOption"
+    },
+    "HasAnyEfCoreConnectorInSteeltoeV3": {
+      "type": "computed",
+      "value": "HasAnyEfCoreConnector && IsSteeltoeV3"
+    },
+    "HasAnyEfCoreConnectorInSteeltoeV4": {
+      "type": "computed",
+      "value": "HasAnyEfCoreConnector && IsSteeltoeV4"
+    },
+    "DiscoveryConsulOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a service discovery client for HashiCorp Consul.",
+      "defaultValue": "false"
+    },
+    "HasDiscoveryConsulInSteeltoeV4": {
+      "type": "computed",
+      "value": "DiscoveryConsulOption && IsSteeltoeV4"
+    },
+    "DiscoveryEurekaOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a service discovery client for Netflix Eureka.",
+      "defaultValue": "false"
+    },
+    "HasDiscoveryEurekaInSteeltoeV4": {
+      "type": "computed",
+      "value": "DiscoveryEurekaOption && IsSteeltoeV4"
+    },
+    "HasAnyDiscovery": {
+      "type": "computed",
+      "value": "DiscoveryConsulOption || DiscoveryEurekaOption"
+    },
+    "HasAnyDiscoveryInSteeltoeV3": {
+      "type": "computed",
+      "value": "HasAnyDiscovery && IsSteeltoeV3"
+    },
+    "LoggingDynamicConsoleOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Enable dynamically changing minimum levels at runtime using the .NET console logger.",
+      "defaultValue": "false"
+    },
+    "HasLoggingDynamicConsoleInSteeltoeV3": {
+      "type": "computed",
+      "value": "LoggingDynamicConsoleOption && IsSteeltoeV3"
+    },
+    "HasLoggingDynamicConsoleInSteeltoeV4": {
+      "type": "computed",
+      "value": "LoggingDynamicConsoleOption && IsSteeltoeV4"
+    },
+    "LoggingDynamicSerilogOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Enable dynamically changing minimum levels at runtime using Serlog.",
+      "defaultValue": "false"
+    },
+    "HasLoggingDynamicSerilogInSteeltoeV3": {
+      "type": "computed",
+      "value": "LoggingDynamicSerilogOption && IsSteeltoeV3"
+    },
+    "HasLoggingDynamicSerilogInSteeltoeV4": {
+      "type": "computed",
+      "value": "LoggingDynamicSerilogOption && IsSteeltoeV4"
+    },
+    "HasAnyLogging": {
+      "type": "computed",
+      "value": "LoggingDynamicConsoleOption || LoggingDynamicSerilogOption"
+    },
+    "ManagementEndpointsOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add management endpoints, providing info about versions, configuration, mapped routes and HTTP traffic, heap/thread dumps, health checks and changing log levels.",
+      "defaultValue": "false"
+    },
+    "HasManagementEndpointsInSteeltoeV3": {
+      "type": "computed",
+      "value": "ManagementEndpointsOption && IsSteeltoeV3"
+    },
+    "HasManagementEndpointsInSteeltoeV4": {
+      "type": "computed",
+      "value": "ManagementEndpointsOption && IsSteeltoeV4"
+    },
+    "ManagementTasksOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add task execution, based on command-line arguments.",
+      "defaultValue": "false"
+    },
+    "HasManagementTasksInSteeltoeV3": {
+      "type": "computed",
+      "value": "ManagementTasksOption && IsSteeltoeV3"
+    },
+    "HasManagementTasksInSteeltoeV4": {
+      "type": "computed",
+      "value": "ManagementTasksOption && IsSteeltoeV4"
+    },
+    "DistributedTracingOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add distributed tracing support.",
+      "defaultValue": "false"
+    },
+    "HasDistributedTracingInSteeltoeV3": {
+      "type": "computed",
+      "value": "DistributedTracingOption && IsSteeltoeV3"
+    },
+    "HasDistributedTracingInSteeltoeV4": {
+      "type": "computed",
+      "value": "DistributedTracingOption && IsSteeltoeV4"
+    },
+    "HasAnyManagement": {
+      "type": "computed",
+      "value": "ManagementEndpointsOption || ManagementTasksOption || DistributedTracingOption"
+    },
+    "MessagingRabbitMqClientOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a RabbitMQ client service for sending and receiving messages (Steeltoe 3.x only).",
+      "defaultValue": "false"
+    },
+    "HasMessagingRabbitMqClientInSteeltoeV3": {
+      "type": "computed",
+      "value": "MessagingRabbitMqClientOption && IsSteeltoeV3"
+    },
+    "MessagingRabbitMqListenerOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Add a RabbitMQ listener service for processing messages (Steeltoe 3.x only).",
+      "defaultValue": "false"
+    },
+    "HasMessagingRabbitMqListenerInSteeltoeV3": {
+      "type": "computed",
+      "value": "MessagingRabbitMqListenerOption && IsSteeltoeV3"
+    },
+    "HasAnyMessagingRabbitMqInSteeltoeV3": {
+      "type": "computed",
+      "value": "HasMessagingRabbitMqClientInSteeltoeV3 || HasMessagingRabbitMqListenerInSteeltoeV3"
+    },
+    "DataProtectionRedisOption": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "Configure the ASP.NET data protection system to persist keys in a Redis database.",
+      "defaultValue": "false"
+    },
+    "HasDataProtectionRedisInSteeltoeV3": {
+      "type": "computed",
+      "value": "DataProtectionRedisOption && IsSteeltoeV3"
+    },
+    "HasDataProtectionRedisInSteeltoeV4": {
+      "type": "computed",
+      "value": "DataProtectionRedisOption && IsSteeltoeV4"
+    },
+    "HasAnyRedisInSteeltoeV3": {
+      "type": "computed",
+      "value": "(ConnectorRedisOption || DataProtectionRedisOption) && IsSteeltoeV3"
+    },
+    "HasAnyRedisInSteeltoeV4": {
+      "type": "computed",
+      "value": "(ConnectorRedisOption || DataProtectionRedisOption) && IsSteeltoeV4"
+    },
+    "HasAnySteeltoe": {
+      "type": "computed",
+      "value": "HasCircuitBreakerHystrixInSteeltoeV3 || HasAnyHostingInSteeltoeV3 || HasAnyConfiguration || HasAnyConnector || HasAnyDiscovery || HasAnyLogging || HasAnyManagement || HasAnyMessagingRabbitMqInSteeltoeV3 || DataProtectionRedisOption"
+    },
+    "RequiresProjectNamespaceImport": {
+      "type": "computed",
+      "value": "HasCircuitBreakerHystrixInSteeltoeV3 || HasAnyEfCoreConnector || HasMessagingRabbitMqListenerInSteeltoeV3"
+    },
+    // NuGet package versions.
+    "CalculateAspNetCorePackageVersion": {
+      "type": "generated",
+      "generator": "regex",
       "datatype": "string",
-      "defaultValue": "3.2.*",
-      "replaces": "$(SteeltoeVersionOption)"
+      "replaces": "$(AspNetCoreVersion)",
+      "parameters": {
+        "source": "Framework",
+        "steps": [
+          {
+            "regex": "^net([0-9]+)\\.0$",
+            "replacement": "$1.0.*"
+          }
+        ]
+      }
+    },
+    "CalculateSqlClientVersion": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "$(SqlClientVersion)",
+      "parameters": {
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(Framework == 'net9.0')",
+            "value": "6.0.*"
+          },
+          {
+            "condition": "(Framework == 'net8.0')",
+            "value": "6.0.*"
+          },
+          {
+            "condition": "(Framework == 'net6.0')",
+            "value": "5.2.*"
+          }
+        ]
+      }
+    },
+    "CalculateMySqlVersion": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "$(MySqlVersion)",
+      "parameters": {
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(Framework == 'net9.0')",
+            "value": "9.2.*"
+          },
+          {
+            "condition": "(Framework == 'net8.0')",
+            "value": "9.2.*"
+          },
+          {
+            "condition": "(Framework == 'net6.0')",
+            "value": "9.1.*"
+          }
+        ]
+      }
+    },
+    "CalculateRabbitMqVersion": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "$(RabbitMqVersion)",
+      "parameters": {
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(IsSteeltoeV3)",
+            "value": "5.2.*"
+          },
+          {
+            "condition": "True == True",
+            "value": "7.1.*"
+          }
+        ]
+      }
     }
   },
   "primaryOutputs": [

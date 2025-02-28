@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Steeltoe.NetCoreTool.Template.Test.Utilities
+namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
 {
     public class Command
     {

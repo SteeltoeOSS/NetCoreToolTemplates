@@ -10,6 +10,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
 
         public Language Language { get; set; }
 
-        public List<string> Dependencies { get; set; } = new List<string>();
+        public List<string> Dependencies { get; set; } = [];
     }
 }

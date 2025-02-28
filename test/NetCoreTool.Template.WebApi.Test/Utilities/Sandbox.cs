@@ -3,10 +3,9 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Steeltoe.NetCoreTool.Template.Test.Utilities.IO;
 using Xunit.Abstractions;
 
-namespace Steeltoe.NetCoreTool.Template.Test.Utilities
+namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
 {
     public class Sandbox : TempDirectory
     {
@@ -28,7 +27,7 @@ namespace Steeltoe.NetCoreTool.Template.Test.Utilities
         }
 
         public Sandbox(ITestOutputHelper logger) : base(
-            $"DotNetNewTemplatesSandboxes/P_{Guid.NewGuid().ToString().Replace("-", "_")}")
+            $"DotNetNewTemplatesSandboxes{System.IO.Path.DirectorySeparatorChar}P_{Guid.NewGuid().ToString().Replace("-", "_")}")
         {
             _logger = logger;
             _logger.WriteLine($"sandbox: {Name}");

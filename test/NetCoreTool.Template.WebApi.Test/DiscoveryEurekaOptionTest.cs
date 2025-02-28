@@ -4,13 +4,9 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class DiscoveryEurekaOptionTest : ProjectOptionTest
+    public class DiscoveryEurekaOptionTest(ITestOutputHelper logger)
+        : ProjectOptionTest("discovery-eureka", "Add a service discovery client for Netflix Eureka.", logger)
     {
-        public DiscoveryEurekaOptionTest(ITestOutputHelper logger) : base("discovery-eureka",
-            "Add access to Eureka, a REST-based service for locating services", logger)
-        {
-        }
-
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("Steeltoe.Discovery.Eureka", "$(SteeltoeVersion)"));
@@ -18,7 +14,20 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add("builder.Services.AddDiscoveryClient");
+            snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
+            snippets.Add(GetSetupCodeFragment(options.SteeltoeVersion));
+        }
+
+        private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
+        {
+            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Discovery.Client" : "Steeltoe.Discovery.Eureka";
+        }
+
+        private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
+        {
+            return steeltoeVersion == SteeltoeVersion.Steeltoe32
+                ? "builder.Services.AddDiscoveryClient(builder.Configuration);"
+                : "builder.Services.AddEurekaDiscoveryClient();";
         }
     }
 }

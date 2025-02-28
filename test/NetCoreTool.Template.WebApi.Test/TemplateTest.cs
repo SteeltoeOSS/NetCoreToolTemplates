@@ -1,8 +1,7 @@
 using System.Threading.Tasks;
 using FluentAssertions;
-using Steeltoe.NetCoreTool.Template.Test.Utilities;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Utils;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -28,18 +27,34 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         [Fact]
         [Trait("Category", "Smoke")]
-        public async void Smoke_Test()
+        public async Task Smoke_Test()
         {
             Logger.WriteLine($"smoke testing help");
             using var helpBox = await TemplateSandbox("--help");
-            var regex = @$"{Option}\s*(<[^>]*>)?\s+{Description}";
-            if (Option == null)
-                helpBox.CommandOutput.Should()
-                    .ContainSnippet(Description);
+
+            if (Option != null)
+            {
+                var regex = @$"{Option}\s*(<[^>]*>)?\s+{EscapeSnippetForRegex(Description)}";
+                helpBox.CommandOutput.Should().ContainRegexSnippet(regex);
+            }
             else
-                helpBox.CommandOutput.Should().MatchRegex(regex);
+            {
+                helpBox.CommandOutput.Should().Contain(Description);
+            }
+
             Logger.WriteLine($"smoke testing option");
             using var smokeBox = await TemplateSandbox($"{GetSmokeTestArgs()}");
+        }
+
+        private static string EscapeSnippetForRegex(string snippet)
+        {
+            return snippet
+                .Replace("(", @"\(").Replace(")", @"\)")
+                .Replace("[", @"\[").Replace("]", @"\]")
+                .Replace("|", @"\|")
+                .Replace("+", @"\+")
+                .Replace("$", @"\$")
+                .Replace(".", @"\s*\.\s*");
         }
 
         protected abstract string GetSmokeTestArgs();

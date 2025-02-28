@@ -1,63 +1,62 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentAssertions;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public abstract class ProjectOptionTest : OptionTest
+    public abstract class ProjectOptionTest(string option, string description, ITestOutputHelper logger)
+        : OptionTest(option, description, logger)
     {
-        protected ProjectOptionTest(string option, string description, ITestOutputHelper logger) : base(option,
-            description,
-            logger)
-        {
-        }
-
         [Theory]
         [Trait("Category", "ProjectGeneration")]
         [ClassData(typeof(TemplateOptions.BaseOptions))]
-        public async void Project_Should_Be_Generated(string steeltoeOption, string frameworkOption,
+        public virtual async Task Project_Should_Be_Generated(string steeltoeOption, string frameworkOption,
             string languageOption)
         {
-            Logger.WriteLine(
-                $"steeltoe/framework/language/option: {steeltoeOption}/{frameworkOption}/{languageOption}/{Option}");
-            Sandbox = await TemplateSandbox(
-                $"--steeltoe {steeltoeOption} --framework {frameworkOption} --language {languageOption} --no-restore");
+            Logger.WriteLine($"steeltoe/framework/language/option: {steeltoeOption}/{frameworkOption}/{languageOption}/{Option}");
+            using var _ = Sandbox = await TemplateSandbox($"--steeltoe {steeltoeOption} --framework {frameworkOption} --language {languageOption} --no-restore");
             var options = ToProjectOptions(steeltoeOption, frameworkOption, languageOption);
-            try
-            {
-                await AssertProjectGeneration(options);
-            }
-            finally
-            {
-                Sandbox.Dispose();
-                Sandbox = null;
-            }
+            await AssertProjectGeneration(options);
         }
 
         [Theory]
         [Trait("Category", "ProjectBuild")]
         [ClassData(typeof(TemplateOptions.BaseOptions))]
-        public async void Project_Should_Be_Built(string steeltoeOption, string frameworkOption, string languageOption)
+        public virtual async Task Project_Should_Be_Built(string steeltoeOption, string frameworkOption, string languageOption)
         {
-            Logger.WriteLine(
-                $"steeltoe/framework/language/option: {steeltoeOption}/{frameworkOption}/{languageOption}/{Option}");
+            Logger.WriteLine($"steeltoe/framework/language/option: {steeltoeOption}/{frameworkOption}/{languageOption}/{Option}");
             Logger.WriteLine("generating project");
-            using var sandbox =
-                await TemplateSandbox(
-                    $"--steeltoe {steeltoeOption} --framework {frameworkOption} --language {languageOption}");
-            sandbox.CommandExitCode.Should().Be(0, sandbox.CommandOutput);
+
+            using var sandbox = await TemplateSandbox($"--steeltoe {steeltoeOption} --framework {frameworkOption} --language {languageOption}");
+            sandbox.CommandExitCode.Should().Be(0, $"generation should succeed, while output was:{Environment.NewLine}{sandbox.CommandOutput}");
+
             Logger.WriteLine("building project");
-            var buildCmd = "dotnet build";
-            buildCmd += " /p:TreatWarningsAsErrors=True";
+            await CreateEditorConfigForUnnecessaryUsings(sandbox);
+            var buildCmd = "dotnet build /p:TreatWarningsAsErrors=True /p:EnforceCodeStyleInBuild=True /p:GenerateDocumentationFile=True";
             await sandbox.ExecuteCommandAsync(buildCmd);
-            sandbox.CommandExitCode.Should().Be(0, sandbox.CommandOutput);
+            sandbox.CommandExitCode.Should().Be(0, $"build should succeed, while output was:{Environment.NewLine}{sandbox.CommandOutput}");
+        }
+
+        private static async Task CreateEditorConfigForUnnecessaryUsings(Sandbox sandbox)
+        {
+            await File.WriteAllTextAsync(Path.Combine(sandbox.Path, ".editorconfig"),
+                """
+                root = true
+                [*]
+                # Remove unnecessary using directives
+                dotnet_diagnostic.IDE0005.severity = warning
+                # Missing XML comment for publicly visible type or member
+                dotnet_diagnostic.CS1591.severity = none
+                """);
         }
 
         protected virtual async Task AssertProjectGeneration(ProjectOptions options)
@@ -83,12 +82,24 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             Logger.WriteLine("asserting project package references");
             var path = GetProjectFileForLanguage(Sandbox.Name, options.Language);
             var project = await Sandbox.GetXmlDocumentAsync(path);
+
+            var packagesWithUnevaluatedCondition =
+                from e in project.Elements().Elements("ItemGroup").Elements("PackageReference")
+                where e.Attribute("Condition") != null
+                select (e.Attribute("Include")?.Value, e.Attribute("Condition")?.Value);
+            packagesWithUnevaluatedCondition.Should().BeEmpty();
+
             var packages =
             (
                 from e in project.Elements().Elements("ItemGroup").Elements("PackageReference")
-                select (e.Attribute("Include")?.Value, e.Attribute("Version")?.Value)
+                select (InQuotes(e.Attribute("Include")?.Value), InQuotes(e.Attribute("Version")?.Value))
             ).ToList();
-            packages.Should().Contain(expectedPackages);
+            packages.Should().Contain(expectedPackages.Select((p) => (InQuotes(p.Item1), InQuotes(p.Item2))));
+        }
+
+        private static string InQuotes(string source)
+        {
+            return source == null ? null : '"' + source + '"';
         }
 
         protected virtual void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
@@ -203,7 +214,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             }
 
             Logger.WriteLine("asserting launchSettings.json");
-            var settings = await Sandbox.GetJsonDocumentAsync<LaunchSettings>("properties/launchSettings.json");
+            var settings = await Sandbox.GetJsonDocumentAsync<LaunchSettings>($"Properties{Path.DirectorySeparatorChar}launchSettings.json");
             foreach (var assertion in assertions)
             {
                 assertion(options, settings);
@@ -219,7 +230,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             var ext = language switch
             {
                 Language.CSharp => ".csproj",
-                Language.FSharp => ".fsproj",
                 _ => throw new ArgumentOutOfRangeException(nameof(language), language.ToString())
             };
             return $"{baseName}{ext}";
@@ -230,10 +240,20 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             var ext = language switch
             {
                 Language.CSharp => ".cs",
-                Language.FSharp => ".fs",
                 _ => throw new ArgumentOutOfRangeException(nameof(language), language.ToString())
             };
             return $"{baseName}{ext}";
+        }
+
+        protected static string GetPackageVersionForFramework(Framework framework)
+        {
+            return framework switch
+            {
+                Framework.Net60 => "6.0.*",
+                Framework.Net80 => "8.0.*",
+                Framework.Net90 => "9.0.*",
+                _ => throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString())
+            };
         }
 
         private static ProjectOptions ToProjectOptions(string steeltoeVerison, string framework, string language)
@@ -248,9 +268,13 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static SteeltoeVersion ToSteeltoeEnum(string steeltoe)
         {
-            if (steeltoe.StartsWith("3.2."))
+            if (steeltoe.StartsWith("3.2"))
             {
                 return SteeltoeVersion.Steeltoe32;
+            }
+            if (steeltoe.StartsWith("4.0"))
+            {
+                return SteeltoeVersion.Steeltoe40;
             }
 
             throw new ArgumentOutOfRangeException(nameof(steeltoe), steeltoe);
@@ -262,6 +286,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 "net6.0" => Framework.Net60,
                 "net8.0" => Framework.Net80,
+                "net9.0" => Framework.Net90,
                 _ => throw new ArgumentOutOfRangeException(nameof(framework), framework)
             };
         }
@@ -271,7 +296,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             return language switch
             {
                 "C#" => Language.CSharp,
-                "F#" => Language.FSharp,
                 _ => throw new ArgumentOutOfRangeException(nameof(language), language)
             };
         }

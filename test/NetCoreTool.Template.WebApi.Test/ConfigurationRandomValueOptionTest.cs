@@ -4,22 +4,28 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class ConfigurationRandomValueOptionTest : ProjectOptionTest
+    public class ConfigurationRandomValueOptionTest(ITestOutputHelper logger)
+        : ProjectOptionTest("configuration-random-value", "Add random value generation to configuration.", logger)
     {
-        public ConfigurationRandomValueOptionTest(ITestOutputHelper logger) : base("configuration-random-value",
-            "Add a random value configuration source", logger)
-        {
-        }
-
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add(("Steeltoe.Extensions.Configuration.RandomValueBase", "$(SteeltoeVersion)"));
+            packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
+        }
+
+        private static string GetPackageName(SteeltoeVersion steeltoeVersion)
+        {
+            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Configuration.RandomValueBase" : "Steeltoe.Configuration.RandomValue";
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add("Steeltoe.Extensions.Configuration.RandomValue");
-            snippets.Add("builder.Configuration.AddRandomValueSource()");
+            snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
+            snippets.Add("builder.Configuration.AddRandomValueSource();");
+        }
+
+        private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
+        {
+            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Configuration.RandomValue" : "Steeltoe.Configuration.RandomValue";
         }
     }
 }

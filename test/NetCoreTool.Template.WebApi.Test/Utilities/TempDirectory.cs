@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Steeltoe.NetCoreTool.Template.Test.Utilities.IO
+namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
 {
     public class TempDirectory : IDisposable
     {

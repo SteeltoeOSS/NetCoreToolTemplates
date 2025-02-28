@@ -6,22 +6,33 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class ConfigurationPlaceholderOptionTest : ProjectOptionTest
+    public class ConfigurationPlaceholderOptionTest(ITestOutputHelper logger)
+        : ProjectOptionTest("configuration-placeholder", "Add placeholder substitution to configuration.", logger)
     {
-        public ConfigurationPlaceholderOptionTest(ITestOutputHelper logger) : base("configuration-placeholder",
-            "Add a placeholder configuration source", logger)
-        {
-        }
-
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add(("Steeltoe.Extensions.Configuration.PlaceholderCore", "$(SteeltoeVersion)"));
+            packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
+        }
+
+        private static string GetPackageName(SteeltoeVersion steeltoeVersion)
+        {
+            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Configuration.PlaceholderCore" : "Steeltoe.Configuration.Placeholder";
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add("Steeltoe.Extensions.Configuration.Placeholder");
-            snippets.Add(".AddPlaceholderResolver()");
+            snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
+            snippets.Add(GetSetupCodeFragment(options.SteeltoeVersion));
+        }
+
+        private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
+        {
+            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Configuration.Placeholder" : "Steeltoe.Configuration.Placeholder";
+        }
+
+        private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
+        {
+            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "builder.AddPlaceholderResolver();" : "builder.Configuration.AddPlaceholderResolver();";
         }
 
         protected override void AssertAppSettingsJsonHook(List<Action<ProjectOptions, AppSettings>> assertions)

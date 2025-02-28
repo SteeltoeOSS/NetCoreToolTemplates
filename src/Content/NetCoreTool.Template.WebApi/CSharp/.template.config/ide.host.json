@@ -1,175 +1,357 @@
 {
-  "$schema": "https://json.schemastore.org/vs-2017.3.host",
-  "learnMoreLink": "https://start.steeltoe.io/",
+  "$schema": "https://json.schemastore.org/ide.host",
   "icon": "steeltoe-icon.png",
   "symbolInfo": [
     {
-      "id": "CircuitBreakerHystrixOption",
-      "name": {
-        "text": "Add support for Netflix Hystrix, a latency and fault tolerance library"
-      },
-      "isVisible": "true"
+      // Do not rename, this is a special entry.
+      "id": "Framework",
+      "isVisible": true
     },
     {
-      "id": "ConfigurationCloudConfigOption",
+      "id": "ChooseSteeltoeVersionInIDE",
+      "isVisible": true,
       "name": {
-        "text": "Add a Spring Cloud Config configuration source "
+        "text": "Steeltoe version"
       },
-      "isVisible": "true"
-    },
-    {
-      "id": "ConfigurationPlaceholderOption",
-      "name": {
-        "text": "Add a placeholder configuration source"
+      "description": {
+        "text": "The Steeltoe version to use."
       },
-      "isVisible": "true"
-    },
-    {
-      "id": "ConfigurationRandomValueOption",
-      "name": {
-        "text": "Add a random value configuration source"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "ConnectorMongoDbOption",
-      "name": {
-        "text": "Add a connector for MongoDB databases"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "ConnectorMySqlEfCoreOption",
-      "name": {
-        "text": "Add a connector for MySQL databases using Entity Framework Core"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "ConnectorMySqlOption",
-      "name": {
-        "text": "Add a connector for MySQL databases"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "ConnectorOAuthOption",
-      "name": {
-        "text": "Add a connector for OAuth security"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "ConnectorPostgreSqlEfCoreOption",
-      "name": {
-        "text": "Add a connector for PostgreSQL databases using Entity Framework Core"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "ConnectorPostgreSqlOption",
-      "name": {
-        "text": "Add a connector for PostgreSQL databases"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "ConnectorRabbitMqOption",
-      "name": {
-        "text": "Add a connector for RabbitMQ message brokers"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "ConnectorRedisOption",
-      "name": {
-        "text": "Add a connector for Redis data stores"
-      },
-      "isVisible": "true"
-    },
-    {
-      "id": "ConnectorSqlServerOption",
-      "name": {
-        "text": "Add a connector for Microsoft SQL Server databases"
-      },
-      "isVisible": "true"
+      "choices": [
+        {
+          "id": "3.2.*",
+          "name": {
+            "text": "Steeltoe 3.2"
+          }
+        },
+        {
+          "id": "4.0.*-*",
+          "name": {
+            "text": "Steeltoe 4.0"
+          }
+        }
+      ],
+      "defaultValue": "4.0.*-*"
     },
     {
       "id": "DescriptionOption",
       "name": {
-        "text": "Add a project description"
+        "text": "Project description (optional)"
       },
-      "isVisible": "true"
-    },
-    {
-      "id": "DiscoveryEurekaOption",
-      "name": {
-        "text": "Add access to Eureka, a REST-based service for locating services"
+      "description": {
+        "text": "Adds a description to the project file."
       },
-      "isVisible": "true"
-    },
-    {
-      "id": "DistributedTracingOption",
-      "name": {
-        "text": "Add distributed tracing support"
-      },
-      "isVisible": "true"
+      "isVisible": true
     },
     {
       "id": "DockerfileOption",
       "name": {
         "text": "Add a Dockerfile"
       },
-      "isVisible": "true"
-    },
-    {
-      "id": "HostingAzureSpringCloudOption",
-      "name": {
-        "text": "Add hosting support for Microsoft Azure Spring Cloud"
+      "description": {
+        "text": "Adds a Dockerfile to the project for container support."
       },
-      "isVisible": "true"
+      "isVisible": true
     },
+    // Steeltoe components
     {
-      "id": "HostingCloudFoundryOption",
+      "id": "CircuitBreakerHystrixOption",
       "name": {
-        "text": "Add hosting support for Cloud Foundry"
+        "text": "Use Netflix Hystrix (Steeltoe 3.x only)"
       },
-      "isVisible": "true"
+      "description": {
+        "text": "Adds support for Netflix Hystrix, a latency and fault tolerance library."
+      },
+      "isVisible": true
     },
     {
       "id": "HostingCloudOption",
       "name": {
-        "text": "Add hosting support for clouds"
+        "text": "Use dynamic port bindings in cloud environments (Steeltoe 3.x only)"
       },
-      "isVisible": "true"
+      "description": {
+        "text": "Adds support for listening on the port specified by the hosting environment."
+      },
+      "isVisible": true
     },
     {
-      "id": "LoggingDynamicLoggerOption",
+      "id": "HostingAzureSpringCloudOption",
       "name": {
-        "text": "Add a dynamic logger"
+        "text": "Use Microsoft Azure Spring Cloud (Steeltoe 3.x only)"
       },
-      "isVisible": "true"
+      "description": {
+        "text": "Adds hosting support for running on Microsoft Azure Spring Cloud."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "HostingCloudFoundryOption",
+      "name": {
+        "text": "Use Cloud Foundry"
+      },
+      "description": {
+        "text": "Adds hosting support for running on Cloud Foundry."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConfigurationCloudConfigOption",
+      "name": {
+        "text": "Use Spring Cloud Config Server"
+      },
+      "description": {
+        "text": "Adds a client for Spring Cloud Config Server to configuration."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConfigurationEncryptionOption",
+      "name": {
+        "text": "Use encrypted configuration (Steeltoe 4.0 or higher)"
+      },
+      "description": {
+        "text": "Adds decryption of encrypted settings in configuration."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConfigurationPlaceholderOption",
+      "name": {
+        "text": "Use placeholder substitution in configuration"
+      },
+      "description": {
+        "text": "Adds placeholder substitution to configuration."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConfigurationRandomValueOption",
+      "name": {
+        "text": "Use random values in configuration"
+      },
+      "description": {
+        "text": "Adds random value generation to configuration."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConfigurationSpringBootOption",
+      "name": {
+        "text": "Use Spring Boot configuration keys"
+      },
+      "description": {
+        "text": "Adds support for reading Spring Boot-style keys from configuration."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConnectorCosmosDbOption",
+      "name": {
+        "text": "Use CosmosDB connector"
+      },
+      "description": {
+        "text": "Adds a connector for CosmosDB databases."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConnectorMongoDbOption",
+      "name": {
+        "text": "Use MongoDB connector"
+      },
+      "description": {
+        "text": "Adds a connector for MongoDB databases."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConnectorMySqlOption",
+      "name": {
+        "text": "Use MySQL connector with ADO.NET"
+      },
+      "description": {
+        "text": "Adds a connector for MySQL databases using ADO.NET."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConnectorMySqlEfCoreOption",
+      "name": {
+        "text": "Use MySQL connector with Entity Framework Core"
+      },
+      "description": {
+        "text": "Adds a connector for MySQL databases using Entity Framework Core."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConnectorOAuthOption",
+      "name": {
+        "text": "Use OAuth connector (Steeltoe 3.x only)"
+      },
+      "description": {
+        "text": "Adds a connector for OAuth2 security on Cloud Foundry."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConnectorPostgreSqlOption",
+      "name": {
+        "text": "Use PostgreSQL connector with ADO.NET"
+      },
+      "description": {
+        "text": "Adds a connector for PostgreSQL databases using ADO.NET."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConnectorPostgreSqlEfCoreOption",
+      "name": {
+        "text": "Use PostgreSQL connector with Entity Framework Core"
+      },
+      "description": {
+        "text": "Adds a connector for PostgreSQL databases using Entity Framework Core."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConnectorRabbitMqOption",
+      "name": {
+        "text": "Use RabbitMQ connector"
+      },
+      "description": {
+        "text": "Adds a connector for RabbitMQ message brokers."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConnectorRedisOption",
+      "name": {
+        "text": "Use Redis connector"
+      },
+      "description": {
+        "text": "Adds a connector for Redis data stores."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConnectorSqlServerOption",
+      "name": {
+        "text": "Use Microsoft SQL Server connector with ADO.NET"
+      },
+      "description": {
+        "text": "Adds a connector for Microsoft SQL Server databases using ADO.NET."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ConnectorSqlServerEfCoreOption",
+      "name": {
+        "text": "Use Microsoft SQL Server connector with Entity Framework Core"
+      },
+      "description": {
+        "text": "Adds a connector for Microsoft SQL Server databases using Entity Framework Core."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "DiscoveryConsulOption",
+      "name": {
+        "text": "Use service discovery with HashiCorp Consul"
+      },
+      "description": {
+        "text": "Adds a service discovery client for HashiCorp Consul."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "DiscoveryEurekaOption",
+      "name": {
+        "text": "Use service discovery with  Netflix Eureka"
+      },
+      "description": {
+        "text": "Adds a service discovery client for Netflix Eureka."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "LoggingDynamicConsoleOption",
+      "name": {
+        "text": "Use dynamic console logger"
+      },
+      "description": {
+        "text": "Enables dynamically changing minimum levels at runtime using the .NET console logger."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "LoggingDynamicSerilogOption",
+      "name": {
+        "text": "Use dynamic Serilog logger"
+      },
+      "description": {
+        "text": "Enables dynamically changing minimum levels at runtime using Serlog."
+      },
+      "isVisible": true
     },
     {
       "id": "ManagementEndpointsOption",
       "name": {
-        "text": "Add application management endpoints, such as health and metrics"
+        "text": "Use management endpoints"
       },
-      "isVisible": "true"
+      "description": {
+        "text": "Adds management endpoints, providing info about versions, configuration, mapped routes and HTTP traffic, heap/thread dumps, health checks and changing log levels."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "ManagementTasksOption",
+      "name": {
+        "text": "Use management tasks"
+      },
+      "description": {
+        "text": "Adds task execution, based on command-line arguments."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "DistributedTracingOption",
+      "name": {
+        "text": "Use distributed tracing"
+      },
+      "description": {
+        "text": "Adds distributed tracing support."
+      },
+      "isVisible": true
     },
     {
       "id": "MessagingRabbitMqClientOption",
       "name": {
-        "text": "Add a RabbitMQ client service for sending and receiving messages"
+        "text": "Use RabbitMQ client service (Steeltoe 3.x only)"
       },
-      "isVisible": "true"
+      "description": {
+        "text": "Adds a RabbitMQ client service for sending and receiving messages."
+      },
+      "isVisible": true
     },
     {
       "id": "MessagingRabbitMqListenerOption",
       "name": {
-        "text": "Add a RabbitMQ listener service for processing messages"
+        "text": "Use RabbitMQ listener service (Steeltoe 3.x only)"
       },
-      "isVisible": "true"
+      "description": {
+        "text": "Adds a RabbitMQ listener service for processing messages."
+      },
+      "isVisible": true
+    },
+    {
+      "id": "DataProtectionRedisOption",
+      "name": {
+        "text": "Use data protection with Redis"
+      },
+      "description": {
+        "text": "Configures the ASP.NET data protection system to persist keys in a Redis database."
+      },
+      "isVisible": true
     }
   ]
 }

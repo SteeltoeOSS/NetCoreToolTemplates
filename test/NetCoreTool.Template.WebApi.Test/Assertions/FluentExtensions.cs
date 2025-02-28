@@ -1,5 +1,3 @@
-using System;
-using System.Text.RegularExpressions;
 using FluentAssertions;
 using FluentAssertions.Primitives;
 
@@ -9,26 +7,20 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions
     {
         public static AndConstraint<StringAssertions> ContainSnippet(this StringAssertions assertion, string snippet)
         {
-            assertion.Subject.Should().MatchRegex(RegexForSnippet(snippet));
+            assertion.Subject.Should().Contain(snippet, Exactly.Once());
             return new AndConstraint<StringAssertions>(assertion);
         }
 
-        public static AndConstraint<StringAssertions> NotContainSnippet(this StringAssertions assertion, string snippet)
+        public static AndConstraint<StringAssertions> ContainRegexSnippet(this StringAssertions assertion, string snippet)
         {
-            assertion.Subject.Should().NotMatchRegex(RegexForSnippet(snippet));
+            assertion.Subject.Should().MatchRegex(snippet);
             return new AndConstraint<StringAssertions>(assertion);
         }
 
-        private static string RegexForSnippet(string snippet)
+        public static AndConstraint<StringAssertions> NotContainRegexSnippet(this StringAssertions assertion, string snippet)
         {
-            var regex = snippet
-                .Replace("(", @"\(").Replace(")", @"\)")
-                .Replace("[", @"\[").Replace("]", @"\]")
-                .Replace("|", @"\|")
-                .Replace("+", @"\+")
-                .Replace("$", @"\$")
-                .Replace(".", @"\s*\.\s*");
-            return Regex.Replace(regex, @"\s+", @"\s+");
+            assertion.Subject.Should().NotMatchRegex(snippet);
+            return new AndConstraint<StringAssertions>(assertion);
         }
     }
 }

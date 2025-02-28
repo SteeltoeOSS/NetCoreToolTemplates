@@ -1,17 +1,13 @@
 using System.Text;
 using System.Threading.Tasks;
-using Steeltoe.NetCoreTool.Template.Test.Utilities;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public abstract class OptionTest : TemplateTest
+    public abstract class OptionTest(string option, string description, ITestOutputHelper logger)
+        : TemplateTest(option, description, logger)
     {
-        protected OptionTest(string option, string description, ITestOutputHelper logger) : base(option, description,
-            logger)
-        {
-        }
-
         protected override string GetSmokeTestArgs()
         {
             return "";

@@ -130,7 +130,7 @@ Add the new option to the `symbolInfo` object in `src/Content/NetCoreTool.Templa
 
 If you haven't already, install the project template so that it can be invoked using `dotnet new`:
 ```
-$ dotnet new --install src/Content
+$ dotnet new install src/Content
 ```
 
 Run the `steeltoe-webapi` template with the `--help` option to see the newly added option:
