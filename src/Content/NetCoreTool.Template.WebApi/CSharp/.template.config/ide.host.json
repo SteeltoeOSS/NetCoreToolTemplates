@@ -266,7 +266,7 @@
     {
       "id": "DiscoveryEurekaOption",
       "name": {
-        "text": "Use service discovery with  Netflix Eureka"
+        "text": "Use service discovery with Netflix Eureka"
       },
       "description": {
         "text": "Adds a service discovery client for Netflix Eureka."
