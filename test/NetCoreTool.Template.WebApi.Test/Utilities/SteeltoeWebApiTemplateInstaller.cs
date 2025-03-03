@@ -1,22 +1,16 @@
 using System.Diagnostics;
 using System.IO;
+using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utils
+namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
 {
-    public sealed class SteeltoeWebApiTemplateInstaller
+    public sealed class SteeltoeWebApiTemplateInstaller(ITestOutputHelper logger)
     {
-        private readonly ITestOutputHelper _logger;
-
-        public SteeltoeWebApiTemplateInstaller(ITestOutputHelper logger)
-        {
-            _logger = logger;
-        }
-
         public void Install()
         {
-            Installer.EnsureInstalled(_logger);
+            Installer.EnsureInstalled(logger);
         }
 
         private class Installer
@@ -27,7 +21,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utils
                     new ProcessStartInfo
                     {
                         FileName = "dotnet",
-                        Arguments = $"new --uninstall {Directory.GetCurrentDirectory()}/../../../../../src/Content",
+                        Arguments = $"new uninstall {Directory.GetCurrentDirectory()}/../../../../../src/Content",
                     }
                 );
                 Assert.NotNull(p);
@@ -36,12 +30,12 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utils
                     new ProcessStartInfo
                     {
                         FileName = "dotnet",
-                        Arguments = $"new --install {Directory.GetCurrentDirectory()}/../../../../../src/Content",
+                        Arguments = $"new install {Directory.GetCurrentDirectory()}/../../../../../src/Content",
                     }
                 );
-                Assert.NotNull(p);
+                p.Should().NotBeNull();
                 p.WaitForExit();
-                Assert.True(p.ExitCode == 0);
+                p.ExitCode.Should().Be(0);
             }
 
             internal static void EnsureInstalled(ITestOutputHelper logger)

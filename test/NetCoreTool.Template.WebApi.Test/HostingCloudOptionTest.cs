@@ -4,23 +4,25 @@ using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 {
-    public class HostingCloudOptionTest : ProjectOptionTest
+    public class HostingCloudOptionTest(ITestOutputHelper logger)
+        : ProjectOptionTest("hosting-cloud", "Add support for listening on the port specified by the hosting environment (Steeltoe 3.x only).", logger)
 
     {
-        public HostingCloudOptionTest(ITestOutputHelper logger) : base("hosting-cloud",
-            "Add hosting support for clouds", logger)
-        {
-        }
-
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add(("Steeltoe.Common.Hosting", "$(SteeltoeVersion)"));
+            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
+            {
+                packages.Add(("Steeltoe.Common.Hosting", "$(SteeltoeVersion)"));
+            }
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add("Steeltoe.Common.Hosting");
-            snippets.Add(".UseCloudHosting(");
+            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
+            {
+                snippets.Add("using Steeltoe.Common.Hosting;");
+                snippets.Add("builder.UseCloudHosting();");
+            }
         }
     }
 }

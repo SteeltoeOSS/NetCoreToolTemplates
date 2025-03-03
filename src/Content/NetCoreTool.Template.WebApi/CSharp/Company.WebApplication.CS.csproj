@@ -10,40 +10,69 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SteeltoeVersion>$(SteeltoeVersionOption)</SteeltoeVersion>
+    <!--#if (HasChosenSteeltoeVersionInIDE) -->
+    <SteeltoeVersion>$(ChosenSteeltoeVersionInIDE)</SteeltoeVersion>
+    <!--#else -->
+    <SteeltoeVersion>$(SteeltoeVersionInCLI)</SteeltoeVersion>
+    <!--#endif -->
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.*" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Condition="'$(FrameworkNet80)' == 'True'" Version="8.0.*" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Condition="'$(IsFrameworkNet60)' == 'True'" Version="6.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Condition="'$(IsFrameworkNet80)' == 'True'" Version="8.0.*" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Condition="'$(IsFrameworkNet80)' == 'True'" Version="6.6.2" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Condition="'$(IsFrameworkNet90)' == 'True'" Version="9.0.*" />
   </ItemGroup>
-  <!--#if (AnySteeltoe) -->
+  <!--#if (HasAnySteeltoe) -->
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Condition="'$(ConnectorOAuthOption)' == 'True'" Version="$(AzureOAuthVersion)" />
-    <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(HostingAzureSpringCloudOption)' == 'True'" Version="2.0.0-preview.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Condition="'$(AnyEfCore)' == 'True'" Version="$(EntityFrameworkCoreVersion)" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(ConnectorRedisOption)' == 'True'" Version="$(RedisDriverVersion)" />
-    <PackageReference Include="MongoDB.Driver" Condition="'$(ConnectorMongoDbOption)' == 'True'" Version="$(MongoDbDriverVersion)" />
-    <PackageReference Include="MySql.Data" Condition="'$(ConnectorMySqlOption)' == 'True'" Version="$(MySqlDriverVersion)" />
-    <PackageReference Include="Npgsql" Condition="'$(ConnectorPostgreSqlOption)' == 'True'" Version="$(NpgsqlDriverVersion)" />
-    <PackageReference Include="RabbitMQ.Client" Condition="'$(ConnectorRabbitMqOption)' == 'True'" Version="$(RabbitMqDriverVersion)" />
-    <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(CircuitBreakerHystrixOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(CircuitBreakerHystrixOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(AnyHosting)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Connector.EFCore" Condition="'$(AnyEfCore)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Connector.CloudFoundry" Condition="'$(HostingCloudFoundryOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Connector.ConnectorCore" Condition="'$(AnyEfCore)' != 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Microsoft.Azure.Cosmos" Condition="'$(ConnectorCosmosDbOption)' == 'True'" Version="3.47.*" />
+    <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(HasHostingAzureSpringCloudInSteeltoeV3)' == 'True'" Version="2.0.0-preview.3" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Condition="'$(ConnectorSqlServerOption)' == 'True'" Version="$(SqlClientVersion)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Condition="'$(HasAnyEfCoreConnector)' == 'True'" Version="$(AspNetCoreVersion)" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Condition="'$(ConnectorSqlServerEfCoreOption)' == 'True'" Version="$(AspNetCoreVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(ConnectorRedisOption)' == 'True'" Version="$(AspNetCoreVersion)" />
+    <PackageReference Include="MongoDB.Driver" Condition="'$(ConnectorMongoDbOption)' == 'True'" Version="3.2.*" />
+    <PackageReference Include="MySql.Data" Condition="'$(ConnectorMySqlOption)' == 'True'" Version="$(MySqlVersion)" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Condition="'$(ConnectorMySqlEfCoreOption)' == 'True'" Version="$(AspNetCoreVersion)" />
+    <PackageReference Include="Newtonsoft.Json" Condition="'$(ConnectorCosmosDbOption)' == 'True'" Version="13.0.*" />
+    <PackageReference Include="Npgsql" Condition="'$(ConnectorPostgreSqlOption)' == 'True'" Version="$(AspNetCoreVersion)" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Condition="'$(ConnectorPostgreSqlEfCoreOption)' == 'True'" Version="$(AspNetCoreVersion)" />
+    <PackageReference Include="RabbitMQ.Client" Condition="'$(ConnectorRabbitMqOption)' == 'True'" Version="$(RabbitMqVersion)" />
+    <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(HasCircuitBreakerHystrixInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(HasCircuitBreakerHystrixInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.CloudFoundry" Condition="'$(HasHostingCloudFoundryInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.ConfigServer" Condition="'$(HasConfigurationCloudConfigInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.Encryption" Condition="'$(HasConfigurationEncryptionInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.Placeholder" Condition="'$(HasConfigurationPlaceholderInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.RandomValue" Condition="'$(HasConfigurationRandomValueInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.SpringBoot" Condition="'$(HasConfigurationSpringBootInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Common.Hosting" Condition="'$(HasAnyNonAzureHostingInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.CloudFoundry" Condition="'$(HasHostingCloudFoundryInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.ConnectorCore" Condition="'$(HasAnyConnectorInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.EFCore" Condition="'$(HasAnyEfCoreConnectorInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connectors" Condition="'$(HasAnyConnectorInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connectors.EntityFrameworkCore" Condition="'$(HasAnyEfCoreConnectorInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Discovery.Consul" Condition="'$(DiscoveryConsulOption)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Discovery.Eureka" Condition="'$(DiscoveryEurekaOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Condition="'$(HostingCloudFoundryOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServerCore" Condition="'$(ConfigurationCloudConfigOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Extensions.Configuration.PlaceholderCore" Condition="'$(ConfigurationPlaceholderOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Extensions.Configuration.RandomValueBase" Condition="'$(ConfigurationRandomValueOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Condition="'$(LoggingDynamicLoggerOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(ManagementEndpointsOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Management.TracingCore" Condition="'$(DistributedTracingOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Messaging.RabbitMQ" Condition="'$(AnyMessagingRabbitMq)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="System.Data.SqlClient" Condition="'$(ConnectorSqlServerOption)' == 'True'" Version="4.8.*" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Condition="'$(HasHostingCloudFoundryInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.ConfigServerCore" Condition="'$(HasConfigurationCloudConfigInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.PlaceholderCore" Condition="'$(HasConfigurationPlaceholderInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.RandomValueBase" Condition="'$(HasConfigurationRandomValueInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.SpringBootCore" Condition="'$(HasConfigurationSpringBootInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Logging.DynamicLogger" Condition="'$(HasLoggingDynamicConsoleInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Logging.DynamicSerilogCore" Condition="'$(HasLoggingDynamicSerilogInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Logging.DynamicConsole" Condition="'$(HasLoggingDynamicConsoleInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Logging.DynamicSerilog" Condition="'$(HasLoggingDynamicSerilogInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.Endpoint" Condition="'$(HasManagementEndpointsInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(HasManagementEndpointsInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.TaskCore" Condition="'$(HasManagementTasksInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.Tasks" Condition="'$(HasManagementTasksInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.Tracing" Condition="'$(HasDistributedTracingInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.TracingCore" Condition="'$(HasDistributedTracingInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Messaging.RabbitMQ" Condition="'$(HasAnyMessagingRabbitMqInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Security.DataProtection.Redis" Condition="'$(HasDataProtectionRedisInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Security.DataProtection.RedisCore" Condition="'$(HasDataProtectionRedisInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
   </ItemGroup>
   <!--#endif -->
 

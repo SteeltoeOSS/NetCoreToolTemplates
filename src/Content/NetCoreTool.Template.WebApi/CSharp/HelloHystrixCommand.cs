@@ -1,5 +1,4 @@
-#if (CircuitBreakerHystrixOption)
-using System.Threading.Tasks;
+#if (HasCircuitBreakerHystrixInSteeltoeV3)
 using Steeltoe.CircuitBreaker.Hystrix;
 
 namespace Company.WebApplication.CS
@@ -8,7 +7,8 @@ namespace Company.WebApplication.CS
     {
         private readonly string _name;
 
-        public HelloHystrixCommand(string name) : base(HystrixCommandGroupKeyDefault.AsKey("MyCircuitBreakers"))
+        public HelloHystrixCommand(string name)
+            : base(HystrixCommandGroupKeyDefault.AsKey("ExampleCircuitBreakers"))
         {
             _name = name;
             IsFallbackUserDefined = true;
