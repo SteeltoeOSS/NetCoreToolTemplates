@@ -12,7 +12,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             var mySqlVersion = options.Framework switch
             {
                 Framework.Net60 => "9.1.*",
-                _ => "9.2.*"
+                _ => "9.3.*"
             };
 
             packages.Add(("MySql.Data", mySqlVersion));
