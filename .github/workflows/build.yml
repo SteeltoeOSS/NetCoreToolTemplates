@@ -11,7 +11,7 @@ on:
   workflow_dispatch: {}
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -47,15 +47,15 @@ jobs:
       run: dotnet tool restore
 
     - name: Restore packages
-      run: dotnet restore
+      run: dotnet restore --verbosity minimal
 
-    - name: Build
-      run: dotnet build --no-restore --configuration Release
+    - name: Build solution
+      run: dotnet build --no-restore --configuration Release --verbosity minimal
 
     - name: Test
       run: dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage" --logger "GitHubActions;summary.includeSkippedTests=true"
 
-    - name: Generate packages
+    - name: Collect packages
       shell: pwsh
       run: dotnet pack src --no-build --configuration Release --output ${{ github.workspace }}/packages
 
@@ -114,7 +114,7 @@ jobs:
         name: signed-packages
         path: ${{ github.workspace }}/packages/**/*.nupkg
 
-  az-artifacts-deploy:
+  azdo-artifacts-deploy:
     name: Deploy packages to Dev Feed
     needs: [build-and-test, sign]
     if: github.event_name != 'pull_request'
@@ -144,7 +144,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: 8.0.x
         source-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -175,7 +175,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: 8.0.x
 
     - name: Download signed packages
       uses: actions/download-artifact@v4
