@@ -1,5 +1,6 @@
 name: build-and-test
 on:
+  workflow_dispatch:
   pull_request:
     branches:
     - main
@@ -8,11 +9,13 @@ on:
     - main
   release:
     types: [ published ]
-  workflow_dispatch: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
 
 env:
   AZURE_ARTIFACTS_FEED_URL: https://pkgs.dev.azure.com/dotnet/Steeltoe/_packaging/dev/nuget/v3/index.json
@@ -40,8 +43,6 @@ jobs:
 
     - name: Git checkout
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
     - name: Restore tools
       run: dotnet tool restore
@@ -70,7 +71,7 @@ jobs:
   sign:
     needs: build-and-test
     runs-on: windows-latest
-    if: github.event_name != 'pull_request'
+    if: ${{ github.event_name != 'pull_request' }}
     environment: signing
     permissions:
       id-token: write
@@ -117,7 +118,7 @@ jobs:
   azdo-artifacts-deploy:
     name: Deploy packages to Dev Feed
     needs: [build-and-test, sign]
-    if: github.event_name != 'pull_request'
+    if: ${{ github.event_name != 'pull_request' }}
     environment: azdo
     runs-on: ubuntu-latest
     permissions:
@@ -167,7 +168,7 @@ jobs:
   nuget-org-deploy:
     name: Deploy to nuget.org
     needs: [build-and-test, sign]
-    if: github.event_name == 'release'
+    if: ${{ github.event_name == 'release' }}
     environment: nuget.org
     runs-on: ubuntu-latest
 
