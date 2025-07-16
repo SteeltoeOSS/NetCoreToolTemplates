@@ -43,7 +43,8 @@ jobs:
 
     - name: Git checkout
       uses: actions/checkout@v4
-
+      with:
+        fetch-depth: 0
     - name: Restore tools
       run: dotnet tool restore
 
@@ -146,7 +147,7 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-        source-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
+        source-url: ${{ vars.AZURE_ARTIFACTS_FEED_URL }}
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
