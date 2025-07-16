@@ -9,6 +9,9 @@ on:
     - main
   release:
     types: [ published ]
+  schedule:
+    # Run this workflow at 6 PM UTC every Sunday
+    - cron: "0 18 * * *"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
