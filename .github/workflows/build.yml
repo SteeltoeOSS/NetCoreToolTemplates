@@ -11,7 +11,7 @@ on:
     - published
   schedule:
     # Run this workflow at 6 PM UTC every Sunday
-    - cron: "0 18 * * *"
+    - cron: "0 18 * * 0"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -127,7 +127,7 @@ jobs:
     name: Deploy packages to development feed
     timeout-minutes: 15
     needs: sign
-    if: ${{ github.event_name != 'pull_request' }}
+    if: ${{ github.event_name != 'pull_request' && github.event_name != 'schedule' }}
     environment: azdo
     runs-on: ubuntu-latest
     permissions:
