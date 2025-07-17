@@ -1,14 +1,14 @@
-name: build-and-test
+name: BuildTestDeploy
 on:
   workflow_dispatch:
-  pull_request:
-    branches:
-    - main
   push:
     branches:
     - main
+    - 'release/*'
+  pull_request:
   release:
-    types: [ published ]
+    types:
+    - published
   schedule:
     # Run this workflow at 6 PM UTC every Sunday
     - cron: "0 18 * * *"
@@ -21,13 +21,12 @@ permissions:
   contents: read
 
 env:
-  AZURE_ARTIFACTS_FEED_URL: https://pkgs.dev.azure.com/dotnet/Steeltoe/_packaging/dev/nuget/v3/index.json
-  VSS_NUGET_URI_PREFIXES: https://pkgs.dev.azure.com/dotnet/
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   DOTNET_NOLOGO: true
 
 jobs:
   build-and-test:
+    name: Build, Test and Package
     timeout-minutes: 20
     strategy:
       fail-fast: false
@@ -48,6 +47,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
     - name: Restore tools
       run: dotnet tool restore
 
@@ -64,8 +64,8 @@ jobs:
       shell: pwsh
       run: dotnet pack src --no-build --configuration Release --output ${{ github.workspace }}/packages
 
-    - name: Upload packages to artifacts
-      if: matrix.os == 'ubuntu-latest'
+    - name: Upload unsigned packages
+      if: ${{ matrix.os == 'ubuntu-latest' }}
       uses: actions/upload-artifact@v4
       with:
         if-no-files-found: error
@@ -73,15 +73,17 @@ jobs:
         path: ${{ github.workspace }}/packages/**/*.nupkg
 
   sign:
+    name: Sign
+    if: ${{ github.event_name != 'pull_request' }}
+    timeout-minutes: 15
     needs: build-and-test
     runs-on: windows-latest
-    if: ${{ github.event_name != 'pull_request' }}
     environment: signing
     permissions:
       id-token: write
 
     steps:
-    - name: Download packages
+    - name: Download unsigned packages
       uses: actions/download-artifact@v4
       with:
         name: unsigned-packages
@@ -95,7 +97,7 @@ jobs:
     - name: Install code signing tool
       run: dotnet tool install --global sign --prerelease
 
-    - name: Az CLI login
+    - name: Azure login
       uses: azure/login@v2
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -103,37 +105,38 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Sign packages
-      shell: pwsh
       run: >-
-        sign code azure-key-vault "**/*.nupkg"
-        --base-directory "${{ github.workspace }}"
+        sign code azure-key-vault '**/*.nupkg'
+        --base-directory '${{ github.workspace }}/packages'
         --azure-key-vault-managed-identity true
-        --azure-credential-type "azure-cli"
-        --azure-key-vault-url "${{ secrets.AZURE_KEY_VAULT_URL }}"
-        --azure-key-vault-certificate "${{ secrets.AZURE_SIGN_CERTIFICATE_ID }}"
-        --description "Steeltoe"
+        --azure-credential-type 'azure-cli'
+        --azure-key-vault-url '${{ secrets.AZURE_KEY_VAULT_URL }}'
+        --azure-key-vault-certificate '${{ secrets.AZURE_SIGN_CERTIFICATE_ID }}'
+        --publisher-name 'Steeltoe'
+        --description 'Steeltoe'
+        --description-url 'https://steeltoe.io/'
 
     - name: Upload signed packages
       uses: actions/upload-artifact@v4
       with:
+        if-no-files-found: error
         name: signed-packages
         path: ${{ github.workspace }}/packages/**/*.nupkg
 
-  azdo-artifacts-deploy:
-    name: Deploy packages to Dev Feed
-    needs: [build-and-test, sign]
+  dev-feed-deploy:
+    name: Deploy packages to development feed
+    timeout-minutes: 15
+    needs: sign
     if: ${{ github.event_name != 'pull_request' }}
     environment: azdo
     runs-on: ubuntu-latest
     permissions:
       id-token: write
+    env:
+      VSS_NUGET_URI_PREFIXES: https://pkgs.dev.azure.com/dotnet/
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Azure CLI Login
+    - name: Azure login
       uses: azure/login@v2
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -152,26 +155,26 @@ jobs:
         dotnet-version: 8.0.x
         source-url: ${{ vars.AZURE_ARTIFACTS_FEED_URL }}
       env:
-        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install credential provider for Azure Artifacts
       run: sh -c "$(curl -fsSL https://aka.ms/install-artifacts-credprovider.sh)"
 
     - name: Extract access token
       run: |
-          accessToken=$(az account get-access-token --query accessToken --resource 499b84ac-1321-427f-aa17-267ca6975798 -o tsv)
-          echo "::add-mask::$accessToken"
-          echo "ACCESS_TOKEN=$accessToken" >> $GITHUB_ENV
+        accessToken=$(az account get-access-token --query accessToken --resource 499b84ac-1321-427f-aa17-267ca6975798 -o tsv)
+        echo "::add-mask::$accessToken"
+        echo "ACCESS_TOKEN=$accessToken" >> $GITHUB_ENV
 
     - name: Configure authentication provider to use Azure DevOps token
       run: echo "VSS_NUGET_ACCESSTOKEN=$ACCESS_TOKEN" >> $GITHUB_ENV
 
     - name: Push packages to Azure Artifacts
-      run: dotnet nuget push packages/*.nupkg --api-key azdo-placeholder --source ${{ env.AZURE_ARTIFACTS_FEED_URL }}
+      run: dotnet nuget push '${{ github.workspace }}/packages/*.nupkg' --api-key 'azdo-placeholder' --source '${{ vars.AZURE_ARTIFACTS_FEED_URL }}'
 
   nuget-org-deploy:
-    name: Deploy to nuget.org
-    needs: [build-and-test, sign]
+    name: Deploy packages to nuget.org
+    needs: sign
     if: ${{ github.event_name == 'release' }}
     environment: nuget.org
     runs-on: ubuntu-latest
@@ -189,4 +192,4 @@ jobs:
         path: packages
 
     - name: Push packages to nuget.org
-      run: dotnet nuget push packages/*.nupkg --api-key ${{ secrets.STEELTOE_NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push '${{ github.workspace }}/packages/*.nupkg' --skip-duplicate --api-key ${{ secrets.STEELTOE_NUGET_API_KEY }} --source 'nuget.org'
