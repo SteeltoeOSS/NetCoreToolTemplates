@@ -24,13 +24,13 @@
           }
         },
         {
-          "id": "4.0.*-*",
+          "id": "4.0.*-main-*",
           "name": {
             "text": "Steeltoe 4.0"
           }
         }
       ],
-      "defaultValue": "4.0.*-*"
+      "defaultValue": "4.0.*-main-*"
     },
     {
       "id": "DescriptionOption",

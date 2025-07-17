@@ -14,8 +14,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
                     new object[] { "3.2.8", "net6.0", "C#", },
                     new object[] { "3.2.8", "net8.0", "C#", },
                     new object[] { "3.2.8", "net9.0", "C#", },
-                    new object[] { "4.0.*-*", "net8.0", "C#", },
-                    new object[] { "4.0.*-*", "net9.0", "C#", }
+                    new object[] { "4.0.*-main-*", "net8.0", "C#", },
+                    new object[] { "4.0.*-main-*", "net9.0", "C#", }
                 }.GetEnumerator();
             }
 
