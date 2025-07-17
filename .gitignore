@@ -82,8 +82,6 @@ StyleCopReport.xml
 *.pgc
 *.pgd
 *.rsp
-# but not Directory.Build.rsp, as it configures directory-level build defaults
-!Directory.Build.rsp
 *.sbr
 *.tlb
 *.tli
@@ -385,6 +383,7 @@ FodyWeavers.xsd
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+/.vscode/settings.json
 
 # Local History for Visual Studio Code
 .history/
@@ -398,3 +397,27 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+#############################################
+### Additions specific to this repository ###
+#############################################
+
+# Mac DS_Store files
+.DS_Store
+
+# JetBrains IDEs Rider/IntelliJ (based on https://intellij-support.jetbrains.com/hc/en-us/articles/206544839)
+**/.idea/**/*.xml
+**/.idea/**/*.iml
+**/.idea/**/*.ids
+**/.idea/**/*.ipr
+**/.idea/**/*.iws
+**/.idea/**/*.name
+**/.idea/**/*.properties
+**/.idea/**/*.ser
+**/.idea/**/shelf/
+**/.idea/**/dictionaries/
+**/.idea/**/libraries/
+**/.idea/**/artifacts/
+**/.idea/**/httpRequests/
+**/.idea/**/dataSources/
+!**/.idea/**/codeStyles/*
