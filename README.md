@@ -1,6 +1,6 @@
 # Steeltoe.NetCoreTool.Templates
 
-[![Build Status](https://dev.azure.com/SteeltoeOSS/Steeltoe/_apis/build/status/Initializr/SteeltoeOSS.NetCoreToolTemplates?branchName=main)](https://dev.azure.com/SteeltoeOSS/Steeltoe/_build/latest?definitionId=46&branchName=main)
+[![Build Status](https://github.com/SteeltoeOSS/NetCoreToolTemplates/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/SteeltoeOSS/NetCoreToolTemplates/actions/workflows/build.yml?query=branch%3Amain)
 &nbsp;[![NuGet Version](https://img.shields.io/nuget/v/Steeltoe.NetCoreTool.Templates?style=flat)](https://www.nuget.org/packages/Steeltoe.NetCoreTool.Templates)
 &nbsp;[![GitHub License](https://img.shields.io/github/license/SteeltoeOSS/NetCoreToolTemplates)](LICENSE)
 
