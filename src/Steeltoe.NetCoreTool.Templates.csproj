@@ -2,8 +2,9 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <PackageType>Template</PackageType>
-    <PackageVersion>0.0.0</PackageVersion>
     <PackageId>Steeltoe.NetCoreTool.Templates</PackageId>
+    <VersionPrefix>1.4.1</VersionPrefix>
+    <VersionSuffix>pre</VersionSuffix>
     <Title>Steeltoe .NET Project Templates</Title>
     <Authors>Broadcom</Authors>
     <Description>Templates for creating .NET projects with Steeltoe components.</Description>
@@ -12,7 +13,6 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageIconUrl>https://steeltoe.io/images/transparent.png</PackageIconUrl>
     <NoDefaultExcludes>true</NoDefaultExcludes>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeContentInPack>true</IncludeContentInPack>
@@ -20,10 +20,6 @@
     <ContentTargetFolders>content</ContentTargetFolders>
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115" PrivateAssets="All" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Content\**\*" Exclude="Content\**\bin\**;Content\**\obj\**;Content\**\Directory.Build.props;**\*.user" />
