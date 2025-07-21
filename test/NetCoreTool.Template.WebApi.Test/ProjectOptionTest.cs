@@ -256,12 +256,12 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             };
         }
 
-        private static ProjectOptions ToProjectOptions(string steeltoeVerison, string framework, string language)
+        private static ProjectOptions ToProjectOptions(string steeltoeVersion, string framework, string language)
         {
             return new ProjectOptions
             {
-                SteeltoeVersion = ToSteeltoeEnum(steeltoeVerison),
-                IsUnstableVersion = steeltoeVerison.Contains("-main"),
+                SteeltoeVersion = ToSteeltoeEnum(steeltoeVersion),
+                IsUnstableVersion = steeltoeVersion.Contains("-main"),
                 Framework = ToFrameworkEnum(framework),
                 Language = ToLanguageEnum(language),
             };
