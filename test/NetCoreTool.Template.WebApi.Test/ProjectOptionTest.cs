@@ -261,6 +261,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             return new ProjectOptions
             {
                 SteeltoeVersion = ToSteeltoeEnum(steeltoeVerison),
+                IsUnstableVersion = steeltoeVerison.Contains("-main"),
                 Framework = ToFrameworkEnum(framework),
                 Language = ToLanguageEnum(language),
             };
@@ -272,7 +273,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 return SteeltoeVersion.Steeltoe32;
             }
-            if (steeltoe.StartsWith("4.0"))
+            if (steeltoe.StartsWith("4."))
             {
                 return SteeltoeVersion.Steeltoe40;
             }

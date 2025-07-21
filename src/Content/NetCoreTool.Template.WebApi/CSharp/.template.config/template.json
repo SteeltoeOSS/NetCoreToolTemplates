@@ -30,6 +30,12 @@
           ]
         },
         {
+          "condition": "(!IsSteeltoeUnstable)",
+          "exclude": [
+            "nuget.config"
+          ]
+        },
+        {
           "condition": "(!HasAnyEfCoreConnector)",
           "exclude": [
             "AppDbContext.cs"
@@ -109,7 +115,7 @@
       "description": "The Steeltoe version to use.",
       "type": "parameter",
       "datatype": "string",
-      "defaultValue": "4.0.*-main-*",
+      "defaultValue": "4.0.*-*",
       "replaces": "$(SteeltoeVersionInCLI)"
     },
     "IsSteeltoeV3InCLI": {
@@ -130,6 +136,15 @@
         "pattern": "^4"
       }
     },
+    "IsSteeltoeUnstableInCLI": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "SteeltoeVersionOption",
+        "pattern": "-main"
+      }
+    },
     "ChooseSteeltoeVersionInIDE": {
       "type": "parameter",
       "datatype": "choice",
@@ -138,7 +153,10 @@
           "choice": "3.2.*"
         },
         {
-          "choice": "4.0.*-main-*"
+          "choice": "4.0.*-*"
+        },
+        {
+          "choice": "4.*-main-*"
         }
       ],
       "replaces": "$(ChosenSteeltoeVersionInIDE)"
@@ -170,6 +188,15 @@
         "pattern": "^4"
       }
     },
+    "HasChosenSteeltoeUnstableInIDE": {
+      "type": "generated",
+      "generator": "regexMatch",
+      "datatype": "bool",
+      "parameters": {
+        "source": "ChooseSteeltoeVersionInIDE",
+        "pattern": "-main"
+      }
+    },
     "IsSteeltoeV3": {
       "type": "computed",
       "value": "(HasChosenSteeltoeVersionInIDE && HasChosenSteeltoeV3InIDE) || (!HasChosenSteeltoeVersionInIDE && IsSteeltoeV3InCLI)"
@@ -177,6 +204,10 @@
     "IsSteeltoeV4": {
       "type": "computed",
       "value": "(HasChosenSteeltoeVersionInIDE && HasChosenSteeltoeV4InIDE) || (!HasChosenSteeltoeVersionInIDE && IsSteeltoeV4InCLI)"
+    },
+    "IsSteeltoeUnstable": {
+      "type": "computed",
+      "value": "(HasChosenSteeltoeVersionInIDE && HasChosenSteeltoeUnstableInIDE) || (!HasChosenSteeltoeVersionInIDE && IsSteeltoeUnstableInCLI)"
     },
     "DescriptionOption": {
       "description": "Add a project description.",

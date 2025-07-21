@@ -6,6 +6,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
     {
         public SteeltoeVersion SteeltoeVersion { get; set; }
 
+        public bool IsUnstableVersion { get; set; }
+
         public Framework Framework { get; set; }
 
         public Language Language { get; set; }
