@@ -3,7 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <PackageType>Template</PackageType>
     <PackageId>Steeltoe.NetCoreTool.Templates</PackageId>
-    <VersionPrefix>1.4.5</VersionPrefix>
+    <VersionPrefix>1.4.6</VersionPrefix>
     <VersionSuffix>pre</VersionSuffix>
     <Title>Steeltoe .NET Project Templates</Title>
     <Authors>Broadcom</Authors>
