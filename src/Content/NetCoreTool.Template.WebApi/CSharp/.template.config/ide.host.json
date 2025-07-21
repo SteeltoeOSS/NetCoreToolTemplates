@@ -24,13 +24,19 @@
           }
         },
         {
-          "id": "4.0.*-main-*",
+          "id": "4.0.*-*",
           "name": {
-            "text": "Steeltoe 4.0"
+            "text": "Steeltoe 4.0 (pre-release)"
+          }
+        },
+        {
+          "id": "4.*-main-*",
+          "name": {
+            "text": "Steeltoe 4.x (unstable)"
           }
         }
       ],
-      "defaultValue": "4.0.*-main-*"
+      "defaultValue": "4.0.*-*"
     },
     {
       "id": "DescriptionOption",

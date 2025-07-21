@@ -15,6 +15,15 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             await base.AssertProjectGeneration(options);
 
             Sandbox.FileExists("app.config").Should().BeTrue();
+
+            if (options.IsUnstableVersion)
+            {
+                Sandbox.FileExists("nuget.config").Should().BeTrue();
+            }
+            else
+            {
+                Sandbox.FileExists("nuget.config").Should().BeFalse();
+            }
         }
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
