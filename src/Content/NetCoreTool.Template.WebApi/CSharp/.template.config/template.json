@@ -434,6 +434,10 @@
       "description": "Add a connector for MySQL databases using ADO.NET.",
       "defaultValue": "false"
     },
+    "HasConnectorMySqlWithoutEfCore": {
+      "type": "computed",
+      "value": "ConnectorMySqlOption && (!ConnectorMySqlEfCoreOption)"
+    },
     "HasConnectorMySqlInSteeltoeV3": {
       "type": "computed",
       "value": "ConnectorMySqlOption && IsSteeltoeV3"
@@ -472,6 +476,10 @@
       "description": "Add a connector for PostgreSQL databases using ADO.NET.",
       "defaultValue": "false"
     },
+    "HasConnectorPostgreSqlWithoutEfCore": {
+      "type": "computed",
+      "value": "ConnectorPostgreSqlOption && (!ConnectorPostgreSqlEfCoreOption)"
+    },
     "HasConnectorPostgreSqlInSteeltoeV3": {
       "type": "computed",
       "value": "ConnectorPostgreSqlOption && IsSteeltoeV3"
@@ -500,6 +508,10 @@
       "description": "Add a connector for RabbitMQ message brokers.",
       "defaultValue": "false"
     },
+    "HasConnectorRabbitMqWithoutMessaging": {
+      "type": "computed",
+      "value": "ConnectorRabbitMqOption && (!HasAnyMessagingRabbitMqInSteeltoeV3)"
+    },
     "HasConnectorRabbitMqInSteeltoeV3": {
       "type": "computed",
       "value": "ConnectorRabbitMqOption && IsSteeltoeV3"
@@ -527,6 +539,10 @@
       "datatype": "bool",
       "description": "Add a connector for Microsoft SQL Server databases using ADO.NET.",
       "defaultValue": "false"
+    },
+    "HasConnectorSqlServerWithoutEfCore": {
+      "type": "computed",
+      "value": "ConnectorSqlServerOption && (!ConnectorSqlServerEfCoreOption)"
     },
     "HasConnectorSqlServerInSteeltoeV3": {
       "type": "computed",

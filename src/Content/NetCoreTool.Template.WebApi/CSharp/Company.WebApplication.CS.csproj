@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>$(FrameworkOption)</TargetFramework>
@@ -28,17 +28,17 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Cosmos" Condition="'$(ConnectorCosmosDbOption)' == 'True'" Version="3.47.*" />
     <PackageReference Include="Microsoft.Azure.SpringCloud.Client" Condition="'$(HasHostingAzureSpringCloudInSteeltoeV3)' == 'True'" Version="2.0.0-preview.3" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Condition="'$(ConnectorSqlServerOption)' == 'True'" Version="$(SqlClientVersion)" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Condition="'$(HasConnectorSqlServerWithoutEfCore)' == 'True'" Version="$(SqlClientVersion)" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Condition="'$(HasAnyEfCoreConnector)' == 'True'" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Condition="'$(ConnectorSqlServerEfCoreOption)' == 'True'" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(ConnectorRedisOption)' == 'True'" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="MongoDB.Driver" Condition="'$(ConnectorMongoDbOption)' == 'True'" Version="3.2.*" />
-    <PackageReference Include="MySql.Data" Condition="'$(ConnectorMySqlOption)' == 'True'" Version="$(MySqlVersion)" />
+    <PackageReference Include="MySql.Data" Condition="'$(HasConnectorMySqlWithoutEfCore)' == 'True'" Version="$(MySqlVersion)" />
     <PackageReference Include="MySql.EntityFrameworkCore" Condition="'$(ConnectorMySqlEfCoreOption)' == 'True'" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Newtonsoft.Json" Condition="'$(ConnectorCosmosDbOption)' == 'True'" Version="13.0.*" />
-    <PackageReference Include="Npgsql" Condition="'$(ConnectorPostgreSqlOption)' == 'True'" Version="$(AspNetCoreVersion)" />
+    <PackageReference Include="Npgsql" Condition="'$(HasConnectorPostgreSqlWithoutEfCore)' == 'True'" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Condition="'$(ConnectorPostgreSqlEfCoreOption)' == 'True'" Version="$(AspNetCoreVersion)" />
-    <PackageReference Include="RabbitMQ.Client" Condition="'$(ConnectorRabbitMqOption)' == 'True'" Version="$(RabbitMqVersion)" />
+    <PackageReference Include="RabbitMQ.Client" Condition="'$(HasConnectorRabbitMqWithoutMessaging)' == 'True'" Version="$(RabbitMqVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Condition="'$(HasCircuitBreakerHystrixInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Condition="'$(HasCircuitBreakerHystrixInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Configuration.CloudFoundry" Condition="'$(HasHostingCloudFoundryInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
