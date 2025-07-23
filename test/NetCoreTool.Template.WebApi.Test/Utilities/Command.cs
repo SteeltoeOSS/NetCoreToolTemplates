@@ -76,7 +76,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
                 var output = $"{outputBuilder}${errorBuilder}";
                 // if (process.ExitCode != 0)
                 // {
-                    // throw new Exception($"'{command}' exited with exit code {process.ExitCode}:\n\n{output}");
+                //     throw new Exception($"'{command}' exited with exit code {process.ExitCode}:\n\n{output}");
                 // }
 
                 return (process.ExitCode, output);

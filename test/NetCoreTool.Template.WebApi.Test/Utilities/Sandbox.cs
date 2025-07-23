@@ -9,7 +9,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
 {
     public class Sandbox : TempDirectory
     {
-        private static JsonSerializerOptions Options { get; } = new JsonSerializerOptions
+        private static JsonSerializerOptions Options { get; } = new()
         {
             PropertyNameCaseInsensitive = true,
             ReadCommentHandling = JsonCommentHandling.Skip,
@@ -21,13 +21,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
 
         public string CommandOutput { get; private set; }
 
-        public string Name
-        {
-            get => System.IO.Path.GetFileName(Path);
-        }
+        public string Name => System.IO.Path.GetFileName(Path);
 
         public Sandbox(ITestOutputHelper logger) : base(
-            $"DotNetNewTemplatesSandboxes{System.IO.Path.DirectorySeparatorChar}P_{Guid.NewGuid().ToString().Replace("-", "_")}")
+            $"DotNetNewTemplatesSandboxes{System.IO.Path.DirectorySeparatorChar}P_{Guid.NewGuid():N}")
         {
             _logger = logger;
             _logger.WriteLine($"sandbox: {Name}");

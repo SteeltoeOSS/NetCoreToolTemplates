@@ -13,29 +13,31 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
             Installer.EnsureInstalled(logger);
         }
 
-        private class Installer
+        private static class Installer
         {
             static Installer()
             {
-                var p = Process.Start(
+                var process = Process.Start(
                     new ProcessStartInfo
                     {
                         FileName = "dotnet",
                         Arguments = $"new uninstall {Directory.GetCurrentDirectory()}/../../../../../src/Content",
                     }
                 );
-                Assert.NotNull(p);
-                p.WaitForExit();
-                p = Process.Start(
+                Assert.NotNull(process);
+
+                process.WaitForExit();
+                process = Process.Start(
                     new ProcessStartInfo
                     {
                         FileName = "dotnet",
                         Arguments = $"new install {Directory.GetCurrentDirectory()}/../../../../../src/Content",
                     }
                 );
-                p.Should().NotBeNull();
-                p.WaitForExit();
-                p.ExitCode.Should().Be(0);
+                Assert.NotNull(process);
+
+                process.WaitForExit();
+                process.ExitCode.Should().Be(0);
             }
 
             internal static void EnsureInstalled(ITestOutputHelper logger)

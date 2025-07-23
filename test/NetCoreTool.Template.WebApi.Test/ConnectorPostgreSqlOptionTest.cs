@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit.Abstractions;

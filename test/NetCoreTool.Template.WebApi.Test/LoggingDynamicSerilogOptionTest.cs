@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test;
 
 public class LoggingDynamicSerilogOptionTest(ITestOutputHelper logger)
-    : ProjectOptionTest("logging-dynamic-serilog", "Enable dynamically changing minimum levels at runtime using Serlog.", logger)
+    : ProjectOptionTest("logging-dynamic-serilog", "Enable dynamically changing minimum levels at runtime using Serilog.", logger)
 {
     protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
     {
