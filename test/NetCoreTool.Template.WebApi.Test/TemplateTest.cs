@@ -29,7 +29,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         [Trait("Category", "Smoke")]
         public async Task Smoke_Test()
         {
-            Logger.WriteLine($"smoke testing help");
+            Logger.WriteLine("smoke testing help");
             using var helpBox = await TemplateSandbox("--help");
 
             if (Option != null)
@@ -42,7 +42,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 helpBox.CommandOutput.Should().Contain(Description);
             }
 
-            Logger.WriteLine($"smoke testing option");
+            Logger.WriteLine("smoke testing option");
             using var smokeBox = await TemplateSandbox($"{GetSmokeTestArgs()}");
         }
 

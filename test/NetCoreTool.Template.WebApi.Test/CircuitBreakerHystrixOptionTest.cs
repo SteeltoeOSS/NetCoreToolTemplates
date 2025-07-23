@@ -25,7 +25,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
             {
-                Logger.WriteLine($"asserting HelloHystrixCommand");
+                Logger.WriteLine("asserting HelloHystrixCommand");
                 var sourceFile = GetSourceFileForLanguage("HelloHystrixCommand", options.Language);
                 var source = await Sandbox.GetFileTextAsync(sourceFile);
                 source.Should().ContainSnippet("class HelloHystrixCommand");

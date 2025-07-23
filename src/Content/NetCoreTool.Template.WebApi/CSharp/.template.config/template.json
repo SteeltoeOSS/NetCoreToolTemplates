@@ -635,7 +635,7 @@
     "LoggingDynamicSerilogOption": {
       "type": "parameter",
       "datatype": "bool",
-      "description": "Enable dynamically changing minimum levels at runtime using Serlog.",
+      "description": "Enable dynamically changing minimum levels at runtime using Serilog.",
       "defaultValue": "false"
     },
     "HasLoggingDynamicSerilogInSteeltoeV3": {

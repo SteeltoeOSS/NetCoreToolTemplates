@@ -295,7 +295,7 @@
         "text": "Use dynamic Serilog logger"
       },
       "description": {
-        "text": "Enables dynamically changing minimum levels at runtime using Serlog."
+        "text": "Enables dynamically changing minimum levels at runtime using Serilog."
       },
       "isVisible": true
     },
