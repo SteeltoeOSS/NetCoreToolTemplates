@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
