@@ -27,7 +27,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
         }
 
         public Sandbox(ITestOutputHelper logger) : base(
-            $"DotNetNewTemplatesSandboxes{System.IO.Path.DirectorySeparatorChar}P_{Guid.NewGuid().ToString().Replace("-", "_")}")
+            $"DotNetNewTemplatesSandboxes{System.IO.Path.DirectorySeparatorChar}P_{Guid.NewGuid():N}")
         {
             _logger = logger;
             _logger.WriteLine($"sandbox: {Name}");

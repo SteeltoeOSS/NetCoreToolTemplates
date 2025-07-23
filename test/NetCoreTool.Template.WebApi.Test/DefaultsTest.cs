@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -10,11 +11,24 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     public class DefaultsTest(ITestOutputHelper logger)
         : ProjectOptionTest(null, "Steeltoe ASP.NET Core Web API (C#)", logger)
     {
+        [Fact]
+        [Trait("Category", "ProjectGeneration")]
+        public async Task TestDefaultNotPolluted()
+        {
+            using var sandbox = await TemplateSandbox("false");
+            sandbox.FileExists("Directory.Build.props").Should().BeFalse();
+        }
+
         protected override async Task AssertProjectGeneration(ProjectOptions options)
         {
             await base.AssertProjectGeneration(options);
 
+            Sandbox.FileExists(".gitignore").Should().BeTrue();
             Sandbox.FileExists("app.config").Should().BeTrue();
+            Sandbox.FileExists($"{Sandbox.Name}.slnx").Should().BeTrue();
+            Sandbox.FileExists($"{Sandbox.Name}.csproj").Should().BeTrue();
+            Sandbox.FileExists($"{Sandbox.Name}.http").Should().BeTrue();
+            Sandbox.FileExists("Program.cs").Should().BeTrue();
 
             if (options.IsUnstableVersion)
             {
