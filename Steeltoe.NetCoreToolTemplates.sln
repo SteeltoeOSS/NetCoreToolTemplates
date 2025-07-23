@@ -15,12 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		azure-pipelines.yaml = azure-pipelines.yaml
 		DEVELOPER.md = DEVELOPER.md
 		src\Content\NetCoreTool.Template.WebApi\CSharp\Directory.Build.props = src\Content\NetCoreTool.Template.WebApi\CSharp\Directory.Build.props
 		test\Directory.Build.props = test\Directory.Build.props
 		README.md = README.md
-		version.json = version.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steeltoe.NetCoreTool.Templates", "src\Steeltoe.NetCoreTool.Templates.csproj", "{8C63F895-1AD7-47F1-8074-7E6832E59D62}"
