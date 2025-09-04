@@ -24,7 +24,7 @@ $ dotnet new install Steeltoe.NetCoreTool.Templates
 ### From .NET Foundation (staging)
 
 ```
-$ dotnet nuget add source https://pkgs.dev.azure.com/dotnet/Steeltoe/_packaging/ci/nuget/v3/index.json -n SteeltoeDev
+$ dotnet nuget add source https://pkgs.dev.azure.com/dotnet/Steeltoe/_packaging/ci/nuget/v3/index.json -n Steeltoe-ci
 $ dotnet new install Steeltoe.NetCoreTool.Templates
 ```
 

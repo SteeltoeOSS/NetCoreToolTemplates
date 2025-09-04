@@ -115,7 +115,7 @@
       "description": "The Steeltoe version to use.",
       "type": "parameter",
       "datatype": "string",
-      "defaultValue": "4.0.*-*",
+      "defaultValue": "4.0.*",
       "replaces": "$(SteeltoeVersionInCLI)"
     },
     "IsSteeltoeV3InCLI": {
@@ -153,7 +153,7 @@
           "choice": "3.2.*"
         },
         {
-          "choice": "4.0.*-*"
+          "choice": "4.0.*"
         },
         {
           "choice": "4.*-main-*"
