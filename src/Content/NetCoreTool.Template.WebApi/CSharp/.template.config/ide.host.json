@@ -18,9 +18,9 @@
       },
       "choices": [
         {
-          "id": "3.2.*",
+          "id": "3.3.*",
           "name": {
-            "text": "Steeltoe 3.2"
+            "text": "Steeltoe 3.3"
           }
         },
         {

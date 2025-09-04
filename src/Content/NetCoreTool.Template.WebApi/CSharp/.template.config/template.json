@@ -150,7 +150,7 @@
       "datatype": "choice",
       "choices": [
         {
-          "choice": "3.2.*"
+          "choice": "3.3.*"
         },
         {
           "choice": "4.0.*"
