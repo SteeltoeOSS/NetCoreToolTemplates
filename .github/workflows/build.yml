@@ -48,7 +48,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Restore packages
-      run: dotnet restore --verbosity diagnostic
+      run: dotnet restore --verbosity minimal
 
     - name: Calculate package version (for release)
       if: ${{ github.event_name == 'release' }}
