@@ -15,7 +15,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         [Trait("Category", "ProjectGeneration")]
         public async Task TestDefaultNotPolluted()
         {
-            using var sandbox = await TemplateSandbox("false");
+            using var sandbox = await TemplateSandbox();
             sandbox.FileExists("Directory.Build.props").Should().BeFalse();
         }
 

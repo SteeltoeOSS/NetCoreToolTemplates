@@ -13,7 +13,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             return "";
         }
 
-        protected override async Task<Sandbox> TemplateSandbox(string args = "")
+        protected override async Task<Sandbox> TemplateSandbox(string args = "", bool throwOnNonZeroExitCode = true)
         {
             var normalizedArgs = new StringBuilder();
             if (Option is not null && !args.Contains("--help"))
@@ -22,7 +22,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             }
 
             normalizedArgs.Append(args);
-            return await base.TemplateSandbox(normalizedArgs.ToString());
+            return await base.TemplateSandbox(normalizedArgs.ToString(), throwOnNonZeroExitCode);
         }
     }
 }

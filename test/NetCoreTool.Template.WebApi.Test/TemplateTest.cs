@@ -59,11 +59,11 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected abstract string GetSmokeTestArgs();
 
-        protected virtual async Task<Sandbox> TemplateSandbox(string args = "")
+        protected virtual async Task<Sandbox> TemplateSandbox(string args = "", bool throwOnNonZeroExitCode = true)
         {
             var command = $"dotnet new steeltoe-webapi {args}".Trim();
             var sandbox = new Sandbox(Logger);
-            await sandbox.ExecuteCommandAsync(command);
+            await sandbox.ExecuteCommandAsync(command, throwOnNonZeroExitCode);
             return sandbox;
         }
     }

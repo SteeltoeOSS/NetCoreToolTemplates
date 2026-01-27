@@ -30,10 +30,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
             _logger.WriteLine($"sandbox: {Name}");
         }
 
-        public async Task ExecuteCommandAsync(string command)
+        public async Task ExecuteCommandAsync(string command, bool throwOnNonZeroExitCode)
         {
             _logger.WriteLine($"executing: {command}");
-            (CommandExitCode, CommandOutput) = await new Command().ExecuteAsync(command, Path);
+            (CommandExitCode, CommandOutput) = await new Command().ExecuteAsync(command, Path, throwOnNonZeroExitCode);
         }
 
         public bool DirectoryExists(string path)
