@@ -78,6 +78,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 case SteeltoeVersion.Steeltoe32:
                 case SteeltoeVersion.Steeltoe40:
+                case SteeltoeVersion.Steeltoe41:
                 case SteeltoeVersion.SteeltoeUnstable:
                     break;
                 default:

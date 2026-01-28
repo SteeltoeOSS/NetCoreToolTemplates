@@ -4,6 +4,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
     {
         Steeltoe32,
         Steeltoe40,
+        Steeltoe41,
         SteeltoeUnstable
     }
 }
