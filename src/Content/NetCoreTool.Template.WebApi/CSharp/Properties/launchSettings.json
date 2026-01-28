@@ -4,9 +4,7 @@
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      //#if (IsFrameworkNet90)
-      "launchBrowser": false,
-      //#else
+      //#if (IsFrameworkNet60 || IsFrameworkNet80)
       "launchBrowser": true,
       "launchUrl": "swagger",
       //#endif
@@ -18,9 +16,7 @@
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      //#if (IsFrameworkNet90)
-      "launchBrowser": false,
-      //#else
+      //#if (IsFrameworkNet60 || IsFrameworkNet80)
       "launchBrowser": true,
       "launchUrl": "swagger",
       //#endif
@@ -28,6 +24,27 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    //#if (DockerfileOption)
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      //#if (IsFrameworkNet60 || IsFrameworkNet80)
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      //#else
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      //#endif
+      "environmentVariables": {
+        //#if (IsFrameworkNet60)
+        "ASPNETCORE_URLS": "https://+:443;http://+:80"
+        //#else
+        "ASPNETCORE_HTTPS_PORTS": "8081",
+        "ASPNETCORE_HTTP_PORTS": "8080"
+        //#endif
+      },
+      "publishAllPorts": true,
+      "useSSL": true
+    //#endif
     }
   }
 }

@@ -7,8 +7,10 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 #elif (IsFrameworkNet90)
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+#elif (IsFrameworkNet100)
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 #endif
-#if (IsFrameworkNet80 || IsFrameworkNet90)
+#if (IsFrameworkNet80 || IsFrameworkNet90 || IsFrameworkNet100)
 USER $APP_UID
 #endif
 WORKDIR /app
@@ -24,12 +26,12 @@ EXPOSE 8081
 # This stage is used to build the service project
 #if (IsFrameworkNet60)
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-#endif
-#if (IsFrameworkNet80)
+#elif (IsFrameworkNet80)
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-#endif
-#if (IsFrameworkNet90)
+#elif (IsFrameworkNet90)
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+#elif (IsFrameworkNet100)
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 #endif
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src

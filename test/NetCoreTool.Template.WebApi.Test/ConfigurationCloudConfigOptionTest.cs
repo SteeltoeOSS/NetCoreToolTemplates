@@ -27,6 +27,5 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Configuration.ConfigServer" : "Steeltoe.Configuration.ConfigServer";
         }
-
     }
 }

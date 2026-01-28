@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
+using System;
+using System.Collections.Generic;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -12,7 +13,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             var sqlClientVersion = options.Framework switch
             {
                 Framework.Net60 => "5.2.*",
-                _ => "6.0.*"
+                Framework.Net80 => "6.0.*",
+                Framework.Net90 => "6.0.*",
+                Framework.Net100 => "6.1.*",
+                _ => throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString())
             };
 
             packages.Add(("Microsoft.Data.SqlClient", sqlClientVersion));

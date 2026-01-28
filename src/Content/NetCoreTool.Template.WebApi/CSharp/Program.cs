@@ -151,7 +151,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-#elif (IsFrameworkNet90)
+#elif (IsFrameworkNet90 || IsFrameworkNet100)
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 #endif
@@ -345,7 +345,7 @@ if (app.Environment.IsDevelopment())
 #if (IsFrameworkNet60 || IsFrameworkNet80)
     app.UseSwagger();
     app.UseSwaggerUI();
-#elif (IsFrameworkNet90)
+#elif (IsFrameworkNet90 || IsFrameworkNet100)
     app.MapOpenApi();
 #endif
 }
@@ -376,11 +376,11 @@ app.MapGet("/weatherforecast", () =>
         .ToArray();
     return forecast;
 })
-#if (IsFrameworkNet60)
-.WithName("GetWeatherForecast");
-#else
+#if (IsFrameworkNet80)
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+#else
+.WithName("GetWeatherForecast");
 #endif
 
 #if (HasMessagingRabbitMqClientInSteeltoeV3)

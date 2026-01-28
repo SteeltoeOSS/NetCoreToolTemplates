@@ -21,7 +21,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
                     new ProcessStartInfo
                     {
                         FileName = "dotnet",
-                        Arguments = $"new uninstall {Directory.GetCurrentDirectory()}/../../../../../src/Content",
+                        Arguments = $"new uninstall {Directory.GetCurrentDirectory()}/../../../../../src/Content"
                     }
                 );
                 Assert.NotNull(process);
@@ -31,7 +31,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
                     new ProcessStartInfo
                     {
                         FileName = "dotnet",
-                        Arguments = $"new install {Directory.GetCurrentDirectory()}/../../../../../src/Content",
+                        Arguments = $"new install {Directory.GetCurrentDirectory()}/../../../../../src/Content"
                     }
                 );
                 Assert.NotNull(process);
