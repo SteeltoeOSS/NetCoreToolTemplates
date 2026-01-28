@@ -7,7 +7,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
 {
     public class Command
     {
-        public async Task<(int, string)> ExecuteAsync(string command, string workingDirectory)
+        public async Task<(int, string)> ExecuteAsync(string command, string workingDirectory, bool throwOnNonZeroExitCode)
         {
             using var process = new Process();
 
@@ -74,10 +74,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
             if (await Task.WhenAny(Task.Delay(timeoutMillis), processTask) == processTask && waitForExit.Result)
             {
                 var output = $"{outputBuilder}${errorBuilder}";
-                // if (process.ExitCode != 0)
-                // {
-                //     throw new Exception($"'{command}' exited with exit code {process.ExitCode}:\n\n{output}");
-                // }
+                if (process.ExitCode != 0 && throwOnNonZeroExitCode)
+                {
+                    throw new Exception($"'{command}' exited with exit code {process.ExitCode}:\n\n{output}");
+                }
 
                 return (process.ExitCode, output);
             }
@@ -92,12 +92,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
             }
 
             throw new Exception($"'{process.StartInfo.FileName} {process.StartInfo.Arguments}' timed out");
-        }
-
-        public struct CommandResult
-        {
-            public int ExitCode;
-            public string Output;
         }
     }
 }

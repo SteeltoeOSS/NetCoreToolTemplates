@@ -15,7 +15,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         [Trait("Category", "ProjectGeneration")]
         public async Task TestDefaultNotPolluted()
         {
-            using var sandbox = await TemplateSandbox("false");
+            using var sandbox = await TemplateSandbox();
             sandbox.FileExists("Directory.Build.props").Should().BeFalse();
         }
 
@@ -42,18 +42,20 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
+            var openApiVersion = GetPackageVersionForFramework(options.Framework);
+
             if (options.Framework == Framework.Net60)
             {
                 packages.Add(("Swashbuckle.AspNetCore", "6.5.0"));
             }
             else if (options.Framework == Framework.Net80)
             {
-                packages.Add(("Microsoft.AspNetCore.OpenApi", "8.0.*"));
+                packages.Add(("Microsoft.AspNetCore.OpenApi", openApiVersion));
                 packages.Add(("Swashbuckle.AspNetCore", "6.6.2"));
             }
-            else if (options.Framework == Framework.Net90)
+            else
             {
-                packages.Add(("Microsoft.AspNetCore.OpenApi", "9.0.*"));
+                packages.Add(("Microsoft.AspNetCore.OpenApi", openApiVersion));
             }
         }
 
@@ -67,13 +69,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetFramework(Framework framework)
         {
-            return framework switch
-            {
-                Framework.Net60 => "net6.0",
-                Framework.Net80 => "net8.0",
-                Framework.Net90 => "net9.0",
-                _ => throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString())
-            };
+            return $"net{(int)framework / 10}.0";
         }
 
         private static void AssertSteeltoeVersion(SteeltoeVersion steeltoeVersion)
@@ -82,10 +78,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 case SteeltoeVersion.Steeltoe32:
                 case SteeltoeVersion.Steeltoe40:
+                case SteeltoeVersion.SteeltoeUnstable:
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(steeltoeVersion),
-                        steeltoeVersion.ToString());
+                    throw new ArgumentOutOfRangeException(nameof(steeltoeVersion), steeltoeVersion.ToString());
             }
         }
 
@@ -157,16 +153,31 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 snippets.Add("// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle");
                 snippets.Add("builder.Services.AddEndpointsApiExplorer();");
                 snippets.Add("builder.Services.AddSwaggerGen();");
+
+                snippets.Add("app.UseSwagger();");
+                snippets.Add("app.UseSwaggerUI();");
             }
             else
             {
                 snippets.Add("// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi");
                 snippets.Add("builder.Services.AddOpenApi();");
+
+                snippets.Add("app.MapOpenApi();");
+            }
+
+            if (options.Framework == Framework.Net80)
+            {
+                snippets.Add(@".WithName(""GetWeatherForecast"")");
+                snippets.Add(".WithOpenApi();");
+            }
+            else
+            {
+                snippets.Add(@".WithName(""GetWeatherForecast"");");
             }
 
             snippets.Add("var app = builder.Build();");
             snippets.Add("app.UseHttpsRedirection();");
-            snippets.Add("app.MapGet(\"/weatherforecast\", () =>");
+            snippets.Add(@"app.MapGet(""/weatherforecast"", () =>");
             snippets.Add("app.Run();");
             snippets.Add("internal record WeatherForecast(");
 

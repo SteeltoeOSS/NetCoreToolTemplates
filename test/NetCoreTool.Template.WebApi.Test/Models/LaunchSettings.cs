@@ -11,6 +11,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
             public bool LaunchBrowser { get; set; }
             public string LaunchUrl { get; set; }
             public string ApplicationUrl { get; set; }
+            public Dictionary<string,string> EnvironmentVariables { get; set; }
         }
     }
 }

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using FluentAssertions;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
@@ -16,6 +16,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     public abstract class ProjectOptionTest(string option, string description, ITestOutputHelper logger)
         : OptionTest(option, description, logger)
     {
+        private static readonly Regex FrameworkRegex = new(@"^net(?<number>[0-9]+)\.0$", RegexOptions.Compiled);
+
         [Theory]
         [Trait("Category", "ProjectGeneration")]
         [ClassData(typeof(TemplateOptions.BaseOptions))]
@@ -42,7 +44,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             Logger.WriteLine("building project");
             await CreateEditorConfigForUnnecessaryUsings(sandbox);
             var buildCmd = "dotnet build /p:TreatWarningsAsErrors=True /p:EnforceCodeStyleInBuild=True /p:GenerateDocumentationFile=True";
-            await sandbox.ExecuteCommandAsync(buildCmd);
+            await sandbox.ExecuteCommandAsync(buildCmd, false);
             sandbox.CommandExitCode.Should().Be(0, $"build should succeed, while output was:{Environment.NewLine}{sandbox.CommandOutput}");
         }
 
@@ -81,25 +83,15 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             Logger.WriteLine("asserting project package references");
             var path = GetProjectFileForLanguage(Sandbox.Name, options.Language);
-            var project = await Sandbox.GetXmlDocumentAsync(path);
+            var project = await Sandbox.GetProjectFileAsync(path);
+            var packages = project.ItemGroups.SelectMany(group => group.PackageReferences).ToArray();
 
-            var packagesWithUnevaluatedCondition =
-                from e in project.Elements().Elements("ItemGroup").Elements("PackageReference")
-                where e.Attribute("Condition") != null
-                select (e.Attribute("Include")?.Value, e.Attribute("Condition")?.Value);
-            packagesWithUnevaluatedCondition.Should().BeEmpty();
+            packages.Should().NotContain(package => package.Condition != null);
 
-            var packages =
-            (
-                from e in project.Elements().Elements("ItemGroup").Elements("PackageReference")
-                select (InQuotes(e.Attribute("Include")?.Value), InQuotes(e.Attribute("Version")?.Value))
-            ).ToList();
-            packages.Should().Contain(expectedPackages.Select((p) => (InQuotes(p.Item1), InQuotes(p.Item2))));
-        }
-
-        private static string InQuotes(string source)
-        {
-            return source == null ? null : '"' + source + '"';
+            foreach ((string name, string version) in expectedPackages)
+            {
+                packages.Should().Contain(package => package.Include == name && package.Version == version);
+            }
         }
 
         protected virtual void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
@@ -117,15 +109,16 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             }
 
             Logger.WriteLine("asserting project properties");
-            var projectFile = GetProjectFileForLanguage(Sandbox.Name, options.Language);
-            var project = await Sandbox.GetXmlDocumentAsync(projectFile);
-            var properties =
-            (
-                from e in project.Elements().Elements("PropertyGroup").Elements()
-                select e
-            ).ToArray().ToDictionary(e => e.Name.ToString(), e => e.Value);
-            properties.Should().Contain(expectedProperties);
-            properties.Keys.Should().NotContain("Description");
+            var path = GetProjectFileForLanguage(Sandbox.Name, options.Language);
+            var project = await Sandbox.GetProjectFileAsync(path);
+            var properties = project.PropertyGroups.SelectMany(group => group.Properties).ToArray();
+
+            foreach ((string name, string value) in expectedProperties)
+            {
+                properties.Should().Contain(property => property.Name == name && property.Value == value);
+            }
+
+            properties.Should().NotContain(property => property.Name == "Description");
         }
 
         protected virtual void AssertProjectPropertiesHook(ProjectOptions options,
@@ -247,13 +240,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected static string GetPackageVersionForFramework(Framework framework)
         {
-            return framework switch
-            {
-                Framework.Net60 => "6.0.*",
-                Framework.Net80 => "8.0.*",
-                Framework.Net90 => "9.0.*",
-                _ => throw new ArgumentOutOfRangeException(nameof(framework), framework.ToString())
-            };
+            return $"{(int)framework / 10}.0.*";
         }
 
         private static ProjectOptions ToProjectOptions(string steeltoeVersion, string framework, string language)
@@ -263,7 +250,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 SteeltoeVersion = ToSteeltoeEnum(steeltoeVersion),
                 IsUnstableVersion = steeltoeVersion.Contains("-main"),
                 Framework = ToFrameworkEnum(framework),
-                Language = ToLanguageEnum(language),
+                Language = ToLanguageEnum(language)
             };
         }
 
@@ -273,9 +260,13 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 return SteeltoeVersion.Steeltoe32;
             }
-            if (steeltoe.StartsWith("4."))
+            if (steeltoe.StartsWith("4.0"))
             {
                 return SteeltoeVersion.Steeltoe40;
+            }
+            if (steeltoe.StartsWith("4.*"))
+            {
+                return SteeltoeVersion.SteeltoeUnstable;
             }
 
             throw new ArgumentOutOfRangeException(nameof(steeltoe), steeltoe);
@@ -283,13 +274,22 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static Framework ToFrameworkEnum(string framework)
         {
-            return framework switch
+            var match = FrameworkRegex.Match(framework);
+
+            if (match.Success)
             {
-                "net6.0" => Framework.Net60,
-                "net8.0" => Framework.Net80,
-                "net9.0" => Framework.Net90,
-                _ => throw new ArgumentOutOfRangeException(nameof(framework), framework)
-            };
+                var capture = match.Groups["number"].Value;
+                if (int.TryParse(capture, out var number))
+                {
+                    var majorVersion = number * 10;
+                    if (Enum.IsDefined(typeof(Framework), majorVersion))
+                    {
+                        return (Framework)majorVersion;
+                    }
+                }
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(framework), framework);
         }
 
         private static Language ToLanguageEnum(string language)

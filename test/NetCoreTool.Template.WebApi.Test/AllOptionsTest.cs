@@ -18,7 +18,7 @@ public sealed class AllOptionsTest(ITestOutputHelper logger) : ProjectOptionTest
     {
         using var sandbox = new Sandbox(Logger);
         var command = "dotnet new steeltoe-webapi --help";
-        await sandbox.ExecuteCommandAsync(command);
+        await sandbox.ExecuteCommandAsync(command, false);
         sandbox.CommandExitCode.Should().Be(0, $"listing options should succeed, while output was:{Environment.NewLine}{sandbox.CommandOutput}");
         var templateOptionsText = sandbox.CommandOutput.Substring(sandbox.CommandOutput.IndexOf("Template options:", StringComparison.Ordinal));
 
@@ -37,11 +37,11 @@ public sealed class AllOptionsTest(ITestOutputHelper logger) : ProjectOptionTest
         return options.ToArray();
     }
 
-    protected override async Task<Sandbox> TemplateSandbox(string args = "")
+    protected override async Task<Sandbox> TemplateSandbox(string args = "", bool throwOnNonZeroExitCode = true)
     {
         var allOptions = await GetAllOptionsAsync();
         var argsWithAllOptions = $"{args} {string.Join(' ', allOptions.Select(option => $"--{option}"))}";
-        return await base.TemplateSandbox(argsWithAllOptions);
+        return await base.TemplateSandbox(argsWithAllOptions, throwOnNonZeroExitCode);
     }
 
     private async Task<string[]> GetAllOptionsAsync()

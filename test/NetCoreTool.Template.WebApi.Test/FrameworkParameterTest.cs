@@ -9,6 +9,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             Values.Add("net6.0");
             Values.Add("net8.0");
             Values.Add("net9.0");
+            Values.Add("net10.0");
         }
     }
 }

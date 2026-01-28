@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
+using System;
+using System.Collections.Generic;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -12,7 +13,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             var mySqlVersion = options.Framework switch
             {
                 Framework.Net60 => "9.1.*",
-                _ => "9.3.*"
+                Framework.Net80 => "9.3.*",
+                Framework.Net90 => "9.3.*",
+                Framework.Net100 => "9.6.*",
+                _ => throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString())
             };
 
             packages.Add(("MySql.Data", mySqlVersion));
