@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
@@ -20,14 +19,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         public async Task Description_Can_Be_Configured()
         {
             using var sandbox = await TemplateSandbox("\"my project\"");
-            var project = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
-            var description =
-            (
-                from e in project.Elements().Elements("PropertyGroup").Elements("Description")
-                select (e.Value)
-            ).ToList();
-            description.Count.Should().Be(1);
-            description[0].Should().Be("my project");
+            var project = await sandbox.GetProjectFileAsync($"{sandbox.Name}.csproj");
+            var properties = project.PropertyGroups.SelectMany(group => group.Properties).ToArray();
+
+            properties.Should().ContainSingle(property => property.Name == "Description" && property.Value == "my project");
         }
     }
 }

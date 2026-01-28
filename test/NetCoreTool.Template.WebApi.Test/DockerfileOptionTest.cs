@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -40,23 +39,14 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static async Task AssertDefaultProjectFile(Sandbox sandbox)
         {
-            var project = await sandbox.GetXmlDocumentAsync($"{sandbox.Name}.csproj");
-            var properties =
-            (
-                from e in project.Elements().Elements("PropertyGroup").Elements()
-                select e
-            ).ToArray().ToDictionary(e => e.Name.ToString(), e => e.Value);
+            var project = await sandbox.GetProjectFileAsync($"{sandbox.Name}.csproj");
+            var properties = project.PropertyGroups.SelectMany(group => group.Properties).ToArray();
+            var packages = project.ItemGroups.SelectMany(group => group.PackageReferences).ToArray();
 
-            properties.Keys.Should().NotContain("DockerDefaultTargetOS");
-            properties.Keys.Should().NotContain("DockerfileContext");
+            properties.Should().NotContain(property => property.Name == "DockerDefaultTargetOS");
+            properties.Should().NotContain(property => property.Name == "DockerfileContext");
 
-            var packages =
-            (
-                from e in project.Elements().Elements("ItemGroup").Elements("PackageReference")
-                select (InQuotes(e.Attribute("Include")?.Value), InQuotes(e.Attribute("Version")?.Value))
-            ).ToDictionary();
-
-            packages.Keys.Should().NotContain("Microsoft.VisualStudio.Azure.Containers.Tools.Targets");
+            packages.Should().NotContain(package => package.Include == "Microsoft.VisualStudio.Azure.Containers.Tools.Targets");
         }
 
         protected override async Task AssertProjectGeneration(ProjectOptions options)

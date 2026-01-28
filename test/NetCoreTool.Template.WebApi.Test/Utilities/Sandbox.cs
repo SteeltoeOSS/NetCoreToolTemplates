@@ -1,3 +1,4 @@
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -51,11 +52,55 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Utilities
             return await File.ReadAllTextAsync(Join(path));
         }
 
-        public async Task<XDocument> GetXmlDocumentAsync(string path)
+        private async Task<XDocument> GetXmlDocumentAsync(string path)
         {
             var fileText = await GetFileTextAsync(path);
             using var sin = new StringReader(fileText);
             return XDocument.Load(sin);
+        }
+
+        public async Task<ProjectFile> GetProjectFileAsync(string path)
+        {
+            ProjectFile projectFile = new();
+
+            var document = await GetXmlDocumentAsync(path);
+            var projectElement = document.Element("Project")!;
+
+            foreach (var groupElement in projectElement.Elements("ItemGroup"))
+            {
+                ProjectItemGroup itemGroup = new();
+                foreach (var packageElement in groupElement.Elements("PackageReference"))
+                {
+                    var include = packageElement.Attribute("Include")?.Value;
+                    var condition = packageElement.Attribute("Condition")?.Value;
+                    var version = packageElement.Attribute("Version")?.Value;
+
+                    itemGroup.PackageReferences.Add(new PackageReference
+                    {
+                        Include = include,
+                        Condition = condition,
+                        Version = version
+                    });
+                }
+
+                projectFile.ItemGroups.Add(itemGroup);
+            }
+
+            foreach (var groupElement in projectElement.Elements("PropertyGroup"))
+            {
+                ProjectPropertyGroup propertyGroup = new();
+                foreach (var propertyElement in groupElement.Elements())
+                {
+                    var name = propertyElement.Name.ToString();
+                    var value = propertyElement.Value;
+
+                    propertyGroup.Properties.Add(new ProjectProperty { Name = name, Value = value });
+                }
+
+                projectFile.PropertyGroups.Add(propertyGroup);
+            }
+
+            return projectFile;
         }
 
         public async Task<T> GetJsonDocumentAsync<T>(string path)

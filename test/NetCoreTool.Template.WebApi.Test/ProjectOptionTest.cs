@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using FluentAssertions;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
@@ -84,25 +83,15 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             Logger.WriteLine("asserting project package references");
             var path = GetProjectFileForLanguage(Sandbox.Name, options.Language);
-            var project = await Sandbox.GetXmlDocumentAsync(path);
+            var project = await Sandbox.GetProjectFileAsync(path);
+            var packages = project.ItemGroups.SelectMany(group => group.PackageReferences).ToArray();
 
-            var packagesWithUnevaluatedCondition =
-                from e in project.Elements().Elements("ItemGroup").Elements("PackageReference")
-                where e.Attribute("Condition") != null
-                select (e.Attribute("Include")?.Value, e.Attribute("Condition")?.Value);
-            packagesWithUnevaluatedCondition.Should().BeEmpty();
+            packages.Should().NotContain(package => package.Condition != null);
 
-            var packages =
-            (
-                from e in project.Elements().Elements("ItemGroup").Elements("PackageReference")
-                select (InQuotes(e.Attribute("Include")?.Value), InQuotes(e.Attribute("Version")?.Value))
-            ).ToList();
-            packages.Should().Contain(expectedPackages.Select((p) => (InQuotes(p.Item1), InQuotes(p.Item2))));
-        }
-
-        protected static string InQuotes(string source)
-        {
-            return source == null ? null : '"' + source + '"';
+            foreach ((string name, string version) in expectedPackages)
+            {
+                packages.Should().Contain(package => package.Include == name && package.Version == version);
+            }
         }
 
         protected virtual void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
@@ -120,15 +109,16 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             }
 
             Logger.WriteLine("asserting project properties");
-            var projectFile = GetProjectFileForLanguage(Sandbox.Name, options.Language);
-            var project = await Sandbox.GetXmlDocumentAsync(projectFile);
-            var properties =
-            (
-                from e in project.Elements().Elements("PropertyGroup").Elements()
-                select e
-            ).ToArray().ToDictionary(e => e.Name.ToString(), e => e.Value);
-            properties.Should().Contain(expectedProperties);
-            properties.Keys.Should().NotContain("Description");
+            var path = GetProjectFileForLanguage(Sandbox.Name, options.Language);
+            var project = await Sandbox.GetProjectFileAsync(path);
+            var properties = project.PropertyGroups.SelectMany(group => group.Properties).ToArray();
+
+            foreach ((string name, string value) in expectedProperties)
+            {
+                properties.Should().Contain(property => property.Name == name && property.Value == value);
+            }
+
+            properties.Should().NotContain(property => property.Name == "Description");
         }
 
         protected virtual void AssertProjectPropertiesHook(ProjectOptions options,
