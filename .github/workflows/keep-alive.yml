@@ -1,3 +1,24 @@
+# Keep Scheduled Workflows Alive
+#
+# Purpose:
+#   GitHub automatically disables scheduled workflows after 60 days of repository inactivity.
+#   This workflow prevents that by creating minimal activity when needed.
+#
+# How it works:
+#   1. Runs monthly on the 1st of each month
+#   2. Checks for any commits, issues, or PRs in the last 50 days
+#   3. If no activity is found:
+#      - Creates a temporary branch with an empty commit
+#      - Opens a pull request
+#      - Immediately closes the PR
+#      - Deletes the temporary branch
+#   4. If recent activity exists, does nothing
+#
+# Manual trigger:
+#   This workflow can also be triggered manually via workflow_dispatch if needed.
+#
+# Related issue: https://github.com/SteeltoeOSS/NetCoreToolTemplates/issues/106
+#
 name: Keep Scheduled Workflows Alive
 
 on:
