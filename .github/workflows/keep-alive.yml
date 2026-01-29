@@ -5,14 +5,16 @@
 #   This workflow prevents that by creating minimal activity when needed.
 #
 # How it works:
-#   1. Runs monthly on the 1st of each month
-#   2. Checks for any commits, issues, or PRs in the last 50 days
-#   3. If no activity is found:
-#      - Creates a temporary branch with an empty commit
-#      - Opens a pull request
-#      - Immediately closes the PR
-#      - Deletes the temporary branch
-#   4. If recent activity exists, does nothing
+#   1. Runs every 59 days (using approximation via cron)
+#   2. Checks if the keep-alive PR exists
+#   3. If PR doesn't exist, creates it with a persistent branch
+#   4. Reopens the PR (if closed) and immediately closes it again
+#   5. This activity prevents workflow deactivation
+#
+# Benefits:
+#   - Uses the same PR repeatedly (minimal noise)
+#   - No human intervention required
+#   - Runs every ~59 days (close to 60-day limit but safe)
 #
 # Manual trigger:
 #   This workflow can also be triggered manually via workflow_dispatch if needed.
@@ -23,10 +25,9 @@ name: Keep Scheduled Workflows Alive
 
 on:
   schedule:
-    # Run on the 1st of each month (checks for activity in the last 50 days before taking action)
-    # This conservative frequency ensures we never hit the 60-day GitHub inactivity limit
-    # even accounting for holidays, weekends, or workflow execution delays
-    - cron: "0 0 1 * *"
+    # Run every 59 days (approximate using twice per 4 months = ~60 days)
+    # This is close to GitHub's 60-day limit but provides a safety margin
+    - cron: "0 0 1 */2 *"
   workflow_dispatch:
 
 permissions:
@@ -44,91 +45,82 @@ jobs:
     - name: Git checkout
       uses: actions/checkout@v4
 
-    - name: Check for recent activity
-      id: check_activity
+    - name: Ensure keep-alive branch and PR exist
       env:
         GH_TOKEN: ${{ github.token }}
       shell: bash
       run: |
-        # Check for any activity in the last 50 days
-        # Note: date -d is GNU-specific, but this workflow runs on ubuntu-latest which has GNU date
-        cutoff_date=$(date -u -d '50 days ago' '+%Y-%m-%dT%H:%M:%SZ')
-        echo "Checking for activity since: $cutoff_date"
+        # Use a fixed branch name for persistence
+        branch_name="keep-alive-workflow"
         
-        # Check for recent commits
-        recent_commits=$(gh api \
-          -H "Accept: application/vnd.github+json" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          "/repos/${{ github.repository }}/commits?since=$cutoff_date&per_page=1" \
-          --jq 'length' 2>/dev/null || echo "0")
-        
-        # Check for recent issues/PRs
-        recent_issues=$(gh api \
-          -H "Accept: application/vnd.github+json" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          "/repos/${{ github.repository }}/issues?since=$cutoff_date&per_page=1&state=all" \
-          --jq 'length' 2>/dev/null || echo "0")
-        
-        echo "Recent commits: $recent_commits"
-        echo "Recent issues/PRs: $recent_issues"
-        
-        if [ "$recent_commits" -gt 0 ] || [ "$recent_issues" -gt 0 ]; then
-          echo "Recent activity detected. No action needed."
-          echo "needs_activity=false" >> $GITHUB_OUTPUT
-        else
-          echo "No recent activity. Will create keep-alive activity."
-          echo "needs_activity=true" >> $GITHUB_OUTPUT
-        fi
-
-    - name: Create and close PR to maintain activity
-      if: steps.check_activity.outputs.needs_activity == 'true'
-      env:
-        GH_TOKEN: ${{ github.token }}
-      shell: bash
-      run: |
         # Configure git
         git config --local user.name "github-actions[bot]"
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         
-        # Create a unique branch name
-        branch_name="keep-alive-$(date +%Y%m%d-%H%M%S)"
-        
-        # Create a new branch and make an empty commit
-        git checkout -b "$branch_name"
-        git commit --allow-empty -m "chore: keep scheduled workflows alive
-
-This automated commit ensures scheduled workflows remain active.
-GitHub disables scheduled workflows after 60 days of repository inactivity."
-        
-        git push --set-upstream origin "$branch_name"
-        
-        # Create PR
-        pr_url=$(gh pr create \
-          --head "$branch_name" \
-          --base ${{ github.event.repository.default_branch }} \
-          --title "chore: keep scheduled workflows alive" \
-          --body "This automated PR is created to prevent scheduled workflows from being disabled due to inactivity.
-
-GitHub automatically disables scheduled workflows when no repository activity has occurred in 60 days. This PR ensures continuous operation of our scheduled builds and tests.
-
-This PR contains an empty commit and will be automatically closed without merging.")
-        
-        echo "Created PR: $pr_url"
-        
-        # Extract PR number from URL (require at least one digit)
-        pr_number=$(echo "$pr_url" | grep -oE '[0-9]+$')
-        
-        if [ -n "$pr_number" ]; then
-          # Close the PR immediately
-          gh pr close "$pr_number" --comment "Closing this keep-alive PR as its purpose (maintaining repository activity) has been fulfilled."
-          echo "Closed PR #$pr_number"
-          
-          # Clean up the branch
-          git push origin --delete "$branch_name"
-          echo "Deleted branch: $branch_name"
+        # Check if branch exists remotely
+        if git ls-remote --heads origin "$branch_name" | grep -q "$branch_name"; then
+          echo "Branch $branch_name already exists"
         else
-          echo "Warning: Could not extract PR number from URL: $pr_url"
-          echo "The branch $branch_name was created but PR may not have been properly closed."
-          echo "Attempting to clean up branch anyway..."
-          git push origin --delete "$branch_name" 2>/dev/null || echo "Branch cleanup failed, may need manual cleanup"
+          echo "Creating new branch $branch_name"
+          git checkout -b "$branch_name"
+          git commit --allow-empty -m "chore: keep scheduled workflows alive
+
+This branch is used by the keep-alive workflow to maintain repository activity.
+GitHub disables scheduled workflows after 60 days of repository inactivity."
+          git push --set-upstream origin "$branch_name"
         fi
+        
+        # Check if PR exists (open or closed)
+        pr_number=$(gh pr list --head "$branch_name" --state all --json number --jq '.[0].number' 2>/dev/null || echo "")
+        
+        if [ -z "$pr_number" ]; then
+          echo "Creating new PR for keep-alive workflow"
+          gh pr create \
+            --head "$branch_name" \
+            --base ${{ github.event.repository.default_branch }} \
+            --title "chore: keep scheduled workflows alive" \
+            --body "This automated PR maintains repository activity to prevent scheduled workflows from being disabled.
+
+GitHub automatically disables scheduled workflows after 60 days of repository inactivity. This PR is reopened and closed periodically by the keep-alive workflow to ensure continuous operation.
+
+**Note:** This PR is managed by automation and will be reopened/closed automatically. Do not delete this PR or its branch."
+          
+          # Get the newly created PR number
+          pr_number=$(gh pr list --head "$branch_name" --state all --json number --jq '.[0].number')
+          echo "Created PR #$pr_number"
+        else
+          echo "PR #$pr_number already exists"
+        fi
+        
+        # Store PR number for next step
+        echo "pr_number=$pr_number" >> $GITHUB_OUTPUT
+      id: setup
+
+    - name: Reopen and close PR to maintain activity
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: |
+        pr_number="${{ steps.setup.outputs.pr_number }}"
+        
+        if [ -z "$pr_number" ]; then
+          echo "Error: PR number not found"
+          exit 1
+        fi
+        
+        # Check PR state
+        pr_state=$(gh pr view "$pr_number" --json state --jq '.state')
+        echo "PR #$pr_number is currently: $pr_state"
+        
+        # Reopen if closed
+        if [ "$pr_state" = "CLOSED" ]; then
+          echo "Reopening PR #$pr_number"
+          gh pr reopen "$pr_number"
+          sleep 2
+        fi
+        
+        # Close the PR with a timestamp comment
+        echo "Closing PR #$pr_number"
+        gh pr close "$pr_number" --comment "Keep-alive activity: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+        
+        echo "Keep-alive activity completed successfully"
