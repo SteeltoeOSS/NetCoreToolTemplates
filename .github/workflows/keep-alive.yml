@@ -30,6 +30,7 @@ jobs:
       shell: bash
       run: |
         # Check for any activity in the last 50 days
+        # Note: date -d is GNU-specific, but this workflow runs on ubuntu-latest which has GNU date
         cutoff_date=$(date -u -d '50 days ago' '+%Y-%m-%dT%H:%M:%SZ')
         echo "Checking for activity since: $cutoff_date"
         
@@ -83,7 +84,7 @@ GitHub disables scheduled workflows after 60 days of repository inactivity."
         # Create PR
         pr_url=$(gh pr create \
           --head "$branch_name" \
-          --base main \
+          --base ${{ github.event.repository.default_branch }} \
           --title "chore: keep scheduled workflows alive" \
           --body "This automated PR is created to prevent scheduled workflows from being disabled due to inactivity.
 
@@ -93,8 +94,8 @@ This PR contains an empty commit and will be automatically closed without mergin
         
         echo "Created PR: $pr_url"
         
-        # Extract PR number from URL
-        pr_number=$(echo "$pr_url" | grep -o '[0-9]*$')
+        # Extract PR number from URL (require at least one digit)
+        pr_number=$(echo "$pr_url" | grep -oE '[0-9]+$')
         
         if [ -n "$pr_number" ]; then
           # Close the PR immediately
@@ -106,5 +107,7 @@ This PR contains an empty commit and will be automatically closed without mergin
           echo "Deleted branch: $branch_name"
         else
           echo "Warning: Could not extract PR number from URL: $pr_url"
-          echo "The branch $branch_name was created but PR may not have been closed."
+          echo "The branch $branch_name was created but PR may not have been properly closed."
+          echo "Attempting to clean up branch anyway..."
+          git push origin --delete "$branch_name" 2>/dev/null || echo "Branch cleanup failed, may need manual cleanup"
         fi
