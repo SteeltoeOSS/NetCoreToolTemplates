@@ -38,14 +38,14 @@ jobs:
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           "/repos/${{ github.repository }}/commits?since=$cutoff_date&per_page=1" \
-          --jq 'length')
+          --jq 'length' 2>/dev/null || echo "0")
         
         # Check for recent issues/PRs
         recent_issues=$(gh api \
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           "/repos/${{ github.repository }}/issues?since=$cutoff_date&per_page=1&state=all" \
-          --jq 'length')
+          --jq 'length' 2>/dev/null || echo "0")
         
         echo "Recent commits: $recent_commits"
         echo "Recent issues/PRs: $recent_issues"
@@ -96,10 +96,15 @@ This PR contains an empty commit and will be automatically closed without mergin
         # Extract PR number from URL
         pr_number=$(echo "$pr_url" | grep -o '[0-9]*$')
         
-        # Close the PR immediately
-        gh pr close "$pr_number" --comment "Closing this keep-alive PR as its purpose (maintaining repository activity) has been fulfilled."
-        
-        echo "Closed PR #$pr_number"
-        
-        # Clean up the branch
-        git push origin --delete "$branch_name"
+        if [ -n "$pr_number" ]; then
+          # Close the PR immediately
+          gh pr close "$pr_number" --comment "Closing this keep-alive PR as its purpose (maintaining repository activity) has been fulfilled."
+          echo "Closed PR #$pr_number"
+          
+          # Clean up the branch
+          git push origin --delete "$branch_name"
+          echo "Deleted branch: $branch_name"
+        else
+          echo "Warning: Could not extract PR number from URL: $pr_url"
+          echo "The branch $branch_name was created but PR may not have been closed."
+        fi
