@@ -165,6 +165,8 @@ builder.AddPlaceholderResolver();
 builder.Configuration.AddPlaceholderResolver();
 #endif
 #if (HasAnyNonAzureHostingInSteeltoeV3)
+// Configures the application to listen on the port(s) provided by the cloud platform.
+// For local development, configure URLs in appsettings.Development.json instead.
 builder.UseCloudHosting();
 #endif
 #if (HostingCloudFoundryOption)
@@ -221,12 +223,16 @@ builder.Services.AddOAuthServiceOptions(builder.Configuration);
 builder.Services.ConfigureCloudFoundryOptions(builder.Configuration);
 #endif
 #if (HasAnyDiscoveryInSteeltoeV3)
+// Registers the application with a service discovery provider (e.g., Eureka, Consul).
+// For local development, ensure service URLs are configured in appsettings.Development.json.
 builder.Services.AddDiscoveryClient(builder.Configuration);
 #else
 #if (HasDiscoveryConsulInSteeltoeV44)
+// Registers the application with Consul for service discovery.
 builder.Services.AddConsulDiscoveryClient();
 #endif
 #if (HasDiscoveryEurekaInSteeltoeV4)
+// Registers the application with Eureka for service discovery.
 builder.Services.AddEurekaDiscoveryClient();
 #endif
 #endif
