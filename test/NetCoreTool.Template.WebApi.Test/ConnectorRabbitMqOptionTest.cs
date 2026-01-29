@@ -12,7 +12,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             var rabbitMqVersion = options.SteeltoeVersion switch
             {
                 SteeltoeVersion.Steeltoe32 => "5.2.*",
-                _ => "7.1.*"
+                _ => "7.2.*"
             };
 
             packages.Add(("RabbitMQ.Client", rabbitMqVersion));

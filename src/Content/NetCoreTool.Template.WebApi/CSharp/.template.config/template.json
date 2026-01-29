@@ -850,7 +850,7 @@
           },
           {
             "condition": "True == True",
-            "value": "7.1.*"
+            "value": "7.2.*"
           }
         ]
       }

@@ -9,7 +9,7 @@ public class ConnectorCosmosDbOptionTest(ITestOutputHelper logger)
 {
     protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
     {
-        packages.Add(("Microsoft.Azure.Cosmos", "3.47.*"));
+        packages.Add(("Microsoft.Azure.Cosmos", "3.57.*"));
         packages.Add(("Newtonsoft.Json", "13.0.*"));
         packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
     }
