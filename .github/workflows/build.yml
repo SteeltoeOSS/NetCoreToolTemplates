@@ -28,7 +28,7 @@ env:
 jobs:
   build-and-test:
     name: Build, Test and Package
-    timeout-minutes: 20
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
