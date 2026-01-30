@@ -40,6 +40,17 @@ jobs:
     - name: Ensure keep-alive branch and PR exist
       env:
         GH_TOKEN: ${{ github.token }}
+        COMMIT_MSG: |
+          chore: keep scheduled workflows alive
+
+          This branch is used by the keep-alive workflow to maintain repository activity.
+          GitHub disables scheduled workflows after 60 days of repository inactivity.
+        PR_BODY: |
+          This automated PR maintains repository activity to prevent scheduled workflows from being disabled.
+
+          GitHub automatically disables scheduled workflows after 60 days of repository inactivity. This PR is reopened and closed periodically by the keep-alive workflow to ensure continuous operation.
+
+          **Note:** This PR is managed by automation and will be reopened/closed automatically. Do not delete this PR or its branch.
       shell: bash
       run: |
         # Use a fixed branch name for persistence
@@ -55,10 +66,7 @@ jobs:
         else
           echo "Creating new branch $branch_name"
           git checkout -b "$branch_name"
-          git commit --allow-empty -m "chore: keep scheduled workflows alive
-
-This branch is used by the keep-alive workflow to maintain repository activity.
-GitHub disables scheduled workflows after 60 days of repository inactivity."
+          git commit --allow-empty -m "$COMMIT_MSG"
           git push --set-upstream origin "$branch_name"
         fi
 
@@ -71,11 +79,7 @@ GitHub disables scheduled workflows after 60 days of repository inactivity."
             --head "$branch_name" \
             --base ${{ github.event.repository.default_branch }} \
             --title "chore: keep scheduled workflows alive" \
-            --body "This automated PR maintains repository activity to prevent scheduled workflows from being disabled.
-
-GitHub automatically disables scheduled workflows after 60 days of repository inactivity. This PR is reopened and closed periodically by the keep-alive workflow to ensure continuous operation.
-
-**Note:** This PR is managed by automation and will be reopened/closed automatically. Do not delete this PR or its branch."
+            --body "$PR_BODY"
 
           # Get the newly created PR number
           pr_number=$(gh pr list --head "$branch_name" --state all --json number --jq '.[0].number')
