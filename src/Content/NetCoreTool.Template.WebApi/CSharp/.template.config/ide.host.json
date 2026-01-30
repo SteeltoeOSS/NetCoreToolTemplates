@@ -30,13 +30,19 @@
           }
         },
         {
+          "id": "4.1.*",
+          "name": {
+            "text": "Steeltoe 4.1"
+          }
+        },
+        {
           "id": "4.*-main-*",
           "name": {
             "text": "Steeltoe 4.x (unstable)"
           }
         }
       ],
-      "defaultValue": "4.0.*"
+      "defaultValue": "4.1.*"
     },
     {
       "id": "DescriptionOption",

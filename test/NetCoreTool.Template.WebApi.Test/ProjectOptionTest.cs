@@ -264,6 +264,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 return SteeltoeVersion.Steeltoe40;
             }
+            if (steeltoe.StartsWith("4.1"))
+            {
+                return SteeltoeVersion.Steeltoe41;
+            }
             if (steeltoe.StartsWith("4.*"))
             {
                 return SteeltoeVersion.SteeltoeUnstable;
