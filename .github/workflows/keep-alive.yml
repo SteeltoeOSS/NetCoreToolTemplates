@@ -37,7 +37,44 @@ jobs:
       with:
         persist-credentials: false
 
+    - name: Check for recent activity
+      id: check_activity
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: |
+        # Check if the repository has been active in the last 30 days
+        # We check the default branch for recent commits
+
+        DEFAULT_BRANCH="${{ github.event.repository.default_branch }}"
+        if [ -z "$DEFAULT_BRANCH" ]; then
+            DEFAULT_BRANCH="main"
+        fi
+
+        echo "Checking activity on branch: $DEFAULT_BRANCH"
+
+        # Get the date of the last commit on the default branch
+        last_commit_date=$(gh api "repos/${{ github.repository }}/commits/$DEFAULT_BRANCH" --jq '.commit.committer.date')
+        echo "Last commit date: $last_commit_date"
+
+        # Calculate days since last commit
+        last_commit_seconds=$(date -d "$last_commit_date" +%s)
+        current_seconds=$(date +%s)
+        days_diff=$(( (current_seconds - last_commit_seconds) / 86400 ))
+
+        echo "Days since last activity: $days_diff"
+
+        # Threshold: 30 days (Run monthly, so if no activity in last month, we should act)
+        if [ "$days_diff" -lt 30 ]; then
+          echo "Repository is active enough (less than 30 days since last commit). No keep-alive action needed."
+          echo "run_keep_alive=false" >> $GITHUB_OUTPUT
+        else
+          echo "Repository inactive for $days_diff days. Running keep-alive action."
+          echo "run_keep_alive=true" >> $GITHUB_OUTPUT
+        fi
+
     - name: Ensure keep-alive branch and PR exist
+      if: steps.check_activity.outputs.run_keep_alive == 'true'
       env:
         GH_TOKEN: ${{ github.token }}
         COMMIT_MSG: |
@@ -55,7 +92,7 @@ jobs:
       run: |
         # Use a fixed branch name for persistence
         branch_name="keep-alive-workflow"
-        
+
         # Configure git
         git config --local user.name "github-actions[bot]"
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -63,12 +100,17 @@ jobs:
         # Check if branch exists remotely
         if git ls-remote --heads origin "$branch_name" | grep -q "$branch_name"; then
           echo "Branch $branch_name already exists"
+          git fetch origin "$branch_name"
+          git checkout "$branch_name"
+          git pull origin "$branch_name"
         else
           echo "Creating new branch $branch_name"
           git checkout -b "$branch_name"
-          git commit --allow-empty -m "$COMMIT_MSG"
-          git push --set-upstream origin "$branch_name"
         fi
+
+        # Create/Update commit to ensure activity
+        git commit --allow-empty -m "$COMMIT_MSG"
+        git push origin "$branch_name"
 
         # Check if PR exists (open or closed)
         pr_number=$(gh pr list --head "$branch_name" --state all --json number --jq '.[0].number' 2>/dev/null || echo "")
@@ -93,6 +135,7 @@ jobs:
       id: setup
 
     - name: Reopen and close PR to maintain activity
+      if: steps.check_activity.outputs.run_keep_alive == 'true'
       env:
         GH_TOKEN: ${{ github.token }}
       shell: bash
