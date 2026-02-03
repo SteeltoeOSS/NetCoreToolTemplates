@@ -4,12 +4,20 @@
 #   GitHub automatically disables scheduled workflows after 60 days of repository inactivity.
 #   This workflow prevents that by creating minimal activity when needed.
 #
+# Important Constraint:
+#   This workflow MUST run at least every 60 days. If it doesn't run for 60 days, GitHub will
+#   disable it permanently and it won't be able to run itself anymore. Therefore, we schedule
+#   it to run every 30 days (monthly) to ensure it always stays active, even if there are
+#   holidays, weekends, or workflow execution delays.
+#
 # How it works:
-#   1. Runs on the first day of every month
-#   2. Checks if the keep-alive PR exists
-#   3. If PR doesn't exist, creates it with a persistent branch
-#   4. Reopens the PR (if closed) and immediately closes it again
-#   5. This activity prevents workflow deactivation
+#   1. Runs on the first day of every month (~30 days)
+#   2. Checks if there's been activity in the last 30 days (commits on default branch)
+#   3. If no recent activity, creates/updates a persistent keep-alive PR:
+#      - Creates a keep-alive branch (if it doesn't exist)
+#      - Adds an empty commit to the branch
+#      - Opens/reopens the PR and immediately closes it
+#   4. If recent activity exists, skips the keep-alive action to reduce noise
 #
 # Manual trigger:
 #   This workflow can also be triggered manually via workflow_dispatch if needed.
@@ -17,6 +25,10 @@ name: Keep Scheduled Workflows Alive
 
 on:
   schedule:
+    # Run on the 1st of every month (approximately every 30 days)
+    # IMPORTANT: This MUST run at least every 60 days. If 60 days pass without running,
+    # GitHub will disable this workflow and it won't be able to run itself anymore.
+    # Running monthly (every ~30 days) ensures this never happens.
     - cron: "0 0 1 * *"
   workflow_dispatch:
 
@@ -44,7 +56,8 @@ jobs:
       shell: bash
       run: |
         # Check if the repository has been active in the last 30 days
-        # We check the default branch for recent commits
+        # If there's been recent activity, we skip the keep-alive action to reduce noise.
+        # We check the default branch for recent commits.
 
         DEFAULT_BRANCH="${{ github.event.repository.default_branch }}"
         if [ -z "$DEFAULT_BRANCH" ]; then
@@ -64,7 +77,9 @@ jobs:
 
         echo "Days since last activity: $days_diff"
 
-        # Threshold: 30 days (Run monthly, so if no activity in last month, we should act)
+        # Threshold: 30 days
+        # Since this workflow runs monthly, if there's been activity in the last 30 days,
+        # we don't need to create additional keep-alive activity.
         if [ "$days_diff" -lt 30 ]; then
           echo "Repository is active enough (less than 30 days since last commit). No keep-alive action needed."
           echo "run_keep_alive=false" >> $GITHUB_OUTPUT
