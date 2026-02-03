@@ -3,17 +3,15 @@
 # GitHub disables scheduled workflows after 60 days of inactivity. This workflow prevents that
 # by creating minimal activity when needed.
 #
-# IMPORTANT: Must run within 60 days or it will disable itself. Runs monthly (~30 days) for safety.
-#
 # How it works:
-#   1. Monthly: checks for activity in last 30 days
-#   2. If inactive: creates/updates persistent draft PR with empty commits
-#   3. If active: skips to reduce noise
+#   1. Runs on 1st of the month via cron schedule
+#   2. Checks for activity in last 30 days
+#   3. If inactive: creates/updates persistent draft PR with empty commits
+#   4. If active: skips to reduce noise
 name: Keep Scheduled Workflows Alive
 
 on:
   schedule:
-    # Monthly (1st of month). Must run within 60 days or workflow disables itself.
     - cron: "0 0 1 * *"
   workflow_dispatch:
 
