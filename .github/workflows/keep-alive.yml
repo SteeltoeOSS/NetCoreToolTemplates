@@ -52,7 +52,6 @@ jobs:
         last_commit_seconds=$(date -d "$last_commit_date" +%s)
         current_seconds=$(date +%s)
         days_diff=$(( (current_seconds - last_commit_seconds) / 86400 ))
-
         echo "Days since last activity: $days_diff"
 
         if [ "$days_diff" -lt 30 ]; then
