@@ -1,13 +1,4 @@
-# Keep Scheduled Workflows Alive
-#
-# GitHub disables scheduled workflows after 60 days of inactivity. This workflow prevents that
-# by creating minimal activity when needed.
-#
-# How it works:
-#   1. Runs on 1st of the month via cron schedule
-#   2. Checks for activity in last 30 days
-#   3. If inactive: creates/updates persistent draft PR with empty commits
-#   4. If active: skips to reduce noise
+# Prevents scheduled workflows from being disabled by GitHub after 60 days of repository inactivity.
 name: Keep Scheduled Workflows Alive
 
 on:
@@ -38,15 +29,13 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       shell: bash
       run: |
-        # Skip keep-alive if repository has been active in last 30 days
-        DEFAULT_BRANCH="${{ github.event.repository.default_branch }}"
-        if [ -z "$DEFAULT_BRANCH" ]; then
-            DEFAULT_BRANCH="main"
+        default_branch="${{ github.event.repository.default_branch }}"
+        if [ -z "$default_branch" ]; then
+          default_branch="main"
         fi
 
-        echo "Checking activity on branch: $DEFAULT_BRANCH"
-
-        last_commit_date=$(gh api "repos/${{ github.repository }}/commits/$DEFAULT_BRANCH" --jq '.commit.committer.date')
+        echo "Checking activity on branch: $default_branch"
+        last_commit_date=$(gh api "repos/${{ github.repository }}/commits/$default_branch" --jq '.commit.committer.date')
         echo "Last commit date: $last_commit_date"
 
         last_commit_seconds=$(date -d "$last_commit_date" +%s)
@@ -63,23 +52,20 @@ jobs:
         fi
 
     - name: Ensure keep-alive branch and PR exist
-      if: steps.check_activity.outputs.run_keep_alive == 'true'
+      if: ${{ steps.check_activity.outputs.run_keep_alive == 'true' }}
       env:
         GH_TOKEN: ${{ github.token }}
         COMMIT_MSG: |
           chore: keep scheduled workflows alive
-
-          Empty commit to maintain repository activity.
-          GitHub disables scheduled workflows after 60 days of inactivity.
         PR_BODY: |
-          Automated keep-alive to prevent scheduled workflows from being disabled.
-
-          GitHub disables scheduled workflows after 60 days of inactivity. This draft PR is periodically updated with empty commits and reopened/closed to maintain activity.
-
-          Empty commits are used because they create activity without modifying repository content.
+          Draft PR maintained by the keep-alive workflow. Do not merge or delete.
       shell: bash
       run: |
         branch_name="keep-alive-workflow"
+        default_branch="${{ github.event.repository.default_branch }}"
+        if [ -z "$default_branch" ]; then
+          default_branch="main"
+        fi
 
         git config --local user.name "github-actions[bot]"
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -101,12 +87,8 @@ jobs:
 
         if [ -z "$pr_number" ]; then
           echo "Creating draft PR"
-          gh pr create \
-            --draft \
-            --head "$branch_name" \
-            --base ${{ github.event.repository.default_branch }} \
-            --title "chore: keep scheduled workflows alive" \
-            --body "$PR_BODY"
+          gh pr create --draft --head "$branch_name" --base "$default_branch" \
+            --title "chore: keep scheduled workflows alive" --body "$PR_BODY"
 
           pr_number=$(gh pr list --head "$branch_name" --state all --json number --jq '.[0].number')
           echo "Created PR #$pr_number"
@@ -118,7 +100,7 @@ jobs:
       id: setup
 
     - name: Reopen and close PR to maintain activity
-      if: steps.check_activity.outputs.run_keep_alive == 'true'
+      if: ${{ steps.check_activity.outputs.run_keep_alive == 'true' }}
       env:
         GH_TOKEN: ${{ github.token }}
       shell: bash
@@ -133,10 +115,9 @@ jobs:
         pr_state=$(gh pr view "$pr_number" --json state --jq '.state')
         echo "PR #$pr_number is $pr_state"
 
-        if [ "$pr_state" = "CLOSED" ]; then
+        if [[ "$pr_state" == "CLOSED" ]]; then
           echo "Reopening PR #$pr_number"
           gh pr reopen "$pr_number"
-          sleep 2
         fi
 
         echo "Closing PR #$pr_number"
