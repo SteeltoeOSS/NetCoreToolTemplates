@@ -46,7 +46,9 @@ jobs:
           10.0.*
 
     - name: Git checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
+      with:
+        persist-credentials: false
 
     - name: Restore packages
       run: dotnet restore --verbosity minimal
@@ -204,7 +206,7 @@ jobs:
         path: packages
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 10.0.x
         source-url: ${{ vars.AZURE_ARTIFACTS_FEED_URL }}
@@ -235,7 +237,7 @@ jobs:
 
     steps:
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 10.0.x
 
