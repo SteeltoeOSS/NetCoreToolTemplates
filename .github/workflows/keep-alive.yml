@@ -20,8 +20,6 @@ jobs:
     steps:
     - name: Git checkout
       uses: actions/checkout@v6
-      with:
-        persist-credentials: false
 
     - name: Check for recent activity
       id: check_activity
@@ -81,7 +79,6 @@ jobs:
         fi
 
         git commit --allow-empty -m "$COMMIT_MSG"
-        git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
         git push origin "$branch_name"
 
         pr_number=$(gh pr list --head "$branch_name" --state all --json number --jq '.[0].number' 2>/dev/null || echo "")
