@@ -44,11 +44,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             var openApiVersion = GetPackageVersionForFramework(options.Framework);
 
-            if (options.Framework == Framework.Net60)
-            {
-                packages.Add(("Swashbuckle.AspNetCore", "6.5.0"));
-            }
-            else if (options.Framework == Framework.Net80)
+            if (options.Framework == Framework.Net80)
             {
                 packages.Add(("Microsoft.AspNetCore.OpenApi", openApiVersion));
                 packages.Add(("Swashbuckle.AspNetCore", "6.6.2"));
@@ -132,7 +128,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             foreach (var profile in settings.Profiles.Values)
             {
-                if (options.Framework is Framework.Net60 or Framework.Net80)
+                if (options.Framework == Framework.Net80)
                 {
                     profile.LaunchBrowser.Should().BeTrue();
                     profile.LaunchUrl.Should().Be("swagger");
@@ -149,7 +145,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (options.Framework is Framework.Net60 or Framework.Net80)
+            if (options.Framework == Framework.Net80)
             {
                 snippets.Add("// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle");
                 snippets.Add("builder.Services.AddEndpointsApiExplorer();");

@@ -12,7 +12,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             var sqlClientVersion = options.Framework switch
             {
-                Framework.Net60 => "5.2.*",
                 Framework.Net80 => "6.0.*",
                 Framework.Net90 => "6.0.*",
                 Framework.Net100 => "6.1.*",

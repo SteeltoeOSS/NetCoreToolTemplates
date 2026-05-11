@@ -147,7 +147,7 @@ using Company.WebApplication.CS;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-#if (IsFrameworkNet60 || IsFrameworkNet80)
+#if (IsFrameworkNet80)
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -342,7 +342,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-#if (IsFrameworkNet60 || IsFrameworkNet80)
+#if (IsFrameworkNet80)
     app.UseSwagger();
     app.UseSwaggerUI();
 #elif (IsFrameworkNet90 || IsFrameworkNet100)
@@ -365,11 +365,7 @@ app.MapGet("/weatherforecast", () =>
     var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
-#if (IsFrameworkNet60)
-            DateTime.Now.AddDays(index),
-#else
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-#endif
             Random.Shared.Next(-20, 55),
             summaries[Random.Shared.Next(summaries.Length)]
         ))
@@ -402,14 +398,7 @@ await app.RunWithTasksAsync(CancellationToken.None);
 app.Run();
 #endif
 
-#if (IsFrameworkNet60)
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
-#else
 internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
-#endif
