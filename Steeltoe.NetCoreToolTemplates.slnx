@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="DEVELOPER.md" />
+    <File Path="README.md" />
+    <File Path="src/Content/NetCoreTool.Template.WebApi/CSharp/Directory.Build.props" />
+    <File Path="test/Directory.Build.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Content/NetCoreTool.Template.WebApi/CSharp/Company.WebApplication.CS.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/NetCoreTool.Template.WebApi.Test/Steeltoe.NetCoreTool.Template.WebApi.Test.csproj" />
+  </Folder>
+  <Project Path="src/Steeltoe.NetCoreTool.Templates.csproj" />
+</Solution>
