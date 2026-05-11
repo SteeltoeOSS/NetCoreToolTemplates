@@ -43,7 +43,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             Logger.WriteLine("building project");
             await CreateEditorConfigForUnnecessaryUsings(sandbox);
-            var buildCmd = "dotnet build /p:TreatWarningsAsErrors=True /p:EnforceCodeStyleInBuild=True /p:GenerateDocumentationFile=True";
+            var buildCmd = "dotnet build /p:TreatWarningsAsErrors=True /p:EnforceCodeStyleInBuild=True /p:GenerateDocumentationFile=True /p:NuGetAuditMode=direct";
             await sandbox.ExecuteCommandAsync(buildCmd, false);
             sandbox.CommandExitCode.Should().Be(0, $"build should succeed, while output was:{Environment.NewLine}{sandbox.CommandOutput}");
         }
