@@ -806,7 +806,7 @@
         "cases": [
           {
             "condition": "(Framework == 'net10.0')",
-            "value": "9.6.*"
+            "value": "9.7.*"
           },
           {
             "condition": "(Framework == 'net9.0')",

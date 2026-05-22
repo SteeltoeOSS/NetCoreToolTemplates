@@ -14,7 +14,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 Framework.Net80 => "9.3.*",
                 Framework.Net90 => "9.3.*",
-                Framework.Net100 => "9.6.*",
+                Framework.Net100 => "9.7.*",
                 _ => throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString())
             };
 
