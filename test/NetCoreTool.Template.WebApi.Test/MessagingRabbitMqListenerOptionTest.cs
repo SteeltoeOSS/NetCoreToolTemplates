@@ -22,7 +22,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             await base.AssertProjectGeneration(options);
 
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 await base.AssertProjectGeneration(options);
                 Logger.WriteLine("asserting Services");
@@ -32,7 +32,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 packages.Add(("Steeltoe.Messaging.RabbitMQ", "$(SteeltoeVersion)"));
             }
@@ -40,7 +40,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 snippets.Add("using Steeltoe.Messaging.RabbitMQ.Config;");
                 snippets.Add("using Steeltoe.Messaging.RabbitMQ.Extensions;");

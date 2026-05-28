@@ -10,7 +10,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 packages.Add(("Steeltoe.Extensions.Configuration.CloudFoundryCore", "$(SteeltoeVersion)"));
                 packages.Add(("Steeltoe.Common.Hosting", "$(SteeltoeVersion)"));
@@ -30,7 +30,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static IEnumerable<string> GetNamespaceImports(SteeltoeVersion steeltoeVersion)
         {
-            if (steeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 yield return "using Steeltoe.Common.Hosting;";
                 yield return "using Steeltoe.Extensions.Configuration.CloudFoundry;";
@@ -43,7 +43,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
         {
-            if (steeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 yield return "builder.UseCloudHosting();";
                 yield return "builder.AddCloudFoundryConfiguration();";

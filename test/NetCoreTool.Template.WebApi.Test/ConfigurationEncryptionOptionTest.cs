@@ -9,7 +9,7 @@ public class ConfigurationEncryptionOptionTest(ITestOutputHelper logger)
 {
     protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
     {
-        if (options.SteeltoeVersion != SteeltoeVersion.Steeltoe32)
+        if (options.SteeltoeVersion != SteeltoeVersion.Steeltoe34)
         {
             packages.Add(("Steeltoe.Configuration.Encryption", "$(SteeltoeVersion)"));
         }
@@ -17,7 +17,7 @@ public class ConfigurationEncryptionOptionTest(ITestOutputHelper logger)
 
     protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
     {
-        if (options.SteeltoeVersion != SteeltoeVersion.Steeltoe32)
+        if (options.SteeltoeVersion != SteeltoeVersion.Steeltoe34)
         {
             snippets.Add("using Steeltoe.Configuration.Encryption;");
 

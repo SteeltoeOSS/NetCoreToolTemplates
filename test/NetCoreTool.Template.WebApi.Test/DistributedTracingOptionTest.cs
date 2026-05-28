@@ -14,7 +14,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetPackageName(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Management.TracingCore" : "Steeltoe.Management.Tracing";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Management.TracingCore" : "Steeltoe.Management.Tracing";
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
@@ -25,7 +25,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
         {
-            if (steeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 yield return "builder.Services.AddDistributedTracingAspNetCore();";
                 yield return "builder.Services.AddDistributedTracing();";

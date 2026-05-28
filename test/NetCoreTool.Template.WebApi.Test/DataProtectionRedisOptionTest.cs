@@ -15,7 +15,7 @@ public class DataProtectionRedisOptionTest(ITestOutputHelper logger)
 
     private static IEnumerable<string> GetPackageNames(SteeltoeVersion steeltoeVersion)
     {
-        if (steeltoeVersion == SteeltoeVersion.Steeltoe32)
+        if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
         {
             yield return "Steeltoe.Connector.ConnectorCore";
             yield return "Steeltoe.Security.DataProtection.RedisCore";
@@ -35,7 +35,7 @@ public class DataProtectionRedisOptionTest(ITestOutputHelper logger)
 
     private static IEnumerable<string> GetNamespaceImports(SteeltoeVersion steeltoeVersion)
     {
-        if (steeltoeVersion == SteeltoeVersion.Steeltoe32)
+        if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
         {
             yield return "using Microsoft.AspNetCore.DataProtection;";
             yield return "using Steeltoe.Connector.Redis;";
@@ -51,14 +51,14 @@ public class DataProtectionRedisOptionTest(ITestOutputHelper logger)
 
     private static string GetSetupComment(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34
             ? "// TODO: Add your connection string at configuration key: Redis:Client:ConnectionString"
             : "// TODO: Add your connection string at configuration key: Steeltoe:Client:Redis:Default:ConnectionString";
     }
 
     private IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
     {
-        if (steeltoeVersion == SteeltoeVersion.Steeltoe32)
+        if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
         {
             yield return "builder.Services.AddRedisConnectionMultiplexer(builder.Configuration);";
         }

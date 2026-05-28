@@ -20,12 +20,12 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Discovery.Client" : "Steeltoe.Discovery.Eureka";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Discovery.Client" : "Steeltoe.Discovery.Eureka";
         }
 
         private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34
                 ? "builder.Services.AddDiscoveryClient(builder.Configuration);"
                 : "builder.Services.AddEurekaDiscoveryClient();";
         }

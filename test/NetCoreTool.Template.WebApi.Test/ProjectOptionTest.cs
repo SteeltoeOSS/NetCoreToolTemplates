@@ -42,13 +42,13 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             sandbox.CommandExitCode.Should().Be(0, $"generation should succeed, while output was:{Environment.NewLine}{sandbox.CommandOutput}");
 
             Logger.WriteLine("building project");
-            await CreateEditorConfigForUnnecessaryUsings(sandbox);
+            await CreateEditorConfigForWarningSuppressions(sandbox);
             var buildCmd = "dotnet build /p:TreatWarningsAsErrors=True /p:EnforceCodeStyleInBuild=True /p:GenerateDocumentationFile=True /p:NuGetAuditMode=direct";
             await sandbox.ExecuteCommandAsync(buildCmd, false);
             sandbox.CommandExitCode.Should().Be(0, $"build should succeed, while output was:{Environment.NewLine}{sandbox.CommandOutput}");
         }
 
-        private static async Task CreateEditorConfigForUnnecessaryUsings(Sandbox sandbox)
+        private static async Task CreateEditorConfigForWarningSuppressions(Sandbox sandbox)
         {
             await File.WriteAllTextAsync(Path.Combine(sandbox.Path, ".editorconfig"),
                 """
@@ -58,6 +58,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 dotnet_diagnostic.IDE0005.severity = warning
                 # Missing XML comment for publicly visible type or member
                 dotnet_diagnostic.CS1591.severity = none
+                # Obsolete types/members
+                dotnet_diagnostic.CS0618.severity = none
                 """);
         }
 
@@ -256,17 +258,13 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static SteeltoeVersion ToSteeltoeEnum(string steeltoe)
         {
-            if (steeltoe.StartsWith("3.2"))
+            if (steeltoe.StartsWith("3.4"))
             {
-                return SteeltoeVersion.Steeltoe32;
+                return SteeltoeVersion.Steeltoe34;
             }
-            if (steeltoe.StartsWith("4.0"))
+            if (steeltoe.StartsWith("4.2"))
             {
-                return SteeltoeVersion.Steeltoe40;
-            }
-            if (steeltoe.StartsWith("4.1"))
-            {
-                return SteeltoeVersion.Steeltoe41;
+                return SteeltoeVersion.Steeltoe42;
             }
             if (steeltoe.StartsWith("4.*"))
             {

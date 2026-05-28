@@ -24,7 +24,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetPackageName(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Connector.ConnectorCore" : "Steeltoe.Connectors";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.ConnectorCore" : "Steeltoe.Connectors";
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
@@ -36,19 +36,19 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Connector.MySql" : "Steeltoe.Connectors.MySql";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.MySql" : "Steeltoe.Connectors.MySql";
         }
 
         private static string GetSetupComment(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34
                 ? "// TODO: Add your connection string at configuration key: MySql:Client:ConnectionString"
                 : "// TODO: Add your connection string at configuration key: Steeltoe:Client:MySql:Default:ConnectionString";
         }
 
         private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34
                 ? "builder.Services.AddMySqlConnection(builder.Configuration);"
                 : "builder.AddMySql();";
         }
