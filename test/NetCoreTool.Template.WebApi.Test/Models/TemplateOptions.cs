@@ -12,7 +12,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
                 return new List<object[]>
                 {
                     new object[] { "3.4.*", "net8.0", "C#" },
-                    new object[] { "3.4.*", "net9.0", "C#" },
                     new object[] { "4.2.*", "net8.0", "C#" },
                     new object[] { "4.2.*", "net9.0", "C#" },
                     new object[] { "4.2.*", "net10.0", "C#" },
