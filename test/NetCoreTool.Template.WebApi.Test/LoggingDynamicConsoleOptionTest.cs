@@ -14,7 +14,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetPackageName(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Logging.DynamicLogger" : "Steeltoe.Logging.DynamicConsole";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Logging.DynamicLogger" : "Steeltoe.Logging.DynamicConsole";
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
@@ -25,7 +25,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Logging" : "Steeltoe.Logging.DynamicConsole";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Logging" : "Steeltoe.Logging.DynamicConsole";
         }
     }
 }

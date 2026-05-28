@@ -14,7 +14,7 @@ public class ManagementTasksOptionTest(ITestOutputHelper logger)
 
     private static string GetPackageName(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Management.TaskCore" : "Steeltoe.Management.Tasks";
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Management.TaskCore" : "Steeltoe.Management.Tasks";
     }
 
     protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
@@ -25,12 +25,12 @@ public class ManagementTasksOptionTest(ITestOutputHelper logger)
 
     private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Management.TaskCore" : "Steeltoe.Management.Tasks";
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Management.TaskCore" : "Steeltoe.Management.Tasks";
     }
 
     private static IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
     {
-        if (steeltoeVersion == SteeltoeVersion.Steeltoe32)
+        if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
         {
             yield return @"builder.Services.AddTask(""run-me"", _ =>";
             yield return "// Run this app with command-line argument: runtask=run-me";

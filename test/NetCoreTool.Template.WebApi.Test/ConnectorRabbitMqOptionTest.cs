@@ -11,7 +11,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             var rabbitMqVersion = options.SteeltoeVersion switch
             {
-                SteeltoeVersion.Steeltoe32 => "5.2.*",
+                SteeltoeVersion.Steeltoe34 => "5.2.*",
                 _ => "7.2.*"
             };
 
@@ -21,7 +21,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetPackageName(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Connector.ConnectorCore" : "Steeltoe.Connectors";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.ConnectorCore" : "Steeltoe.Connectors";
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
@@ -33,19 +33,19 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Connector.RabbitMQ" : "Steeltoe.Connectors.RabbitMQ";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.RabbitMQ" : "Steeltoe.Connectors.RabbitMQ";
         }
 
         private static string GetSetupComment(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34
                 ? "// TODO: Add your connection string at configuration key: RabbitMq:Client:Url"
                 : "// TODO: Add your connection string at configuration key: Steeltoe:Client:RabbitMQ:Default:ConnectionString";
         }
 
         private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34
                 ? "builder.Services.AddRabbitMQConnection(builder.Configuration);"
                 : "builder.AddRabbitMQ();";
         }

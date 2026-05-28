@@ -35,7 +35,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetPackageName(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Connector.EFCore" : "Steeltoe.Connectors.EntityFrameworkCore";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.EFCore" : "Steeltoe.Connectors.EntityFrameworkCore";
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
@@ -48,7 +48,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static IEnumerable<string> GetNamespaceImports(SteeltoeVersion steeltoeVersion)
         {
-            if (steeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 yield return "using Steeltoe.Connector.MySql.EFCore;";
             }
@@ -61,14 +61,14 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetSetupComment(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34
                 ? "// TODO: Add your connection string at configuration key: MySql:Client:ConnectionString"
                 : "// TODO: Add your connection string at configuration key: Steeltoe:Client:MySql:Default:ConnectionString";
         }
 
         private static IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
         {
-            if (steeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 yield return "builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(builder.Configuration));";
             }

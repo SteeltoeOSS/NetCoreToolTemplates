@@ -6,9 +6,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         public SteeltoeParameterTest(ITestOutputHelper logger) : base("steeltoe", "The Steeltoe version to use.", logger)
         {
-            Values.Add("3.2.*");
-            Values.Add("4.0.*");
-            Values.Add("4.1.*");
+            Values.Add("3.4.*");
+            Values.Add("4.2.*");
             Values.Add("4.*-main-*");
         }
     }

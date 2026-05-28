@@ -16,7 +16,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetPackageName(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Configuration.PlaceholderCore" : "Steeltoe.Configuration.Placeholder";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Configuration.PlaceholderCore" : "Steeltoe.Configuration.Placeholder";
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
@@ -27,12 +27,12 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Configuration.Placeholder" : "Steeltoe.Configuration.Placeholder";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Configuration.Placeholder" : "Steeltoe.Configuration.Placeholder";
         }
 
         private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "builder.AddPlaceholderResolver();" : "builder.Configuration.AddPlaceholderResolver();";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "builder.AddPlaceholderResolver();" : "builder.Configuration.AddPlaceholderResolver();";
         }
 
         protected override void AssertAppSettingsJsonHook(List<Action<ProjectOptions, AppSettings>> assertions)

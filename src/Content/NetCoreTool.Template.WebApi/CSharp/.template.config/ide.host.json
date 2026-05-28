@@ -18,21 +18,15 @@
       },
       "choices": [
         {
-          "id": "3.3.*",
+          "id": "3.4.*",
           "name": {
-            "text": "Steeltoe 3.3"
+            "text": "Steeltoe 3.4"
           }
         },
         {
-          "id": "4.0.*",
+          "id": "4.2.*",
           "name": {
-            "text": "Steeltoe 4.0"
-          }
-        },
-        {
-          "id": "4.1.*",
-          "name": {
-            "text": "Steeltoe 4.1"
+            "text": "Steeltoe 4.2"
           }
         },
         {
@@ -42,7 +36,7 @@
           }
         }
       ],
-      "defaultValue": "4.1.*"
+      "defaultValue": "4.2.*"
     },
     {
       "id": "DescriptionOption",

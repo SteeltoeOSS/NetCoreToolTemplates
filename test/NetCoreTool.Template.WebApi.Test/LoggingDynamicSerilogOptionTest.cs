@@ -14,7 +14,7 @@ public class LoggingDynamicSerilogOptionTest(ITestOutputHelper logger)
 
     private static string GetPackageName(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Logging.DynamicSerilogCore" : "Steeltoe.Logging.DynamicSerilog";
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Logging.DynamicSerilogCore" : "Steeltoe.Logging.DynamicSerilog";
     }
 
     protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
@@ -25,11 +25,11 @@ public class LoggingDynamicSerilogOptionTest(ITestOutputHelper logger)
 
     private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Logging.DynamicSerilog" : "Steeltoe.Logging.DynamicSerilog";
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Logging.DynamicSerilog" : "Steeltoe.Logging.DynamicSerilog";
     }
 
     private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "builder.AddDynamicSerilog();" : "builder.Logging.AddDynamicSerilog();";
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "builder.AddDynamicSerilog();" : "builder.Logging.AddDynamicSerilog();";
     }
 }

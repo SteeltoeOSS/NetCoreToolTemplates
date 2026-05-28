@@ -72,9 +72,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             switch (steeltoeVersion)
             {
-                case SteeltoeVersion.Steeltoe32:
-                case SteeltoeVersion.Steeltoe40:
-                case SteeltoeVersion.Steeltoe41:
+                case SteeltoeVersion.Steeltoe34:
+                case SteeltoeVersion.Steeltoe42:
                 case SteeltoeVersion.SteeltoeUnstable:
                     break;
                 default:
@@ -89,7 +88,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private void AssertAppSettings(ProjectOptions options, AppSettings settings)
         {
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 settings.Schema.Should().Be("https://steeltoe.io/schema/v3/schema.json");
             }
@@ -110,7 +109,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private void AssertDevelopmentAppSettings(ProjectOptions options, AppSettings settings)
         {
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 settings.Schema.Should().Be("https://steeltoe.io/schema/v3/schema.json");
             } else

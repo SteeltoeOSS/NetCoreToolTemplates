@@ -14,7 +14,7 @@ public class ConfigurationSpringBootOptionTest(ITestOutputHelper logger)
 
     private static string GetPackageName(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Configuration.SpringBootCore" : "Steeltoe.Configuration.SpringBoot";
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Configuration.SpringBootCore" : "Steeltoe.Configuration.SpringBoot";
     }
 
     protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
@@ -25,12 +25,12 @@ public class ConfigurationSpringBootOptionTest(ITestOutputHelper logger)
 
     private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Extensions.Configuration.SpringBoot" : "Steeltoe.Configuration.SpringBoot";
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Configuration.SpringBoot" : "Steeltoe.Configuration.SpringBoot";
     }
 
     private static IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
     {
-        if (steeltoeVersion == SteeltoeVersion.Steeltoe32)
+        if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
         {
             yield return "builder.Configuration.AddSpringBootEnv();";
             yield return "builder.Configuration.AddSpringBootCmd(builder.Configuration);";

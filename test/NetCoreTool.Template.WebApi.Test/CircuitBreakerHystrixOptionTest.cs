@@ -23,7 +23,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             await base.AssertProjectGeneration(options);
 
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 Logger.WriteLine("asserting HelloHystrixCommand");
                 var sourceFile = GetSourceFileForLanguage("HelloHystrixCommand", options.Language);
@@ -34,7 +34,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 packages.Add(("Steeltoe.CircuitBreaker.HystrixCore", "$(SteeltoeVersion)"));
                 packages.Add(("Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore", "$(SteeltoeVersion)"));
@@ -43,7 +43,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe32)
+            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
             {
                 snippets.Add("using Steeltoe.CircuitBreaker.Hystrix;");
                 snippets.Add($"using {Sandbox.Name};");

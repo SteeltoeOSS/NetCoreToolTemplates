@@ -14,7 +14,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetPackageName(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Management.EndpointCore" : "Steeltoe.Management.Endpoint";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Management.EndpointCore" : "Steeltoe.Management.Endpoint";
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
@@ -25,12 +25,12 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Management.Endpoint" : "Steeltoe.Management.Endpoint.Actuators.All";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Management.Endpoint" : "Steeltoe.Management.Endpoint.Actuators.All";
         }
 
         private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "builder.AddAllActuators();" : "builder.Services.AddAllActuators();";
+            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "builder.AddAllActuators();" : "builder.Services.AddAllActuators();";
         }
     }
 }

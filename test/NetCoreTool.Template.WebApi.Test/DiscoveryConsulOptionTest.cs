@@ -20,12 +20,12 @@ public class DiscoveryConsulOptionTest(ITestOutputHelper logger)
 
     private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Discovery.Client" : "Steeltoe.Discovery.Consul";
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Discovery.Client" : "Steeltoe.Discovery.Consul";
     }
 
     private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34
             ? "builder.Services.AddDiscoveryClient(builder.Configuration);"
             : "builder.Services.AddConsulDiscoveryClient();";
     }

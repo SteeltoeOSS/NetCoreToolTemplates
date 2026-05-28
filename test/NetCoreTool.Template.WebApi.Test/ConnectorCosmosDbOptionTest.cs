@@ -16,7 +16,7 @@ public class ConnectorCosmosDbOptionTest(ITestOutputHelper logger)
 
     private static string GetPackageName(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Connector.ConnectorCore" : "Steeltoe.Connectors";
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.ConnectorCore" : "Steeltoe.Connectors";
     }
 
     protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
@@ -28,19 +28,19 @@ public class ConnectorCosmosDbOptionTest(ITestOutputHelper logger)
 
     private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32 ? "Steeltoe.Connector.CosmosDb" : "Steeltoe.Connectors.CosmosDb";
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.CosmosDb" : "Steeltoe.Connectors.CosmosDb";
     }
 
     private static string GetSetupComment(SteeltoeVersion steeltoeVersion)
     {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe32
+        return steeltoeVersion == SteeltoeVersion.Steeltoe34
             ? "// TODO: Add your connection string at configuration key: CosmosDb:Client:ConnectionString"
             : "// TODO: Add your connection string at configuration key: Steeltoe:Client:CosmosDb:Default:ConnectionString";
     }
 
     private static IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
     {
-        if (steeltoeVersion == SteeltoeVersion.Steeltoe32)
+        if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
         {
             yield return "var manager = new ConnectionStringManager(builder.Configuration);";
             yield return "var cosmosInfo = manager.Get<CosmosDbConnectionInfo>();";
