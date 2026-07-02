@@ -6,16 +6,24 @@ on:
     - cron: "0 0 1 * *"
   workflow_dispatch:
 
+concurrency:
+  group: keep-alive
+  cancel-in-progress: true
+
 permissions:
   contents: write
   pull-requests: write
-  issues: read
+  actions: write
 
 jobs:
   keep-alive:
     name: Keep repository GitHub Actions active
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      BRANCH_NAME: "keep-workflows-alive"
 
     steps:
     - name: Git checkout
@@ -23,102 +31,103 @@ jobs:
 
     - name: Check for recent activity
       id: check_activity
-      env:
-        GH_TOKEN: ${{ github.token }}
       shell: bash
       run: |
-        default_branch="${{ github.event.repository.default_branch }}"
+        set -euo pipefail
+        default_branch=$(gh api "repos/$GH_REPO" --jq '.default_branch')
         if [ -z "$default_branch" ]; then
-          default_branch="main"
+          echo "Error: could not determine default branch" >&2
+          exit 1
+        fi
+        echo "default_branch=$default_branch" >> "$GITHUB_OUTPUT"
+
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          echo "Manual trigger - running keep-alive unconditionally."
+          echo "run_keep_alive=true" >> "$GITHUB_OUTPUT"
+          exit 0
         fi
 
         echo "Checking activity on branch: $default_branch"
-        last_commit_date=$(gh api "repos/${{ github.repository }}/commits/$default_branch" --jq '.commit.committer.date')
+        last_commit_date=$(gh api "repos/$GH_REPO/commits/$default_branch" --jq '.commit.committer.date')
         echo "Last commit date: $last_commit_date"
 
         last_commit_seconds=$(date -d "$last_commit_date" +%s)
         current_seconds=$(date +%s)
         days_diff=$(( (current_seconds - last_commit_seconds) / 86400 ))
-        echo "Days since last activity: $days_diff"
+        echo "Days since last commit on $default_branch: $days_diff"
 
         if [ "$days_diff" -lt 30 ]; then
           echo "Active (< 30 days). No keep-alive needed."
-          echo "run_keep_alive=false" >> $GITHUB_OUTPUT
+          echo "run_keep_alive=false" >> "$GITHUB_OUTPUT"
         else
           echo "Inactive ($days_diff days). Running keep-alive."
-          echo "run_keep_alive=true" >> $GITHUB_OUTPUT
+          echo "run_keep_alive=true" >> "$GITHUB_OUTPUT"
         fi
 
-    - name: Ensure keep-alive branch and PR exist
+    - name: Enable scheduled workflows via API
       if: ${{ steps.check_activity.outputs.run_keep_alive == 'true' }}
-      env:
-        GH_TOKEN: ${{ github.token }}
-        COMMIT_MSG: |
-          chore: keep scheduled workflows alive
-        PR_BODY: |
-          Draft PR maintained by the keep-alive workflow. Do not merge or delete.
       shell: bash
       run: |
-        branch_name="keep-alive-workflow"
-        default_branch="${{ github.event.repository.default_branch }}"
-        if [ -z "$default_branch" ]; then
-          default_branch="main"
-        fi
+        set -euo pipefail
+
+        workflow_ids_raw=$(gh api --paginate "repos/$GH_REPO/actions/workflows" \
+          --jq '.workflows[] | select(.state == "active" or .state == "disabled_inactivity") | "\(.id)\t\(.name)"')
+
+        mapfile -t workflow_entries <<< "$workflow_ids_raw"
+
+        for entry in "${workflow_entries[@]}"; do
+          workflow_id="${entry%%$'\t'*}"
+          workflow_name="${entry#*$'\t'}"
+          echo "Enabling: $workflow_name (id: $workflow_id)"
+          gh api -X PUT "repos/$GH_REPO/actions/workflows/$workflow_id/enable"
+        done
+
+        echo "Enabled ${#workflow_entries[@]} workflow(s)"
+
+    - name: Push keep-alive branch
+      if: ${{ steps.check_activity.outputs.run_keep_alive == 'true' }}
+      env:
+        COMMIT_MSG: "Empty commit to keep workflows alive"
+      shell: bash
+      run: |
+        set -euo pipefail
+        default_branch="${{ steps.check_activity.outputs.default_branch }}"
 
         git config --local user.name "github-actions[bot]"
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
 
-        if git ls-remote --heads origin "$branch_name" | grep -q "$branch_name"; then
-          echo "Branch exists"
-          git fetch origin "$branch_name"
-          git checkout "$branch_name"
-          git pull origin "$branch_name"
-        else
-          echo "Creating branch"
-          git checkout -b "$branch_name"
-        fi
+        git fetch origin "$default_branch"
+        git checkout -b "$BRANCH_NAME" "origin/$default_branch"
 
         git commit --allow-empty -m "$COMMIT_MSG"
-        git push origin "$branch_name"
+        git push --force origin "$BRANCH_NAME"
 
-        pr_number=$(gh pr list --head "$branch_name" --state all --json number --jq '.[0].number' 2>/dev/null || echo "")
-
-        if [ -z "$pr_number" ]; then
-          echo "Creating draft PR"
-          gh pr create --draft --head "$branch_name" --base "$default_branch" \
-            --title "chore: keep scheduled workflows alive" --body "$PR_BODY"
-
-          pr_number=$(gh pr list --head "$branch_name" --state all --json number --jq '.[0].number')
-          echo "Created PR #$pr_number"
-        else
-          echo "PR #$pr_number exists"
-        fi
-
-        echo "pr_number=$pr_number" >> $GITHUB_OUTPUT
-      id: setup
-
-    - name: Reopen and close PR to maintain activity
+    - name: Open PR if none exists
       if: ${{ steps.check_activity.outputs.run_keep_alive == 'true' }}
       env:
-        GH_TOKEN: ${{ github.token }}
+        PR_TITLE: "[DO-NOT-CLOSE] Keep scheduled workflows alive"
+        PR_BODY: |
+          Draft PR maintained by the keep-alive workflow.
+
+          > [!IMPORTANT]
+          > Do not merge or close.
+
+          [![Build Status](https://github.com/SteeltoeOSS/NetCoreToolTemplates/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/SteeltoeOSS/NetCoreToolTemplates/actions/workflows/build.yml?query=branch%3Amain)
       shell: bash
       run: |
-        pr_number="${{ steps.setup.outputs.pr_number }}"
+        set -euo pipefail
+        default_branch="${{ steps.check_activity.outputs.default_branch }}"
 
-        if [ -z "$pr_number" ]; then
-          echo "Error: PR number not found"
-          exit 1
+        existing_pr_number=$(gh pr list --head "$BRANCH_NAME" --state open --json number --jq '.[0].number // empty' || echo "")
+        if [ -n "$existing_pr_number" ]; then
+          echo "PR #$existing_pr_number already open"
+        else
+          new_pr_url=$(gh pr create --draft --head "$BRANCH_NAME" --base "$default_branch" \
+            --title "$PR_TITLE" --body "$PR_BODY")
+          new_pr_number="${new_pr_url##*/}"
+          if ! [[ "$new_pr_number" =~ ^[0-9]+$ ]]; then
+            echo "Error: could not parse PR number from: $new_pr_url"
+            exit 1
+          fi
+          echo "Created PR #$new_pr_number"
         fi
-
-        pr_state=$(gh pr view "$pr_number" --json state --jq '.state')
-        echo "PR #$pr_number is $pr_state"
-
-        if [[ "$pr_state" == "CLOSED" ]]; then
-          echo "Reopening PR #$pr_number"
-          gh pr reopen "$pr_number"
-        fi
-
-        echo "Closing PR #$pr_number"
-        gh pr close "$pr_number" --comment "Keep-alive: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-
-        echo "Keep-alive completed"
