@@ -73,6 +73,7 @@
     <PackageReference Include="Steeltoe.Logging.DynamicSerilog" Condition="'$(HasLoggingDynamicSerilogInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.Endpoint" Condition="'$(HasManagementEndpointsInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.EndpointCore" Condition="'$(HasManagementEndpointsInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.GitProperties.Build" Condition="'$(HasManagementEndpointsInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.TaskCore" Condition="'$(HasManagementTasksInSteeltoeV3)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.Tasks" Condition="'$(HasManagementTasksInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Management.Tracing" Condition="'$(HasDistributedTracingInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
