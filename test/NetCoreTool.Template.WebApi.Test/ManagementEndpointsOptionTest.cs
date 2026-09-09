@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -9,12 +10,20 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
+            packages.AddRange(GetPackageNames(options.SteeltoeVersion).Select(packageName => (packageName, "$(SteeltoeVersion)")));
         }
 
-        private static string GetPackageName(SteeltoeVersion steeltoeVersion)
+        private static IEnumerable<string> GetPackageNames(SteeltoeVersion steeltoeVersion)
         {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Management.EndpointCore" : "Steeltoe.Management.Endpoint";
+            if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
+            {
+                yield return "Steeltoe.Management.EndpointCore";
+            }
+            else
+            {
+                yield return "Steeltoe.Management.Endpoint";
+                yield return "Steeltoe.Management.GitProperties.Build";
+            }
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)

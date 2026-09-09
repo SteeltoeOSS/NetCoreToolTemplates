@@ -73,7 +73,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             switch (steeltoeVersion)
             {
                 case SteeltoeVersion.Steeltoe34:
-                case SteeltoeVersion.Steeltoe42:
+                case SteeltoeVersion.Steeltoe43:
                 case SteeltoeVersion.SteeltoeUnstable:
                     break;
                 default:
