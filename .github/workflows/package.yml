@@ -300,4 +300,4 @@ jobs:
         git push --set-upstream origin $prBranchName
 
         Write-Output "Opening pull request to merge $prBranchName."
-        gh pr create --head $prBranchName --title 'Bump templates version from $oldVersionPrefix to $newVersionPrefix' --body $commitMessage
+        gh pr create --head $prBranchName --title "Bump templates version from $oldVersionPrefix to $newVersionPrefix" --body $commitMessage

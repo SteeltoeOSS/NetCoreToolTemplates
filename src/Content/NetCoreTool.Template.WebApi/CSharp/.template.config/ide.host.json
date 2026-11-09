@@ -20,13 +20,13 @@
         {
           "id": "3.4.*",
           "name": {
-            "text": "Steeltoe 3.4"
+            "text": "Steeltoe 3.4.x"
           }
         },
         {
           "id": "4.3.*",
           "name": {
-            "text": "Steeltoe 4.3"
+            "text": "Steeltoe 4.3.x"
           }
         },
         {
