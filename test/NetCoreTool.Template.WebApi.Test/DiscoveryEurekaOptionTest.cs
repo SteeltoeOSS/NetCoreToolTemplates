@@ -14,20 +14,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
-            snippets.Add(GetSetupCodeFragment(options.SteeltoeVersion));
-        }
-
-        private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Discovery.Client" : "Steeltoe.Discovery.Eureka";
-        }
-
-        private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34
-                ? "builder.Services.AddDiscoveryClient(builder.Configuration);"
-                : "builder.Services.AddEurekaDiscoveryClient();";
+            snippets.Add("using Steeltoe.Discovery.Eureka;");
+            snippets.Add("builder.Services.AddEurekaDiscoveryClient();");
         }
     }
 }

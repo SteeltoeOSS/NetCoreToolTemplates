@@ -9,31 +9,13 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
-        }
-
-        private static string GetPackageName(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Management.TracingCore" : "Steeltoe.Management.Tracing";
+            packages.Add(("Steeltoe.Management.Tracing", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
             snippets.Add("using Steeltoe.Management.Tracing;");
-            snippets.AddRange(GetSetupCodeFragments(options.SteeltoeVersion));
-        }
-
-        private static IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
-        {
-            if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
-            {
-                yield return "builder.Services.AddDistributedTracingAspNetCore();";
-                yield return "builder.Services.AddDistributedTracing();";
-            }
-            else
-            {
-                yield return "builder.Services.AddTracingLogProcessor();";
-            }
+            snippets.Add("builder.Services.AddTracingLogProcessor();");
         }
     }
 }

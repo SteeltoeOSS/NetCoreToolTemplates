@@ -58,8 +58,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 dotnet_diagnostic.IDE0005.severity = warning
                 # Missing XML comment for publicly visible type or member
                 dotnet_diagnostic.CS1591.severity = none
-                # Obsolete types/members
-                dotnet_diagnostic.CS0618.severity = none
                 """);
         }
 
@@ -258,10 +256,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static SteeltoeVersion ToSteeltoeEnum(string steeltoe)
         {
-            if (steeltoe.StartsWith("3.4"))
-            {
-                return SteeltoeVersion.Steeltoe34;
-            }
             if (steeltoe.StartsWith("4.3"))
             {
                 return SteeltoeVersion.Steeltoe43;

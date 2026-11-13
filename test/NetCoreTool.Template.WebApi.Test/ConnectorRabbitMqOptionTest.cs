@@ -9,45 +9,15 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            var rabbitMqVersion = options.SteeltoeVersion switch
-            {
-                SteeltoeVersion.Steeltoe34 => "5.2.*",
-                _ => "7.2.*"
-            };
-
-            packages.Add(("RabbitMQ.Client", rabbitMqVersion));
-            packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
-        }
-
-        private static string GetPackageName(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.ConnectorCore" : "Steeltoe.Connectors";
+            packages.Add(("RabbitMQ.Client", "7.2.*"));
+            packages.Add(("Steeltoe.Connectors", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
-            snippets.Add(GetSetupComment(options.SteeltoeVersion));
-            snippets.Add(GetSetupCodeFragment(options.SteeltoeVersion));
-        }
-
-        private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.RabbitMQ" : "Steeltoe.Connectors.RabbitMQ";
-        }
-
-        private static string GetSetupComment(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34
-                ? "// TODO: Add your connection string at configuration key: RabbitMq:Client:Url"
-                : "// TODO: Add your connection string at configuration key: Steeltoe:Client:RabbitMQ:Default:ConnectionString";
-        }
-
-        private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34
-                ? "builder.Services.AddRabbitMQConnection(builder.Configuration);"
-                : "builder.AddRabbitMQ();";
+            snippets.Add("using Steeltoe.Connectors.RabbitMQ;");
+            snippets.Add("// TODO: Add your connection string at configuration key: Steeltoe:Client:RabbitMQ:Default:ConnectionString");
+            snippets.Add("builder.AddRabbitMQ();");
         }
     }
 }

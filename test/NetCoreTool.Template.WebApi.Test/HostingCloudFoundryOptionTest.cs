@@ -10,49 +10,13 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
-            {
-                packages.Add(("Steeltoe.Extensions.Configuration.CloudFoundryCore", "$(SteeltoeVersion)"));
-                packages.Add(("Steeltoe.Common.Hosting", "$(SteeltoeVersion)"));
-                packages.Add(("Steeltoe.Connector.CloudFoundry", "$(SteeltoeVersion)"));
-            }
-            else
-            {
-                packages.Add(("Steeltoe.Configuration.CloudFoundry", "$(SteeltoeVersion)"));
-            }
+            packages.Add(("Steeltoe.Configuration.CloudFoundry", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.AddRange(GetNamespaceImports(options.SteeltoeVersion));
-            snippets.AddRange(GetSetupCodeFragments(options.SteeltoeVersion));
-        }
-
-        private static IEnumerable<string> GetNamespaceImports(SteeltoeVersion steeltoeVersion)
-        {
-            if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
-            {
-                yield return "using Steeltoe.Common.Hosting;";
-                yield return "using Steeltoe.Extensions.Configuration.CloudFoundry;";
-            }
-            else
-            {
-                yield return "using Steeltoe.Configuration.CloudFoundry;";
-            }
-        }
-
-        private static IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
-        {
-            if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
-            {
-                yield return "builder.UseCloudHosting();";
-                yield return "builder.AddCloudFoundryConfiguration();";
-                yield return "builder.Services.ConfigureCloudFoundryOptions(builder.Configuration);";
-            }
-            else
-            {
-                yield return "builder.AddCloudFoundryConfiguration();";
-            }
+            snippets.Add("using Steeltoe.Configuration.CloudFoundry;");
+            snippets.Add("builder.AddCloudFoundryConfiguration();");
         }
     }
 }

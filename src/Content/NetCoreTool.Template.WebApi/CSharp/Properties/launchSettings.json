@@ -4,10 +4,6 @@
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      //#if (IsFrameworkNet80)
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      //#endif
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -16,10 +12,6 @@
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      //#if (IsFrameworkNet80)
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      //#endif
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -28,12 +20,7 @@
     },
     "Container (Dockerfile)": {
       "commandName": "Docker",
-      //#if (IsFrameworkNet80)
-      "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
-      //#else
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      //#endif
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORTS": "8081",
         "ASPNETCORE_HTTP_PORTS": "8080"

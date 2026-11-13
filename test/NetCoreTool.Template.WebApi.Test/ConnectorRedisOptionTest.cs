@@ -10,38 +10,14 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("Microsoft.Extensions.Caching.StackExchangeRedis", GetPackageVersionForFramework(options.Framework)));
-            packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
-        }
-
-        private static string GetPackageName(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.ConnectorCore" : "Steeltoe.Connectors";
+            packages.Add(("Steeltoe.Connectors", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
-            snippets.Add(GetSetupComment(options.SteeltoeVersion));
-            snippets.Add(GetSetupCodeFragment(options.SteeltoeVersion));
-        }
-
-        private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.Redis" : "Steeltoe.Connectors.Redis";
-        }
-
-        private static string GetSetupComment(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34
-                ? "// TODO: Add your connection string at configuration key: Redis:Client:ConnectionString"
-                : "// TODO: Add your connection string at configuration key: Steeltoe:Client:Redis:Default:ConnectionString";
-        }
-
-        private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34
-                ? "builder.Services.AddDistributedRedisCache(builder.Configuration);"
-                : "builder.AddRedis();";
+            snippets.Add("using Steeltoe.Connectors.Redis;");
+            snippets.Add("// TODO: Add your connection string at configuration key: Steeltoe:Client:Redis:Default:ConnectionString");
+            snippets.Add("builder.AddRedis();");
         }
     }
 }

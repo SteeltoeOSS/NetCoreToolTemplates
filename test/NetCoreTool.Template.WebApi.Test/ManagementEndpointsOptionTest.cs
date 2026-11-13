@@ -1,6 +1,5 @@
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -10,36 +9,14 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.AddRange(GetPackageNames(options.SteeltoeVersion).Select(packageName => (packageName, "$(SteeltoeVersion)")));
-        }
-
-        private static IEnumerable<string> GetPackageNames(SteeltoeVersion steeltoeVersion)
-        {
-            if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
-            {
-                yield return "Steeltoe.Management.EndpointCore";
-            }
-            else
-            {
-                yield return "Steeltoe.Management.Endpoint";
-                yield return "Steeltoe.Management.GitProperties.Build";
-            }
+            packages.Add(("Steeltoe.Management.Endpoint", "$(SteeltoeVersion)"));
+            packages.Add(("Steeltoe.Management.GitProperties.Build", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
-            snippets.Add(GetSetupCodeFragment(options.SteeltoeVersion));
-        }
-
-        private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Management.Endpoint" : "Steeltoe.Management.Endpoint.Actuators.All";
-        }
-
-        private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "builder.AddAllActuators();" : "builder.Services.AddAllActuators();";
+            snippets.Add("using Steeltoe.Management.Endpoint.Actuators.All;");
+            snippets.Add("builder.Services.AddAllActuators();");
         }
     }
 }

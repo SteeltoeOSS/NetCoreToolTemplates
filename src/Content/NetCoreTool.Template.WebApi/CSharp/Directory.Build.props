@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <!-- Use these to hide build warnings in design mode. -->
-    <FrameworkOption>net8.0</FrameworkOption>
-    <IsFrameworkNet80>true</IsFrameworkNet80>
+    <FrameworkOption>net10.0</FrameworkOption>
+    <IsFrameworkNet100>true</IsFrameworkNet100>
   </PropertyGroup>
 </Project>

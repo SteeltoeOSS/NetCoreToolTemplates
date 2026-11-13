@@ -5,23 +5,16 @@ using Xunit.Abstractions;
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test;
 
 public class ConfigurationEncryptionOptionTest(ITestOutputHelper logger)
-    : ProjectOptionTest("configuration-encryption", "Add decryption of encrypted settings in configuration (Steeltoe 4.0 or higher).", logger)
+    : ProjectOptionTest("configuration-encryption", "Add decryption of encrypted settings in configuration.", logger)
 {
     protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
     {
-        if (options.SteeltoeVersion != SteeltoeVersion.Steeltoe34)
-        {
-            packages.Add(("Steeltoe.Configuration.Encryption", "$(SteeltoeVersion)"));
-        }
+        packages.Add(("Steeltoe.Configuration.Encryption", "$(SteeltoeVersion)"));
     }
 
     protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
     {
-        if (options.SteeltoeVersion != SteeltoeVersion.Steeltoe34)
-        {
-            snippets.Add("using Steeltoe.Configuration.Encryption;");
-
-            snippets.Add("builder.Configuration.AddDecryption();");
-        }
+        snippets.Add("using Steeltoe.Configuration.Encryption;");
+        snippets.Add("builder.Configuration.AddDecryption();");
     }
 }

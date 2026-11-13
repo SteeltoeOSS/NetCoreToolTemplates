@@ -9,23 +9,13 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
-        }
-
-        private static string GetPackageName(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Configuration.ConfigServerCore" : "Steeltoe.Configuration.ConfigServer";
+            packages.Add(("Steeltoe.Configuration.ConfigServer", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
+            snippets.Add("using Steeltoe.Configuration.ConfigServer;");
             snippets.Add("builder.AddConfigServer();");
-        }
-
-        private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Configuration.ConfigServer" : "Steeltoe.Configuration.ConfigServer";
         }
     }
 }

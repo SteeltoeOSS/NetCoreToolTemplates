@@ -9,40 +9,15 @@ public class ManagementTasksOptionTest(ITestOutputHelper logger)
 {
     protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
     {
-        packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
-    }
-
-    private static string GetPackageName(SteeltoeVersion steeltoeVersion)
-    {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Management.TaskCore" : "Steeltoe.Management.Tasks";
+        packages.Add(("Steeltoe.Management.Tasks", "$(SteeltoeVersion)"));
     }
 
     protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
     {
-        snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
-        snippets.AddRange(GetSetupCodeFragments(options.SteeltoeVersion));
-    }
-
-    private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
-    {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Management.TaskCore" : "Steeltoe.Management.Tasks";
-    }
-
-    private static IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
-    {
-        if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
-        {
-            yield return @"builder.Services.AddTask(""run-me"", _ =>";
-            yield return "// Run this app with command-line argument: runtask=run-me";
-            yield return @"Console.WriteLine(""Hello from application task."");";
-            yield return "app.RunWithTasks();";
-        }
-        else
-        {
-            yield return @"builder.Services.AddTask(""run-me"", (_, _) =>";
-            yield return "// Run this app with command-line argument: runtask=run-me";
-            yield return @"Console.WriteLine(""Hello from application task."");";
-            yield return "await app.RunWithTasksAsync(CancellationToken.None);";
-        }
+        snippets.Add("using Steeltoe.Management.Tasks;");
+        snippets.Add(@"builder.Services.AddTask(""run-me"", (_, _) =>");
+        snippets.Add("// Run this app with command-line argument: runtask=run-me");
+        snippets.Add(@"Console.WriteLine(""Hello from application task."");");
+        snippets.Add("await app.RunWithTasksAsync(CancellationToken.None);");
     }
 }

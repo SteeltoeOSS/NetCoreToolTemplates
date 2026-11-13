@@ -86,18 +86,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             profileNames.Should().Contain(DockerProfileNameInLaunchSettings);
 
             var dockerProfile = settings.Profiles[DockerProfileNameInLaunchSettings];
-
-            if (options.Framework == Framework.Net80)
-            {
-                dockerProfile.LaunchBrowser.Should().BeTrue();
-                dockerProfile.LaunchUrl.Should().Be("{Scheme}://{ServiceHost}:{ServicePort}/swagger");
-            }
-            else
-            {
-                dockerProfile.LaunchBrowser.Should().BeFalse();
-                dockerProfile.LaunchUrl.Should().Be("{Scheme}://{ServiceHost}:{ServicePort}");
-            }
-
+            dockerProfile.LaunchBrowser.Should().BeFalse();
+            dockerProfile.LaunchUrl.Should().Be("{Scheme}://{ServiceHost}:{ServicePort}");
             dockerProfile.EnvironmentVariables.Should().ContainKey("ASPNETCORE_HTTPS_PORTS");
             dockerProfile.EnvironmentVariables.Should().ContainKey("ASPNETCORE_HTTP_PORTS");
         }

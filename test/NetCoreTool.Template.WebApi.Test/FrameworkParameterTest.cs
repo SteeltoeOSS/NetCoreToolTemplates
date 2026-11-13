@@ -1,3 +1,5 @@
+using System.Linq;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit.Abstractions;
 
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test
@@ -6,9 +8,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         public FrameworkParameterTest(ITestOutputHelper logger) : base("framework", "The target framework for the project.", logger)
         {
-            Values.Add("net8.0");
-            Values.Add("net9.0");
-            Values.Add("net10.0");
+            foreach (var framework in new TemplateOptions.BaseOptions().Select(parameter => parameter[1].ToString()).Distinct())
+            {
+                Values.Add(framework);
+            }
         }
     }
 }

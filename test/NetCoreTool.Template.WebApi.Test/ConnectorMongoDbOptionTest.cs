@@ -10,38 +10,14 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("MongoDB.Driver", "3.11.*"));
-            packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
-        }
-
-        private static string GetPackageName(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.ConnectorCore" : "Steeltoe.Connectors";
+            packages.Add(("Steeltoe.Connectors", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
-            snippets.Add(GetSetupComment(options.SteeltoeVersion));
-            snippets.Add(GetSetupCodeFragment(options.SteeltoeVersion));
-        }
-
-        private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.MongoDb" : "Steeltoe.Connectors.MongoDb";
-        }
-
-        private static string GetSetupComment(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34
-                ? "// TODO: Add your connection string at configuration key: MongoDb:Client:ConnectionString"
-                : "// TODO: Add your connection string at configuration key: Steeltoe:Client:MongoDb:Default:ConnectionString";
-        }
-
-        private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34
-                ? "builder.Services.AddMongoClient(builder.Configuration);"
-                : "builder.AddMongoDb();";
+            snippets.Add("using Steeltoe.Connectors.MongoDb;");
+            snippets.Add("// TODO: Add your connection string at configuration key: Steeltoe:Client:MongoDb:Default:ConnectionString");
+            snippets.Add("builder.AddMongoDb();");
         }
     }
 }
