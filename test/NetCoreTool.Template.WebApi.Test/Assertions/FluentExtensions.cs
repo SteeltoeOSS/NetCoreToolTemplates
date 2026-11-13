@@ -16,11 +16,5 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions
             assertion.Subject.Should().MatchRegex(snippet);
             return new AndConstraint<StringAssertions>(assertion);
         }
-
-        public static AndConstraint<StringAssertions> NotContainRegexSnippet(this StringAssertions assertion, string snippet)
-        {
-            assertion.Subject.Should().NotMatchRegex(snippet);
-            return new AndConstraint<StringAssertions>(assertion);
-        }
     }
 }

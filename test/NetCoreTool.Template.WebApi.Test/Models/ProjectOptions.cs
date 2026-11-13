@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
 {
     public class ProjectOptions
@@ -11,7 +9,5 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
         public Framework Framework { get; set; }
 
         public Language Language { get; set; }
-
-        public List<string> Dependencies { get; set; } = [];
     }
 }

@@ -80,10 +80,8 @@ using Company.WebApplication.CS;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-#if (IsFrameworkNet100)
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-#endif
 #if (HasAnySteeltoe)
 
 // Configure Steeltoe components.
@@ -179,9 +177,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-#if (IsFrameworkNet100)
     app.MapOpenApi();
-#endif
 }
 
 app.UseHttpsRedirection();

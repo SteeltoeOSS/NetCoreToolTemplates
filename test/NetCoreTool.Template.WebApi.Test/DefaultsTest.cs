@@ -1,8 +1,11 @@
+using FluentAssertions;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -27,7 +30,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             Sandbox.FileExists("app.config").Should().BeTrue();
             Sandbox.FileExists($"{Sandbox.Name}.slnx").Should().BeTrue();
             Sandbox.FileExists($"{Sandbox.Name}.csproj").Should().BeTrue();
-            Sandbox.FileExists($"{Sandbox.Name}.http").Should().BeTrue();
             Sandbox.FileExists("Program.cs").Should().BeTrue();
 
             if (options.IsUnstableVersion)
@@ -38,6 +40,44 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 Sandbox.FileExists("nuget.config").Should().BeFalse();
             }
+
+            await AssertHttpFile($"{Sandbox.Name}.http", options);
+        }
+
+        private async Task AssertHttpFile(string path, ProjectOptions options)
+        {
+            Sandbox.FileExists(path).Should().BeTrue();
+
+            Logger.WriteLine("asserting http file");
+            var httpFile = await Sandbox.GetFileTextAsync(path);
+
+            var settings = await Sandbox.GetJsonDocumentAsync<LaunchSettings>($"Properties{Path.DirectorySeparatorChar}launchSettings.json");
+            var port = settings.Profiles.First().Value.ApplicationUrl.Split(':').Last();
+
+            httpFile.Should().Be(options.Framework == Framework.Net100
+                ? $$$"""
+                     @{{{Sandbox.Name}}}_HostAddress = http://localhost:{{{port}}}
+
+                     GET {{{{{Sandbox.Name}}}_HostAddress}}/weatherforecast/
+                     Accept: application/json
+
+                     ###
+
+                     """
+                : $$$"""
+                     @{{{Sandbox.Name}}}_HostAddress = http://localhost:{{{port}}}
+
+                     GET {{{{{Sandbox.Name}}}_HostAddress}}/openapi/v1.json
+                     Accept: application/json
+
+                     ###
+
+                     GET {{{{{Sandbox.Name}}}_HostAddress}}/weatherforecast/
+                     Accept: application/json
+
+                     ###
+
+                     """);
         }
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
