@@ -42,23 +42,23 @@
     <PackageReference Include="Npgsql" Condition="'$(HasConnectorPostgreSqlWithoutEfCore)' == 'True'" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Condition="'$(ConnectorPostgreSqlEfCoreOption)' == 'True'" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="RabbitMQ.Client" Condition="'$(HasConnectorRabbitMqWithoutMessaging)' == 'True'" Version="$(RabbitMqVersion)" />
-    <PackageReference Include="Steeltoe.Configuration.CloudFoundry" Condition="'$(HasHostingCloudFoundryInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Configuration.ConfigServer" Condition="'$(HasConfigurationCloudConfigInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Configuration.Encryption" Condition="'$(HasConfigurationEncryptionInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Configuration.Placeholder" Condition="'$(HasConfigurationPlaceholderInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Configuration.RandomValue" Condition="'$(HasConfigurationRandomValueInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Configuration.SpringBoot" Condition="'$(HasConfigurationSpringBootInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Connectors" Condition="'$(HasAnyConnectorInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Connectors.EntityFrameworkCore" Condition="'$(HasAnyEfCoreConnectorInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.CloudFoundry" Condition="'$(HasHostingCloudFoundry)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.ConfigServer" Condition="'$(HasConfigurationCloudConfig)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.Encryption" Condition="'$(HasConfigurationEncryption)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.Placeholder" Condition="'$(HasConfigurationPlaceholder)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.RandomValue" Condition="'$(HasConfigurationRandomValue)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.SpringBoot" Condition="'$(HasConfigurationSpringBoot)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connectors" Condition="'$(HasAnyConnector)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connectors.EntityFrameworkCore" Condition="'$(HasAnyEfCoreConnector)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Discovery.Consul" Condition="'$(DiscoveryConsulOption)' == 'True'" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Discovery.Eureka" Condition="'$(DiscoveryEurekaOption)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Logging.DynamicConsole" Condition="'$(HasLoggingDynamicConsoleInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Logging.DynamicSerilog" Condition="'$(HasLoggingDynamicSerilogInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Management.Endpoint" Condition="'$(HasManagementEndpointsInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Management.GitProperties.Build" Condition="'$(HasManagementEndpointsInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Management.Tasks" Condition="'$(HasManagementTasksInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Management.Tracing" Condition="'$(HasDistributedTracingInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
-    <PackageReference Include="Steeltoe.Security.DataProtection.Redis" Condition="'$(HasDataProtectionRedisInSteeltoeV4)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Logging.DynamicConsole" Condition="'$(HasLoggingDynamicConsole)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Logging.DynamicSerilog" Condition="'$(HasLoggingDynamicSerilog)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.Endpoint" Condition="'$(HasManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.GitProperties.Build" Condition="'$(HasManagementEndpoints)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.Tasks" Condition="'$(HasManagementTasks)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.Tracing" Condition="'$(HasDistributedTracing)' == 'True'" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Security.DataProtection.Redis" Condition="'$(HasDataProtectionRedis)' == 'True'" Version="$(SteeltoeVersion)" />
   </ItemGroup>
   <!--#endif -->
 

@@ -237,9 +237,9 @@
       "description": "Add hosting support for running on Cloud Foundry.",
       "defaultValue": "false"
     },
-    "HasHostingCloudFoundryInSteeltoeV4": {
+    "HasHostingCloudFoundry": {
       "type": "computed",
-      "value": "HostingCloudFoundryOption && IsSteeltoeV4"
+      "value": "HostingCloudFoundryOption"
     },
     "ConfigurationCloudConfigOption": {
       "type": "parameter",
@@ -247,9 +247,9 @@
       "description": "Add a client for Spring Cloud Config Server to configuration.",
       "defaultValue": "false"
     },
-    "HasConfigurationCloudConfigInSteeltoeV4": {
+    "HasConfigurationCloudConfig": {
       "type": "computed",
-      "value": "ConfigurationCloudConfigOption && IsSteeltoeV4"
+      "value": "ConfigurationCloudConfigOption"
     },
     "ConfigurationEncryptionOption": {
       "type": "parameter",
@@ -257,9 +257,9 @@
       "description": "Add decryption of encrypted settings in configuration.",
       "defaultValue": "false"
     },
-    "HasConfigurationEncryptionInSteeltoeV4": {
+    "HasConfigurationEncryption": {
       "type": "computed",
-      "value": "ConfigurationEncryptionOption && IsSteeltoeV4"
+      "value": "ConfigurationEncryptionOption"
     },
     "ConfigurationPlaceholderOption": {
       "type": "parameter",
@@ -267,9 +267,9 @@
       "description": "Add placeholder substitution to configuration.",
       "defaultValue": "false"
     },
-    "HasConfigurationPlaceholderInSteeltoeV4": {
+    "HasConfigurationPlaceholder": {
       "type": "computed",
-      "value": "ConfigurationPlaceholderOption && IsSteeltoeV4"
+      "value": "ConfigurationPlaceholderOption"
     },
     "ConfigurationRandomValueOption": {
       "type": "parameter",
@@ -277,9 +277,9 @@
       "description": "Add random value generation to configuration.",
       "defaultValue": "false"
     },
-    "HasConfigurationRandomValueInSteeltoeV4": {
+    "HasConfigurationRandomValue": {
       "type": "computed",
-      "value": "ConfigurationRandomValueOption && IsSteeltoeV4"
+      "value": "ConfigurationRandomValueOption"
     },
     "ConfigurationSpringBootOption": {
       "type": "parameter",
@@ -287,13 +287,13 @@
       "description": "Add support for reading Spring Boot-style keys from configuration.",
       "defaultValue": "false"
     },
-    "HasConfigurationSpringBootInSteeltoeV4": {
+    "HasConfigurationSpringBoot": {
       "type": "computed",
-      "value": "ConfigurationSpringBootOption && IsSteeltoeV4"
+      "value": "ConfigurationSpringBootOption"
     },
     "HasAnyConfiguration": {
       "type": "computed",
-      "value": "HostingCloudFoundryOption || ConfigurationCloudConfigOption || HasConfigurationEncryptionInSteeltoeV4 || ConfigurationPlaceholderOption || ConfigurationRandomValueOption || ConfigurationSpringBootOption"
+      "value": "HostingCloudFoundryOption || ConfigurationCloudConfigOption || HasConfigurationEncryption || ConfigurationPlaceholderOption || ConfigurationRandomValueOption || ConfigurationSpringBootOption"
     },
     "ConnectorCosmosDbOption": {
       "type": "parameter",
@@ -301,9 +301,9 @@
       "description": "Add a connector for CosmosDB databases.",
       "defaultValue": "false"
     },
-    "HasConnectorCosmosDbInSteeltoeV4": {
+    "HasConnectorCosmosDb": {
       "type": "computed",
-      "value": "ConnectorCosmosDbOption && IsSteeltoeV4"
+      "value": "ConnectorCosmosDbOption"
     },
     "ConnectorMongoDbOption": {
       "type": "parameter",
@@ -311,9 +311,9 @@
       "description": "Add a connector for MongoDB databases.",
       "defaultValue": "false"
     },
-    "HasConnectorMongoDbInV4": {
+    "HasConnectorMongoDb": {
       "type": "computed",
-      "value": "ConnectorMongoDbOption && IsSteeltoeV4"
+      "value": "ConnectorMongoDbOption"
     },
     "ConnectorMySqlOption": {
       "type": "parameter",
@@ -325,9 +325,9 @@
       "type": "computed",
       "value": "ConnectorMySqlOption && (!ConnectorMySqlEfCoreOption)"
     },
-    "HasConnectorMySqlInSteeltoeV4": {
+    "HasConnectorMySql": {
       "type": "computed",
-      "value": "(ConnectorMySqlOption || ConnectorMySqlEfCoreOption) && IsSteeltoeV4"
+      "value": "ConnectorMySqlOption || ConnectorMySqlEfCoreOption"
     },
     "ConnectorMySqlEfCoreOption": {
       "type": "parameter",
@@ -335,9 +335,9 @@
       "description": "Add a connector for MySQL databases using Entity Framework Core.",
       "defaultValue": "false"
     },
-    "HasConnectorMySqlEfCoreInSteeltoeV4": {
+    "HasConnectorMySqlEfCore": {
       "type": "computed",
-      "value": "ConnectorMySqlEfCoreOption && IsSteeltoeV4"
+      "value": "ConnectorMySqlEfCoreOption"
     },
     "ConnectorPostgreSqlOption": {
       "type": "parameter",
@@ -349,9 +349,9 @@
       "type": "computed",
       "value": "ConnectorPostgreSqlOption && (!ConnectorPostgreSqlEfCoreOption)"
     },
-    "HasConnectorPostgreSqlInSteeltoeV4": {
+    "HasConnectorPostgreSql": {
       "type": "computed",
-      "value": "(ConnectorPostgreSqlOption || ConnectorPostgreSqlEfCoreOption) && IsSteeltoeV4"
+      "value": "ConnectorPostgreSqlOption || ConnectorPostgreSqlEfCoreOption"
     },
     "ConnectorPostgreSqlEfCoreOption": {
       "type": "parameter",
@@ -359,9 +359,9 @@
       "description": "Add a connector for PostgreSQL databases using Entity Framework Core.",
       "defaultValue": "false"
     },
-    "HasConnectorPostgreSqlEfCoreInSteeltoeV4": {
+    "HasConnectorPostgreSqlEfCore": {
       "type": "computed",
-      "value": "ConnectorPostgreSqlEfCoreOption && IsSteeltoeV4"
+      "value": "ConnectorPostgreSqlEfCoreOption"
     },
     "ConnectorRabbitMqOption": {
       "type": "parameter",
@@ -373,9 +373,9 @@
       "type": "computed",
       "value": "ConnectorRabbitMqOption"
     },
-    "HasConnectorRabbitMqInSteeltoeV4": {
+    "HasConnectorRabbitMq": {
       "type": "computed",
-      "value": "ConnectorRabbitMqOption && IsSteeltoeV4"
+      "value": "ConnectorRabbitMqOption"
     },
     "ConnectorRedisOption": {
       "type": "parameter",
@@ -383,9 +383,9 @@
       "description": "Add a connector for Redis data stores.",
       "defaultValue": "false"
     },
-    "HasConnectorRedisInSteeltoeV4": {
+    "HasConnectorRedis": {
       "type": "computed",
-      "value": "ConnectorRedisOption && IsSteeltoeV4"
+      "value": "ConnectorRedisOption"
     },
     "ConnectorSqlServerOption": {
       "type": "parameter",
@@ -397,9 +397,9 @@
       "type": "computed",
       "value": "ConnectorSqlServerOption && (!ConnectorSqlServerEfCoreOption)"
     },
-    "HasConnectorSqlServerInSteeltoeV4": {
+    "HasConnectorSqlServer": {
       "type": "computed",
-      "value": "(ConnectorSqlServerOption || ConnectorSqlServerEfCoreOption) && IsSteeltoeV4"
+      "value": "ConnectorSqlServerOption || ConnectorSqlServerEfCoreOption"
     },
     "ConnectorSqlServerEfCoreOption": {
       "type": "parameter",
@@ -407,25 +407,17 @@
       "description": "Add a connector for Microsoft SQL Server databases using Entity Framework Core.",
       "defaultValue": "false"
     },
-    "HasConnectorSqlServerEfCoreInSteeltoeV4": {
+    "HasConnectorSqlServerEfCore": {
       "type": "computed",
-      "value": "ConnectorSqlServerEfCoreOption && IsSteeltoeV4"
+      "value": "ConnectorSqlServerEfCoreOption"
     },
     "HasAnyConnector": {
       "type": "computed",
       "value": "ConnectorCosmosDbOption || ConnectorMongoDbOption || ConnectorMySqlOption || ConnectorMySqlEfCoreOption || ConnectorPostgreSqlOption || ConnectorPostgreSqlEfCoreOption || ConnectorRabbitMqOption || ConnectorRedisOption || ConnectorSqlServerOption || ConnectorSqlServerEfCoreOption"
     },
-    "HasAnyConnectorInSteeltoeV4": {
-      "type": "computed",
-      "value": "HasAnyConnector && IsSteeltoeV4"
-    },
     "HasAnyEfCoreConnector": {
       "type": "computed",
       "value": "ConnectorMySqlEfCoreOption || ConnectorPostgreSqlEfCoreOption || ConnectorSqlServerEfCoreOption"
-    },
-    "HasAnyEfCoreConnectorInSteeltoeV4": {
-      "type": "computed",
-      "value": "HasAnyEfCoreConnector && IsSteeltoeV4"
     },
     "DiscoveryConsulOption": {
       "type": "parameter",
@@ -433,9 +425,9 @@
       "description": "Add a service discovery client for HashiCorp Consul.",
       "defaultValue": "false"
     },
-    "HasDiscoveryConsulInSteeltoeV4": {
+    "HasDiscoveryConsul": {
       "type": "computed",
-      "value": "DiscoveryConsulOption && IsSteeltoeV4"
+      "value": "DiscoveryConsulOption"
     },
     "DiscoveryEurekaOption": {
       "type": "parameter",
@@ -443,9 +435,9 @@
       "description": "Add a service discovery client for Netflix Eureka.",
       "defaultValue": "false"
     },
-    "HasDiscoveryEurekaInSteeltoeV4": {
+    "HasDiscoveryEureka": {
       "type": "computed",
-      "value": "DiscoveryEurekaOption && IsSteeltoeV4"
+      "value": "DiscoveryEurekaOption"
     },
     "HasAnyDiscovery": {
       "type": "computed",
@@ -457,9 +449,9 @@
       "description": "Enable dynamically changing minimum levels at runtime using the .NET console logger.",
       "defaultValue": "false"
     },
-    "HasLoggingDynamicConsoleInSteeltoeV4": {
+    "HasLoggingDynamicConsole": {
       "type": "computed",
-      "value": "LoggingDynamicConsoleOption && IsSteeltoeV4"
+      "value": "LoggingDynamicConsoleOption"
     },
     "LoggingDynamicSerilogOption": {
       "type": "parameter",
@@ -467,9 +459,9 @@
       "description": "Enable dynamically changing minimum levels at runtime using Serilog.",
       "defaultValue": "false"
     },
-    "HasLoggingDynamicSerilogInSteeltoeV4": {
+    "HasLoggingDynamicSerilog": {
       "type": "computed",
-      "value": "LoggingDynamicSerilogOption && IsSteeltoeV4"
+      "value": "LoggingDynamicSerilogOption"
     },
     "HasAnyLogging": {
       "type": "computed",
@@ -481,9 +473,9 @@
       "description": "Add management endpoints, providing info about versions, configuration, mapped routes and HTTP traffic, heap/thread dumps, health checks and changing log levels.",
       "defaultValue": "false"
     },
-    "HasManagementEndpointsInSteeltoeV4": {
+    "HasManagementEndpoints": {
       "type": "computed",
-      "value": "ManagementEndpointsOption && IsSteeltoeV4"
+      "value": "ManagementEndpointsOption"
     },
     "ManagementTasksOption": {
       "type": "parameter",
@@ -491,9 +483,9 @@
       "description": "Add task execution, based on command-line arguments.",
       "defaultValue": "false"
     },
-    "HasManagementTasksInSteeltoeV4": {
+    "HasManagementTasks": {
       "type": "computed",
-      "value": "ManagementTasksOption && IsSteeltoeV4"
+      "value": "ManagementTasksOption"
     },
     "DistributedTracingOption": {
       "type": "parameter",
@@ -501,9 +493,9 @@
       "description": "Add distributed tracing support.",
       "defaultValue": "false"
     },
-    "HasDistributedTracingInSteeltoeV4": {
+    "HasDistributedTracing": {
       "type": "computed",
-      "value": "DistributedTracingOption && IsSteeltoeV4"
+      "value": "DistributedTracingOption"
     },
     "HasAnyManagement": {
       "type": "computed",
@@ -515,13 +507,13 @@
       "description": "Configure the ASP.NET data protection system to persist keys in a Redis database.",
       "defaultValue": "false"
     },
-    "HasDataProtectionRedisInSteeltoeV4": {
+    "HasDataProtectionRedis": {
       "type": "computed",
-      "value": "DataProtectionRedisOption && IsSteeltoeV4"
+      "value": "DataProtectionRedisOption"
     },
-    "HasAnyRedisInSteeltoeV4": {
+    "HasAnyRedis": {
       "type": "computed",
-      "value": "(ConnectorRedisOption || DataProtectionRedisOption) && IsSteeltoeV4"
+      "value": "ConnectorRedisOption || DataProtectionRedisOption"
     },
     "HasAnySteeltoe": {
       "type": "computed",

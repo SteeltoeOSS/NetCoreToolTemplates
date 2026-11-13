@@ -1,76 +1,76 @@
 #if (DataProtectionRedisOption)
 using Microsoft.AspNetCore.DataProtection;
 #endif
-#if (HasConnectorMongoDbInV4)
+#if (HasConnectorMongoDb)
 using Steeltoe.Connectors.MongoDb;
 #endif
-#if (HasConnectorCosmosDbInSteeltoeV4)
+#if (HasConnectorCosmosDb)
 using Steeltoe.Connectors.CosmosDb;
 #endif
-#if (HasConnectorMySqlInSteeltoeV4)
+#if (HasConnectorMySql)
 using Steeltoe.Connectors.MySql;
 #endif
-#if (HasConnectorMySqlEfCoreInSteeltoeV4)
+#if (HasConnectorMySqlEfCore)
 using Steeltoe.Connectors.EntityFrameworkCore.MySql;
 #endif
-#if (HasConnectorPostgreSqlInSteeltoeV4)
+#if (HasConnectorPostgreSql)
 using Steeltoe.Connectors.PostgreSql;
 #endif
-#if (HasConnectorPostgreSqlEfCoreInSteeltoeV4)
+#if (HasConnectorPostgreSqlEfCore)
 using Steeltoe.Connectors.EntityFrameworkCore.PostgreSql;
 #endif
-#if (HasConnectorRabbitMqInSteeltoeV4)
+#if (HasConnectorRabbitMq)
 using Steeltoe.Connectors.RabbitMQ;
 #endif
-#if (HasAnyRedisInSteeltoeV4)
+#if (HasAnyRedis)
 using Steeltoe.Connectors.Redis;
 #endif
-#if (HasConnectorSqlServerInSteeltoeV4)
+#if (HasConnectorSqlServer)
 using Steeltoe.Connectors.SqlServer;
 #endif
-#if (HasConnectorSqlServerEfCoreInSteeltoeV4)
+#if (HasConnectorSqlServerEfCore)
 using Steeltoe.Connectors.EntityFrameworkCore.SqlServer;
 #endif
-#if (HasDiscoveryConsulInSteeltoeV44)
+#if (HasDiscoveryConsul4)
 using Steeltoe.Discovery.Consul;
 #endif
-#if (HasDiscoveryEurekaInSteeltoeV4)
+#if (HasDiscoveryEureka)
 using Steeltoe.Discovery.Eureka;
 #endif
-#if (HasHostingCloudFoundryInSteeltoeV4)
+#if (HasHostingCloudFoundry)
 using Steeltoe.Configuration.CloudFoundry;
 #endif
-#if (HasConfigurationCloudConfigInSteeltoeV4)
+#if (HasConfigurationCloudConfig)
 using Steeltoe.Configuration.ConfigServer;
 #endif
-#if (HasConfigurationEncryptionInSteeltoeV4)
+#if (HasConfigurationEncryption)
 using Steeltoe.Configuration.Encryption;
 #endif
-#if (HasConfigurationPlaceholderInSteeltoeV4)
+#if (HasConfigurationPlaceholder)
 using Steeltoe.Configuration.Placeholder;
 #endif
-#if (HasConfigurationRandomValueInSteeltoeV4)
+#if (HasConfigurationRandomValue)
 using Steeltoe.Configuration.RandomValue;
 #endif
-#if (HasConfigurationSpringBootInSteeltoeV4)
+#if (HasConfigurationSpringBoot)
 using Steeltoe.Configuration.SpringBoot;
 #endif
-#if (HasLoggingDynamicSerilogInSteeltoeV4)
+#if (HasLoggingDynamicSerilog)
 using Steeltoe.Logging.DynamicSerilog;
 #endif
-#if (HasLoggingDynamicConsoleInSteeltoeV4)
+#if (HasLoggingDynamicConsole)
 using Steeltoe.Logging.DynamicConsole;
 #endif
-#if (HasManagementEndpointsInSteeltoeV4)
+#if (HasManagementEndpoints)
 using Steeltoe.Management.Endpoint.Actuators.All;
 #endif
-#if (HasManagementTasksInSteeltoeV4)
+#if (HasManagementTasks)
 using Steeltoe.Management.Tasks;
 #endif
 #if (DistributedTracingOption)
 using Steeltoe.Management.Tracing;
 #endif
-#if (HasDataProtectionRedisInSteeltoeV4)
+#if (HasDataProtectionRedis)
 using Steeltoe.Security.DataProtection.Redis;
 #endif
 #if (RequiresProjectNamespaceImport)
@@ -88,7 +88,7 @@ builder.Services.AddOpenApi();
 
 // Configure Steeltoe components.
 #endif
-#if (HasConfigurationPlaceholderInSteeltoeV4)
+#if (HasConfigurationPlaceholder)
 builder.Configuration.AddPlaceholderResolver();
 #endif
 #if (HostingCloudFoundryOption)
@@ -97,72 +97,72 @@ builder.AddCloudFoundryConfiguration();
 #if (ConfigurationCloudConfigOption)
 builder.AddConfigServer();
 #endif
-#if (HasConfigurationEncryptionInSteeltoeV4)
+#if (HasConfigurationEncryption)
 builder.Configuration.AddDecryption();
 #endif
 #if (ConfigurationRandomValueOption)
 builder.Configuration.AddRandomValueSource();
 #endif
-#if (HasConfigurationSpringBootInSteeltoeV4)
+#if (HasConfigurationSpringBoot)
 builder.Configuration.AddSpringBootFromEnvironmentVariable();
 builder.Configuration.AddSpringBootFromCommandLine(args);
 #endif
-#if (HasLoggingDynamicSerilogInSteeltoeV4)
+#if (HasLoggingDynamicSerilog)
 builder.Logging.AddDynamicSerilog();
 #endif
 #if (LoggingDynamicConsoleOption)
 builder.Logging.AddDynamicConsole();
 #endif
-#if (HasDiscoveryConsulInSteeltoeV44)
+#if (HasDiscoveryConsul4)
 builder.Services.AddConsulDiscoveryClient();
 #endif
-#if (HasDiscoveryEurekaInSteeltoeV4)
+#if (HasDiscoveryEureka)
 builder.Services.AddEurekaDiscoveryClient();
 #endif
-#if (HasConnectorMongoDbInV4)
+#if (HasConnectorMongoDb)
 // TODO: Add your connection string at configuration key: Steeltoe:Client:MongoDb:Default:ConnectionString
 builder.AddMongoDb();
 #endif
-#if (HasConnectorCosmosDbInSteeltoeV4)
+#if (HasConnectorCosmosDb)
 // TODO: Add your connection string at configuration key: Steeltoe:Client:CosmosDb:Default:ConnectionString
 builder.AddCosmosDb();
 #endif
-#if (HasConnectorMySqlInSteeltoeV4)
+#if (HasConnectorMySql)
 // TODO: Add your connection string at configuration key: Steeltoe:Client:MySql:Default:ConnectionString
 builder.AddMySql();
 #endif
-#if (HasConnectorMySqlEfCoreInSteeltoeV4)
+#if (HasConnectorMySqlEfCore)
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) => options.UseMySql(serviceProvider));
 #endif
-#if (HasConnectorPostgreSqlInSteeltoeV4)
+#if (HasConnectorPostgreSql)
 // TODO: Add your connection string at configuration key: Steeltoe:Client:PostgreSql:Default:ConnectionString
 builder.AddPostgreSql();
 #endif
-#if (HasConnectorPostgreSqlEfCoreInSteeltoeV4)
+#if (HasConnectorPostgreSqlEfCore)
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) => options.UseNpgsql(serviceProvider));
 #endif
-#if (HasConnectorRabbitMqInSteeltoeV4)
+#if (HasConnectorRabbitMq)
 // TODO: Add your connection string at configuration key: Steeltoe:Client:RabbitMQ:Default:ConnectionString
 builder.AddRabbitMQ();
 #endif
-#if (HasAnyRedisInSteeltoeV4)
+#if (HasAnyRedis)
 // TODO: Add your connection string at configuration key: Steeltoe:Client:Redis:Default:ConnectionString
 builder.AddRedis();
 #endif
 #if (DataProtectionRedisOption)
 builder.Services.AddDataProtection().PersistKeysToRedis().SetApplicationName("Company.WebApplication.CS");
 #endif
-#if (HasConnectorSqlServerInSteeltoeV4)
+#if (HasConnectorSqlServer)
 // TODO: Add your connection string at configuration key: Steeltoe:Client:SqlServer:Default:ConnectionString
 builder.AddSqlServer();
 #endif
-#if (HasConnectorSqlServerEfCoreInSteeltoeV4)
+#if (HasConnectorSqlServerEfCore)
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) => options.UseSqlServer(serviceProvider));
 #endif
-#if (HasManagementEndpointsInSteeltoeV4)
+#if (HasManagementEndpoints)
 builder.Services.AddAllActuators();
 #endif
-#if (HasManagementTasksInSteeltoeV4)
+#if (HasManagementTasks)
 builder.Services.AddTask("run-me", (_, _) =>
 {
     // Run this app with command-line argument: runtask=run-me
@@ -170,7 +170,7 @@ builder.Services.AddTask("run-me", (_, _) =>
     return Task.CompletedTask;
 });
 #endif
-#if (HasDistributedTracingInSteeltoeV4)
+#if (HasDistributedTracing)
 builder.Services.AddTracingLogProcessor();
 #endif
 
@@ -205,7 +205,7 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
-#if (HasManagementTasksInSteeltoeV4)
+#if (HasManagementTasks)
 await app.RunWithTasksAsync(CancellationToken.None);
 #else
 app.Run();
