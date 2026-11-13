@@ -157,7 +157,10 @@
       "type": "parameter",
       "datatype": "string",
       "defaultValue": "",
-      "replaces": "$(DescriptionOption)"
+      "replaces": "$(DescriptionOption)",
+      "forms": {
+        "global": [ "xmlEncode" ]
+      }
     },
     "HasDescription": {
       "type": "generated",
@@ -580,6 +583,11 @@
           }
         ]
       }
+    }
+  },
+  "forms": {
+    "encode": {
+      "identifier": "xmlEncode"
     }
   },
   "primaryOutputs": [
