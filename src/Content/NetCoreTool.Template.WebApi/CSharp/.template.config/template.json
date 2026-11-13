@@ -92,7 +92,7 @@
       "datatype": "bool",
       "parameters": {
         "source": "SteeltoeVersionOption",
-        "pattern": "^4"
+        "pattern": "^4\\.(?!.*-\\*)"
       }
     },
     "IsSteeltoeUnstableInCLI": {
@@ -101,7 +101,7 @@
       "datatype": "bool",
       "parameters": {
         "source": "SteeltoeVersionOption",
-        "pattern": "-main"
+        "pattern": "-main-"
       }
     },
     "ChooseSteeltoeVersionInIDE": {
@@ -132,7 +132,7 @@
       "datatype": "bool",
       "parameters": {
         "source": "ChooseSteeltoeVersionInIDE",
-        "pattern": "^4"
+        "pattern": "^4\\.(?!.*-\\*)"
       }
     },
     "HasChosenSteeltoeUnstableInIDE": {
@@ -141,12 +141,12 @@
       "datatype": "bool",
       "parameters": {
         "source": "ChooseSteeltoeVersionInIDE",
-        "pattern": "-main"
+        "pattern": "-main-"
       }
     },
     "IsSteeltoeV4": {
       "type": "computed",
-      "value": "(HasChosenSteeltoeVersionInIDE && HasChosenSteeltoeV4InIDE) || (!HasChosenSteeltoeVersionInIDE && IsSteeltoeV4InCLI)"
+      "value": "(HasChosenSteeltoeVersionInIDE && (HasChosenSteeltoeV4InIDE || HasChosenSteeltoeUnstableInIDE)) || (!HasChosenSteeltoeVersionInIDE && (IsSteeltoeV4InCLI || IsSteeltoeUnstableInCLI))"
     },
     "IsSteeltoeUnstable": {
       "type": "computed",

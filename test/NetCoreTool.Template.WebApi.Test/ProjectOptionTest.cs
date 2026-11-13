@@ -248,7 +248,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             return new ProjectOptions
             {
                 SteeltoeVersion = ToSteeltoeEnum(steeltoeVersion),
-                IsUnstableVersion = steeltoeVersion.Contains("-main"),
+                IsUnstableVersion = steeltoeVersion.Contains("-main-"),
                 Framework = ToFrameworkEnum(framework),
                 Language = ToLanguageEnum(language)
             };
