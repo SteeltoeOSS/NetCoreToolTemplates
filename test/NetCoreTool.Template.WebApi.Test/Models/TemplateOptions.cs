@@ -12,6 +12,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test.Models
                 return new List<object[]>
                 {
                     new object[] { "4.3.*", "net10.0", "C#" },
+                    new object[] { "4.3.*", "net11.0", "C#" },
                     new object[] { "4.*-main-*", "net10.0", "C#" },
                     new object[] { "4.*-main-*", "net11.0", "C#" }
                 }.GetEnumerator();
