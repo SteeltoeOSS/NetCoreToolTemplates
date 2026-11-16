@@ -14,19 +14,7 @@ public class DiscoveryConsulOptionTest(ITestOutputHelper logger)
 
     protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
     {
-        snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
-        snippets.Add(GetSetupCodeFragment(options.SteeltoeVersion));
-    }
-
-    private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
-    {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Discovery.Client" : "Steeltoe.Discovery.Consul";
-    }
-
-    private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
-    {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe34
-            ? "builder.Services.AddDiscoveryClient(builder.Configuration);"
-            : "builder.Services.AddConsulDiscoveryClient();";
+        snippets.Add("using Steeltoe.Discovery.Consul;");
+        snippets.Add("builder.Services.AddConsulDiscoveryClient();");
     }
 }

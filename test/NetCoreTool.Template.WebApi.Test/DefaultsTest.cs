@@ -1,8 +1,11 @@
+using FluentAssertions;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Assertions;
+using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -27,7 +30,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             Sandbox.FileExists("app.config").Should().BeTrue();
             Sandbox.FileExists($"{Sandbox.Name}.slnx").Should().BeTrue();
             Sandbox.FileExists($"{Sandbox.Name}.csproj").Should().BeTrue();
-            Sandbox.FileExists($"{Sandbox.Name}.http").Should().BeTrue();
             Sandbox.FileExists("Program.cs").Should().BeTrue();
 
             if (options.IsUnstableVersion)
@@ -38,21 +40,50 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             {
                 Sandbox.FileExists("nuget.config").Should().BeFalse();
             }
+
+            await AssertHttpFile($"{Sandbox.Name}.http", options);
+        }
+
+        private async Task AssertHttpFile(string path, ProjectOptions options)
+        {
+            Sandbox.FileExists(path).Should().BeTrue();
+
+            Logger.WriteLine("asserting http file");
+            var httpFile = await Sandbox.GetFileTextAsync(path);
+
+            var settings = await Sandbox.GetJsonDocumentAsync<LaunchSettings>($"Properties{Path.DirectorySeparatorChar}launchSettings.json");
+            var port = settings.Profiles.First().Value.ApplicationUrl.Split(':').Last();
+
+            httpFile.Should().Be(options.Framework == Framework.Net100
+                ? $$$"""
+                     @{{{Sandbox.Name}}}_HostAddress = http://localhost:{{{port}}}
+
+                     GET {{{{{Sandbox.Name}}}_HostAddress}}/weatherforecast/
+                     Accept: application/json
+
+                     ###
+
+                     """
+                : $$$"""
+                     @{{{Sandbox.Name}}}_HostAddress = http://localhost:{{{port}}}
+
+                     GET {{{{{Sandbox.Name}}}_HostAddress}}/openapi/v1.json
+                     Accept: application/json
+
+                     ###
+
+                     GET {{{{{Sandbox.Name}}}_HostAddress}}/weatherforecast/
+                     Accept: application/json
+
+                     ###
+
+                     """);
         }
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             var openApiVersion = GetPackageVersionForFramework(options.Framework);
-
-            if (options.Framework == Framework.Net80)
-            {
-                packages.Add(("Microsoft.AspNetCore.OpenApi", openApiVersion));
-                packages.Add(("Swashbuckle.AspNetCore", "6.6.2"));
-            }
-            else
-            {
-                packages.Add(("Microsoft.AspNetCore.OpenApi", openApiVersion));
-            }
+            packages.Add(("Microsoft.AspNetCore.OpenApi", openApiVersion));
         }
 
         protected override void AssertProjectPropertiesHook(ProjectOptions options,
@@ -72,7 +103,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             switch (steeltoeVersion)
             {
-                case SteeltoeVersion.Steeltoe34:
                 case SteeltoeVersion.Steeltoe43:
                 case SteeltoeVersion.SteeltoeUnstable:
                     break;
@@ -88,15 +118,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private void AssertAppSettings(ProjectOptions options, AppSettings settings)
         {
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
-            {
-                settings.Schema.Should().Be("https://steeltoe.io/schema/v3/schema.json");
-            }
-            else
-            {
-                settings.Schema.Should().BeNull();
-            }
-
+            settings.Schema.Should().BeNull();
             settings.ResolvedPlaceholderFromEnvVariables.Should().BeNull();
             settings.UnresolvedPlaceholder.Should().BeNull();
             settings.ResolvedPlaceholderFromJson.Should().BeNull();
@@ -109,13 +131,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private void AssertDevelopmentAppSettings(ProjectOptions options, AppSettings settings)
         {
-            if (options.SteeltoeVersion == SteeltoeVersion.Steeltoe34)
-            {
-                settings.Schema.Should().Be("https://steeltoe.io/schema/v3/schema.json");
-            } else
-            {
-                settings.Schema.Should().BeNull();
-            }
+            settings.Schema.Should().BeNull();
         }
 
         protected override void AssertLaunchSettingsHook(List<Action<ProjectOptions, LaunchSettings>> assertions)
@@ -127,16 +143,8 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         {
             foreach (var profile in settings.Profiles.Values)
             {
-                if (options.Framework == Framework.Net80)
-                {
-                    profile.LaunchBrowser.Should().BeTrue();
-                    profile.LaunchUrl.Should().Be("swagger");
-                }
-                else
-                {
-                    profile.LaunchBrowser.Should().BeFalse();
-                    profile.LaunchUrl.Should().BeNull();
-                }
+                profile.LaunchBrowser.Should().BeFalse();
+                profile.LaunchUrl.Should().BeNull();
 
                 profile.ApplicationUrl.Should().NotContain("5000").And.NotContain("5001");
             }
@@ -144,32 +152,10 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            if (options.Framework == Framework.Net80)
-            {
-                snippets.Add("// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle");
-                snippets.Add("builder.Services.AddEndpointsApiExplorer();");
-                snippets.Add("builder.Services.AddSwaggerGen();");
-
-                snippets.Add("app.UseSwagger();");
-                snippets.Add("app.UseSwaggerUI();");
-            }
-            else
-            {
-                snippets.Add("// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi");
-                snippets.Add("builder.Services.AddOpenApi();");
-
-                snippets.Add("app.MapOpenApi();");
-            }
-
-            if (options.Framework == Framework.Net80)
-            {
-                snippets.Add(@".WithName(""GetWeatherForecast"")");
-                snippets.Add(".WithOpenApi();");
-            }
-            else
-            {
-                snippets.Add(@".WithName(""GetWeatherForecast"");");
-            }
+            snippets.Add("// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi");
+            snippets.Add("builder.Services.AddOpenApi();");
+            snippets.Add("app.MapOpenApi();");
+            snippets.Add(@".WithName(""GetWeatherForecast"");");
 
             snippets.Add("var app = builder.Build();");
             snippets.Add("app.UseHttpsRedirection();");

@@ -18,12 +18,6 @@
       },
       "choices": [
         {
-          "id": "3.4.*",
-          "name": {
-            "text": "Steeltoe 3.4.x"
-          }
-        },
-        {
           "id": "4.3.*",
           "name": {
             "text": "Steeltoe 4.3.x"
@@ -60,36 +54,6 @@
     },
     // Steeltoe components
     {
-      "id": "CircuitBreakerHystrixOption",
-      "name": {
-        "text": "Use Netflix Hystrix (Steeltoe 3.x only)"
-      },
-      "description": {
-        "text": "Adds support for Netflix Hystrix, a latency and fault tolerance library."
-      },
-      "isVisible": true
-    },
-    {
-      "id": "HostingCloudOption",
-      "name": {
-        "text": "Use dynamic port bindings in cloud environments (Steeltoe 3.x only)"
-      },
-      "description": {
-        "text": "Adds support for listening on the port specified by the hosting environment."
-      },
-      "isVisible": true
-    },
-    {
-      "id": "HostingAzureSpringCloudOption",
-      "name": {
-        "text": "Use Microsoft Azure Spring Cloud (Steeltoe 3.x only)"
-      },
-      "description": {
-        "text": "Adds hosting support for running on Microsoft Azure Spring Cloud."
-      },
-      "isVisible": true
-    },
-    {
       "id": "HostingCloudFoundryOption",
       "name": {
         "text": "Use Cloud Foundry"
@@ -112,7 +76,7 @@
     {
       "id": "ConfigurationEncryptionOption",
       "name": {
-        "text": "Use encrypted configuration (Steeltoe 4.0 or higher)"
+        "text": "Use encrypted configuration"
       },
       "description": {
         "text": "Adds decryption of encrypted settings in configuration."
@@ -186,16 +150,6 @@
       },
       "description": {
         "text": "Adds a connector for MySQL databases using Entity Framework Core."
-      },
-      "isVisible": true
-    },
-    {
-      "id": "ConnectorOAuthOption",
-      "name": {
-        "text": "Use OAuth connector (Steeltoe 3.x only)"
-      },
-      "description": {
-        "text": "Adds a connector for OAuth2 security on Cloud Foundry."
       },
       "isVisible": true
     },
@@ -326,26 +280,6 @@
       },
       "description": {
         "text": "Adds distributed tracing support."
-      },
-      "isVisible": true
-    },
-    {
-      "id": "MessagingRabbitMqClientOption",
-      "name": {
-        "text": "Use RabbitMQ client service (Steeltoe 3.x only)"
-      },
-      "description": {
-        "text": "Adds a RabbitMQ client service for sending and receiving messages."
-      },
-      "isVisible": true
-    },
-    {
-      "id": "MessagingRabbitMqListenerOption",
-      "name": {
-        "text": "Use RabbitMQ listener service (Steeltoe 3.x only)"
-      },
-      "description": {
-        "text": "Adds a RabbitMQ listener service for processing messages."
       },
       "isVisible": true
     },

@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <PackageType>Template</PackageType>
     <PackageId>Steeltoe.NetCoreTool.Templates</PackageId>
-    <VersionPrefix>1.7.1</VersionPrefix>
+    <VersionPrefix>1.8.0</VersionPrefix>
     <VersionSuffix>pre</VersionSuffix>
     <Title>Steeltoe .NET Project Templates</Title>
     <Authors>Broadcom</Authors>

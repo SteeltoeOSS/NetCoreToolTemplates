@@ -30,18 +30,6 @@
       "shortName": ""
     },
     // Steeltoe components
-    "CircuitBreakerHystrixOption": {
-      "longName": "circuit-breaker-hystrix",
-      "shortName": ""
-    },
-    "HostingCloudOption": {
-      "longName": "hosting-cloud",
-      "shortName": ""
-    },
-    "HostingAzureSpringCloudOption": {
-      "longName": "hosting-azure-spring-cloud",
-      "shortName": ""
-    },
     "HostingCloudFoundryOption": {
       "longName": "hosting-cloud-foundry",
       "shortName": ""
@@ -80,10 +68,6 @@
     },
     "ConnectorMySqlEfCoreOption": {
       "longName": "connector-mysql-efcore",
-      "shortName": ""
-    },
-    "ConnectorOAuthOption": {
-      "longName": "connector-oauth",
       "shortName": ""
     },
     "ConnectorPostgreSqlOption": {
@@ -136,14 +120,6 @@
     },
     "DistributedTracingOption": {
       "longName": "distributed-tracing",
-      "shortName": ""
-    },
-    "MessagingRabbitMqClientOption": {
-      "longName": "messaging-rabbitmq-client",
-      "shortName": ""
-    },
-    "MessagingRabbitMqListenerOption": {
-      "longName": "messaging-rabbitmq-listener",
       "shortName": ""
     },
     "DataProtectionRedisOption": {

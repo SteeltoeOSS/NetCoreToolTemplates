@@ -9,36 +9,13 @@ public class ConfigurationSpringBootOptionTest(ITestOutputHelper logger)
 {
     protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
     {
-        packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
-    }
-
-    private static string GetPackageName(SteeltoeVersion steeltoeVersion)
-    {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Configuration.SpringBootCore" : "Steeltoe.Configuration.SpringBoot";
+        packages.Add(("Steeltoe.Configuration.SpringBoot", "$(SteeltoeVersion)"));
     }
 
     protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
     {
-        snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
-        snippets.AddRange(GetSetupCodeFragments(options.SteeltoeVersion));
-    }
-
-    private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
-    {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Extensions.Configuration.SpringBoot" : "Steeltoe.Configuration.SpringBoot";
-    }
-
-    private static IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
-    {
-        if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
-        {
-            yield return "builder.Configuration.AddSpringBootEnv();";
-            yield return "builder.Configuration.AddSpringBootCmd(builder.Configuration);";
-        }
-        else
-        {
-            yield return "builder.Configuration.AddSpringBootFromEnvironmentVariable();";
-            yield return "builder.Configuration.AddSpringBootFromCommandLine(args);";
-        }
+        snippets.Add("using Steeltoe.Configuration.SpringBoot;");
+        snippets.Add("builder.Configuration.AddSpringBootFromEnvironmentVariable();");
+        snippets.Add("builder.Configuration.AddSpringBootFromCommandLine(args);");
     }
 }

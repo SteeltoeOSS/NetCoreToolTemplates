@@ -1,7 +1,8 @@
 <Project>
   <PropertyGroup>
     <!-- Use these to hide build warnings in design mode. -->
-    <FrameworkOption>net8.0</FrameworkOption>
-    <IsFrameworkNet80>true</IsFrameworkNet80>
+    <FrameworkOption>net11.0</FrameworkOption>
+    <AspNetCoreVersion>11.0.*-*</AspNetCoreVersion>
+    <AspNetCoreUnstableVersion>11.0.*-*</AspNetCoreUnstableVersion>
   </PropertyGroup>
 </Project>

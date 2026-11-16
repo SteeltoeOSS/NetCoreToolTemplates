@@ -58,8 +58,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
                 dotnet_diagnostic.IDE0005.severity = warning
                 # Missing XML comment for publicly visible type or member
                 dotnet_diagnostic.CS1591.severity = none
-                # Obsolete types/members
-                dotnet_diagnostic.CS0618.severity = none
                 """);
         }
 
@@ -92,7 +90,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             foreach ((string name, string version) in expectedPackages)
             {
-                packages.Should().Contain(package => package.Include == name && package.Version == version);
+                packages.Should().ContainSingle(package => package.Include == name && package.Version == version);
             }
         }
 
@@ -117,7 +115,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             foreach ((string name, string value) in expectedProperties)
             {
-                properties.Should().Contain(property => property.Name == name && property.Value == value);
+                properties.Should().ContainSingle(property => property.Name == name && property.Value == value);
             }
 
             properties.Should().NotContain(property => property.Name == "Description");
@@ -245,12 +243,22 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             return $"{(int)framework / 10}.0.*";
         }
 
+        protected static string GetUnstablePackageVersionForFramework(Framework framework)
+        {
+            if (framework == Framework.Net110)
+            {
+                return $"{(int)framework / 10}.0.*-*";
+            }
+
+            return GetPackageVersionForFramework(framework);
+        }
+
         private static ProjectOptions ToProjectOptions(string steeltoeVersion, string framework, string language)
         {
             return new ProjectOptions
             {
                 SteeltoeVersion = ToSteeltoeEnum(steeltoeVersion),
-                IsUnstableVersion = steeltoeVersion.Contains("-main"),
+                IsUnstableVersion = steeltoeVersion.Contains("-main-"),
                 Framework = ToFrameworkEnum(framework),
                 Language = ToLanguageEnum(language)
             };
@@ -258,10 +266,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         private static SteeltoeVersion ToSteeltoeEnum(string steeltoe)
         {
-            if (steeltoe.StartsWith("3.4"))
-            {
-                return SteeltoeVersion.Steeltoe34;
-            }
             if (steeltoe.StartsWith("4.3"))
             {
                 return SteeltoeVersion.Steeltoe43;

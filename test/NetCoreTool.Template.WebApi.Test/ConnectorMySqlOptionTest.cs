@@ -1,5 +1,4 @@
 using Steeltoe.NetCoreTool.Template.WebApi.Test.Models;
-using System;
 using System.Collections.Generic;
 using Xunit.Abstractions;
 
@@ -10,47 +9,15 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            var mySqlVersion = options.Framework switch
-            {
-                Framework.Net80 => "9.3.*",
-                Framework.Net90 => "9.3.*",
-                Framework.Net100 => "26.7.*",
-                _ => throw new ArgumentOutOfRangeException(nameof(options.Framework), options.Framework.ToString())
-            };
-
-            packages.Add(("MySql.Data", mySqlVersion));
-            packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
-        }
-
-        private static string GetPackageName(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.ConnectorCore" : "Steeltoe.Connectors";
+            packages.Add(("MySql.Data", "26.10.*"));
+            packages.Add(("Steeltoe.Connectors", "$(SteeltoeVersion)"));
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
         {
-            snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
-            snippets.Add(GetSetupComment(options.SteeltoeVersion));
-            snippets.Add(GetSetupCodeFragment(options.SteeltoeVersion));
-        }
-
-        private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.MySql" : "Steeltoe.Connectors.MySql";
-        }
-
-        private static string GetSetupComment(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34
-                ? "// TODO: Add your connection string at configuration key: MySql:Client:ConnectionString"
-                : "// TODO: Add your connection string at configuration key: Steeltoe:Client:MySql:Default:ConnectionString";
-        }
-
-        private static string GetSetupCodeFragment(SteeltoeVersion steeltoeVersion)
-        {
-            return steeltoeVersion == SteeltoeVersion.Steeltoe34
-                ? "builder.Services.AddMySqlConnection(builder.Configuration);"
-                : "builder.AddMySql();";
+            snippets.Add("using Steeltoe.Connectors.MySql;");
+            snippets.Add("// TODO: Add your connection string at configuration key: Steeltoe:Client:MySql:Default:ConnectionString");
+            snippets.Add("builder.AddMySql();");
         }
     }
 }

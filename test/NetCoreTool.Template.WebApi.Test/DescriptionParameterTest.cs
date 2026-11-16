@@ -18,11 +18,11 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         [Trait("Category", "ProjectGeneration")]
         public async Task Description_Can_Be_Configured()
         {
-            using var sandbox = await TemplateSandbox("\"my project\"");
+            using var sandbox = await TemplateSandbox("\"Trial & error\"");
             var project = await sandbox.GetProjectFileAsync($"{sandbox.Name}.csproj");
             var properties = project.PropertyGroups.SelectMany(group => group.Properties).ToArray();
 
-            properties.Should().ContainSingle(property => property.Name == "Description" && property.Value == "my project");
+            properties.Should().ContainSingle(property => property.Name == "Description" && property.Value == "Trial & error");
         }
     }
 }

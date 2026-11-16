@@ -1,5 +1,12 @@
 @Company.WebApplication.CS_HostAddress = http://localhost:5000
 
+//#if (IsFrameworkNet110)
+GET {{Company.WebApplication.CS_HostAddress}}/openapi/v1.json
+Accept: application/json
+
+###
+
+//#endif
 GET {{Company.WebApplication.CS_HostAddress}}/weatherforecast/
 Accept: application/json
 

@@ -1,29 +1,15 @@
 # See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
-#if (IsFrameworkNet80)
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-#elif (IsFrameworkNet90)
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-#elif (IsFrameworkNet100)
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
-#endif
-#if (IsFrameworkNet80 || IsFrameworkNet90 || IsFrameworkNet100)
+FROM mcr.microsoft.com/dotnet/aspnet:DOCKER_IMAGE_VERSION AS base
 USER $APP_UID
-#endif
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
 
 # This stage is used to build the service project
-#if (IsFrameworkNet80)
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-#elif (IsFrameworkNet90)
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-#elif (IsFrameworkNet100)
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-#endif
+FROM mcr.microsoft.com/dotnet/sdk:DOCKER_IMAGE_VERSION AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Company.WebApplication.CS.csproj", "."]

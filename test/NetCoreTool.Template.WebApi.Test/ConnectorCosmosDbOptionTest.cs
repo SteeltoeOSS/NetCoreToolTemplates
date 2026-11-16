@@ -9,45 +9,15 @@ public class ConnectorCosmosDbOptionTest(ITestOutputHelper logger)
 {
     protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
     {
-        packages.Add(("Microsoft.Azure.Cosmos", "3.62.*"));
+        packages.Add(("Microsoft.Azure.Cosmos", "3.64.*"));
         packages.Add(("Newtonsoft.Json", "13.0.*"));
-        packages.Add((GetPackageName(options.SteeltoeVersion), "$(SteeltoeVersion)"));
-    }
-
-    private static string GetPackageName(SteeltoeVersion steeltoeVersion)
-    {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.ConnectorCore" : "Steeltoe.Connectors";
+        packages.Add(("Steeltoe.Connectors", "$(SteeltoeVersion)"));
     }
 
     protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
     {
-        snippets.Add($"using {GetNamespaceImport(options.SteeltoeVersion)};");
-        snippets.Add(GetSetupComment(options.SteeltoeVersion));
-        snippets.AddRange(GetSetupCodeFragments(options.SteeltoeVersion));
-    }
-
-    private static string GetNamespaceImport(SteeltoeVersion steeltoeVersion)
-    {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe34 ? "Steeltoe.Connector.CosmosDb" : "Steeltoe.Connectors.CosmosDb";
-    }
-
-    private static string GetSetupComment(SteeltoeVersion steeltoeVersion)
-    {
-        return steeltoeVersion == SteeltoeVersion.Steeltoe34
-            ? "// TODO: Add your connection string at configuration key: CosmosDb:Client:ConnectionString"
-            : "// TODO: Add your connection string at configuration key: Steeltoe:Client:CosmosDb:Default:ConnectionString";
-    }
-
-    private static IEnumerable<string> GetSetupCodeFragments(SteeltoeVersion steeltoeVersion)
-    {
-        if (steeltoeVersion == SteeltoeVersion.Steeltoe34)
-        {
-            yield return "var manager = new ConnectionStringManager(builder.Configuration);";
-            yield return "var cosmosInfo = manager.Get<CosmosDbConnectionInfo>();";
-        }
-        else
-        {
-            yield return "builder.AddCosmosDb();";
-        }
+        snippets.Add("using Steeltoe.Connectors.CosmosDb;");
+        snippets.Add("// TODO: Add your connection string at configuration key: Steeltoe:Client:CosmosDb:Default:ConnectionString");
+        snippets.Add("builder.AddCosmosDb();");
     }
 }
