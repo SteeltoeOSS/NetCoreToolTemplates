@@ -9,7 +9,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add(("MySql.Data", "26.7.*"));
+            packages.Add(("MySql.Data", "26.10.*"));
             packages.Add(("Steeltoe.Connectors", "$(SteeltoeVersion)"));
         }
 

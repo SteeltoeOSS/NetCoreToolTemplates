@@ -90,7 +90,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             foreach ((string name, string version) in expectedPackages)
             {
-                packages.Should().Contain(package => package.Include == name && package.Version == version);
+                packages.Should().ContainSingle(package => package.Include == name && package.Version == version);
             }
         }
 
@@ -115,7 +115,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
             foreach ((string name, string value) in expectedProperties)
             {
-                properties.Should().Contain(property => property.Name == name && property.Value == value);
+                properties.Should().ContainSingle(property => property.Name == name && property.Value == value);
             }
 
             properties.Should().NotContain(property => property.Name == "Description");
@@ -241,6 +241,16 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected static string GetPackageVersionForFramework(Framework framework)
         {
             return $"{(int)framework / 10}.0.*";
+        }
+
+        protected static string GetUnstablePackageVersionForFramework(Framework framework)
+        {
+            if (framework == Framework.Net110)
+            {
+                return $"{(int)framework / 10}.0.*-*";
+            }
+
+            return GetPackageVersionForFramework(framework);
         }
 
         private static ProjectOptions ToProjectOptions(string steeltoeVersion, string framework, string language)

@@ -9,7 +9,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add(("Npgsql", GetPackageVersionForFramework(options.Framework)));
+            packages.Add(("Npgsql", "10.0.*"));
             packages.Add(("Steeltoe.Connectors", "$(SteeltoeVersion)"));
         }
 

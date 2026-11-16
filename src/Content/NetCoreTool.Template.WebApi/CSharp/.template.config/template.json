@@ -241,19 +241,13 @@
       "defaultValue": "false"
     },
     // Steeltoe components.
-    "HostingCloudOption": {
-      "type": "parameter",
-      "datatype": "bool",
-      "description": "Add support for listening on the port specified by the hosting environment (Steeltoe 3.x only).",
-      "defaultValue": "false"
-    },
     "HostingCloudFoundryOption": {
       "type": "parameter",
       "datatype": "bool",
       "description": "Add hosting support for running on Cloud Foundry.",
       "defaultValue": "false"
     },
-    "HasHostingCloudFoundry": {
+    "HasConfigurationCloudFoundry": {
       "type": "computed",
       "value": "HostingCloudFoundryOption"
     },
@@ -263,7 +257,7 @@
       "description": "Add a client for Spring Cloud Config Server to configuration.",
       "defaultValue": "false"
     },
-    "HasConfigurationCloudConfig": {
+    "HasConfigurationConfigServer": {
       "type": "computed",
       "value": "ConfigurationCloudConfigOption"
     },
@@ -309,7 +303,7 @@
     },
     "HasAnyConfiguration": {
       "type": "computed",
-      "value": "HostingCloudFoundryOption || ConfigurationCloudConfigOption || HasConfigurationEncryption || ConfigurationPlaceholderOption || ConfigurationRandomValueOption || ConfigurationSpringBootOption"
+      "value": "HasConfigurationCloudFoundry || HasConfigurationConfigServer || HasConfigurationEncryption || HasConfigurationPlaceholder || HasConfigurationRandomValue || HasConfigurationSpringBoot"
     },
     "ConnectorCosmosDbOption": {
       "type": "parameter",
@@ -337,13 +331,9 @@
       "description": "Add a connector for MySQL databases using ADO.NET.",
       "defaultValue": "false"
     },
-    "HasConnectorMySqlWithoutEfCore": {
-      "type": "computed",
-      "value": "ConnectorMySqlOption && (!ConnectorMySqlEfCoreOption)"
-    },
     "HasConnectorMySql": {
       "type": "computed",
-      "value": "ConnectorMySqlOption || ConnectorMySqlEfCoreOption"
+      "value": "ConnectorMySqlOption && (!ConnectorMySqlEfCoreOption)"
     },
     "ConnectorMySqlEfCoreOption": {
       "type": "parameter",
@@ -355,19 +345,19 @@
       "type": "computed",
       "value": "ConnectorMySqlEfCoreOption"
     },
+    "HasAnyConnectorMySql": {
+      "type": "computed",
+      "value": "HasConnectorMySql || HasConnectorMySqlEfCore"
+    },
     "ConnectorPostgreSqlOption": {
       "type": "parameter",
       "datatype": "bool",
       "description": "Add a connector for PostgreSQL databases using ADO.NET.",
       "defaultValue": "false"
     },
-    "HasConnectorPostgreSqlWithoutEfCore": {
-      "type": "computed",
-      "value": "ConnectorPostgreSqlOption && (!ConnectorPostgreSqlEfCoreOption)"
-    },
     "HasConnectorPostgreSql": {
       "type": "computed",
-      "value": "ConnectorPostgreSqlOption || ConnectorPostgreSqlEfCoreOption"
+      "value": "ConnectorPostgreSqlOption && (!ConnectorPostgreSqlEfCoreOption)"
     },
     "ConnectorPostgreSqlEfCoreOption": {
       "type": "parameter",
@@ -379,15 +369,19 @@
       "type": "computed",
       "value": "ConnectorPostgreSqlEfCoreOption"
     },
+    "HasAnyConnectorPostgreSql": {
+      "type": "computed",
+      "value": "HasConnectorPostgreSql || HasConnectorPostgreSqlEfCore"
+    },
+    "RequiresPostgreSqlEfCorePreviewWorkaround": {
+      "type": "computed",
+      "value": "HasConnectorPostgreSqlEfCore && IsFrameworkNet110"
+    },
     "ConnectorRabbitMqOption": {
       "type": "parameter",
       "datatype": "bool",
       "description": "Add a connector for RabbitMQ message brokers.",
       "defaultValue": "false"
-    },
-    "HasConnectorRabbitMqWithoutMessaging": {
-      "type": "computed",
-      "value": "ConnectorRabbitMqOption"
     },
     "HasConnectorRabbitMq": {
       "type": "computed",
@@ -409,13 +403,9 @@
       "description": "Add a connector for Microsoft SQL Server databases using ADO.NET.",
       "defaultValue": "false"
     },
-    "HasConnectorSqlServerWithoutEfCore": {
-      "type": "computed",
-      "value": "ConnectorSqlServerOption && (!ConnectorSqlServerEfCoreOption)"
-    },
     "HasConnectorSqlServer": {
       "type": "computed",
-      "value": "ConnectorSqlServerOption || ConnectorSqlServerEfCoreOption"
+      "value": "ConnectorSqlServerOption && (!ConnectorSqlServerEfCoreOption)"
     },
     "ConnectorSqlServerEfCoreOption": {
       "type": "parameter",
@@ -427,13 +417,21 @@
       "type": "computed",
       "value": "ConnectorSqlServerEfCoreOption"
     },
-    "HasAnyConnector": {
+    "HasAnyConnectorSqlServer": {
       "type": "computed",
-      "value": "ConnectorCosmosDbOption || ConnectorMongoDbOption || ConnectorMySqlOption || ConnectorMySqlEfCoreOption || ConnectorPostgreSqlOption || ConnectorPostgreSqlEfCoreOption || ConnectorRabbitMqOption || ConnectorRedisOption || ConnectorSqlServerOption || ConnectorSqlServerEfCoreOption"
+      "value": "HasConnectorSqlServer || HasConnectorSqlServerEfCore"
+    },
+    "HasAnyNonEfCoreConnector": {
+      "type": "computed",
+      "value": "HasConnectorCosmosDb || HasConnectorMongoDb || HasConnectorMySql || HasConnectorPostgreSql || HasConnectorRabbitMq || HasConnectorRedis || HasConnectorSqlServer"
     },
     "HasAnyEfCoreConnector": {
       "type": "computed",
-      "value": "ConnectorMySqlEfCoreOption || ConnectorPostgreSqlEfCoreOption || ConnectorSqlServerEfCoreOption"
+      "value": "HasConnectorMySqlEfCore || HasConnectorPostgreSqlEfCore || HasConnectorSqlServerEfCore"
+    },
+    "HasAnyConnector": {
+      "type": "computed",
+      "value": "HasAnyNonEfCoreConnector || HasAnyEfCoreConnector"
     },
     "DiscoveryConsulOption": {
       "type": "parameter",
@@ -457,7 +455,7 @@
     },
     "HasAnyDiscovery": {
       "type": "computed",
-      "value": "DiscoveryConsulOption || DiscoveryEurekaOption"
+      "value": "HasDiscoveryConsul || HasDiscoveryEureka"
     },
     "LoggingDynamicConsoleOption": {
       "type": "parameter",
@@ -481,7 +479,7 @@
     },
     "HasAnyLogging": {
       "type": "computed",
-      "value": "LoggingDynamicConsoleOption || LoggingDynamicSerilogOption"
+      "value": "HasLoggingDynamicConsole || HasLoggingDynamicSerilog"
     },
     "ManagementEndpointsOption": {
       "type": "parameter",
@@ -515,7 +513,7 @@
     },
     "HasAnyManagement": {
       "type": "computed",
-      "value": "ManagementEndpointsOption || ManagementTasksOption || DistributedTracingOption"
+      "value": "HasManagementEndpoints || HasManagementTasks || HasDistributedTracing"
     },
     "DataProtectionRedisOption": {
       "type": "parameter",
@@ -529,11 +527,11 @@
     },
     "HasAnyRedis": {
       "type": "computed",
-      "value": "ConnectorRedisOption || DataProtectionRedisOption"
+      "value": "HasConnectorRedis || HasDataProtectionRedis"
     },
     "HasAnySteeltoe": {
       "type": "computed",
-      "value": "HasAnyConfiguration || HasAnyConnector || HasAnyDiscovery || HasAnyLogging || HasAnyManagement || DataProtectionRedisOption"
+      "value": "HasAnyConfiguration || HasAnyConnector || HasAnyDiscovery || HasAnyLogging || HasAnyManagement || HasAnyRedis"
     },
     "RequiresProjectNamespaceImport": {
       "type": "computed",
@@ -570,44 +568,21 @@
         ]
       }
     },
-    "CalculateSqlClientVersion": {
+    "CalculateAspNetCoreUnstablePackageVersion": {
       "type": "generated",
-      "generator": "switch",
-      "replaces": "$(SqlClientVersion)",
+      "generator": "regex",
+      "datatype": "string",
+      "replaces": "$(AspNetCoreUnstableVersion)",
       "parameters": {
-        "datatype": "string",
-        "cases": [
+        "source": "Framework",
+        "steps": [
           {
-            "condition": "(Framework == 'net10.0')",
-            "value": "6.1.*"
-          }
-        ]
-      }
-    },
-    "CalculateMySqlVersion": {
-      "type": "generated",
-      "generator": "switch",
-      "replaces": "$(MySqlVersion)",
-      "parameters": {
-        "datatype": "string",
-        "cases": [
+            "regex": "^net(10)\\.0$",
+            "replacement": "$1.0.*"
+          },
           {
-            "condition": "(Framework == 'net10.0')",
-            "value": "26.7.*"
-          }
-        ]
-      }
-    },
-    "CalculateRabbitMqVersion": {
-      "type": "generated",
-      "generator": "switch",
-      "replaces": "$(RabbitMqVersion)",
-      "parameters": {
-        "datatype": "string",
-        "cases": [
-          {
-            "condition": "True == True",
-            "value": "7.2.*"
+            "regex": "^net(11)\\.0$",
+            "replacement": "$1.0.*-*"
           }
         ]
       }

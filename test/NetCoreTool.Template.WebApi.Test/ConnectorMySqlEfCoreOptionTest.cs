@@ -29,7 +29,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
             packages.Add(("Microsoft.EntityFrameworkCore", GetPackageVersionForFramework(options.Framework)));
-            packages.Add(("MySql.EntityFrameworkCore", GetPackageVersionForFramework(options.Framework)));
+            packages.Add(("MySql.EntityFrameworkCore", GetUnstablePackageVersionForFramework(options.Framework)));
             packages.Add(("Steeltoe.Connectors.EntityFrameworkCore", "$(SteeltoeVersion)"));
         }
 

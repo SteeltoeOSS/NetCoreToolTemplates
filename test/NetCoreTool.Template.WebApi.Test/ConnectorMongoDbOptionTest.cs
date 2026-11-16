@@ -9,7 +9,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add(("MongoDB.Driver", "3.11.*"));
+            packages.Add(("MongoDB.Driver", "3.14.*"));
             packages.Add(("Steeltoe.Connectors", "$(SteeltoeVersion)"));
         }
 

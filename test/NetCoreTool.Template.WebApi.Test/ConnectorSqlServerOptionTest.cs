@@ -9,7 +9,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
     {
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add(("Microsoft.Data.SqlClient", "6.1.*"));
+            packages.Add(("Microsoft.Data.SqlClient", "7.1.*"));
             packages.Add(("Steeltoe.Connectors", "$(SteeltoeVersion)"));
         }
 

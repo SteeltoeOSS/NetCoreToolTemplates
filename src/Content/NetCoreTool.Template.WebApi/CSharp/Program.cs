@@ -1,4 +1,4 @@
-#if (DataProtectionRedisOption)
+#if (HasDataProtectionRedis)
 using Microsoft.AspNetCore.DataProtection;
 #endif
 #if (HasConnectorMongoDb)
@@ -7,13 +7,13 @@ using Steeltoe.Connectors.MongoDb;
 #if (HasConnectorCosmosDb)
 using Steeltoe.Connectors.CosmosDb;
 #endif
-#if (HasConnectorMySql)
+#if (HasAnyConnectorMySql)
 using Steeltoe.Connectors.MySql;
 #endif
 #if (HasConnectorMySqlEfCore)
 using Steeltoe.Connectors.EntityFrameworkCore.MySql;
 #endif
-#if (HasConnectorPostgreSql)
+#if (HasAnyConnectorPostgreSql)
 using Steeltoe.Connectors.PostgreSql;
 #endif
 #if (HasConnectorPostgreSqlEfCore)
@@ -25,22 +25,22 @@ using Steeltoe.Connectors.RabbitMQ;
 #if (HasAnyRedis)
 using Steeltoe.Connectors.Redis;
 #endif
-#if (HasConnectorSqlServer)
+#if (HasAnyConnectorSqlServer)
 using Steeltoe.Connectors.SqlServer;
 #endif
 #if (HasConnectorSqlServerEfCore)
 using Steeltoe.Connectors.EntityFrameworkCore.SqlServer;
 #endif
-#if (HasDiscoveryConsul4)
+#if (HasDiscoveryConsul)
 using Steeltoe.Discovery.Consul;
 #endif
 #if (HasDiscoveryEureka)
 using Steeltoe.Discovery.Eureka;
 #endif
-#if (HasHostingCloudFoundry)
+#if (HasConfigurationCloudFoundry)
 using Steeltoe.Configuration.CloudFoundry;
 #endif
-#if (HasConfigurationCloudConfig)
+#if (HasConfigurationConfigServer)
 using Steeltoe.Configuration.ConfigServer;
 #endif
 #if (HasConfigurationEncryption)
@@ -55,11 +55,11 @@ using Steeltoe.Configuration.RandomValue;
 #if (HasConfigurationSpringBoot)
 using Steeltoe.Configuration.SpringBoot;
 #endif
-#if (HasLoggingDynamicSerilog)
-using Steeltoe.Logging.DynamicSerilog;
-#endif
 #if (HasLoggingDynamicConsole)
 using Steeltoe.Logging.DynamicConsole;
+#endif
+#if (HasLoggingDynamicSerilog)
+using Steeltoe.Logging.DynamicSerilog;
 #endif
 #if (HasManagementEndpoints)
 using Steeltoe.Management.Endpoint.Actuators.All;
@@ -67,7 +67,7 @@ using Steeltoe.Management.Endpoint.Actuators.All;
 #if (HasManagementTasks)
 using Steeltoe.Management.Tasks;
 #endif
-#if (DistributedTracingOption)
+#if (HasDistributedTracing)
 using Steeltoe.Management.Tracing;
 #endif
 #if (HasDataProtectionRedis)
@@ -89,16 +89,16 @@ builder.Services.AddOpenApi();
 #if (HasConfigurationPlaceholder)
 builder.Configuration.AddPlaceholderResolver();
 #endif
-#if (HostingCloudFoundryOption)
+#if (HasConfigurationCloudFoundry)
 builder.AddCloudFoundryConfiguration();
 #endif
-#if (ConfigurationCloudConfigOption)
+#if (HasConfigurationConfigServer)
 builder.AddConfigServer();
 #endif
 #if (HasConfigurationEncryption)
 builder.Configuration.AddDecryption();
 #endif
-#if (ConfigurationRandomValueOption)
+#if (HasConfigurationRandomValue)
 builder.Configuration.AddRandomValueSource();
 #endif
 #if (HasConfigurationSpringBoot)
@@ -108,10 +108,10 @@ builder.Configuration.AddSpringBootFromCommandLine(args);
 #if (HasLoggingDynamicSerilog)
 builder.Logging.AddDynamicSerilog();
 #endif
-#if (LoggingDynamicConsoleOption)
+#if (HasLoggingDynamicConsole)
 builder.Logging.AddDynamicConsole();
 #endif
-#if (HasDiscoveryConsul4)
+#if (HasDiscoveryConsul)
 builder.Services.AddConsulDiscoveryClient();
 #endif
 #if (HasDiscoveryEureka)
@@ -125,14 +125,14 @@ builder.AddMongoDb();
 // TODO: Add your connection string at configuration key: Steeltoe:Client:CosmosDb:Default:ConnectionString
 builder.AddCosmosDb();
 #endif
-#if (HasConnectorMySql)
+#if (HasAnyConnectorMySql)
 // TODO: Add your connection string at configuration key: Steeltoe:Client:MySql:Default:ConnectionString
 builder.AddMySql();
 #endif
 #if (HasConnectorMySqlEfCore)
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) => options.UseMySql(serviceProvider));
 #endif
-#if (HasConnectorPostgreSql)
+#if (HasAnyConnectorPostgreSql)
 // TODO: Add your connection string at configuration key: Steeltoe:Client:PostgreSql:Default:ConnectionString
 builder.AddPostgreSql();
 #endif
@@ -147,10 +147,10 @@ builder.AddRabbitMQ();
 // TODO: Add your connection string at configuration key: Steeltoe:Client:Redis:Default:ConnectionString
 builder.AddRedis();
 #endif
-#if (DataProtectionRedisOption)
+#if (HasDataProtectionRedis)
 builder.Services.AddDataProtection().PersistKeysToRedis().SetApplicationName("Company.WebApplication.CS");
 #endif
-#if (HasConnectorSqlServer)
+#if (HasAnyConnectorSqlServer)
 // TODO: Add your connection string at configuration key: Steeltoe:Client:SqlServer:Default:ConnectionString
 builder.AddSqlServer();
 #endif

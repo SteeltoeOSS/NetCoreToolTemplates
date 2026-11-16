@@ -100,7 +100,7 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
 
         protected override void AssertPackageReferencesHook(ProjectOptions options, List<(string, string)> packages)
         {
-            packages.Add(("Microsoft.VisualStudio.Azure.Containers.Tools.Targets", "1.23.0"));
+            packages.Add(("Microsoft.VisualStudio.Azure.Containers.Tools.Targets", "1.24.2-preview.1"));
         }
     }
 }
