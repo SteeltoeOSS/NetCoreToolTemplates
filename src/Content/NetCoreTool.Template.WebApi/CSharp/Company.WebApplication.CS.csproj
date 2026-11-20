@@ -20,11 +20,6 @@
     <!--#else -->
     <SteeltoeVersion>$(SteeltoeVersionInCLI)</SteeltoeVersion>
     <!--#endif -->
-    <!--#if (RequiresPostgreSqlEfCorePreviewWorkaround) -->
-
-    <!-- Temporary workaround for preview version of Npgsql.EntityFrameworkCore.PostgreSQL. -->
-    <NoWarn>$(NoWarn);NU1608</NoWarn>
-    <!--#endif -->
   </PropertyGroup>
   <!--#endif -->
 
@@ -38,7 +33,6 @@
     <PackageReference Include="Microsoft.Azure.Cosmos" Condition="'$(HasConnectorCosmosDb)' == 'True'" Version="3.64.*" />
     <PackageReference Include="Microsoft.Data.SqlClient" Condition="'$(HasConnectorSqlServer)' == 'True'" Version="7.1.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Condition="'$(HasAnyEfCoreConnector)' == 'True'" Version="$(AspNetCoreVersion)" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Condition="'$(RequiresPostgreSqlEfCorePreviewWorkaround)' == 'True'" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Condition="'$(HasConnectorSqlServerEfCore)' == 'True'" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Condition="'$(HasConnectorRedis)' == 'True'" Version="$(AspNetCoreVersion)" />
     <PackageReference Include="MongoDB.Driver" Condition="'$(HasConnectorMongoDb)' == 'True'" Version="3.14.*" />
