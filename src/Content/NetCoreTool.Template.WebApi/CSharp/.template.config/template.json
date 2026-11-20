@@ -373,10 +373,6 @@
       "type": "computed",
       "value": "HasConnectorPostgreSql || HasConnectorPostgreSqlEfCore"
     },
-    "RequiresPostgreSqlEfCorePreviewWorkaround": {
-      "type": "computed",
-      "value": "HasConnectorPostgreSqlEfCore && IsFrameworkNet110"
-    },
     "ConnectorRabbitMqOption": {
       "type": "parameter",
       "datatype": "bool",

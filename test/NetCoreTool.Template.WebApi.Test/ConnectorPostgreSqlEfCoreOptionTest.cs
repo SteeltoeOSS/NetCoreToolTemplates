@@ -31,12 +31,6 @@ namespace Steeltoe.NetCoreTool.Template.WebApi.Test
             packages.Add(("Microsoft.EntityFrameworkCore", GetPackageVersionForFramework(options.Framework)));
             packages.Add(("Npgsql.EntityFrameworkCore.PostgreSQL", GetUnstablePackageVersionForFramework(options.Framework)));
             packages.Add(("Steeltoe.Connectors.EntityFrameworkCore", "$(SteeltoeVersion)"));
-
-            if (options.Framework == Framework.Net110)
-            {
-                // Temporary workaround for preview version of Npgsql.EntityFrameworkCore.PostgreSQL.
-                packages.Add(("Microsoft.EntityFrameworkCore.Relational", GetPackageVersionForFramework(options.Framework)));
-            }
         }
 
         protected override void AssertProgramSnippetsHook(ProjectOptions options, List<string> snippets)
